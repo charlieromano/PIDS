@@ -1,0 +1,6 @@
+* sombras matriz de led
+* las matrices se quedan prendidas
+* ghosting effect. 
+* consideraciones para conectar las fuentes de tensión
+* zener en los mosfets para regular la tensión en cada matriz
+* https://github.com/hzeller/rpi-rgb-led-matrix

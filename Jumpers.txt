@@ -1,0 +1,11 @@
+Jumpers para conectar el número que identifica el cartel
+En el plano 2 están las direcciones de los jumpers(address)
+Son 4 bits (0x0 a 0xF)
+En la comunicación 485 se llama a todos, dentro del paquete mandas con quién te queres comunicar.
+
+Al tomar cabina uno de los PCU pasa a master, se comunica con el SCU del coche 2, 3, ocon todos.
+Cada SCU tiene unos jumpers con el numero de equipo que es.
+En el 485 manda con qué SCU se quiere comunicar.
+
+
+OFF-TOPIC: los repuestos de la placa PISC sería la PCU para 485 que gestiona todo
