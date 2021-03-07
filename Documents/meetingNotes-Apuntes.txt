@@ -1,0 +1,252 @@
+Consultas.
+
+Pablo:
+* quién es Bruno? Trabaja en el taller de Castelar, referente del tema
+En el taller de Victoria está Sergio Dieleke. 
+* qué decir y qué no al cliente
+* lo del SCADA, mepa que se va por fuera de estándar
+* la pantalla esa de control, parece ser la UI de toda la red TCN
+* el mapa de la arquitectura más completo que tenemos es el que figura el PIDS no?
+* acerca de las tramas. Lo que estuve viendo en el doc de Duagon principalmente es que por la trama es probable que viajen direcciones que tienen en cuenta el parque total de dispositivos. 
+Viste que los devices que se conectan al bus MVB llevan un address estático
+* las tramas de 16 ms, se ven claras?
+* los drivers para pantallas LED, básicamente un driver de corriente (esta lleva una fuente de 3A-5VDC)--> considerar requerimiento
+* Diego meeting?
+
+*****************************************************************************
+
+
+Por el bus de datos hay un tipo de direccionamiento de los dispositivos conectados.
+Hay que mapear todos los dispositivos conectados y sus direcciones.
+
+
+*****************************************************************************
+CESE meetings
+
+Información visual dinámica para el pasajero. Serían las caterlerías dinámicas (marquesinas y mapa dinámico). Estas también son un desarrollo interesante. En el caso del Sarmiento y Mitre las marquesinas que están sobre los parabrisas frontales de los coches cabeza son los que están conectados a la red TCN. El que se encuentra en los salones de pasajeros se manejan por una red independiente de la TCN (RS-485). La marquesina que se encuentra en el coche cabeza donde el conductor toma cabina para brindar servicio es la que sincroniza al resto que mensaje mostrar. Además cuando tiene alguna falla el sistema, ésta la que muestra con un código cual es su falla.
+
+
+*****************************************************************************
+Survey of Development and Applicaion of Train Communication Network
+
+El review hace un poco de historia con el origen de la red TCN.
+TCN fue un tema caliente en los 90's entre Unis y empresas.
+La norma de la TCN (IEC-61375) salió en el 99.
+Los major players responsables de parte del estándar fueron:
+* Zhuzhou Institute
+* Siemens
+* Bombardier
+* Alstom
+* Mitsubishi
+En el 2008  sale la TCN basada en Real-time Ethernet
+
+
+TCN define los buses jerárquicos WTB/MVB (IEC61375-2-1, IEC61375-3-1).
+La especificación en capas (Física, Enlace, Red, Transmision, Aplicación) incluye:
+* process data
+* message data
+* dynamic coupling
+* addresing protocols
+En los folletos de la UIC(la ITU de los trenes) aparece:
+* UIC 557, UIC 647: application data y comportamiento del equipamiento onboard de:
+	* unidad de control de tracción
+	* unidad de control de puertas
+	* control de frenos
+* UIC 556: protocolo de comunicación durante el acoplamiento de los trenes
+
+Hay un diagrama de la TCN con 5 capas que se explica así:
+-> Los operadores (conductor, staff del tren, ...) están en la capa superior. Hacen:
+-> diagnóstico, tracción del tren, frenan, control de puertas, etc., (según los folletos UIC557, UIC647)
+-> luego está la capa de comunicación  (folleto UIC556)
+--> ésta se comunica a través de process data y message data con el WTB (IEC61375-2-1)
+--> y finalmente, debajo del WTB está el MVB (IEC61375-3-1)
+
+Bueno, hay una descripción simple en forma de tabla de WTB/MVB con los detalles de
+BW, Addresing, medio físico, address space, etc.
+
+
+La TCN de tiempo real basada en Ethernet sigue el esquema jerárquico y define la ETB y ECN:
+ETB: Ethernet Train Backbone
+ECN: Ethernet Consistent Network
+La idea de esto es armar una red de  100 Mbps para:
+* datos multimedia onboard 
+* cámaras de seguridad (2 Mbps cada una) (IEC62580-2)
+* PIS (Passenger Information System) (IEC62580-4)
+El perfil de comunicación (IEC61375-2-3) especifica los protocolos incluyendo
+* TRDP: Train Real-time Data Protocol
+Las capas física, de enlace, de red, transmisión y aplicación están en 
+* IEC61375-2-5 (ETB) y IEC61375-3-4 (ECN)
+
+Igual que antes, un diagrama de capas explica el funcionamiento de la ETB/ECN:
+-> Los operadores (conductor, staff del tren, ...) están en la capa superior. Hacen:
+-> diagnóstico, tracción del tren, frenan, control de puertas, CCTV, PIS,
+(según los perfiles de aplicación IEC61375-2-4, IEC62580-2...)
+-> luego está la capa de comunicación  (IEC61375-2-3)
+-> ésta se comunica a través de process data y message data con el 
+Train  Backbone Network Standard (IEC61375-2-5)
+--> y finalmente, debajo está el Train Marshalling network Standard (IEC61375-3-4)
+
+
+Les dejo las tablas:
+
+				|	WTB				|	MVB					
+----------------------------------------------------------------------
+Networking mode	|	Auto & dynamic	|	Determined in advance					|
+Physical medium	|	Shielded par tr.|	Shielded par tr.						|
+Comm. Dist.		|	860 m 			|	20 m (ESD), 200 m (EMD) , 2000m (OGF)	|
+Signal			|	Manchester codes with 16...32	|	Manchester codes with	|
+				|	preamble code					|	delimiters				|
+Bandwidth		|	1 Mbps			|	1.5 Mbps	|
+Address space	|	8 bit address	|	12 bit addr.|
+Length of frame	|	range:4–132 byte|	2, 4, 8, 16, 32 bytes	|
+Addressing mode	|	Dynamic 		|	Static addressing	|
+Typical cycle	|	25 ms			|	16 ms				|
+Redundancy mode	|	A/B line		|	A/B line			|
+Media access	|	Master and slave|	Master and slave	|
+Real-time prot.	|	TCN real-time protocol	|	-			|
+-------------------------------------------------------		
+
+				|	ETB			|	ECN		|
+-------------------------------------------------------		
+Networking mode	|	Auto & dynam|	Determined in adv.|
+Physical medium	|	Cat5e par   |	Cat5e par		  |
+Commu. distance	|	100 m		|	100 m			  |
+Bandwidth		|	100 Mbps	|	100 Mbps	 	  |
+Packet length	|	1500 Bytes	|	1500 Bytes		  |
+Addressing mode	|	Dynamic		|	Static			  |
+Typical cycle	|	10 ms		|	10 ms	|
+Minimum cycle	|	4 ms		|	1 ms	|
+Redundancy mode	|	Link aggr.n	|	Ring	|
+Media access	|	CSMA/CD		|	CSMA/CD	|
+Network layer	|	IPV4		|	IPV4	|
+Transm. layer	|	UDP multicast/unicast, TCP	|	UDP multicast/unicast, TCP	|
+Real-time prot.	|	TRDP		|	–		|
+App layer serv	|	DHCP, DNS, SNTP, SNMP	|	DHCP, DNS, SNTP, SNMP	|
+-------------------------------------------------------------------------				
+
+
+
+
+*****************************************************************************
+
+* Proyecto PIDS TCN (PIDS: Passenger Information Display System)
+Se trata macro de la red TCN dentro de las formaciones chinas,
+en Europa es más importante por el hecho de que tienen trenes distintos países
+y los vagones se desenganchan y siguen para lados distintos, 
+usan el mismo protocolo
+
+Trenes Argentinos no tiene conocimiento desarrollado sobre esta red.
+Cuando tienen un inconveniente requieren llamar al soporte chino.
+La idea es transferirles know how.
+Por lo menos conocimiento de la red.
+Como primer punto es levantar los datos que trafica la red y enviarlos al centro de datos.
+Hay una nube que nos hostea (Andres Villegas) 
+Ellos sobre esta primera etapa
+En la linea Retiro Tigre pusieron wifi y un aparato (unknown)
+que reporta todos los datos que le llegan a la computadora, a la pantalla
+de la cabina del conductor, y lo transmite a la nube.
+La gente (Andres) armó una página web que mostraba la ubicación de la formación M8
+Resuelve cuestiones operativas como: se paró el tren en Virreyes, ahora hay
+visión de los datos que ve el conductor, es decir lo tienen ahora monitoreado
+en una pantalla centralizada
+
+Coordinación General de Comunicaciones y Sistemas Informáticos de Líneas de Larga Distancia y Regionales
+   Subgerencia de Gestión Informática
+   Gerencia de Tecnologías de la Información e Innovación y Telecomunicaciones
+
+El aparato que menciona PAblo lo hicieron los chinos
+es para reportería de datos
+La red está conectado en algún punto como sistema crítico,
+controla los frenos, las puertas, entre otras cosas.
+
+La red tiene una topología estrella que si se conecta algún elemento molesto, el primer nodo no lo deja pasar.
+No afecta al resto de la red.
+
+
+Lopilato es parte del taller de Castelar. Tampoco sabe tanto de este tema.
+
+El proyecto de probador de relés, Adrian Lauippa, hizo un sistema de sensores via RS485
+de cientos de sensores en una escuela. Después desarrollo con alarmas.
+En Bahia Blanca, los carteles no se podían poner en marcha porque faltaba un software.
+Tomaron un demo, y lo hicieron andar por 485.
+Ahora tienen un analizador lógico que anda muy muy bien.
+La idea sería identificar los dispositivos.
+Después ver el protocolo de cada uno de los aplicaciones.
+No habría que reemplazar una computadora del tren.
+
+
+el PIDS se conecta a la TCN y los carteles se conectan al PIDS
+no es crítico
+tiene los mismos bits de inicio y reset
++ñl.,kñ
+
+
+Mañana está la defensa de tesis de Ivan.
+
+Gustavo Ramoscelli: es la otra parte del proyecto con Nico
+
+Adrian Laiupa
+
+Proyecto de relés (cada relé cuesta U$S1K c/u)
+Trenes pidió un relé nacional, lo clonó y hay que certificarlo.
+Se esá haciendo el banco de ensayos, Adrián terminó el hardware hace tiempo
+ese está andando (el original)
+el nacional lo probaron caseramente pero en le banco de ensayo murió después de un par de días
+
+el hardware de adrian está terminado (es grande)
+está avanzado la parte de software (Nico)
+y en el medio queda el firmware, el micro que maneja el hardware y le responde al servidor.
+Nicolás Locatelli, alumno de Gustavo Ramoscelli, 
+es de la primer camada de IoT.
+Se está planteando como trabajo final
+
+Inscripcion al doctorado de Martin y Santiago
+Lucas Dordolo (posgrado IoT)
+
+Bruno Pilato, del taller Sarmiento
+poder medir tensiones de lazo de corriente industrial
+Electronica Bicone, tenian la necesidad de analizar la temperatura en el coche porque la gente se desmayaba
+La base del contador de pasajeros
+web server que corre con el ESP32
+
+
+
+
+Información visual dinámica para el pasajero. Serían las caterlerías dinámicas (marquesinas y mapa dinámico). Estas también son un desarrollo interesante. En el caso del Sarmiento y Mitre las marquesinas que están sobre los parabrisas frontales de los coches cabeza son los que están conectados a la red TCN. El que se encuentra en los salones de pasajeros se manejan por una red independiente de la TCN (RS-485). La marquesina que se encuentra en el coche cabeza donde el conductor toma cabina para brindar servicio es la que sincroniza al resto que mensaje mostrar. Además cuando tiene alguna falla el sistema, ésta la que muestra con un código cual es su falla.
+
+
+*****************************************************************************
+*****************************************************************************
+
+
+
+    16:48, 20/3/2020] Martin Harris SOFSE CEL: Hola. Retomando la consulta. Todo los distintos módulos del PIDS son equipamiento electrónico que sería muy interesante de desarrollar.
+    1) Uno de los grandes problemas que están teniendo las líneas Sarmiento y Mitre es el sistema de filmación. Las cámaras a pesar de parecer IP no son compatibles con ningún equipo comercial que se puede conseguir en forma local. Creo que les vinieron muy pocas de repuestos y están tratando de recuperar las dañadas como pueden por la escasez de las mismas. En caso de desarrollo, hay dos puntos fuertes:
+    1) Que sea compatible con el cableado actual. Evitar tener que hacer cualquier tipo de cableado nuevo.
+
+    --> Esto tiene un pain point con los buses. Cualquier IP cam requiere hacer streming de alrededor de 2.5 a 4 Mbps. Lo pensé también porque parecía interesante, pero el bus tiene un límite de 1.5 Mbps para todas las variables....
+
+    2) Que la filmación este resguardada como también el sistema tenga validez fiscal. Muchas veces las filmaciones se utilizan como elemento de prueba, desde un accidente con un vehículo automotor (cámara frontal), como también evidencia por denuncia de algún hecho ocurrido a bordo de la formación (en el 2015 recuerdo una chica que presentó una denuncia en el juzgado de Morón por intento de abuso sexual a bordo de una formación del Sarmiento). La Gerencia de Seguridad Operacional tiene un procedimiento de llamar un escribano para la descarga del video como evidencia. No estoy seguro si con ésto alcanza, pero se debería asegurar de que no hay forma de modificar el archivo alojado en la memoria del DVR (Digital Video Recording). Pero lo mejor en éste caso es conversar con Alejandro Leonetti para conocer requisitos.
+
+    --> Esto requiere el armado de un CCTV a mi juicio mas un datawarehouse segurizado para hacer storage.
+
+    2) El sistema de difusión de audio también es un elemento interesante, que incluso se puede agregar muchas mejoras como los que tiene el subte. Una de las mejoras es medir el ruido ambiente y ajustar su volumen, algo que el equipo actual no lo hace.
+
+    --> ¿Quieren que analicemos juntos la viabilidad de este punto?
+
+    3) Información visual dinámica para el pasajero. Serían las caterlerías dinámicas (marquesinas y mapa dinámico). Estas también son un desarrollo interesante. En el caso del Sarmiento y Mitre las marquesinas que están sobre los parabrisas frontales de los coches cabeza son los que están conectados a la red TCN. El que se encuentra en los salones de pasajeros se manejan por una red independiente de la TCN (RS-485). La marquesina que se encuentra en el coche cabeza donde el conductor toma cabina para brindar servicio es la que sincroniza al resto que mensaje mostrar. Además cuando tiene alguna falla el sistema, ésta la que muestra con un código cual es su falla.
+
+    [16:52, 20/3/2020] Martin Harris SOFSE CEL: De todas formas no descarto la posibilidad de desarrollo de un sistema controlador del equipo HVAC, sólo quería plantear la complejidad de antemano. Controlar el compresor, las válvulas y los distintos forzadores del equipo HVAC no son algo complejo. Quería dejar en claro los requisitos de seguridad antes de que un alumno avance sobre la propuesta y después no sirve por no haber planteado de entrada los mismos. Creo que desde el GICSAFe se podría plantear todos los requisitos y teniendo esa parte clara que un alumno lleve a cabo la ejecución del hardware del proyecto
+
+    --> Acá quedo sujeto a las condiciones de seguridad que se planteen se deba garantizar.
+
+    [16:55, 20/3/2020] Martin Harris SOFSE CEL: También les quería comentar que hablé con Facundo Nazaretian de la Línea Sarmiento. Él me dijo que los módulos controladores de los equipos HVAC son muy confiables, que sólo registra uno con falla catastrófica y que disponen de stock del mismo como para estar tranquilos. Lo que él remarco es la necesidad de ir desarrollando los distintos módulos del equipo PIDS. Remarco la necesidad sobre el de video grabación. También propuso hacer una reunión para conversar sobre el mismo en Castelar una vez que finalice éste período de cuarentena
+
+    --> Lo del sistema de video suele ser un sistema cerrado, con placas que hacen transcoding incluso. A mi me parece sumamente interesante y tengo experiencia también en esto, pero de antemano estoy muy inclinado a pensar que va por fuera de la red TCN. 
+
+    [17:07, 20/3/2020] Pablo Gomez: Buenísimo Martín! Muchas gracias por tan detallada explicación!
+    [17:08, 20/3/2020] Pablo Gomez: Quedamos atentos a la futura reunión con Facundo.
+    [17:12, 20/3/2020] Pablo Gomez: Te comento que este alumno por que te consultamos tuvo que presentar su proyecto porque se agotó su tiempo. El tiene mucha expertise en el análisis de información de acelerómetros y tenía ganas de aplicarlo en trenes.
+    [17:12, 20/3/2020] Pablo Gomez: Te paso su propuesta para que la mires cuando quieras así estás al tanto.
+
+
