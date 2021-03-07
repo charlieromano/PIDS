@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP LedMatrix_M
+D 8x8 LED dot matrix
+K led matrix
+F https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiy--_K0qzsAhXCGbkGHUJoA-YQFjAFegQICRAC&url=http%3A%2F%2Fwww.ledtoplite.com%2Fuploadfile%2F2017%2F1588%2FTOP-CC-1588AB.pdf&usg=AOvVaw39C9W6BYCpxevXqqjI7nQH
+$ENDCMP
+#
+#End Doc Library

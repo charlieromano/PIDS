@@ -1,0 +1,351 @@
+ERC report (mié 07 oct 2020 01:54:41, Encoding UTF8 )
+
+***** Sheet /
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(95,25 mm, 114,94 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and Net-(J7-Pad2)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(97,79 mm, 114,94 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and Net-(J7-Pad3)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(100,33 mm, 114,94 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and Net-(J7-Pad4)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(102,87 mm, 114,94 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and Net-(J7-Pad5)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(105,41 mm, 114,94 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and Net-(J7-Pad6)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(107,95 mm, 114,94 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and Net-(J7-Pad7)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(110,49 mm, 114,94 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and Net-(J7-Pad8)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(137,79 mm, 114,94 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and Net-(J11-Pad1)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(140,34 mm, 114,94 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and Net-(J11-Pad2)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(142,88 mm, 114,94 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and Net-(J11-Pad3)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(145,41 mm, 114,94 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and Net-(J11-Pad4)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(147,95 mm, 114,94 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and Net-(J11-Pad5)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(150,50 mm, 114,94 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and Net-(J11-Pad6)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(153,03 mm, 114,94 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and Net-(J11-Pad7)
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(197,48 mm, 114,94 mm): Pin ~ on L7 is connected to both /L7G1 and /L7G2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(194,94 mm, 114,94 mm): Pin ~ on L7 is connected to both /L7G1 and /L7G3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(192,41 mm, 114,94 mm): Pin ~ on L7 is connected to both /L7G1 and /L7G4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(189,86 mm, 114,94 mm): Pin ~ on L7 is connected to both /L7G1 and /L7G5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(182,25 mm, 86,36 mm): Pin ~ on L7 is connected to both /L7G1 and /L7R8
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(187,32 mm, 147,95 mm): Pin ~ on L8 is connected to both /L7R8 and /L7R6
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(187,32 mm, 86,36 mm): Pin ~ on L7 is connected to both /L7G1 and /L7R6
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(189,86 mm, 86,36 mm): Pin ~ on L7 is connected to both /L7G1 and /L7R5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(189,86 mm, 147,95 mm): Pin ~ on L8 is connected to both /L7R8 and /L7R5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(192,41 mm, 147,95 mm): Pin ~ on L8 is connected to both /L7R8 and /L7R4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(192,41 mm, 86,36 mm): Pin ~ on L7 is connected to both /L7G1 and /L7R4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(194,94 mm, 86,36 mm): Pin ~ on L7 is connected to both /L7G1 and /L7R3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(194,94 mm, 147,95 mm): Pin ~ on L8 is connected to both /L7R8 and /L7R3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(184,78 mm, 86,36 mm): Pin ~ on L7 is connected to both /L7G1 and /L7R7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(184,78 mm, 147,95 mm): Pin ~ on L8 is connected to both /L7R8 and /L7R7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(200,03 mm, 147,95 mm): Pin ~ on L8 is connected to both /L7R8 and /L7R1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(200,03 mm, 86,36 mm): Pin ~ on L7 is connected to both /L7G1 and /L7R1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(197,48 mm, 86,36 mm): Pin ~ on L7 is connected to both /L7G1 and /L7R2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(197,48 mm, 147,95 mm): Pin ~ on L8 is connected to both /L7R8 and /L7R2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(187,32 mm, 114,94 mm): Pin ~ on L7 is connected to both /L7G1 and /L7G6
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(184,78 mm, 114,94 mm): Pin ~ on L7 is connected to both /L7G1 and /L7G7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(182,25 mm, 114,94 mm): Pin ~ on L7 is connected to both /L7G1 and /L7G8
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(57,78 mm, 147,95 mm): Pin ~ on L2 is connected to both /L1R6 and /L1R4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(57,78 mm, 86,36 mm): Pin ~ on L1 is connected to both /L1R6 and /L1R4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(55,24 mm, 86,36 mm): Pin ~ on L1 is connected to both /L1R6 and /L1R5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(55,24 mm, 147,95 mm): Pin ~ on L2 is connected to both /L1R6 and /L1R5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(50,16 mm, 86,36 mm): Pin ~ on L1 is connected to both /L1R6 and /L1R7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(50,16 mm, 147,95 mm): Pin ~ on L2 is connected to both /L1R6 and /L1R7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(47,62 mm, 86,36 mm): Pin ~ on L1 is connected to both /L1R6 and /L1R8
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(47,62 mm, 147,95 mm): Pin ~ on L2 is connected to both /L1R6 and /L1R8
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(47,62 mm, 114,94 mm): Pin ~ on L1 is connected to both /L1R6 and /L1G8
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(50,16 mm, 114,94 mm): Pin ~ on L1 is connected to both /L1R6 and /L1G7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(52,70 mm, 114,94 mm): Pin ~ on L1 is connected to both /L1R6 and /L1G6
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(55,24 mm, 114,94 mm): Pin ~ on L1 is connected to both /L1R6 and /L1G5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(57,78 mm, 114,94 mm): Pin ~ on L1 is connected to both /L1R6 and /L1G4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(60,32 mm, 114,94 mm): Pin ~ on L1 is connected to both /L1R6 and /L1G3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(62,86 mm, 114,94 mm): Pin ~ on L1 is connected to both /L1R6 and /L1G2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(65,41 mm, 114,94 mm): Pin ~ on L1 is connected to both /L1R6 and /L1G1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(60,32 mm, 86,36 mm): Pin ~ on L1 is connected to both /L1R6 and /L1R3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(60,32 mm, 147,95 mm): Pin ~ on L2 is connected to both /L1R6 and /L1R3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(65,41 mm, 147,95 mm): Pin ~ on L2 is connected to both /L1R6 and /L1R1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(65,41 mm, 86,36 mm): Pin ~ on L1 is connected to both /L1R6 and /L1R1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(62,86 mm, 147,95 mm): Pin ~ on L2 is connected to both /L1R6 and /L1R2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(62,86 mm, 86,36 mm): Pin ~ on L1 is connected to both /L1R6 and /L1R2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(137,79 mm, 86,36 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and /L5R8
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(143,51 mm, 147,95 mm): Pin ~ on L6 is connected to both /L5R8 and /L5R6
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(142,88 mm, 86,36 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and /L5R6
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(146,05 mm, 147,95 mm): Pin ~ on L6 is connected to both /L5R8 and /L5R5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(145,41 mm, 86,36 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and /L5R5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(147,95 mm, 86,36 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and /L5R4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(148,59 mm, 147,95 mm): Pin ~ on L6 is connected to both /L5R8 and /L5R4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(151,13 mm, 147,95 mm): Pin ~ on L6 is connected to both /L5R8 and /L5R3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(150,50 mm, 86,36 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and /L5R3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(140,34 mm, 86,36 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and /L5R7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(140,97 mm, 147,95 mm): Pin ~ on L6 is connected to both /L5R8 and /L5R7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(155,57 mm, 86,36 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and /L5R1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(156,21 mm, 147,95 mm): Pin ~ on L6 is connected to both /L5R8 and /L5R1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(153,03 mm, 86,36 mm): Pin ~ on L5 is connected to both Net-(J11-Pad8) and /L5R2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(153,67 mm, 147,95 mm): Pin ~ on L6 is connected to both /L5R8 and /L5R2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(107,95 mm, 86,36 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and /L3R2
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(110,49 mm, 147,95 mm): Pin ~ on L4 is connected to both /L3R2 and /L3R1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(110,49 mm, 86,36 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and /L3R1
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(95,25 mm, 86,36 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and /L3R7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(95,25 mm, 147,95 mm): Pin ~ on L4 is connected to both /L3R2 and /L3R7
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(105,41 mm, 147,95 mm): Pin ~ on L4 is connected to both /L3R2 and /L3R3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(105,41 mm, 86,36 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and /L3R3
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(102,87 mm, 147,95 mm): Pin ~ on L4 is connected to both /L3R2 and /L3R4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(102,87 mm, 86,36 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and /L3R4
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(100,33 mm, 86,36 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and /L3R5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(100,33 mm, 147,95 mm): Pin ~ on L4 is connected to both /L3R2 and /L3R5
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(97,79 mm, 86,36 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and /L3R6
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(97,79 mm, 147,95 mm): Pin ~ on L4 is connected to both /L3R2 and /L3R6
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(92,71 mm, 86,36 mm): Pin ~ on L3 is connected to both Net-(J7-Pad1) and /L3R8
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(92,71 mm, 147,95 mm): Pin ~ on L4 is connected to both /L3R2 and /L3R8
+ErrType(3): Pin connected to other pins, but not driven by any pin
+    @(173,35 mm, 41,27 mm): Pin 8 (Power input) of component U8 is not driven (Net 79).
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(151,13 mm, 176,53 mm): Pin ~ on L6 is connected to both /L5R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(182,25 mm, 176,53 mm): Pin ~ on L8 is connected to both /L7R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(156,21 mm, 176,53 mm): Pin ~ on L6 is connected to both /L5R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(153,67 mm, 176,53 mm): Pin ~ on L6 is connected to both /L5R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(148,59 mm, 176,53 mm): Pin ~ on L6 is connected to both /L5R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(184,78 mm, 176,53 mm): Pin ~ on L8 is connected to both /L7R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(146,05 mm, 176,53 mm): Pin ~ on L6 is connected to both /L5R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(143,51 mm, 176,53 mm): Pin ~ on L6 is connected to both /L5R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(140,97 mm, 176,53 mm): Pin ~ on L6 is connected to both /L5R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(187,32 mm, 176,53 mm): Pin ~ on L8 is connected to both /L7R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(138,43 mm, 176,53 mm): Pin ~ on L6 is connected to both /L5R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(200,03 mm, 176,53 mm): Pin ~ on L8 is connected to both /L7R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(197,48 mm, 176,53 mm): Pin ~ on L8 is connected to both /L7R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(189,86 mm, 176,53 mm): Pin ~ on L8 is connected to both /L7R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(192,41 mm, 176,53 mm): Pin ~ on L8 is connected to both /L7R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(194,94 mm, 176,53 mm): Pin ~ on L8 is connected to both /L7R8 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(110,49 mm, 176,53 mm): Pin ~ on L4 is connected to both /L3R2 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(107,95 mm, 176,53 mm): Pin ~ on L4 is connected to both /L3R2 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(55,24 mm, 176,53 mm): Pin ~ on L2 is connected to both /L1R6 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(65,41 mm, 176,53 mm): Pin ~ on L2 is connected to both /L1R6 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(62,86 mm, 176,53 mm): Pin ~ on L2 is connected to both /L1R6 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(60,32 mm, 176,53 mm): Pin ~ on L2 is connected to both /L1R6 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(57,78 mm, 176,53 mm): Pin ~ on L2 is connected to both /L1R6 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(52,70 mm, 176,53 mm): Pin ~ on L2 is connected to both /L1R6 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(105,41 mm, 176,53 mm): Pin ~ on L4 is connected to both /L3R2 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(50,16 mm, 176,53 mm): Pin ~ on L2 is connected to both /L1R6 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(47,62 mm, 176,53 mm): Pin ~ on L2 is connected to both /L1R6 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(102,87 mm, 176,53 mm): Pin ~ on L4 is connected to both /L3R2 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(100,33 mm, 176,53 mm): Pin ~ on L4 is connected to both /L3R2 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(97,79 mm, 176,53 mm): Pin ~ on L4 is connected to both /L3R2 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(95,25 mm, 176,53 mm): Pin ~ on L4 is connected to both /L3R2 and GND
+ErrType(12): Different net assigned to a shared pin in another unit of the same component
+    @(92,71 mm, 176,53 mm): Pin ~ on L4 is connected to both /L3R2 and GND
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 259,08 mm): Pin 11 (Output) of component U9 is unconnected.
+ErrType(4): Conflict problem between pins. Severity: warning
+    @(254,00 mm, 167,64 mm): Pin 1 (Power input) of component #PWR0108 is connected to 
+    @(124,46 mm, 235,58 mm): pin 2 (Tri-state) of component U4 (net 87).
+ErrType(3): Pin connected to other pins, but not driven by any pin
+    @(254,00 mm, 167,64 mm): Pin 1 (Power input) of component #PWR0108 is not driven (Net 87).
+ErrType(4): Conflict problem between pins. Severity: warning
+    @(124,46 mm, 235,58 mm): Pin 2 (Tri-state) of component U4 is connected to 
+    @(121,92 mm, 257,18 mm): pin 1 (Power input) of component #PWR0105 (net 87).
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 223,52 mm): Pin 7 (Output) of component U5 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 220,98 mm): Pin 9 (Output) of component U5 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 218,44 mm): Pin 10 (Output) of component U5 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 205,74 mm): Pin 15 (Output) of component U5 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 251,46 mm): Pin 14 (Output) of component U9 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 254,00 mm): Pin 13 (Output) of component U9 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 256,54 mm): Pin 12 (Output) of component U9 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 266,70 mm): Pin 7 (Output) of component U9 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 264,16 mm): Pin 9 (Output) of component U9 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 261,62 mm): Pin 10 (Output) of component U9 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 248,92 mm): Pin 15 (Output) of component U9 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 215,90 mm): Pin 11 (Output) of component U5 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 208,28 mm): Pin 14 (Output) of component U5 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 210,82 mm): Pin 13 (Output) of component U5 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(222,25 mm, 213,36 mm): Pin 12 (Output) of component U5 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(91,44 mm, 253,36 mm): Pin 7 (Passive) of component J4 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(304,80 mm, 187,32 mm): Pin 4 (Passive) of component Q3 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(304,80 mm, 234,31 mm): Pin 4 (Passive) of component Q4 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(124,46 mm, 253,36 mm): Pin 9 (Tri-state) of component U4 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(124,46 mm, 250,82 mm): Pin 8 (Tri-state) of component U4 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(149,86 mm, 253,36 mm): Pin 11 (Tri-state) of component U4 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(149,86 mm, 250,82 mm): Pin 12 (Tri-state) of component U4 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(287,02 mm, 276,22 mm): Pin 9 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(274,32 mm, 276,22 mm): Pin 8 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(28,57 mm, 272,42 mm): Pin 4 (Passive) of component RN2 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(26,04 mm, 272,42 mm): Pin 3 (Passive) of component RN2 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(23,50 mm, 272,42 mm): Pin 2 (Passive) of component RN2 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(40,64 mm, 241,94 mm): Pin 6 (Tri-state) of component U1 is unconnected.
+ErrType(8): Global label not connected to any other global label
+    @(29,21 mm, 265,43 mm): Global label LT is not connected to any other global label.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(274,32 mm, 258,44 mm): Pin 1 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(274,32 mm, 273,69 mm): Pin 7 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(274,32 mm, 271,14 mm): Pin 6 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(274,32 mm, 268,61 mm): Pin 5 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(274,32 mm, 266,06 mm): Pin 4 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(274,32 mm, 263,52 mm): Pin 3 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(274,32 mm, 260,99 mm): Pin 2 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(287,02 mm, 258,44 mm): Pin 16 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(287,02 mm, 260,99 mm): Pin 15 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(287,02 mm, 263,52 mm): Pin 14 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(287,02 mm, 266,06 mm): Pin 13 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(287,02 mm, 268,61 mm): Pin 12 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(287,02 mm, 271,14 mm): Pin 11 (Passive) of component J18 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(287,02 mm, 273,69 mm): Pin 10 (Passive) of component J18 is unconnected.
+ErrType(8): Global label not connected to any other global label
+    @(33,66 mm, 259,08 mm): Global label SRCLK-2 is not connected to any other global label.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(40,64 mm, 249,56 mm): Pin 9 (Tri-state) of component U1 is unconnected.
+ErrType(3): Pin connected to other pins, but not driven by any pin
+    @(188,59 mm, 31,11 mm): Pin 12 (Input) of component U8 is not driven (Net 173).
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(178,44 mm, 51,43 mm): Pin 9 (Output) of component U8 is unconnected.
+
+ ** ERC messages: 172  Errors 120  Warnings 52

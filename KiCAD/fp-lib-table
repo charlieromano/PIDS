@@ -1,0 +1,5 @@
+(fp_lib_table
+  (lib (name FDS4953)(type KiCad)(uri ${KIPRJMOD}/FDS4953)(options "")(descr ""))
+  (lib (name 74HC138D)(type KiCad)(uri ${KIPRJMOD}/74HC138D)(options "")(descr ""))
+  (lib (name Connector_IDC)(type KiCad)(uri ${KIPRJMOD}/Connector_IDC.pretty)(options "")(descr ""))
+)
