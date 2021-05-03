@@ -8,7 +8,7 @@ Repo limpio para el proyecto PIDS de la CESE 2020
 
 [TOC]
 
-
+TO DO:--> ver ejemplo interrupciones UART
 
 ## Iniciar Repositorio
 
