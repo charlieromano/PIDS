@@ -45,6 +45,14 @@ sudo apt install openocd
 
 #### 3.2 Instalar gcc-arm-none-eabi
 
+```bash
+sudo apt install gcc-arm-none-eabi
+
+```
+Si todo sale ok saltar a la sección crear programa.
+
+#### 3.2.1 Troubleshooting gcc-arm-none-eabi
+
 Este fue el primer fail al intentar compilar un programa con el comando "make download". Para solucionarlo, en la instalación de ubuntu 20 LTS lo que hice fue seguir el siguiente hilo: https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa
 
 Básicamente hice lo siguiente:
@@ -95,7 +103,7 @@ Luego ingresar a la carpeta y ejecutar el lanzador de apliaciones.
 
 
 
-## Crear un programa
+## 4. Crear un programa
 
 Ir al directorio del repositorio, y luego desde el submodule firmware_v3 crear un program folder:
 
