@@ -29,6 +29,9 @@ git clone https://github.com/charlieromano/PIDS.git
 ```bash
 cd PIDS
 git submodule add https://github.com/epernia/firmware_v3.git    #Agrega firmware_v3 como submodulo
+git submodule init
+git submodule update
+
 ```
 
 ### 3: Instalar software
