@@ -1610,7 +1610,6 @@ Wire Wire Line
 Wire Wire Line
 	13750 5325 13750 4975
 Connection ~ 13750 5325
-NoConn ~ 1725 9400
 Wire Wire Line
 	1125 9600 1125 10725
 Wire Wire Line
@@ -3641,7 +3640,7 @@ Wire Wire Line
 Wire Wire Line
 	1875 3000 1875 3400
 $Comp
-L myLedMatrix:LedMatrix_M L8
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L8
 U 1 1 65EB8954
 P 7525 6400
 F 0 "L8" H 8125 6400 50  0000 L CNN
@@ -3652,7 +3651,7 @@ F 3 "" H 7625 6875 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L6
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L6
 U 1 1 65EB88FC
 P 5800 6400
 F 0 "L6" H 6350 6400 50  0000 L CNN
@@ -3663,7 +3662,7 @@ F 3 "" H 5900 6875 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L4
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L4
 U 1 1 65BA6083
 P 4000 6400
 F 0 "L4" H 4600 6400 50  0000 L CNN
@@ -3674,7 +3673,7 @@ F 3 "" H 4100 6875 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L2
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L2
 U 1 1 61F8FA0C
 P 2225 6400
 F 0 "L2" H 2800 6400 50  0000 L CNN
@@ -3685,7 +3684,7 @@ F 3 "" H 2325 6875 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L7
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L7
 U 1 1 6453BC83
 P 7525 3975
 F 0 "L7" H 7975 4425 50  0000 L CNN
@@ -3696,7 +3695,7 @@ F 3 "" H 7625 4450 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L5
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L5
 U 1 1 63DACAC0
 P 5775 3975
 F 0 "L5" H 6250 4425 50  0000 L CNN
@@ -3707,7 +3706,7 @@ F 3 "" H 5875 4450 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L3
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L3
 U 1 1 6153BDC2
 P 4000 3975
 F 0 "L3" H 4450 4400 50  0000 L CNN
@@ -3718,7 +3717,7 @@ F 3 "" H 4100 4450 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L1
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L1
 U 1 1 5FAA9D97
 P 2225 3975
 F 0 "L1" H 2675 4400 50  0000 L CNN
@@ -4813,6 +4812,23 @@ Wire Bus Line
 	18725 4475 20725 4475
 Wire Bus Line
 	18725 4575 20725 4575
+$Comp
+L power:GND #PWR?
+U 1 1 60B63B1A
+P 1500 9200
+F 0 "#PWR?" H 1500 8950 50  0001 C CNN
+F 1 "GND" H 1505 9027 50  0000 C CNN
+F 2 "" H 1500 9200 50  0001 C CNN
+F 3 "" H 1500 9200 50  0001 C CNN
+	1    1500 9200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1650 9400 1650 9100
+Wire Wire Line
+	1650 9100 1500 9100
+Wire Wire Line
+	1500 9100 1500 9200
 Wire Bus Line
 	9275 9750 9275 9850
 Wire Bus Line
@@ -4931,4 +4947,6 @@ Wire Bus Line
 	9275 9850 15300 9850
 Wire Bus Line
 	1850 2650 13350 2650
+Wire Wire Line
+	1725 9400 1650 9400
 $EndSCHEMATC
