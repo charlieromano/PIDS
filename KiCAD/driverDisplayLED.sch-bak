@@ -1610,7 +1610,6 @@ Wire Wire Line
 Wire Wire Line
 	13750 5325 13750 4975
 Connection ~ 13750 5325
-NoConn ~ 1725 9400
 Wire Wire Line
 	1125 9600 1125 10725
 Wire Wire Line
@@ -3641,7 +3640,7 @@ Wire Wire Line
 Wire Wire Line
 	1875 3000 1875 3400
 $Comp
-L myLedMatrix:LedMatrix_M L8
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L8
 U 1 1 65EB8954
 P 7525 6400
 F 0 "L8" H 8125 6400 50  0000 L CNN
@@ -3652,7 +3651,7 @@ F 3 "" H 7625 6875 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L6
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L6
 U 1 1 65EB88FC
 P 5800 6400
 F 0 "L6" H 6350 6400 50  0000 L CNN
@@ -3663,7 +3662,7 @@ F 3 "" H 5900 6875 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L4
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L4
 U 1 1 65BA6083
 P 4000 6400
 F 0 "L4" H 4600 6400 50  0000 L CNN
@@ -3674,7 +3673,7 @@ F 3 "" H 4100 6875 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L2
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L2
 U 1 1 61F8FA0C
 P 2225 6400
 F 0 "L2" H 2800 6400 50  0000 L CNN
@@ -3685,7 +3684,7 @@ F 3 "" H 2325 6875 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L7
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L7
 U 1 1 6453BC83
 P 7525 3975
 F 0 "L7" H 7975 4425 50  0000 L CNN
@@ -3696,7 +3695,7 @@ F 3 "" H 7625 4450 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L5
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L5
 U 1 1 63DACAC0
 P 5775 3975
 F 0 "L5" H 6250 4425 50  0000 L CNN
@@ -3707,7 +3706,7 @@ F 3 "" H 5875 4450 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L3
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L3
 U 1 1 6153BDC2
 P 4000 3975
 F 0 "L3" H 4450 4400 50  0000 L CNN
@@ -3718,7 +3717,7 @@ F 3 "" H 4100 4450 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L1
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L1
 U 1 1 5FAA9D97
 P 2225 3975
 F 0 "L1" H 2675 4400 50  0000 L CNN
@@ -4814,13 +4813,37 @@ Wire Bus Line
 Wire Bus Line
 	18725 4575 20725 4575
 Wire Bus Line
+	9275 9850 15300 9850
+Wire Bus Line
+	9275 9850 9275 10475
+Wire Bus Line
 	9275 9750 9275 9850
 Wire Bus Line
 	1575 2425 1575 5225
 Wire Bus Line
+	6975 5325 8000 5325
+Wire Bus Line
+	5225 5325 6275 5325
+Wire Bus Line
+	3450 5325 4450 5325
+Wire Bus Line
+	1675 5325 2675 5325
+Wire Bus Line
 	6875 5225 9200 5225
 Wire Bus Line
 	5125 5225 6875 5225
+Wire Bus Line
+	9200 3150 11600 3150
+Wire Bus Line
+	9025 2975 12450 2975
+Wire Bus Line
+	9350 3325 11050 3325
+Wire Bus Line
+	9275 8350 15300 8350
+Wire Bus Line
+	9275 8350 9275 8975
+Wire Bus Line
+	1850 2650 13350 2650
 Wire Bus Line
 	7050 2750 7050 7300
 Wire Bus Line
@@ -4830,85 +4853,59 @@ Wire Bus Line
 Wire Bus Line
 	1750 2750 1750 7300
 Wire Bus Line
-	3350 5225 5125 5225
-Wire Bus Line
-	6875 2425 6875 5225
-Wire Bus Line
-	5125 2425 5125 5225
-Wire Bus Line
-	3350 2425 3350 5225
-Wire Bus Line
-	4550 4975 4850 4975
-Wire Bus Line
-	6325 4975 6625 4975
-Wire Bus Line
-	8075 4975 8375 4975
-Wire Bus Line
 	3300 7500 9025 7500
 Wire Bus Line
+	3350 5225 5125 5225
+Wire Bus Line
 	8075 5325 8425 5325
+Wire Bus Line
+	7150 7400 7975 7400
 Wire Bus Line
 	8075 7400 8500 7400
 Wire Bus Line
 	6350 5325 6700 5325
 Wire Bus Line
+	5425 7400 6250 7400
+Wire Bus Line
 	6350 7400 6775 7400
 Wire Bus Line
 	4550 5325 4875 5325
+Wire Bus Line
+	3625 7400 4450 7400
 Wire Bus Line
 	4550 7400 4975 7400
 Wire Bus Line
 	2775 2900 3125 2900
 Wire Bus Line
-	2775 4975 3125 4975
-Wire Bus Line
-	2775 5325 3125 5325
-Wire Bus Line
-	2775 7400 3200 7400
-Wire Bus Line
-	8075 2900 8425 2900
-Wire Bus Line
-	6325 2900 6675 2900
-Wire Bus Line
-	3225 5075 9025 5075
-Wire Bus Line
-	3225 2800 13350 2800
-Wire Bus Line
-	4550 2900 4900 2900
-Wire Bus Line
-	9275 8350 9275 8975
-Wire Bus Line
-	9350 3325 11050 3325
-Wire Bus Line
-	9025 2975 12450 2975
-Wire Bus Line
-	9200 3150 11600 3150
-Wire Bus Line
-	9275 9850 9275 10475
-Wire Bus Line
-	3450 5325 4450 5325
-Wire Bus Line
-	1675 5325 2675 5325
-Wire Bus Line
-	9275 8350 15300 8350
-Wire Bus Line
-	7150 7400 7975 7400
-Wire Bus Line
-	5425 7400 6250 7400
-Wire Bus Line
-	3625 7400 4450 7400
-Wire Bus Line
 	1675 2900 2675 2900
 Wire Bus Line
 	1850 4975 2675 4975
 Wire Bus Line
+	2775 4975 3125 4975
+Wire Bus Line
+	2775 5325 3125 5325
+Wire Bus Line
 	1850 7400 2675 7400
+Wire Bus Line
+	2775 7400 3200 7400
+Wire Bus Line
+	8075 4975 8375 4975
 Wire Bus Line
 	7150 4975 7975 4975
 Wire Bus Line
 	6975 2900 7975 2900
 Wire Bus Line
+	8075 2900 8425 2900
+Wire Bus Line
+	6875 2425 6875 5225
+Wire Bus Line
 	5225 2900 6225 2900
+Wire Bus Line
+	6325 2900 6675 2900
+Wire Bus Line
+	5125 2425 5125 5225
+Wire Bus Line
+	6325 4975 6625 4975
 Wire Bus Line
 	5425 4975 6225 4975
 Wire Bus Line
@@ -4918,17 +4915,20 @@ Wire Bus Line
 Wire Bus Line
 	3450 2325 4300 2325
 Wire Bus Line
+	3350 2425 3350 5225
+Wire Bus Line
+	3225 5075 9025 5075
+Wire Bus Line
 	1675 2325 2525 2325
+Wire Bus Line
+	4550 4975 4850 4975
 Wire Bus Line
 	3625 4975 4450 4975
 Wire Bus Line
+	3225 2800 13350 2800
+Wire Bus Line
+	4550 2900 4900 2900
+Wire Bus Line
 	3450 2900 4450 2900
-Wire Bus Line
-	5225 5325 6275 5325
-Wire Bus Line
-	6975 5325 8000 5325
-Wire Bus Line
-	9275 9850 15300 9850
-Wire Bus Line
-	1850 2650 13350 2650
+NoConn ~ 1725 9400
 $EndSCHEMATC

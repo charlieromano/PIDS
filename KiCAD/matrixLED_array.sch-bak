@@ -690,7 +690,7 @@ F 3 "~" H 1680 3280 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L1
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L1
 U 1 1 66DEBDBB
 P 1565 2515
 F 0 "L1" H 1160 2530 50  0000 L CNN
@@ -837,7 +837,7 @@ F 3 "~" H 3450 3280 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L3
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L3
 U 1 1 66F8FCA7
 P 3335 2515
 F 0 "L3" H 2930 2530 50  0000 L CNN
@@ -984,7 +984,7 @@ F 3 "~" H 5250 3280 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L5
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L5
 U 1 1 67122D08
 P 5135 2515
 F 0 "L5" H 4730 2530 50  0000 L CNN
@@ -1146,7 +1146,7 @@ F 3 "~" H 6980 3280 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L7
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L7
 U 1 1 6720A499
 P 6865 2515
 F 0 "L7" H 6460 2530 50  0000 L CNN
@@ -1292,7 +1292,7 @@ F 3 "~" H 1690 5840 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L2
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L2
 U 1 1 675C996B
 P 1575 5075
 F 0 "L2" H 1170 5090 50  0000 L CNN
@@ -1438,7 +1438,7 @@ F 3 "~" H 3460 5840 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L4
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L4
 U 1 1 675F6FE0
 P 3345 5075
 F 0 "L4" H 2940 5090 50  0000 L CNN
@@ -1584,7 +1584,7 @@ F 3 "~" H 5260 5840 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L6
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L6
 U 1 1 6762E87D
 P 5145 5075
 F 0 "L6" H 4740 5090 50  0000 L CNN
@@ -1725,7 +1725,7 @@ F 3 "~" H 6980 5840 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myLedMatrix:LedMatrix_M L8
+L driverDisplayLED-rescue:LedMatrix_M-myLedMatrix L8
 U 1 1 6766924C
 P 6865 5075
 F 0 "L8" H 6460 5090 50  0000 L CNN
