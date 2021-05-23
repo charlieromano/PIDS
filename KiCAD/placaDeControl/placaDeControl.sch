@@ -13,4 +13,461 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
+Wire Notes Line
+	11000 6300 11000 5125
+Wire Notes Line
+	11000 5125 6975 5125
+Wire Notes Line
+	6975 5125 6975 6300
+Wire Notes Line
+	6975 6300 11000 6300
+Wire Notes Line
+	7425 5225 7425 5650
+Wire Notes Line
+	7425 5650 7825 5650
+Wire Notes Line
+	7825 5650 7825 5225
+Wire Notes Line
+	7825 5225 7425 5225
+Wire Notes Line
+	7975 5225 7975 5825
+Wire Notes Line
+	7975 5825 8350 5825
+Wire Notes Line
+	8350 5825 8350 5225
+Wire Notes Line
+	8350 5225 7975 5225
+Wire Notes Line
+	8500 5225 8500 6025
+Wire Notes Line
+	8500 6025 9275 6025
+Wire Notes Line
+	9275 6025 9275 5225
+Wire Notes Line
+	9275 5225 8500 5225
+Wire Notes Line
+	9425 5225 10375 5225
+Wire Notes Line
+	10375 5225 10375 6025
+Wire Notes Line
+	10375 6025 9425 6025
+Wire Notes Line
+	9425 6025 9425 5225
+Wire Notes Line
+	7025 5225 7175 5225
+Wire Notes Line
+	7175 5225 7175 5650
+Wire Notes Line
+	7175 5650 7025 5650
+Wire Notes Line
+	7025 5650 7025 5225
+Wire Notes Line
+	10925 6025 10775 6025
+Wire Notes Line
+	10775 6025 10775 5650
+Wire Notes Line
+	10775 5650 10925 5650
+Wire Notes Line
+	10925 5650 10925 6025
+Text Notes 7175 5600 1    50   ~ 0
+IN\nConn 1x8\n
+Text Notes 10925 6025 1    50   ~ 0
+OUT \nConn 2x8
+Text Notes 7475 5500 0    50   ~ 0
+3A\n110 VDC
+Text Notes 8000 5700 0    50   ~ 0
++ Vin -\n110 V\n\n    5V\n+ 2A .
+Text Notes 8650 5675 0    50   ~ 0
+Switching\nPower Supply
+Text Notes 9600 5750 0    50   ~ 0
+uC\nNXP\nLPC2138FBD64\n4x16\nSMD SOIC
+Wire Notes Line
+	10450 6225 10725 6225
+Wire Notes Line
+	10725 6225 10725 6100
+Wire Notes Line
+	10725 6100 10450 6100
+Wire Notes Line
+	10450 6100 10450 6225
+Text Notes 10450 6200 0    50   ~ 0
+PC DW
+$Comp
+L Device:Fuse F?
+U 1 1 60B4C88D
+P 1150 1250
+F 0 "F?" V 953 1250 50  0000 C CNN
+F 1 "Fuse" V 1044 1250 50  0000 C CNN
+F 2 "" V 1080 1250 50  0001 C CNN
+F 3 "~" H 1150 1250 50  0001 C CNN
+	1    1150 1250
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x08 J?
+U 1 1 60B4E788
+P 2650 1225
+F 0 "J?" V 2614 737 50  0000 R CNN
+F 1 "Conn_01x08" V 2523 737 50  0000 R CNN
+F 2 "" H 2650 1225 50  0001 C CNN
+F 3 "~" H 2650 1225 50  0001 C CNN
+	1    2650 1225
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:D D?
+U 1 1 60B503DD
+P 1000 1575
+F 0 "D?" H 1000 1359 50  0000 C CNN
+F 1 "D" H 1000 1450 50  0000 C CNN
+F 2 "" H 1000 1575 50  0001 C CNN
+F 3 "~" H 1000 1575 50  0001 C CNN
+	1    1000 1575
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:D D?
+U 1 1 60B50DB2
+P 1425 1575
+F 0 "D?" H 1425 1359 50  0000 C CNN
+F 1 "D" H 1425 1450 50  0000 C CNN
+F 2 "" H 1425 1575 50  0001 C CNN
+F 3 "~" H 1425 1575 50  0001 C CNN
+	1    1425 1575
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:D D?
+U 1 1 60B51182
+P 1850 2000
+F 0 "D?" V 1804 2079 50  0000 L CNN
+F 1 "D" V 1895 2079 50  0000 L CNN
+F 2 "" H 1850 2000 50  0001 C CNN
+F 3 "~" H 1850 2000 50  0001 C CNN
+	1    1850 2000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 60B51896
+P 925 2200
+F 0 "R?" H 995 2246 50  0000 L CNN
+F 1 "R" H 995 2155 50  0000 L CNN
+F 2 "" V 855 2200 50  0001 C CNN
+F 3 "~" H 925 2200 50  0001 C CNN
+	1    925  2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 60B51BDB
+P 1150 2200
+F 0 "R?" H 1220 2246 50  0000 L CNN
+F 1 "R" H 1220 2155 50  0000 L CNN
+F 2 "" V 1080 2200 50  0001 C CNN
+F 3 "~" H 1150 2200 50  0001 C CNN
+	1    1150 2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 60B51DFF
+P 1025 1925
+F 0 "R?" V 818 1925 50  0000 C CNN
+F 1 "R" V 909 1925 50  0000 C CNN
+F 2 "" V 955 1925 50  0001 C CNN
+F 3 "~" H 1025 1925 50  0001 C CNN
+	1    1025 1925
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:CP C?
+U 1 1 60B54BD9
+P 2125 2575
+F 0 "C?" V 2380 2575 50  0000 C CNN
+F 1 "CP" V 2289 2575 50  0000 C CNN
+F 2 "" H 2163 2425 50  0001 C CNN
+F 3 "~" H 2125 2575 50  0001 C CNN
+	1    2125 2575
+	0    -1   -1   0   
+$EndComp
+Text Notes 1000 2550 0    50   ~ 0
+BG2
+$Comp
+L Device:R R2
+U 1 1 60B55B9F
+P 1075 3450
+F 0 "R2" V 868 3450 50  0000 C CNN
+F 1 "R" V 959 3450 50  0000 C CNN
+F 2 "" V 1005 3450 50  0001 C CNN
+F 3 "~" H 1075 3450 50  0001 C CNN
+	1    1075 3450
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R22
+U 1 1 60B55F86
+P 1075 3775
+F 0 "R22" V 868 3775 50  0000 C CNN
+F 1 "R" V 959 3775 50  0000 C CNN
+F 2 "" V 1005 3775 50  0001 C CNN
+F 3 "~" H 1075 3775 50  0001 C CNN
+	1    1075 3775
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R23
+U 1 1 60B5624A
+P 1075 4100
+F 0 "R23" V 868 4100 50  0000 C CNN
+F 1 "R" V 959 4100 50  0000 C CNN
+F 2 "" V 1005 4100 50  0001 C CNN
+F 3 "~" H 1075 4100 50  0001 C CNN
+	1    1075 4100
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R20
+U 1 1 60B56487
+P 925 4575
+F 0 "R20" H 855 4529 50  0000 R CNN
+F 1 "R" H 855 4620 50  0000 R CNN
+F 2 "" V 855 4575 50  0001 C CNN
+F 3 "~" H 925 4575 50  0001 C CNN
+	1    925  4575
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:C C43
+U 1 1 60B56B6A
+P 1350 4575
+F 0 "C43" H 1465 4621 50  0000 L CNN
+F 1 "C" H 1465 4530 50  0000 L CNN
+F 2 "" H 1388 4425 50  0001 C CNN
+F 3 "~" H 1350 4575 50  0001 C CNN
+	1    1350 4575
+	1    0    0    -1  
+$EndComp
+$Comp
+L Isolator:NSL-32 IC16
+U 1 1 60B57F07
+P 2000 3500
+F 0 "IC16" H 2000 3817 50  0000 C CNN
+F 1 "NSL-32" H 2000 3726 50  0000 C CNN
+F 2 "OptoDevice:Luna_NSL-32" H 2000 3200 50  0001 C CNN
+F 3 "http://lunainc.com/wp-content/uploads/2016/06/NSL-32.pdf" H 2050 3500 50  0001 C CNN
+	1    2000 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Isolator:NSL-32 IC14
+U 1 1 60B588DB
+P 2000 4025
+F 0 "IC14" H 2000 4342 50  0000 C CNN
+F 1 "NSL-32" H 2000 4251 50  0000 C CNN
+F 2 "OptoDevice:Luna_NSL-32" H 2000 3725 50  0001 C CNN
+F 3 "http://lunainc.com/wp-content/uploads/2016/06/NSL-32.pdf" H 2050 4025 50  0001 C CNN
+	1    2000 4025
+	1    0    0    -1  
+$EndComp
+$Comp
+L Isolator:NSL-32 IC7
+U 1 1 60B5BCD1
+P 2000 4575
+F 0 "IC7" H 2000 4892 50  0000 C CNN
+F 1 "NSL-32" H 2000 4801 50  0000 C CNN
+F 2 "OptoDevice:Luna_NSL-32" H 2000 4275 50  0001 C CNN
+F 3 "http://lunainc.com/wp-content/uploads/2016/06/NSL-32.pdf" H 2050 4575 50  0001 C CNN
+	1    2000 4575
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R11
+U 1 1 60B64717
+P 975 5375
+F 0 "R11" V 768 5375 50  0000 C CNN
+F 1 "R" V 859 5375 50  0000 C CNN
+F 2 "" V 905 5375 50  0001 C CNN
+F 3 "~" H 975 5375 50  0001 C CNN
+	1    975  5375
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R10
+U 1 1 60B65517
+P 1375 5375
+F 0 "R10" V 1168 5375 50  0000 C CNN
+F 1 "R" V 1259 5375 50  0000 C CNN
+F 2 "" V 1305 5375 50  0001 C CNN
+F 3 "~" H 1375 5375 50  0001 C CNN
+	1    1375 5375
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R12
+U 1 1 60B657AE
+P 1800 5375
+F 0 "R12" V 1593 5375 50  0000 C CNN
+F 1 "R" V 1684 5375 50  0000 C CNN
+F 2 "" V 1730 5375 50  0001 C CNN
+F 3 "~" H 1800 5375 50  0001 C CNN
+	1    1800 5375
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:L L2
+U 1 1 60B6FA75
+P 1650 2975
+F 0 "L2" H 1702 3021 50  0000 L CNN
+F 1 "L" H 1702 2930 50  0000 L CNN
+F 2 "" H 1650 2975 50  0001 C CNN
+F 3 "~" H 1650 2975 50  0001 C CNN
+	1    1650 2975
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	1350 2025 1725 2025
+Wire Notes Line
+	1725 2025 1725 2450
+Wire Notes Line
+	1725 2450 1350 2450
+Wire Notes Line
+	1350 2450 1350 2025
+Text Notes 1400 2300 0    50   ~ 0
+TQ2 5V\nATQ209
+$Comp
+L Device:D D4
+U 1 1 60B778F5
+P 775 3000
+F 0 "D4" V 729 3079 50  0000 L CNN
+F 1 "D" V 820 3079 50  0000 L CNN
+F 2 "" H 775 3000 50  0001 C CNN
+F 3 "~" H 775 3000 50  0001 C CNN
+	1    775  3000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D D3
+U 1 1 60B78215
+P 1050 3000
+F 0 "D3" V 1004 3079 50  0000 L CNN
+F 1 "D" V 1095 3079 50  0000 L CNN
+F 2 "" H 1050 3000 50  0001 C CNN
+F 3 "~" H 1050 3000 50  0001 C CNN
+	1    1050 3000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D D2
+U 1 1 60B785A0
+P 1325 3000
+F 0 "D2" V 1279 3079 50  0000 L CNN
+F 1 "D" V 1370 3079 50  0000 L CNN
+F 2 "" H 1325 3000 50  0001 C CNN
+F 3 "~" H 1325 3000 50  0001 C CNN
+	1    1325 3000
+	0    1    1    0   
+$EndComp
+$Comp
+L Mechanical:MountingHole H5V
+U 1 1 60B7C4C2
+P 1375 2675
+F 0 "H5V" H 1475 2721 50  0000 L CNN
+F 1 "MountingHole" H 1475 2630 50  0000 L CNN
+F 2 "" H 1375 2675 50  0001 C CNN
+F 3 "~" H 1375 2675 50  0001 C CNN
+	1    1375 2675
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	925  2450 925  2600
+Wire Notes Line
+	925  2600 1225 2600
+Wire Notes Line
+	1225 2600 1225 2425
+Wire Notes Line
+	1225 2425 925  2425
+$Comp
+L Device:C C19
+U 1 1 60B9A483
+P 2250 5375
+F 0 "C19" V 1998 5375 50  0000 C CNN
+F 1 "C" V 2089 5375 50  0000 C CNN
+F 2 "" H 2288 5225 50  0001 C CNN
+F 3 "~" H 2250 5375 50  0001 C CNN
+	1    2250 5375
+	0    1    1    0   
+$EndComp
+Text Notes 1050 4975 0    50   ~ 0
+IC8\nSOIC 8
+Wire Notes Line
+	1325 4800 1025 4800
+Wire Notes Line
+	1325 5000 1325 4800
+Wire Notes Line
+	1025 5000 1325 5000
+Wire Notes Line
+	1025 4800 1025 5000
+Text Notes 950  5775 0    50   ~ 0
+IC6\nSOIC 8
+Text Notes 1700 5800 0    50   ~ 0
+IC5\nSOIC 8
+Wire Notes Line
+	875  5575 875  5850
+Wire Notes Line
+	875  5850 1250 5850
+Wire Notes Line
+	1250 5850 1250 5575
+Wire Notes Line
+	1250 5575 875  5575
+Wire Notes Line
+	1625 5850 2000 5850
+Wire Notes Line
+	2000 5850 2000 5575
+Wire Notes Line
+	2000 5575 1625 5575
+Wire Notes Line
+	1625 5575 1625 5850
+$Comp
+L Device:R R8
+U 1 1 60BAB1B5
+P 1125 6175
+F 0 "R8" V 918 6175 50  0000 C CNN
+F 1 "R" V 1009 6175 50  0000 C CNN
+F 2 "" V 1055 6175 50  0001 C CNN
+F 3 "~" H 1125 6175 50  0001 C CNN
+	1    1125 6175
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R7
+U 1 1 60BAB677
+P 1600 6175
+F 0 "R7" V 1393 6175 50  0000 C CNN
+F 1 "R" V 1484 6175 50  0000 C CNN
+F 2 "" V 1530 6175 50  0001 C CNN
+F 3 "~" H 1600 6175 50  0001 C CNN
+	1    1600 6175
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R9
+U 1 1 60BAB987
+P 2100 6175
+F 0 "R9" V 1893 6175 50  0000 C CNN
+F 1 "R" V 1984 6175 50  0000 C CNN
+F 2 "" V 2030 6175 50  0001 C CNN
+F 3 "~" H 2100 6175 50  0001 C CNN
+	1    2100 6175
+	0    1    1    0   
+$EndComp
+Text Notes 2700 6450 0    50   ~ 0
+IC4\nSOIC 8
+Wire Notes Line
+	2650 6225 2650 6500
+Wire Notes Line
+	2650 6500 3025 6500
+Wire Notes Line
+	3025 6500 3025 6225
+Wire Notes Line
+	3025 6225 2650 6225
 $EndSCHEMATC
