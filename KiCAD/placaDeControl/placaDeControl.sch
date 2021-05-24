@@ -138,12 +138,12 @@ $EndComp
 $Comp
 L Device:D DW1
 U 1 1 60B51182
-P 2000 2125
-F 0 "DW1" V 1954 2204 50  0000 L CNN
-F 1 "D" V 2045 2204 50  0000 L CNN
-F 2 "" H 2000 2125 50  0001 C CNN
-F 3 "~" H 2000 2125 50  0001 C CNN
-	1    2000 2125
+P 2175 2275
+F 0 "DW1" V 2129 2354 50  0000 L CNN
+F 1 "D" V 2220 2354 50  0000 L CNN
+F 2 "" H 2175 2275 50  0001 C CNN
+F 3 "~" H 2175 2275 50  0001 C CNN
+	1    2175 2275
 	0    1    1    0   
 $EndComp
 $Comp
@@ -693,11 +693,7 @@ FL1
 Wire Notes Line
 	3250 2050 2650 2050
 Wire Notes Line
-	2650 2050 2650 2425
-Wire Notes Line
-	2650 2425 3250 2425
-Wire Notes Line
-	3250 2425 3250 2050
+	2650 2500 3250 2500
 Wire Notes Line
 	3250 2575 2450 2575
 Wire Notes Line
@@ -706,7 +702,7 @@ Wire Notes Line
 	2450 3350 3250 3350
 Wire Notes Line
 	3250 3350 3250 2575
-Text Notes 3100 2425 1    50   ~ 0
+Text Notes 2825 2450 0    50   ~ 0
 + Vin -\n110 V\n\n    5V\n+ 2A .
 Text Notes 2850 2725 3    50   ~ 0
 Switching\nPower Supply
@@ -902,28 +898,6 @@ F 3 "~" H 6300 5250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1150 1575 1200 1575
-$Comp
-L power:+5V #PWR?
-U 1 1 60CA0965
-P 2000 1975
-F 0 "#PWR?" H 2000 1825 50  0001 C CNN
-F 1 "+5V" H 2015 2148 50  0000 C CNN
-F 2 "" H 2000 1975 50  0001 C CNN
-F 3 "" H 2000 1975 50  0001 C CNN
-	1    2000 1975
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 60CA1AE6
-P 2000 2275
-F 0 "#PWR?" H 2000 2025 50  0001 C CNN
-F 1 "GND" H 2005 2102 50  0000 C CNN
-F 2 "" H 2000 2275 50  0001 C CNN
-F 3 "" H 2000 2275 50  0001 C CNN
-	1    2000 2275
-	1    0    0    -1  
-$EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 60CA2FE1
@@ -1417,21 +1391,6 @@ Text Label 10025 1650 0    50   ~ 0
 H4
 Wire Wire Line
 	10025 1650 9875 1650
-$Comp
-L power:GNDA #PWR?
-U 1 1 6102F922
-P 10400 1850
-F 0 "#PWR?" H 10400 1600 50  0001 C CNN
-F 1 "GNDA" H 10405 1677 50  0000 C CNN
-F 2 "" H 10400 1850 50  0001 C CNN
-F 3 "" H 10400 1850 50  0001 C CNN
-	1    10400 1850
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	10400 1825 10400 1850
-Wire Wire Line
-	9875 1825 10400 1825
 Wire Wire Line
 	5750 1225 6075 1225
 $Comp
@@ -1445,19 +1404,6 @@ F 3 "" H 5750 1225 50  0001 C CNN
 	1    5750 1225
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:GNDA #PWR?
-U 1 1 6104429F
-P 6075 1875
-F 0 "#PWR?" H 6075 1625 50  0001 C CNN
-F 1 "GNDA" H 6080 1702 50  0000 C CNN
-F 2 "" H 6075 1875 50  0001 C CNN
-F 3 "" H 6075 1875 50  0001 C CNN
-	1    6075 1875
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6075 1875 6075 1725
 Wire Wire Line
 	5425 1350 5425 1200
 Wire Wire Line
@@ -1473,24 +1419,10 @@ F 3 "" H 5425 1200 50  0001 C CNN
 	1    5425 1200
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:GNDA #PWR?
-U 1 1 61064278
-P 5425 1875
-F 0 "#PWR?" H 5425 1625 50  0001 C CNN
-F 1 "GNDA" H 5430 1702 50  0000 C CNN
-F 2 "" H 5425 1875 50  0001 C CNN
-F 3 "" H 5425 1875 50  0001 C CNN
-	1    5425 1875
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5600 1725 5425 1725
-Connection ~ 5425 1725
 Wire Wire Line
 	1500 1925 1825 1925
-Wire Wire Line
-	5425 1725 5425 1875
 Text Label 600  900  0    50   ~ 0
 H1
 Wire Wire Line
@@ -1689,4 +1621,54 @@ Wire Wire Line
 Wire Wire Line
 	4575 2325 4500 2325
 Connection ~ 4500 2325
+Wire Wire Line
+	3250 2150 3450 2150
+Wire Wire Line
+	3250 2350 3450 2350
+Wire Notes Line
+	3250 2050 3250 2500
+Wire Notes Line
+	2650 2050 2650 2500
+Text Label 3450 2150 2    50   ~ 0
++Vin
+Text Label 3450 2350 2    50   ~ 0
+-Vin
+Text Label 2475 2100 0    50   ~ 0
++5V
+Text Label 2500 2450 0    50   ~ 0
+GND
+Wire Wire Line
+	2175 2450 2175 2425
+Wire Wire Line
+	2175 2450 2650 2450
+Wire Wire Line
+	2175 2100 2175 2125
+Wire Wire Line
+	2175 2100 2650 2100
+Text Label 6075 1225 0    50   ~ 0
+GND
+Text Label 10125 2875 0    50   ~ 0
+GND
+Wire Wire Line
+	9875 2700 10000 2700
+Wire Wire Line
+	10000 2700 10000 2875
+Wire Wire Line
+	10000 3050 9875 3050
+Wire Wire Line
+	10125 2875 10000 2875
+Connection ~ 10000 2875
+Wire Wire Line
+	10000 2875 10000 3050
+Wire Wire Line
+	9875 2875 10000 2875
+Text Label 10025 1825 0    50   ~ 0
+M2
+Wire Wire Line
+	10025 1825 9875 1825
+Wire Wire Line
+	7550 1725 7950 1725
+Connection ~ 7550 1725
+Text Label 7950 1725 2    50   ~ 0
+M2
 $EndSCHEMATC
