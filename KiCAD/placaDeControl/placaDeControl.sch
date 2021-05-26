@@ -1297,8 +1297,6 @@ Wire Notes Line
 	8650 2250 7550 2250
 Wire Notes Line
 	7550 2250 7550 1575
-Wire Notes Line
-	7550 1575 8650 1575
 $Comp
 L Connector_Generic:Conn_01x04 IC12
 U 1 1 619D5DB1
@@ -1994,4 +1992,8 @@ Wire Wire Line
 	5375 3050 5375 2700
 Wire Wire Line
 	6975 2700 7175 2700
+Wire Notes Line
+	8650 2250 8650 1575
+Wire Notes Line
+	7550 1575 8650 1575
 $EndSCHEMATC
