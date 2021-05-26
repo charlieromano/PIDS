@@ -1,0 +1,487 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 2
+Title "Placa de control"
+Date "2021-05-25"
+Rev "v1.0"
+Comp "UBA Facultad de Ingeniería"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:CP C?
+U 1 1 63F2158D
+P 5675 1700
+AR Path="/63F2158D" Ref="C?"  Part="1" 
+AR Path="/63EEF186/63F2158D" Ref="C?"  Part="1" 
+F 0 "C?" H 5557 1654 50  0000 R CNN
+F 1 "CP" H 5557 1745 50  0000 R CNN
+F 2 "" H 5713 1550 50  0001 C CNN
+F 3 "~" H 5675 1700 50  0001 C CNN
+	1    5675 1700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 63F21593
+P 5075 2125
+AR Path="/63F21593" Ref="C?"  Part="1" 
+AR Path="/63EEF186/63F21593" Ref="C?"  Part="1" 
+F 0 "C?" H 4960 2079 50  0000 R CNN
+F 1 "C" H 4960 2170 50  0000 R CNN
+F 2 "" H 5113 1975 50  0001 C CNN
+F 3 "~" H 5075 2125 50  0001 C CNN
+	1    5075 2125
+	-1   0    0    1   
+$EndComp
+Text Notes 7200 1975 0    50   ~ 0
+IC12\n
+Wire Notes Line
+	7125 2025 7500 2025
+Wire Notes Line
+	7500 2025 7500 1750
+Wire Notes Line
+	7500 1750 7125 1750
+Wire Notes Line
+	7125 1750 7125 2025
+$Comp
+L Device:C C?
+U 1 1 63F2159E
+P 4800 1750
+AR Path="/63F2159E" Ref="C?"  Part="1" 
+AR Path="/63EEF186/63F2159E" Ref="C?"  Part="1" 
+F 0 "C?" H 4685 1704 50  0000 R CNN
+F 1 "C" H 4685 1795 50  0000 R CNN
+F 2 "" H 4838 1600 50  0001 C CNN
+F 3 "~" H 4800 1750 50  0001 C CNN
+	1    4800 1750
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 63F215A4
+P 5200 1750
+AR Path="/63F215A4" Ref="C?"  Part="1" 
+AR Path="/63EEF186/63F215A4" Ref="C?"  Part="1" 
+F 0 "C?" H 5085 1704 50  0000 R CNN
+F 1 "C" H 5085 1795 50  0000 R CNN
+F 2 "" H 5238 1600 50  0001 C CNN
+F 3 "~" H 5200 1750 50  0001 C CNN
+	1    5200 1750
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 63F215AA
+P 5575 2125
+AR Path="/63F215AA" Ref="R?"  Part="1" 
+AR Path="/63EEF186/63F215AA" Ref="R?"  Part="1" 
+F 0 "R?" H 5505 2079 50  0000 R CNN
+F 1 "R" H 5505 2170 50  0000 R CNN
+F 2 "" V 5505 2125 50  0001 C CNN
+F 3 "~" H 5575 2125 50  0001 C CNN
+	1    5575 2125
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 63F215B0
+P 6175 1675
+AR Path="/63F215B0" Ref="R?"  Part="1" 
+AR Path="/63EEF186/63F215B0" Ref="R?"  Part="1" 
+F 0 "R?" V 5968 1675 50  0000 C CNN
+F 1 "R" V 6059 1675 50  0000 C CNN
+F 2 "" V 6105 1675 50  0001 C CNN
+F 3 "~" H 6175 1675 50  0001 C CNN
+	1    6175 1675
+	1    0    0    -1  
+$EndComp
+Text Label 7450 1775 1    50   ~ 0
+IC8-2
+Wire Wire Line
+	3425 2375 3575 2375
+Wire Wire Line
+	3750 2375 3925 2375
+Wire Notes Line
+	3575 2525 3750 2525
+Wire Notes Line
+	3575 2225 3575 2525
+Wire Notes Line
+	3750 2225 3575 2225
+Wire Notes Line
+	3750 2525 3750 2225
+Text Notes 3700 2450 1    50   ~ 0
+BX3
+$Comp
+L Connector_Generic:Conn_01x16 J?
+U 1 1 63F215BE
+P 5050 3825
+AR Path="/63F215BE" Ref="J?"  Part="1" 
+AR Path="/63EEF186/63F215BE" Ref="J?"  Part="1" 
+F 0 "J?" H 5130 3817 50  0000 L CNN
+F 1 "Conn_01x16" H 5130 3726 50  0000 L CNN
+F 2 "" H 5050 3825 50  0001 C CNN
+F 3 "~" H 5050 3825 50  0001 C CNN
+	1    5050 3825
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x16 J?
+U 1 1 63F215C4
+P 5850 4750
+AR Path="/63F215C4" Ref="J?"  Part="1" 
+AR Path="/63EEF186/63F215C4" Ref="J?"  Part="1" 
+F 0 "J?" V 6067 4696 50  0000 C CNN
+F 1 "Conn_01x16" V 5976 4696 50  0000 C CNN
+F 2 "" H 5850 4750 50  0001 C CNN
+F 3 "~" H 5850 4750 50  0001 C CNN
+	1    5850 4750
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x16 J?
+U 1 1 63F215CA
+P 6775 3950
+AR Path="/63F215CA" Ref="J?"  Part="1" 
+AR Path="/63EEF186/63F215CA" Ref="J?"  Part="1" 
+F 0 "J?" H 6693 2925 50  0000 C CNN
+F 1 "Conn_01x16" H 6693 3016 50  0000 C CNN
+F 2 "" H 6775 3950 50  0001 C CNN
+F 3 "~" H 6775 3950 50  0001 C CNN
+	1    6775 3950
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x16 J?
+U 1 1 63F215D0
+P 5975 3025
+AR Path="/63F215D0" Ref="J?"  Part="1" 
+AR Path="/63EEF186/63F215D0" Ref="J?"  Part="1" 
+F 0 "J?" V 6100 2971 50  0000 C CNN
+F 1 "Conn_01x16" V 6191 2971 50  0000 C CNN
+F 2 "" H 5975 3025 50  0001 C CNN
+F 3 "~" H 5975 3025 50  0001 C CNN
+	1    5975 3025
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 6402D27B
+P 2550 1800
+AR Path="/6402D27B" Ref="C?"  Part="1" 
+AR Path="/63EEF186/6402D27B" Ref="C?"  Part="1" 
+F 0 "C?" H 2435 1754 50  0000 R CNN
+F 1 "C" H 2435 1845 50  0000 R CNN
+F 2 "" H 2588 1650 50  0001 C CNN
+F 3 "~" H 2550 1800 50  0001 C CNN
+	1    2550 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 6402D281
+P 3000 1800
+AR Path="/6402D281" Ref="C?"  Part="1" 
+AR Path="/63EEF186/6402D281" Ref="C?"  Part="1" 
+F 0 "C?" H 2885 1754 50  0000 R CNN
+F 1 "C" H 2885 1845 50  0000 R CNN
+F 2 "" H 3038 1650 50  0001 C CNN
+F 3 "~" H 3000 1800 50  0001 C CNN
+	1    3000 1800
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:Crystal CRY?
+U 1 1 6402D287
+P 2775 1375
+AR Path="/6402D287" Ref="CRY?"  Part="1" 
+AR Path="/63EEF186/6402D287" Ref="CRY?"  Part="1" 
+F 0 "CRY?" H 2675 1600 50  0000 L CNN
+F 1 "Crystal" H 2625 1525 50  0000 L CNN
+F 2 "" H 2775 1375 50  0001 C CNN
+F 3 "~" H 2775 1375 50  0001 C CNN
+	1    2775 1375
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 6402D28D
+P 2775 1150
+AR Path="/6402D28D" Ref="R?"  Part="1" 
+AR Path="/63EEF186/6402D28D" Ref="R?"  Part="1" 
+F 0 "R?" V 2982 1150 50  0000 C CNN
+F 1 "R" V 2891 1150 50  0000 C CNN
+F 2 "" V 2705 1150 50  0001 C CNN
+F 3 "~" H 2775 1150 50  0001 C CNN
+	1    2775 1150
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2625 1150 2550 1150
+Wire Wire Line
+	2550 1150 2550 1375
+Wire Wire Line
+	2925 1150 3000 1150
+Wire Wire Line
+	3000 1150 3000 1375
+Wire Wire Line
+	2925 1375 3000 1375
+Connection ~ 3000 1375
+Wire Wire Line
+	3000 1375 3000 1650
+Wire Wire Line
+	2625 1375 2550 1375
+Connection ~ 2550 1375
+Wire Wire Line
+	2550 1375 2550 1650
+Wire Wire Line
+	2550 1950 2550 2075
+Wire Wire Line
+	2550 2075 2800 2075
+Wire Wire Line
+	3000 2075 3000 1950
+Text Label 2800 2325 3    50   ~ 0
+GND
+Wire Wire Line
+	2800 2075 2800 2475
+Connection ~ 2800 2075
+Wire Wire Line
+	2800 2075 3000 2075
+$Comp
+L Device:C C?
+U 1 1 6405274C
+P 2350 6875
+AR Path="/6405274C" Ref="C?"  Part="1" 
+AR Path="/63EEF186/6405274C" Ref="C?"  Part="1" 
+F 0 "C?" V 2602 6875 50  0000 C CNN
+F 1 "C" V 2511 6875 50  0000 C CNN
+F 2 "" H 2388 6725 50  0001 C CNN
+F 3 "~" H 2350 6875 50  0001 C CNN
+	1    2350 6875
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 64052752
+P 2625 6450
+AR Path="/64052752" Ref="C?"  Part="1" 
+AR Path="/63EEF186/64052752" Ref="C?"  Part="1" 
+F 0 "C?" V 2877 6450 50  0000 C CNN
+F 1 "C" V 2786 6450 50  0000 C CNN
+F 2 "" H 2663 6300 50  0001 C CNN
+F 3 "~" H 2625 6450 50  0001 C CNN
+	1    2625 6450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 64052758
+P 2625 6875
+AR Path="/64052758" Ref="R?"  Part="1" 
+AR Path="/63EEF186/64052758" Ref="R?"  Part="1" 
+F 0 "R?" V 2418 6875 50  0000 C CNN
+F 1 "R" V 2509 6875 50  0000 C CNN
+F 2 "" V 2555 6875 50  0001 C CNN
+F 3 "~" H 2625 6875 50  0001 C CNN
+	1    2625 6875
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 6405275E
+P 2975 6875
+AR Path="/6405275E" Ref="R?"  Part="1" 
+AR Path="/63EEF186/6405275E" Ref="R?"  Part="1" 
+F 0 "R?" V 2768 6875 50  0000 C CNN
+F 1 "R" V 2859 6875 50  0000 C CNN
+F 2 "" V 2905 6875 50  0001 C CNN
+F 3 "~" H 2975 6875 50  0001 C CNN
+	1    2975 6875
+	-1   0    0    1   
+$EndComp
+$Comp
+L Switch:SW_DIP_x02 S?
+U 1 1 64052764
+P 1900 6250
+AR Path="/64052764" Ref="S?"  Part="1" 
+AR Path="/63EEF186/64052764" Ref="S?"  Part="1" 
+F 0 "S?" V 1854 6480 50  0000 L CNN
+F 1 "SW_DIP_x02" V 1945 6480 50  0000 L CNN
+F 2 "" H 1900 6250 50  0001 C CNN
+F 3 "~" H 1900 6250 50  0001 C CNN
+	1    1900 6250
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 CZ?
+U 1 1 6405276A
+P 3875 6075
+AR Path="/6405276A" Ref="CZ?"  Part="1" 
+AR Path="/63EEF186/6405276A" Ref="CZ?"  Part="1" 
+F 0 "CZ?" H 3955 6067 50  0000 L CNN
+F 1 "Conn_01x02" H 3955 5976 50  0000 L CNN
+F 2 "" H 3875 6075 50  0001 C CNN
+F 3 "~" H 3875 6075 50  0001 C CNN
+	1    3875 6075
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 CZ?
+U 1 1 64052770
+P 3875 6325
+AR Path="/64052770" Ref="CZ?"  Part="1" 
+AR Path="/63EEF186/64052770" Ref="CZ?"  Part="1" 
+F 0 "CZ?" H 3955 6317 50  0000 L CNN
+F 1 "Conn_01x02" H 3955 6226 50  0000 L CNN
+F 2 "" H 3875 6325 50  0001 C CNN
+F 3 "~" H 3875 6325 50  0001 C CNN
+	1    3875 6325
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 64080B2D
+P 2625 5000
+AR Path="/64080B2D" Ref="R?"  Part="1" 
+AR Path="/63EEF186/64080B2D" Ref="R?"  Part="1" 
+F 0 "R?" H 2555 4954 50  0000 R CNN
+F 1 "R" H 2555 5045 50  0000 R CNN
+F 2 "" V 2555 5000 50  0001 C CNN
+F 3 "~" H 2625 5000 50  0001 C CNN
+	1    2625 5000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R4_b?
+U 1 1 64080B33
+P 3000 5000
+AR Path="/64080B33" Ref="R4_b?"  Part="1" 
+AR Path="/63EEF186/64080B33" Ref="R4_b?"  Part="1" 
+F 0 "R4_b?" H 2930 4954 50  0000 R CNN
+F 1 "R" H 2930 5045 50  0000 R CNN
+F 2 "" V 2930 5000 50  0001 C CNN
+F 3 "~" H 3000 5000 50  0001 C CNN
+	1    3000 5000
+	-1   0    0    1   
+$EndComp
+Text Notes 1450 4825 0    50   ~ 0
+IC4\nSOIC 8
+Wire Notes Line
+	1725 4650 1425 4650
+Wire Notes Line
+	1725 4850 1725 4650
+Wire Notes Line
+	1425 4850 1725 4850
+Wire Notes Line
+	1425 4650 1425 4850
+$Comp
+L Connector_Generic:Conn_02x04_Counter_Clockwise IC?
+U 1 1 64080B3E
+P 1900 4800
+AR Path="/64080B3E" Ref="IC?"  Part="1" 
+AR Path="/63EEF186/64080B3E" Ref="IC?"  Part="1" 
+F 0 "IC?" V 2025 4400 50  0000 L CNN
+F 1 "Conn_02x04_Counter_Clockwise" V 1950 3700 50  0000 L CNN
+F 2 "" H 1900 4800 50  0001 C CNN
+F 3 "~" H 1900 4800 50  0001 C CNN
+	1    1900 4800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 64080B44
+P 2150 4325
+AR Path="/64080B44" Ref="R?"  Part="1" 
+AR Path="/63EEF186/64080B44" Ref="R?"  Part="1" 
+F 0 "R?" V 1943 4325 50  0000 C CNN
+F 1 "R" V 2034 4325 50  0000 C CNN
+F 2 "" V 2080 4325 50  0001 C CNN
+F 3 "~" H 2150 4325 50  0001 C CNN
+	1    2150 4325
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 64080B4A
+P 1825 4150
+AR Path="/64080B4A" Ref="C?"  Part="1" 
+AR Path="/63EEF186/64080B4A" Ref="C?"  Part="1" 
+F 0 "C?" V 1573 4150 50  0000 C CNN
+F 1 "C" V 1664 4150 50  0000 C CNN
+F 2 "" H 1863 4000 50  0001 C CNN
+F 3 "~" H 1825 4150 50  0001 C CNN
+	1    1825 4150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1975 4150 2000 4150
+Wire Wire Line
+	2000 4150 2000 4325
+Wire Wire Line
+	2000 4325 2000 4500
+Connection ~ 2000 4325
+Wire Wire Line
+	2100 4500 2300 4500
+Wire Wire Line
+	2300 4500 2300 4325
+Text Label 1450 4150 0    50   ~ 0
+GND
+Wire Wire Line
+	1450 4150 1675 4150
+$Comp
+L power:+3.3V #PWR?
+U 1 1 64080B58
+P 2000 3800
+AR Path="/64080B58" Ref="#PWR?"  Part="1" 
+AR Path="/63EEF186/64080B58" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 2000 3650 50  0001 C CNN
+F 1 "+3.3V" H 2015 3973 50  0000 C CNN
+F 2 "" H 2000 3800 50  0001 C CNN
+F 3 "" H 2000 3800 50  0001 C CNN
+	1    2000 3800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2000 3800 2000 4150
+Connection ~ 2000 4150
+Wire Wire Line
+	3000 5150 2625 5150
+Wire Wire Line
+	2300 4500 2300 5200
+Wire Wire Line
+	2300 5200 2000 5200
+Wire Wire Line
+	2000 5200 2000 5000
+Connection ~ 2300 4500
+Wire Wire Line
+	1800 5000 1800 5200
+Text Label 1800 5200 1    50   ~ 0
+LPC
+$Comp
+L 74xx:74HC245 IC?
+U 1 1 644B6714
+P 9275 3025
+F 0 "IC?" H 9275 4006 50  0000 C CNN
+F 1 "74HC245" H 9275 3915 50  0000 C CNN
+F 2 "" H 9275 3025 50  0001 C CNN
+F 3 "http://www.ti.com/lit/gpn/sn74HC245" H 9275 3025 50  0001 C CNN
+	1    9275 3025
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74xx:74HC245 IC?
+U 1 1 644B671A
+P 9275 4900
+F 0 "IC?" H 9275 5881 50  0000 C CNN
+F 1 "74HC245" H 9275 5790 50  0000 C CNN
+F 2 "" H 9275 4900 50  0001 C CNN
+F 3 "http://www.ti.com/lit/gpn/sn74HC245" H 9275 4900 50  0001 C CNN
+	1    9275 4900
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
