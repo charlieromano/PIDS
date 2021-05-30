@@ -1996,4 +1996,22 @@ Wire Notes Line
 	8650 2250 8650 1575
 Wire Notes Line
 	7550 1575 8650 1575
+Wire Notes Line
+	5600 4250 5600 5150
+Wire Notes Line
+	5600 5150 6425 5150
+Wire Notes Line
+	6425 5150 6425 4225
+Wire Notes Line
+	6425 4225 5600 4225
+Wire Notes Line
+	7350 4025 7350 4700
+Wire Notes Line
+	7350 4700 8000 4700
+Wire Notes Line
+	8000 4700 8000 4000
+Wire Notes Line
+	8000 4000 7350 4000
+Text Label 6225 4325 0    50   ~ 0
+C17
 $EndSCHEMATC
