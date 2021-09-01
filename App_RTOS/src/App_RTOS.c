@@ -24,7 +24,7 @@ int main( void )
     debugPrintConfigUart( UART_USB, 115200 );
     debugPrintlnString( "Ejercicio 2_2" );
 
-    gpioWrite( LED3, ON );
+    gpioWrite( LED2, ON );
 
     tecla_pulsada_sem = xSemaphoreCreateCounting( 3 , 0 );
 
