@@ -234,7 +234,126 @@ App layer serv | DHCP, DNS, SNTP, SNMP | DHCP, DNS, SNTP, SNMP |
 
 \pagebreak
 
-\section{Diseño}
+\section{Diseño del sistema}
+La primera sección del diseño es introductoria. Luego se describen los patrones de arquitectura elegidos para el diseño de alto nivel del software, los diagramas de arquitectura, los componentes del software y sus interfaces.
+
+\subsection{Propósito}
+El objetivo principal de este trabajo es diseñar e implementar un sistema de información visual
+para pasajeros a bordo del tren.
+Está dirigido a:
+\begin{itemize}
+\item Todos los miembros del grupo de trabajo GICSAFE y SOFSE que participan de
+proyectos orientados a cubrir necesidades tecnológicas del sistema ferroviario
+argentino.
+\item Alumnos y personal académico con intenciones de participar en proyectos de
+desarrollo aplicados a la industria.
+\item Desarrolladores de software y equipamiento para trenes.
+\end{itemize}
+El sistema tiene impacto directo en las formaciones ferroviarias existentes que brindan servicio al pasajero todos los días.
+
+\subsection{Ámbito del sistema}
+El sistema debe leer datos de información al pasajero de la red interna de los trenes y
+presentarlos en un display LED. El sistema no se encargará de presentar los mensajes en
+formato de audio.
+
+Este sistema permitirá implementar las funciones de visualización del sistema de información al
+pasajero existente. El sistema comercial existente es un equipamiento propietario que integra
+otras funciones como el sistema de audio, un CCTV usando cámaras de seguridad, entre otras.
+
+El sistema que se especifica en este documento busca desacoplar funciones del equipamiento
+comercial para permitir reponer carteles que en la actualidad quedan fuera de servicio por fallas
+o pérdida del material original y que no pueden ser reparados.
+\subsection{Arquitectura}
+En la figura \ref{fig:pattern1} se presenta un diagrama de alto nivel de la arquitectura del software. Se pueden
+ver los componentes y las relaciones entre los mismos. Este diagrama responde al patrón
+observar y reaccionar.
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/observarYreaccionar.png}
+\caption{Diagrama de bloques del software.}
+\label{fig:pattern1}
+\end{figure}
+
+El flujo de datos de las variables de proceso que provienen del PIDS sigue una segmentación
+de procesos. Este flujo procesa los datos recibidos en formato de tramas y obtiene a la salida
+los valores de las variables que serán entregadas al proceso de análisis. El proceso de análisis
+se detalla en la figura \ref{fig:pattern2}.
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/Pipeline.png}
+\caption{Diagrama de bloques del proceso de análisis.}
+\label{fig:pattern2}
+\end{figure}
+
+El proceso observador monitorea las variables de accionamiento manual y variables de proceso
+(velocidad y control de puertas). Como las variables de proceso se reciben como tramas
+provenientes del subsistema externo PIDS, el proceso observador es distinto respecto del
+accionamiento manual y se detalla en la figura 2. El proceso de análisis está compuesto por un
+grupo de componentes que se detallan en la figura 3. El proceso de despliegue es el encargado
+de generar los mensajes al pasajero y enviarlos al display. El proceso de alarma indica si hay
+algún error en el sistema. El proceso reactor finalmente envía datos al subsistema externo HMI.
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/procesoAnalisis.png}
+\caption{Diagrama de bloques del proceso de análisis.}
+\label{fig:pattern3}
+\end{figure}
+
+
+
+\subsection{Componentes}
+
+\begin{itemize}
+\item PIDS: sistema externo
+\item HMI: sistema externo
+\item Buffer Receptor: componente que recibe tramas provenientes del PIDS con información
+de las variables velocidad y control de puertas. Almacena las tramas recibidas y las
+envía al componente de Procesamiento.
+\item Procesamiento: intérprete que procesa las tramas recibidas desde el PIDS. Extrae la
+información de las variables y las envía a un Buffer de salida.
+\item Buffer de salida: almacena temporalmente los valores de las variables de proceso y las
+envía al proceso de Análisis.
+\item Proceso de análisis: se encarga de generar la orden de actualizar el sistema (cambiar
+de estación, enviar un anuncio al pasajero, definir las cabeceras).
+\item Gestor de recorrido de estaciones: es el encargado de asignar cambios en el sistema.
+Chequea la estación actual y asigna una nueva estación si resuelve un cambio.
+\item Registro de estaciones: almacenamiento estático de los recorridos con los nombres de
+las estaciones. Comparte información con el gestor de recorrido.
+\item Update: es el encargado de enviar la información de estaciones al gestor de recorridos.
+Recibe del gestor consultas y órdenes de actualización. Es el responsable de dar la
+información de la estación actual.
+\item Proceso observador: componente encargado de gestionar las acciones manuales del
+usuario para configurar las estaciones cabecera.
+\item Chequeo cabeceras: encargado de chequear que la estación actual sea una cabecera.
+Envía consultas al gestor y si recibe una estación que no es cabecera genera una
+alarma.
+\item Proceso reactor: es el encargado de generar los mensajes para el subsistema externo
+HMI.
+\item Proceso de despliegue: genera los mensajes a visualizar y los presenta en un display.
+\end{itemize}
+
+\subsection{Interfaces}
+\textbf{Interfaces externas}
+
+1. Interruptores: interfaz manual para que el usuario realice cambios de recorridos.
+
+2. PIDS: subsistema de la red TCN que se encarga de la información dinámica proporcionada al pasajero, incluyendo mensajes a visualizar, mensajes en forma de audio, y monitoreo por CCTV. Entrega al software las tramas con información de variables de proceso del tren.
+
+3. HMI: subsistema de la red TCN donde se entregan mensajes para ser visualizados por
+los pasajeros.
+
+\textbf{Interfaces internas}
+
+1. Registro de estaciones: los nombres de estaciones estarán almacenados en memoria.
+
+2. Valores de variables: los valores de las variables de proceso del tren se obtienen del procesamiento de tramas y se entregan al gestor de recorrido. Son valores numéricos.
+
+3. Mensaje al pasajero: los mensajes al pasajero son datos ASCII que tienen un encabezado a definir.
+
+4. Alarmas: las alarmas se generan cuando se acciona manualmente el cambio de cabeceras durante el recorrido del tren.
 
 \subsection{Display LED}
 La placa de control del display LED matricial se representa con el diagrama de bloques de la figura \ref{fig:blockDiagram LED display}. La entrada es un conector de dieciséis pines (2x8) que entrega señal de datos a dos transceivers 74HC245D. El circuito de los transceivers s
@@ -315,7 +434,14 @@ transiciones entre estados posibles en el sistema se detallan en la sección de 
 
 
 \pagebreak
-\subsubsection{Sistema operativo de tiempo real(RTOS)}
+\subsubsection{Sistema operativo de tiempo real (RTOS)}
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/RTOS.tasks.png}
+\caption{Tareas implementadas en el sistema operativo de tiempo real.}
+\label{fig:RTOS tasks}
+\end{figure}
 
 \pagebreak
 \section{Fabricación}
@@ -325,31 +451,33 @@ transiciones entre estados posibles en el sistema se detallan en la sección de 
 
 \begin{figure}[htpb]
 \centering 
+\includegraphics[width=0.5\textwidth]{./Pics/sniffingDiagram.drawio.png}
+\caption{Diagrama de bloques del ensayo para el análisis de protocolos de comunicación.}
+\label{fig:sniffingDiagram}
+\end{figure}
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=0.66\textwidth]{./Pics/IMG_20210322_122403.jpg}
+\caption{Fotografía del punto de medición a intervenir para realizar capturas.}
+\label{fig:NOsniffingPhoto}
+\end{figure}
+
+
+\begin{figure}[htpb]
+\centering 
 \includegraphics[width=1\textwidth]{./Pics/RedPIDS.drawio.png}
 \caption{Diagrama del plano esquemático del punto de medición.}
 \label{fig:test point SCU-PIDS diagram}
 \end{figure}
 
 
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=1\textwidth]{./Pics/IMG_20210322_122403.jpg}
-\caption{Fotografía del punto de medición a intervenir para realizar capturas.}
-\label{fig:NOsniffingPhoto}
-\end{figure}
-
 
 
 \begin{figure}[htpb]
 \centering 
-\includegraphics[width=1\textwidth]{./Pics/sniffingDiagram.drawio.png}
-\caption{Diagrama de bloques del ensayo para el análisis de protocolos de comunicación.}
-\label{fig:sniffingDiagram}
-\end{figure}
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=1\textwidth]{./Pics/IMG_20210414_104653.jpg}
+\includegraphics[width=0.75\textwidth]{./Pics/IMG_20210414_104653.jpg}
 \caption{Fotografía del ensayo de análisis de protocolos de comunicación en una formación.}
 \label{fig:sniffingPhoto}
 \end{figure}
