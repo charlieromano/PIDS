@@ -197,3 +197,87 @@ shutdown command invoked
 
 ```
 
+Seleccionar un programa de este repo
+
+El archivo que se debe modificar corresponde al firmware_v3 y se llama "program.mk". El árbol del repo (submodule) es el siguiente:
+
+```bash
+charlieromano@ToshibaL845:~/PIDS/firmware_v3$ tree -L 1
+.
+├── compile_commands.json
+├── documentation
+├── examples
+├── libs
+├── LICENSE
+├── Makefile
+├── program.mk
+├── README.md
+├── scripts
+├── templates
+└── test
+
+6 directories, 5 files
+charlieromano@ToshibaL845:~/PIDS/firmware_v3$ cat program.mk 
+
+```
+
+y su contenido se muestra a continuación:
+
+```makefile
+#==============================================================================
+# This file select a program to compile with make
+#==============================================================================
+
+# ---------- Example of path -------------------------------------------
+# Program path
+#(relative to this folder, leave void if the program is in this folder)
+#PROGRAM_PATH = examples_c/sapi/gpio
+# Program name
+#PROGRAM_NAME = blinky
+
+# ---------- Your paths: -----------------------------------------------
+
+PROGRAM_PATH = ..
+PROGRAM_NAME = UART
+~                      
+```
+
+En este ejemplo en PROGRAM_PATH se define el directorio padre donde reside el file, y el nombre del programa elegido es UART. Luego se compila con "make download" y se ejecuta:
+
+```bash
+charlieromano@ToshibaL845:~/PIDS/firmware_v3$ make download 
+  ../UART/out/../UART/src/UART.o ../UART/out/libs/cmsis_core//src/armv7m_startup.o ../UART/out/libs/editline//src/editline.o ../UART/out/libs/sys_newlib//src/system.o  
+DOWNLOAD to FLASH
+Open On-Chip Debugger 0.10.0
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+dap command not exists. Use OLD script
+adapter speed: 2000 kHz
+none separate
+cortex_m reset_config vectreset
+Info : clock speed 2000 kHz
+Info : JTAG tap: lpc4337.m4 tap/device found: 0x4ba00477 (mfg: 0x23b (ARM Ltd.), part: 0xba00, ver: 0x4)
+Info : JTAG tap: lpc4337.m0 tap/device found: 0x0ba01477 (mfg: 0x23b (ARM Ltd.), part: 0xba01, ver: 0x0)
+Info : lpc4337.m4: hardware has 6 breakpoints, 4 watchpoints
+Info : lpc4337.m0: hardware has 2 breakpoints, 1 watchpoints
+target halted due to debug-request, current mode: Handler External Interrupt(26)
+xPSR: 0x2100002a pc: 0x1a001216 msp: 0x10007fb8
+auto erase enabled
+wrote 16384 bytes from file ../UART/out/UART.bin in 0.546994s (29.251 KiB/s)
+Info : JTAG tap: lpc4337.m4 tap/device found: 0x4ba00477 (mfg: 0x23b (ARM Ltd.), part: 0xba00, ver: 0x4)
+Info : JTAG tap: lpc4337.m0 tap/device found: 0x0ba01477 (mfg: 0x23b (ARM Ltd.), part: 0xba01, ver: 0x0)
+Warn : Only resetting the Cortex-M core, use a reset-init event handler to reset any peripherals or configure hardware srst support.
+Warn : Only resetting the Cortex-M core, use a reset-init event handler to reset any peripherals or configure hardware srst support.
+shutdown command invoked
+
+```
+
+Este programa se inicializa con una frase que dice "usb". Si se le envía algún caracter por la conexión serie, se enciende el led verde y amarillo.
+
+![](/home/charlieromano/Pictures/Screenshot from 2021-10-04 21-17-44.png)
+
+
+
+
+
