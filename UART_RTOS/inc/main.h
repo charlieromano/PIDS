@@ -1,6 +1,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <stdint.h>
+#include <stddef.h>
 #include "FreeRTOS.h"   //Motor del OS
 #include "FreeRTOSConfig.h"
 #include "task.h"		//Api de control de tareas y temporizaciÃ³n
@@ -10,6 +12,6 @@
 #include "board.h"
 #include "tasks.h"
 #include "structs.h"
-
+#include "udf.h"
 
 #endif 

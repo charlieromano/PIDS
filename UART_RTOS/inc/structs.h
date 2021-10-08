@@ -1,7 +1,6 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-// types_config.h
 #include "sapi.h"
 #include "board.h"
 
