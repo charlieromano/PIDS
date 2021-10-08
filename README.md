@@ -197,7 +197,7 @@ shutdown command invoked
 
 ```
 
-Seleccionar un programa de este repo
+## Seleccionar un programa de este repo
 
 El archivo que se debe modificar corresponde al firmware_v3 y se llama "program.mk". El árbol del repo (submodule) es el siguiente:
 
