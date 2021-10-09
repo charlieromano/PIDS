@@ -18,6 +18,6 @@ extern SemaphoreHandle_t mutexSPI;
 
 void vTaskReadUART(void* taskParamPtr );
 void vTaskWriteUART(void* taskParamPtr );
-void vTaskUART(void* taskParamPtr);
+void vTaskEchoUART(void* taskParamPtr);
 
 #endif
