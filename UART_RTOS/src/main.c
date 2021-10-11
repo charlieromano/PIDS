@@ -15,6 +15,7 @@ SemaphoreHandle_t    mutexUART; //Mutex que protege la UART de concurrencia
 SemaphoreHandle_t    mutexSPI;
 
 uint8_t dato  = 0;
+QueueHandle_t xQueue;
 
 int main(void)
 {
@@ -50,7 +51,31 @@ int main(void)
 
    perror("Error test");
 
-   if( xTaskCreate( vTaskEchoUART, NULL, configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+
+   xQueue = xQueueCreate(5, sizeof(int32_t));
+
+   int32_t x1 = 64;
+   int32_t x2 = 99;
+   int32_t  y;
+
+   // if( xTaskCreate( vTaskEchoUART, NULL, configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+   //    perror("Error creating task");
+   //    return 1;
+   // }
+   if( xTaskCreate( vTaskSender, "SENDER 1", 
+      configMINIMAL_STACK_SIZE, x1, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+   
+   if( xTaskCreate( vTaskSender, "SENDER 2", 
+      configMINIMAL_STACK_SIZE, x2, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+   
+   if( xTaskCreate( vTaskReceiver, "RECEIVER", 
+      configMINIMAL_STACK_SIZE*2, y, tskIDLE_PRIORITY+2, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
@@ -61,3 +86,15 @@ int main(void)
 
    return 0;
 }
+
+
+ // if(xTaskCreate( 
+ //      vTaskReadADC, (const char *)"TaskReadADC()", 
+ //      configMINIMAL_STACK_SIZE*4, &xTaskParamsADC[0], 
+ //      tskIDLE_PRIORITY+1,0  
+ //      ) == pdFAIL)
+ //   {  
+ //      gpioWrite(LED2,ON);
+ //      printf("ERROR_TASK_CREATE_ADC");
+ //      while(1);
+ //   }

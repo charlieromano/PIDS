@@ -20,4 +20,7 @@ void vTaskReadUART(void* taskParamPtr );
 void vTaskWriteUART(void* taskParamPtr );
 void vTaskEchoUART(void* taskParamPtr);
 
+void vTaskSender(void* taskParamPtr );
+void vTaskReceiver(void* taskParamPtr );
+
 #endif
