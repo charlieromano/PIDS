@@ -52,7 +52,11 @@ int main(void)
    perror("Error test");
 
 
-   xQueue = xQueueCreate(5, sizeof(int32_t));
+   xQueue = xQueueCreate(3, sizeof(tData));
+//   if(xQueue==NULL){
+//      perror("Error creating Queue");
+//      return 1;
+//   }
 
    int32_t x1 = 64;
    int32_t x2 = 99;
@@ -63,19 +67,22 @@ int main(void)
    //    return 1;
    // }
    if( xTaskCreate( vTaskSender, "SENDER 1", 
-      configMINIMAL_STACK_SIZE, x1, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      configMINIMAL_STACK_SIZE, (tData*)&(xDataFrame[0]), 
+      tskIDLE_PRIORITY+2, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
    
    if( xTaskCreate( vTaskSender, "SENDER 2", 
-      configMINIMAL_STACK_SIZE, x2, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      configMINIMAL_STACK_SIZE, (tData*)&(xDataFrame[1]), 
+      tskIDLE_PRIORITY+2, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
    
    if( xTaskCreate( vTaskReceiver, "RECEIVER", 
-      configMINIMAL_STACK_SIZE*2, y, tskIDLE_PRIORITY+2, 0) == pdFAIL ) {
+      configMINIMAL_STACK_SIZE*2, NULL, 
+      tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }

@@ -4,9 +4,25 @@
 #include "sapi.h"
 #include "board.h"
 
-#define ANTIREBOTE_MS 20
-#define REFRESH_TIME_ADC 50
+#define ANTIREBOTE_MS 		20
+#define REFRESH_TIME_ADC 	50
+#define QUEUE_LENGTH 		3
 
+typedef struct{
+
+	uint32_t 	data;
+	uint8_t  	id;
+
+} tData;
+
+typedef enum{
+
+	ID_SRC_01,
+	ID_SRC_02,
+	ID_SRC_03,
+	ID_SRC_04
+
+} tDataSource;
 
 typedef enum{
 
