@@ -6,8 +6,16 @@
 
 Repo limpio para el proyecto PIDS de la CESE 2020
 
-1. [Iniciar Repositorio](#iniciar)
-2. [create program](#create program)
+[Iniciar Repositorio](#iniciar)
+ 1. [Clonar repositorio](#clonar)
+ 2. [Incluir submódulos](#submodulos)
+ 3. [Instalar software](#software)
+ 3.1 [openocd](#openocd)
+ 3.2 [gcc arm](#gcc)
+ 3.2.1 [Troubleshooting gcc](#troubleshooting)
+ 3.3 [EDU-CIAA](#educiaa)
+ 4. [Crear un programa](#create)
+ 5. [Seleccionar un programa](#select)
 
 TO DO:--> ver ejemplo interrupciones UART
 
@@ -52,7 +60,7 @@ Si tiene todo el software instalado puede saltar a la sección siguiente de Crea
 sudo apt install openocd
 ```
 
-#### 3.2 Instalar gcc-arm-none-eab <a name="gcc arm"></a>
+#### 3.2 Instalar gcc-arm-none-eab <a name="gcc"></a>
  
 
 ```bash
@@ -99,7 +107,7 @@ sudo ln -s /usr/share/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux/gcc-arm-no
 
 Luego funcionó ok.
 
-#### 3.3 	Instalar software EDU-CIAA (opcional) <a name="edu-ciaa"></a>
+#### 3.3 	Instalar software EDU-CIAA (opcional) <a name="educiaa"></a>
 
 
 Debe descargar de [releases](https://github.com/epernia/software/releases/tag/r1.1.0) la versión para Windows o Linux.
@@ -115,7 +123,7 @@ Luego ingresar a la carpeta y ejecutar el lanzador de apliaciones.
 
 
 
-## 4. Crear un programa <a name="create program"></a>
+## 4. Crear un programa <a name="create"></a>
 
 
 Ir al directorio del repositorio, y luego desde el submodule firmware_v3 crear un program folder:
@@ -207,7 +215,7 @@ shutdown command invoked
 
 ```
 
-## Seleccionar un programa de este repo <a name="select program"></a>
+## Seleccionar un programa de este repo <a name="select"></a>
 
 
 El archivo que se debe modificar corresponde al firmware_v3 y se llama "program.mk". El árbol del repo (submodule) es el siguiente:
