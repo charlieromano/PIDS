@@ -2,7 +2,7 @@
 
 
 
-# PIDS
+<h1> PIDS</h1>
 
 Repo limpio para el proyecto PIDS de la CESE 2020
 
@@ -10,7 +10,7 @@ Repo limpio para el proyecto PIDS de la CESE 2020
 
 TO DO:--> ver ejemplo interrupciones UART
 
-## Iniciar Repositorio
+<h2> Iniciar Repositorio </h2>
 
 Para ejecutar el software desarrollado en este repositorio hace falta incluir submódulos y también software adicional relacionado a la plataforma EDU-CIAA. Para esto, se explican los pasos:
 
@@ -18,35 +18,36 @@ Para ejecutar el software desarrollado en este repositorio hace falta incluir su
 2. Incluir submódulos
 3. Instalar software
 
-### 1: Clonar este repositorio
+<h3> 1: Clonar este repositorio</h3>
 
 ```bash
 git clone https://github.com/charlieromano/PIDS.git
 ```
 
-### 2: Incluir submódulos
+<h3> 2: Incluir submódulos </h3>
 
 ```bash
 cd PIDS
+cd Scripts
 git submodule add https://github.com/epernia/firmware_v3.git    #Agrega firmware_v3 como submodulo
 git submodule init
 git submodule update
 
 ```
 
-### 3: Instalar software
+<h3> 3: Instalar software </h3>
 
 Si tiene todo el software instalado puede saltar a la sección siguiente de Crear un Programa.
 
 
 
-#### 3.1 Instalar openocd
+<h4> 3.1 Instalar openocd </h4>
 
 ```bash
 sudo apt install openocd
 ```
 
-#### 3.2 Instalar gcc-arm-none-eabi
+<h4> 3.2 Instalar gcc-arm-none-eabi </h4>
 
 ```bash
 sudo apt install gcc-arm-none-eabi
@@ -54,7 +55,7 @@ sudo apt install gcc-arm-none-eabi
 ```
 Si todo sale ok saltar a la sección crear programa.
 
-#### 3.2.1 Troubleshooting gcc-arm-none-eabi
+<h4> 3.2.1 Troubleshooting gcc-arm-none-eabi </h4>
 
 Este fue el primer fail al intentar compilar un programa con el comando "make download". Para solucionarlo, en la instalación de ubuntu 20 LTS lo que hice fue seguir el siguiente hilo: https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa
 
@@ -91,7 +92,7 @@ sudo ln -s /usr/share/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux/gcc-arm-no
 
 Luego funcionó ok.
 
-#### 3.3 	Instalar software EDU-CIAA (opcional)
+<h4> 3.3 	Instalar software EDU-CIAA (opcional) </h4>
 
 Debe descargar de [releases](https://github.com/epernia/software/releases/tag/r1.1.0) la versión para Windows o Linux.
 
@@ -106,7 +107,7 @@ Luego ingresar a la carpeta y ejecutar el lanzador de apliaciones.
 
 
 
-## 4. Crear un programa
+<h2> 4. Crear un programa </h2>
 
 Ir al directorio del repositorio, y luego desde el submodule firmware_v3 crear un program folder:
 
@@ -197,7 +198,7 @@ shutdown command invoked
 
 ```
 
-## Seleccionar un programa de este repo
+<h2> Seleccionar un programa de este repo </h2>
 
 El archivo que se debe modificar corresponde al firmware_v3 y se llama "program.mk". El árbol del repo (submodule) es el siguiente:
 
