@@ -6,12 +6,12 @@
 
 Repo limpio para el proyecto PIDS de la CESE 2020
 
-[Iniciar Repositorio](#Iniciar Repositorio)
+1. [Iniciar Repositorio](#iniciar)
 
 
 TO DO:--> ver ejemplo interrupciones UART
 
-##Iniciar Repositorio
+## Iniciar Repositorio <a name="iniciar"></a>
 
 Para ejecutar el software desarrollado en este repositorio hace falta incluir submódulos y también software adicional relacionado a la plataforma EDU-CIAA. Para esto, se explican los pasos:
 
