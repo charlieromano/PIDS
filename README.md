@@ -7,7 +7,7 @@
 Repo limpio para el proyecto PIDS de la CESE 2020
 
 1. [Iniciar Repositorio](#iniciar)
-
+2. [create program](#create program)
 
 TO DO:--> ver ejemplo interrupciones UART
 
@@ -19,13 +19,15 @@ Para ejecutar el software desarrollado en este repositorio hace falta incluir su
 2. Incluir submódulos
 3. Instalar software
 
-<h3> 1: Clonar este repositorio</h3>
+### 1: Clonar este repositorio <a name="clonar"></a>
+
 
 ```bash
 git clone https://github.com/charlieromano/PIDS.git
 ```
 
-<h3> 2: Incluir submódulos </h3>
+### 2: Incluir submódulos <a name="submodulos"></a>
+
 
 ```bash
 cd PIDS
@@ -36,19 +38,22 @@ git submodule update
 
 ```
 
-<h3> 3: Instalar software </h3>
+### 3: Instalar software <a name="software"></a>
+
 
 Si tiene todo el software instalado puede saltar a la sección siguiente de Crear un Programa.
 
 
 
-<h4> 3.1 Instalar openocd </h4>
+#### 3.1 Instalar openocd <a name="openocd"></a>
+
 
 ```bash
 sudo apt install openocd
 ```
 
-<h4> 3.2 Instalar gcc-arm-none-eabi </h4>
+#### 3.2 Instalar gcc-arm-none-eab <a name="gcc arm"></a>
+ 
 
 ```bash
 sudo apt install gcc-arm-none-eabi
@@ -56,7 +61,8 @@ sudo apt install gcc-arm-none-eabi
 ```
 Si todo sale ok saltar a la sección crear programa.
 
-<h4> 3.2.1 Troubleshooting gcc-arm-none-eabi </h4>
+#### 3.2.1 Troubleshooting gcc-arm-none-eabi <a name="troubleshooting"></a>
+
 
 Este fue el primer fail al intentar compilar un programa con el comando "make download". Para solucionarlo, en la instalación de ubuntu 20 LTS lo que hice fue seguir el siguiente hilo: https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa
 
@@ -93,7 +99,8 @@ sudo ln -s /usr/share/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux/gcc-arm-no
 
 Luego funcionó ok.
 
-<h4> 3.3 	Instalar software EDU-CIAA (opcional) </h4>
+#### 3.3 	Instalar software EDU-CIAA (opcional) <a name="edu-ciaa"></a>
+
 
 Debe descargar de [releases](https://github.com/epernia/software/releases/tag/r1.1.0) la versión para Windows o Linux.
 
@@ -108,7 +115,8 @@ Luego ingresar a la carpeta y ejecutar el lanzador de apliaciones.
 
 
 
-<h2> 4. Crear un programa </h2>
+## 4. Crear un programa <a name="create program"></a>
+
 
 Ir al directorio del repositorio, y luego desde el submodule firmware_v3 crear un program folder:
 
@@ -199,7 +207,8 @@ shutdown command invoked
 
 ```
 
-<h2> Seleccionar un programa de este repo </h2>
+## Seleccionar un programa de este repo <a name="select program"></a>
+
 
 El archivo que se debe modificar corresponde al firmware_v3 y se llama "program.mk". El árbol del repo (submodule) es el siguiente:
 
