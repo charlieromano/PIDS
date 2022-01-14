@@ -6,7 +6,7 @@
 
 Repo limpio para el proyecto PIDS de la CESE 2020
 
-[Iniciar Repositorio](##Iniciar Repositorio)
+[Iniciar Repositorio](#Iniciar Repositorio)
 
 
 TO DO:--> ver ejemplo interrupciones UART
