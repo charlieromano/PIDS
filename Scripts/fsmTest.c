@@ -23,10 +23,10 @@ typedef struct{
 	pfEventHandler 	fsmEventHandler;
 } sStateMachine;
 
-eSystemState 	InitHandler(void)	{ return STATE_A; }
-eSystemState 	AlertHandler(void)	{ return STATE_B; }
-eSystemState 	ReceiveHandler(void){ return STATE_C; }
-eSystemState 	EOFHandler(void) 	{ return STATE_A; }
+eSystemState 	InitHandler(void)	{ printf("init;\n");return STATE_A; }
+eSystemState 	AlertHandler(void)	{ printf("Alert;\n");return STATE_B; }
+eSystemState 	ReceiveHandler(void){ printf("Receive;\n");return STATE_C; }
+eSystemState 	EOFHandler(void) 	{ printf("EOF;\n");return STATE_A; }
 
 sStateMachine fsmTest [] = 
 {
@@ -38,7 +38,8 @@ sStateMachine fsmTest [] =
 
 int main (int argc, char *argv[])
 {
-
+	int i=0;
+/*
    if( argc == 2 ) {
       printf("The argument supplied is %s\n", argv[1]);
    }
@@ -57,21 +58,27 @@ int main (int argc, char *argv[])
    printf( "\nYou entered: ");
    putchar( c );
 
-   return 0;
-
+   //return 0;
+*/
 	eSystemState nextState = STATE_INIT;
+	int c;
 
-	while(1)
+	while(i<10)
 	{
-	/*	eSystemEvent newEvent = 
+		c = getchar( );
+		eSystemEvent newEvent = 1;
 
-		if(){
+		if((c==1)&&(newEvent)
+			&& (fsmTest[nextState].fsmEvent == newEvent)
+		 	&& (fsmTest[nextState].fsmEventHandler != NULL))
+		{
 			nextState = (*fsmTest[nextState].fsmEventHandler)();
 		}
 		else{
-
+			printf("no condition\n;");
 		}
-	*/
+		i++;
+	
 	}
 
 	return 0;
