@@ -1,11 +1,18 @@
 #include 	<stdio.h>
 #include 	<stdint.h>
-#include 	"main.h"
+#include 	"fsmDataframes.h"
 
 int main(void)
 {
 
+	eSystemState
+
+
 	while(1){
-		printf("hello\n");
+		
+		printf(":finite state machine initialized.\n");
+
+
+
 	}
 }
