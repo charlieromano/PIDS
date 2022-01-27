@@ -18,9 +18,9 @@ typedef enum{
 typedef eSystemState (*pfEventHandler)(void);
 
 typedef struct{
-	eSystemState 	fsmState;
-	eSystemEvent 	fsmEvent;
-	pfEventHandler 	fsmEventHandler;
+	eSystemState 		fsmState;
+	eSystemEvent 		fsmEvent;
+	pfEventHandler 	fsmHandler;
 } sStateMachine;
 
 eSystemState 	InitHandler(void)	{ printf("init;\n");return STATE_A; }
@@ -39,45 +39,36 @@ sStateMachine fsmTest [] =
 int main (int argc, char *argv[])
 {
 	int i=0;
-/*
-   if( argc == 2 ) {
-      printf("The argument supplied is %s\n", argv[1]);
-   }
-   else if( argc > 2 ) {
-      printf("Too many arguments supplied.\n");
-   }
-   else {
-      printf("One argument expected.\n");
-   }
-
-   int c;
-
-   printf( "Enter a value :");
-   c = getchar( );
-
-   printf( "\nYou entered: ");
-   putchar( c );
-
-   //return 0;
-*/
 	eSystemState nextState = STATE_INIT;
+	eSystemEvent newEvent;
+
+	int unicode = 65;
 	int c;
+	//char character = (char)unicode;
+	//stringtext = character.ToString();
 
 	while(i<10)
 	{
-		c = getchar( );
-		eSystemEvent newEvent = 1;
-
-		if((c==1)&&(newEvent)
-			&& (fsmTest[nextState].fsmEvent == newEvent)
-		 	&& (fsmTest[nextState].fsmEventHandler != NULL))
+		/*
+		event = read_event();
+		if((event>=0) && (event < MAX_EVENTS);
 		{
-			nextState = (*fsmTest[nextState].fsmEventHandler)();
+			next_state = state_table[state][event]();
+			state = next_state;
 		}
-		else{
+		*/
+
+		if((c = getchar()) != '\n' )
+		{
+			newEvent++;
+			fsmTest[nextState].fsmEvent == newEvent;
+			nextState = (*fsmTest[nextState].fsmHandler)();
+			i++;
+		}
+		else
+		{
 			printf("no condition\n;");
 		}
-		i++;
 	
 	}
 
