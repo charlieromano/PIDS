@@ -1,6 +1,9 @@
 [submodule "firmware_v3"]
-	path = firmware_v3
+	path = Scripts/firmware_v3
 	url = https://github.com/epernia/firmware_v3.git
 [submodule "KiCAD/kicad-footprint-generator"]
 	path = KiCAD/kicad-footprint-generator
 	url = https://github.com/pointhi/kicad-footprint-generator.git
+[submodule "Scripts/firmware_v3"]
+	path = Scripts/firmware_v3
+	url = https://github.com/epernia/firmware_v3.git
