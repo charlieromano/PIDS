@@ -23,16 +23,16 @@ int main(void)
    boardConfig();
    debugPrintConfigUart( UART_USB, 115200 );
 
+/*
    uint8_t Error_state = 0;
    BaseType_t res;
-
 
    uint8_t dato1 = 1;
    uint8_t dato2 = 78;
    int32_t dato3 = 1234;
 
-   /* Buffer */
-   static char uartBuff[10];
+  
+   static char uartBuff[10]; // Buffer 
 
    uartWriteByte( UART_USB, 'H' );  // Envia 'H'
    uartWriteByte( UART_USB, 'o' );  // Envia 'o'
@@ -53,19 +53,21 @@ int main(void)
 
 
    xQueue = xQueueCreate(3, sizeof(tData));
-//   if(xQueue==NULL){
-//      perror("Error creating Queue");
-//      return 1;
-//   }
+   if(xQueue==NULL){
+      perror("Error creating Queue");
+      return 1;
+   }
 
    int32_t x1 = 64;
    int32_t x2 = 99;
    int32_t  y;
-
-   // if( xTaskCreate( vTaskEchoUART, NULL, configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
-   //    perror("Error creating task");
-   //    return 1;
-   // }
+*/
+   if( xTaskCreate( vTaskEchoUART, "Echo test", 
+      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+   /*
    if( xTaskCreate( vTaskSender, "SENDER 1", 
       configMINIMAL_STACK_SIZE, (tData*)&(xDataFrame[0]), 
       tskIDLE_PRIORITY+2, 0) == pdFAIL ) {
@@ -82,10 +84,11 @@ int main(void)
    
    if( xTaskCreate( vTaskReceiver, "RECEIVER", 
       configMINIMAL_STACK_SIZE*2, NULL, 
-      tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      tskIDLE_PRIORITY+2, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
+   */
 
    vTaskStartScheduler();   // Scheduler
 
@@ -93,15 +96,3 @@ int main(void)
 
    return 0;
 }
-
-
- // if(xTaskCreate( 
- //      vTaskReadADC, (const char *)"TaskReadADC()", 
- //      configMINIMAL_STACK_SIZE*4, &xTaskParamsADC[0], 
- //      tskIDLE_PRIORITY+1,0  
- //      ) == pdFAIL)
- //   {  
- //      gpioWrite(LED2,ON);
- //      printf("ERROR_TASK_CREATE_ADC");
- //      while(1);
- //   }

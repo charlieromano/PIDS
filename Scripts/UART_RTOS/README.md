@@ -1,12 +1,33 @@
-# freeRTOS_ProyectoRTOS1
+### UART_RTOS: ejemplo de eco usando la UART y una task con RTOS
 
-Este proyecto implementa tareas que permiten recibir una señal analógica y visualizar un mensaje en una matriz led.
-Este proyecto utiliza freeRTOS y consiste de las siguientes tareas:
+En este ejemplo se implementa una tarea usando RTOS que se encarga de escuchar la UART (Universal Asynchronous Receiver-Transmitter) y retransmitir cualquier mensaje recibido. Esta aplicación es conocida típicamente como un eco y sirve para probar la interfaz entre  la PC y la EDU-CIAA usando el puerto serie-USB.
 
-* vTaskReadADC(): lee una señal analógica como entrada del conversor AD, entrega el valor usando una cola q1
-* vTaskProcessData(): recibe los datos de entrada usando la cola q1, los procesa y los envía como datos de salida usando una cola q2
-* vTaskWriteSPI(): recibe los datos procesados para escribir en el puerto SPI
-* max7219(): estas funciones se implementaron para usar el driver MAX7219 para visualizar datos sobre una matriz led 8x8
-* ISR: las interrupciones reciben una señal de una tecla y asignan un valor a la estructura de datos de procesamiento, para indicar si se debe cambiar el mensaje de visualizacion.
+```c
+#include "main.h"
+
+int main(void)
+{
+
+   boardConfig();
+   debugPrintConfigUart( UART_USB, 115200 );
+
+    //...
+    
+   if( xTaskCreate( vTaskEchoUART, "Echo test", 
+      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+    
+   vTaskStartScheduler();   // Scheduler
+
+   while(1);
+
+   return 0;
+}    
+```
+
+
+
 
 
