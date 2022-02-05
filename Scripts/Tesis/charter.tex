@@ -7,7 +7,7 @@
 
 
 % El títulos de la memoria, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \ttitle
-\titulo{Sistema de información visual para pasajeros de Trenes Argentinos} 
+\titulo{PIDS: Sistema de información visual para pasajeros de Trenes Argentinos } 
 
 % Nombre del posgrado, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \degreename
 \posgrado{Carrera de Especialización en Sistemas Embebidos} 
@@ -116,7 +116,9 @@ Se adjunta a esta acta la planificación inicial.
 \section{Introducción}
 \label{sec:intro}
 \subsection{Introducción específica}
-El objetivo de este trabajo es desarrollar y fabricar controladores para el sistema de información visual de pasajeros (PIDS) de Trenes Argentinos (SOFSE). Este sistema se presenta al pasajero a través de carteles LED de salón que dan mensajes como la próxima estación, junto con los carteles de frente y contrafrente del tren que indican el ramal destino, como se muestra en la figura 1. 
+El objetivo de este trabajo es desarrollar y fabricar controladores para el sistema de información visual de pasajeros (PIDS) de Trenes Argentinos (SOFSE). Este sistema presenta mensajes con información al pasajero a través de carteles LED de salón y carteles de frente y contrafrente del tren, como se muestra en la figura 1. Los mensajes indican por ejemplo el ramal destino, la próxima estación, estados de emergencia o cualquier información de interés que puede ser acompañada por el sistema de audio.
+
+El principal interés de este trabajo es fabricar placas de control que permitan al personal de trenes realizar reparaciones y sustituir importaciones, obteniendo como resultado un mejor servicio de cara al usuario y mayor independencia tecnológica respecto de los proveedores internacionales.\\
 
 \begin{figure}[htpb]
 \centering 
@@ -125,9 +127,37 @@ El objetivo de este trabajo es desarrollar y fabricar controladores para el sist
 \label{fig:cartelFrente}
 \end{figure}
 
-El potencial de este trabajo es fabricar placas de control que permitan al personal de trenes realizar reparaciones y sustituir importaciones, obteniendo como resultado un mejor servicio de cara al usuario y mayor independencia tecnológica.
 
-El desafío principal del proyecto es la compatibilidad con la red de comunicación del tren (TCN) existente. Las placas de control deben poder generar información en carteles LED y a la vez interconectarse a la red TCN. La posibilidad de fabricar el equipamiento en la industria local es también un desafío central de este proyecto.
+El desafío principal del proyecto es lograr  compatibilidad con la red de comunicaciones existente del tren o TCN por sus siglas en inglés. Las placas de control deben poder generar información en carteles LED y a la vez interconectarse a la red TCN para obtener de ella datos útiles y enviar el estado de dispositivos cuando se requiera. La posibilidad de fabricar el equipamiento en la industria local realizando de esta manera un servicio de transferencia tecnológica desde la universidad a la empresa del Estado es también un desafío central de este proyecto.
+\pagebreak
+
+\subsection{Abreviaturas}
+\label{sec:abreviaturas}
+
+
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|}
+\hline
+SIGLA & Traducción                           & Descripción                                  \\ \hline
+PIDS  & Passenger Information Display System & Sistema de información visual para pasajeros \\ \hline
+TCN   & Train Communication Network          & Red de comunicaciones del tren               \\ \hline
+ Observer     & Observar y reaccionar                                     & Patrón de arquitectura de software                          \\ \hline
+      &                                      &                                              \\ \hline
+      &                                      &                                              \\ \hline
+      &                                      &                                              \\ \hline
+      &                                      &                                              \\ \hline
+      &                                      &                                              \\ \hline
+      &                                      &                                              \\ \hline
+      &                                      &                                              \\ \hline
+      &                                      &                                              \\ \hline
+      &                                      &                                              \\ \hline
+\end{tabular}
+\caption{Tabla de abreviaturas de este documento.}
+\label{table:abreviaturas}
+\end{table}
+
+
+\pagebreak
 
 \subsection{Antecedentes}
 
@@ -235,7 +265,7 @@ App layer serv | DHCP, DNS, SNTP, SNMP | DHCP, DNS, SNTP, SNMP |
 \pagebreak
 
 \section{Diseño del sistema}
-La primera sección del diseño es introductoria. Luego se describen los patrones de arquitectura elegidos para el diseño de alto nivel del software, los diagramas de arquitectura, los componentes del software y sus interfaces.
+En esta sección se realiza una introducción al desarrollo del sistema. Se describen los diagramas de arquitectura, los patrones elegidos, los componentes del software y sus interfaces.
 
 \subsection{Propósito}
 El objetivo principal de este trabajo es diseñar e implementar un sistema de información visual
@@ -266,7 +296,7 @@ o pérdida del material original y que no pueden ser reparados.
 \subsection{Arquitectura}
 En la figura \ref{fig:pattern1} se presenta un diagrama de alto nivel de la arquitectura del software. Se pueden
 ver los componentes y las relaciones entre los mismos. Este diagrama responde al patrón
-observar y reaccionar.
+observar y reaccionar, también conocido como 'Observer' en inglés.
 
 \begin{figure}[htpb]
 \centering 
@@ -275,22 +305,22 @@ observar y reaccionar.
 \label{fig:pattern1}
 \end{figure}
 
-El flujo de datos de las variables de proceso que provienen del PIDS sigue una segmentación
-de procesos. Este flujo procesa los datos recibidos en formato de tramas y obtiene a la salida
-los valores de las variables que serán entregadas al proceso de análisis. El proceso de análisis
+El flujo de datos que proviene del PIDS sigue una segmentación
+de procesos. En esta segmentación se procesan los datos recibidos en formato de tramas y se obtiene a la salida
+valores de variables que serán entregadas al proceso de análisis. El proceso de análisis
 se detalla en la figura \ref{fig:pattern2}.
 
 \begin{figure}[htpb]
 \centering 
 \includegraphics[width=1\textwidth]{./Pics/Pipeline.png}
-\caption{Diagrama de bloques del proceso de análisis.}
+\caption{Diagrama de bloques del proceso de observador.}
 \label{fig:pattern2}
 \end{figure}
 
 El proceso observador monitorea las variables de accionamiento manual y variables de proceso
-(velocidad y control de puertas). Como las variables de proceso se reciben como tramas
-provenientes del subsistema externo PIDS, el proceso observador es distinto respecto del
-accionamiento manual y se detalla en la figura 2. El proceso de análisis está compuesto por un
+(velocidad y control de puertas). Como las variables de proceso están contenidas en tramas de datos
+provenientes de otro subsistema que son comunicadas a través de un bus de datos, el proceso observador es distinto respecto del
+accionamiento manual y se detalla en la figura 3. El proceso de análisis está compuesto por un
 grupo de componentes que se detallan en la figura 3. El proceso de despliegue es el encargado
 de generar los mensajes al pasajero y enviarlos al display. El proceso de alarma indica si hay
 algún error en el sistema. El proceso reactor finalmente envía datos al subsistema externo HMI.
@@ -307,8 +337,8 @@ algún error en el sistema. El proceso reactor finalmente envía datos al subsis
 \subsection{Componentes}
 
 \begin{itemize}
-\item PIDS: sistema externo
-\item HMI: sistema externo
+\item PIDS: sistema de información al pasajero que contiene distintos módulos, algunos comunes al desarrollo de este trabajo como los carteles LED y otros externos como el sistema de audio.
+\item HMI: interfaz hombre máquina externa al sistema
 \item Buffer Receptor: componente que recibe tramas provenientes del PIDS con información
 de las variables velocidad y control de puertas. Almacena las tramas recibidas y las
 envía al componente de Procesamiento.
@@ -335,6 +365,9 @@ HMI.
 \item Proceso de despliegue: genera los mensajes a visualizar y los presenta en un display.
 \end{itemize}
 
+
+
+\pagebreak
 \subsection{Interfaces}
 \textbf{Interfaces externas}
 
@@ -354,9 +387,21 @@ los pasajeros.
 3. Mensaje al pasajero: los mensajes al pasajero son datos ASCII que tienen un encabezado a definir.
 
 4. Alarmas: las alarmas se generan cuando se acciona manualmente el cambio de cabeceras durante el recorrido del tren.
+
+
+
+
+\pagebreak
+\section{Desarrollo}
+
+
+\subsubsection{Transceiver}
 \pagebreak
 
-\subsection{Display LED}
+\subsubsection{Driver}
+\pagebreak
+
+\subsubsection{Display}
 La placa de control del display LED matricial se representa con el diagrama de bloques de la figura \ref{fig:blockDiagram LED display}. La entrada es un conector de dieciséis pines (2x8) que entrega señal de datos a dos transceivers 74HC245D. El circuito de los transceivers s
 
 \begin{figure}[htpb]
@@ -371,9 +416,6 @@ texto texto texto texto texto texto texto texto texto texto texto texto texto te
 \includepdf[pages={1},landscape]{Pics/output.driverLED.pdf}	
 
 texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
-
-\pagebreak
-
 \subsection{Controlador}
 
 \begin{figure}[htpb]
@@ -392,12 +434,7 @@ texto texto texto texto texto texto texto texto texto texto texto texto texto te
 \label{fig:Placa de control de repuesto.}
 \end{figure}
 
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=1\textwidth]{./Pics/processDiagram.map.png}
-\caption{}
-\label{fig:Placa de control map}
-\end{figure}
+
 texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
 \pagebreak
 
@@ -481,9 +518,16 @@ transiciones entre estados posibles en el sistema se detallan en la sección de 
 \end{figure}
 
 \pagebreak
-\section{Fabricación}
-\pagebreak
 \section{Pruebas de integración}
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/processDiagram.map.png}
+\caption{}
+\label{fig:Placa de control map}
+\end{figure}
+
+
 \subsection{Análisis de los protocolos de comunicación}
 
 \begin{figure}[htpb]
