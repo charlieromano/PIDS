@@ -1,10 +1,10 @@
 # UART_RTOS
 
-[TOC]
+[1. Eco UART](#echo)
+[2. Two tasks](#2tasks)
+[3. Two senders, one receiver](#2senders1receiver)
 
-
-
-### 1. Eco UART
+## 1. Eco UART <a name="echo"></a>
 
 **Ejemplo de eco usando la UART y una task con RTOS**
 
@@ -65,7 +65,7 @@ void vTaskEchoUART(void* pvParameters){
 
 
 
-### 2. Two tasks
+### 2. Two tasks <a name="2tasks"></a>
 
 **Dos tareas escribiendo en la UART**
 
@@ -144,7 +144,7 @@ void vTaskWriteUART(void* pvParameters ){
 
 
 
-### 3. Two senders, one receiver
+### 3. Two senders, one receiver <a name="2senders1receiver"></a>
 
 **Dos tareas que envían mensajes a la UART y una tarea que los recibe**
 
