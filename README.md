@@ -6,18 +6,28 @@
 
 Repo limpio para el proyecto PIDS de la CESE 2020
 
-[Iniciar Repositorio](#iniciar)
- 1. [Clonar repositorio](#clonar)
- 2. [Incluir submódulos](#submodulos)
- 3. [Instalar software](#software)
- 3.1 [openocd](#openocd)
- 3.2 [gcc arm](#gcc)
- 3.2.1 [Troubleshooting gcc](#troubleshooting)
- 3.3 [EDU-CIAA](#educiaa)
- 4. [Crear un programa](#create)
- 5. [Seleccionar un programa](#select)
+1. [Iniciar Repositorio](#iniciar)
+ 1.1. [Clonar repositorio](#clonar)
+ 1.2. [Incluir submódulos](#submodulos)
+ 1.3. [Instalar software](#software)
+ 1.3.1 [openocd](#openocd)
+ 1.3.2 [gcc arm](#gcc)
+ 1.3.2.1 [Troubleshooting gcc](#troubleshooting)
+ 1.3.3 [EDU-CIAA](#educiaa)
+ 1.4. [Crear un programa](#create)
+ 1.5. [Seleccionar un programa](#select)
 
-TO DO:--> ver ejemplo interrupciones UART
+2. [Ejemplos usando UART](#UART)
+
+3. [Ejemplos usando Máquinas de Estado](#fsm)
+
+## Ejemplos usando UART <a name="UART"></a>
+
+Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/UART_RTOS
+
+## Ejemplos usando Máquinas de Estado  <a name="fsm"></a>
+
+Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/RTOS_fsm
 
 ## Iniciar Repositorio <a name="iniciar"></a>
 
