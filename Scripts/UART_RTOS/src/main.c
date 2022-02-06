@@ -17,56 +17,36 @@ SemaphoreHandle_t    mutexSPI;
 uint8_t dato  = 0;
 QueueHandle_t xQueue;
 
+static const char *pcMsgTask1 = "Task1 msg\n";
+static const char *pcMsgTask2 = "Task2 msg\n";
+
 int main(void)
 {
 
    boardConfig();
    debugPrintConfigUart( UART_USB, 115200 );
 
-/*
-   uint8_t Error_state = 0;
-   BaseType_t res;
-
-   uint8_t dato1 = 1;
-   uint8_t dato2 = 78;
-   int32_t dato3 = 1234;
-
-  
-   static char uartBuff[10]; // Buffer 
-
-   uartWriteByte( UART_USB, 'H' );  // Envia 'H'
-   uartWriteByte( UART_USB, 'o' );  // Envia 'o'
-   uartWriteByte( UART_USB, 'l' );  // Envia 'l'
-   uartWriteByte( UART_USB, 'a' );  // Envia 'a'
-   uartWriteByte( UART_USB, '\r' ); // Envia '\r', retorno de carro
-   uartWriteByte( UART_USB, '\n' ); // Envia '\n', nueva linea
-
-   char miTexto[] = "Chau\r\n";
-   uartWriteString( UART_USB, miTexto );
-   
-   // Conversion de muestra entera a ascii con base decimal usando itoa()
-   itoa( dato3, uartBuff, 10 ); // base 10 significa decimal
-   uartWriteString( UART_USB, uartBuff );
-   uartWriteString( UART_USB, "\r\n" ); // Enviar un Enter
-
-   perror("Error test");
-
-
-   xQueue = xQueueCreate(3, sizeof(tData));
-   if(xQueue==NULL){
-      perror("Error creating Queue");
-      return 1;
-   }
-
-   int32_t x1 = 64;
-   int32_t x2 = 99;
-   int32_t  y;
-*/
-   if( xTaskCreate( vTaskEchoUART, "Echo test", 
+ /*  if( xTaskCreate( vTaskEchoUART, "Echo test", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
+*/
+   if( xTaskCreate( vTaskWriteUART, "write UART", 
+      configMINIMAL_STACK_SIZE, (void*)pcMsgTask1, 
+      tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+
+   if( xTaskCreate( vTaskWriteUART, "write UART2", 
+      configMINIMAL_STACK_SIZE, (void*)pcMsgTask2, 
+      tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+
+
    /*
    if( xTaskCreate( vTaskSender, "SENDER 1", 
       configMINIMAL_STACK_SIZE, (tData*)&(xDataFrame[0]), 

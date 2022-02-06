@@ -4,6 +4,17 @@
 extern   uint8_t dato;
 extern   QueueHandle_t xQueue;
 
+void vTaskEchoUART(void* pvParameters){
+   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
+   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
+	while(1){
+      if(  uartReadByte( UART_USB, &dato ) ){
+         uartWriteByte( UART_USB, dato );
+      }
+   }
+   vTaskDelete(NULL);
+}
+
 void vTaskReadUART(void* pvParameters ){
 	while(1){
 
@@ -11,18 +22,17 @@ void vTaskReadUART(void* pvParameters ){
 }
 
 void vTaskWriteUART(void* pvParameters ){
-	while(1){
-		
-	}
-}
 
-void vTaskEchoUART(void* pvParameters){
-   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
-   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
+	char	 *pcTaskMessage;
+	pcTaskMessage = (char*)pvParameters;
+	portTickType xLastWakeTime;
+	xLastWakeTime = xTaskGetTickCount();
+
 	while(1){
-      if(  uartReadByte( UART_USB, &dato ) ){
-         uartWriteByte( UART_USB, dato );
-      }		
+		if(pcTaskMessage!=NULL){
+			uartWriteString( UART_USB, (char*)pcTaskMessage );
+		}
+		vTaskDelayUntil(&xLastWakeTime, (500/portTICK_RATE_MS));
 	}
 }
 
