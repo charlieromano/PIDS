@@ -20,7 +20,7 @@ typedef eSystemState (*pfEventHandler)(void);
 typedef struct{
 	eSystemState 		fsmState;
 	eSystemEvent 		fsmEvent;
-	pfEventHandler 	fsmHandler;
+	pfEventHandler 		fsmHandler;
 } sStateMachine;
 
 eSystemState 	InitHandler(void)	{ printf("init;\n");return STATE_A; }
@@ -58,7 +58,7 @@ int main (int argc, char *argv[])
 		}
 		*/
 
-		if((c = getchar()) != '\n' )
+		if((c = getchar()) != '\n' && (c = getchar()) != '\r' )
 		{
 			newEvent++;
 			fsmTest[nextState].fsmEvent == newEvent;
