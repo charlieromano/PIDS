@@ -17,7 +17,18 @@ Repo limpio para el proyecto PIDS de la CESE 2020
  4. [Crear un programa](#create)
  5. [Seleccionar un programa](#select)
 
+[Ejemplos usando UART](#UART)
+[Ejemplos usando Máquinas de Estado](#fsm)
+
 TO DO:--> ver ejemplo interrupciones UART
+
+## Ejemplos usando UART <a name="UART"></a>
+
+Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/UART_RTOS
+
+## Ejemplos usando Máquinas de Estado  <a name="fsm"></a>
+
+Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/RTOS_fsm
 
 ## Iniciar Repositorio <a name="iniciar"></a>
 
