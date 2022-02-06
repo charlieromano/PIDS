@@ -18,9 +18,8 @@ Repo limpio para el proyecto PIDS de la CESE 2020
  5. [Seleccionar un programa](#select)
 
 [Ejemplos usando UART](#UART)
-[Ejemplos usando Máquinas de Estado](#fsm)
 
-TO DO:--> ver ejemplo interrupciones UART
+[Ejemplos usando Máquinas de Estado](#fsm)
 
 ## Ejemplos usando UART <a name="UART"></a>
 
