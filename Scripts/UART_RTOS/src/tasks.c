@@ -22,7 +22,9 @@ void vTaskReadUART(void* pvParameters ){
 }
 
 void vTaskWriteUART(void* pvParameters ){
-
+	// recibe como parámetro un string y lo imprime
+	// se bloquea y espera 500 milisegundos
+	// la tarea se vuelve periódica con este delay
 	char	 *pcTaskMessage;
 	pcTaskMessage = (char*)pvParameters;
 	portTickType xLastWakeTime;

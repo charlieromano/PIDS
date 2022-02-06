@@ -26,12 +26,15 @@ int main(void)
    boardConfig();
    debugPrintConfigUart( UART_USB, 115200 );
 
+   // Option 1: echo UART
  /*  if( xTaskCreate( vTaskEchoUART, "Echo test", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
 */
+
+   //Option 2: two taks writing the UART
    if( xTaskCreate( vTaskWriteUART, "write UART", 
       configMINIMAL_STACK_SIZE, (void*)pcMsgTask1, 
       tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
@@ -46,7 +49,7 @@ int main(void)
       return 1;
    }
 
-
+   //Option 3: two senders, one receiver
    /*
    if( xTaskCreate( vTaskSender, "SENDER 1", 
       configMINIMAL_STACK_SIZE, (tData*)&(xDataFrame[0]), 
