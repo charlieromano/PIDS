@@ -1,10 +1,11 @@
 # RTOS_fsm
 
-[TOC]
+
+[1. Finite State Machine (fsm)](#fsm)
+[2. Finite State Machine con RTOS](#fsmRTOS)
 
 
-
-### 1. Finite State Machine (fsm)
+## 1. Finite State Machine (fsm) <a name="fsm"></a>
 
 **Ejemplo de máquina de estados usando un arreglo de estructuras [1]**
 
@@ -109,3 +110,11 @@ En la siguiente figura se muestra la compilación y ejecución de este ejemplo. 
 
 ![](../../Pics/fsmTest_run.png)
 
+
+
+## 2. Finite State Machine con RTOS <a name="fsmRTOS"></a>
+
+https://www.sinelabore.de/doku.php/wiki/howto/rtos
+
+
+![](../../Pics/fsmTestRTOS_run.png)

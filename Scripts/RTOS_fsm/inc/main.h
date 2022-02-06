@@ -12,14 +12,8 @@
 #include "sapi.h"
 #include "board.h"
 #include "tasks.h"
-#include "structs.h"
+#include "statemachine.h"
 #include "udf.h"
 
-
-static const tData xDataFrame[2] = 
-{
-	{100, ID_SRC_01},
-	{200, ID_SRC_02}
-};
 
 #endif 

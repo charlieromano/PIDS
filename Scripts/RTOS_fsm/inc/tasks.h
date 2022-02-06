@@ -8,19 +8,9 @@
 #include "queue.h"      //Api de colas
 #include "sapi.h"
 #include "board.h"
-#include "structs.h"
+#include "statemachine.h"
 
-#define ANTIREBOTE_MS 20
-#define CANT_LEDS 4
-
-extern SemaphoreHandle_t mutexUART;
-extern SemaphoreHandle_t mutexSPI;
-
-void vTaskReadUART(void* taskParamPtr );
-void vTaskWriteUART(void* taskParamPtr );
-void vTaskEchoUART(void* taskParamPtr);
-
-void vTaskSender(void* taskParamPtr );
-void vTaskReceiver(void* taskParamPtr );
+void vTaskStateMachine(void *pvParameters);
+void vTaskEchoUART(void* pvParameters);
 
 #endif
