@@ -8,23 +8,23 @@ Repo limpio para el proyecto PIDS de la CESE 2020
 
 1. [Iniciar Repositorio](#iniciar)
 
- 1.1. [Clonar repositorio](#clonar)
+ 	1.1. [Clonar repositorio](#clonar)
 
- 1.2. [Incluir submódulos](#submodulos)
+	1.2. [Incluir submódulos](#submodulos)
 
- 1.3. [Instalar software](#software)
+ 	1.3. [Instalar software](#software)
 
- 1.3.1 [openocd](#openocd)
+ 		1.3.1 [openocd](#openocd)
 
- 1.3.2 [gcc arm](#gcc)
+ 		1.3.2 [gcc arm](#gcc)
 
- 1.3.2.1 [Troubleshooting gcc](#troubleshooting)
+ 			1.3.2.1 [Troubleshooting gcc](#troubleshooting)
 
- 1.3.3 [EDU-CIAA](#educiaa)
+ 		1.3.3 [EDU-CIAA](#educiaa)
 
- 1.4. [Crear un programa](#create)
+ 	1.4. [Crear un programa](#create)
 
- 1.5. [Seleccionar un programa](#select)
+ 	1.5. [Seleccionar un programa](#select)
 
 
 2. [Ejemplos usando UART](#UART)
