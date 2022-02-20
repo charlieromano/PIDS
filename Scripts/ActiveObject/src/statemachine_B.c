@@ -1,4 +1,4 @@
-//statemachine.c
+//statemachine_B.c
 #include "statemachine_B.h"
 
 eSystemState_B 	InitHandler_B(void){ 
