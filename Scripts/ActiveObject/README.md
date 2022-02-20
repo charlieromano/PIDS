@@ -1,14 +1,10 @@
 # State Machine and Active Object
 
-[1. Finite State Machine (fsm)](#fsm)
-
-[2. Finite State Machine con RTOS](#fsmRTOS)
-
-[3. Ejemplo de Objetos Activos con máquinas de estado en RTOS](#activeObjectRTOS)
+[1. Ejemplo de Objetos Activos con máquinas de estado en RTOS](#activeObjectRTOS)
 
 
 
-## 1.  Finite State Machine (fsm) <a name="fsm"></a>
+## 1.  Ejemplo de Objetos Activos con máquinas de estado en RTOS <a name="activeObjectRTOS"></a>
 
 **Ejemplo de máquina de estados usando un arreglo de estructuras **
 
@@ -30,7 +26,7 @@ La máquina de estados inicial se detalla en el siguiente diagrama:
 
 
 
-![](../../Pics/sactiveObject_example.png)
+![](../../Pics/activeObject_example.png)
 
 
 
