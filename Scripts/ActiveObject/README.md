@@ -360,6 +360,12 @@ void timerCallback_B(TimerHandle_t xTimerHandle){
 
 ```
 
+La ejecución de cada máquina está limitada a diez iteraciones. Al finalizar el ciclo 'while(i<10)', los objetos activos (tareas de freeRTOS) se destruyen. En la siguiente figura se puede ver la ejecución. 
+
+![](../../Pics/ejemplo_AO.png)
+
+Se puede observar que luego de la primer eliminación de tareas (objeto activo 1), sólo queda en ejecución la máquina de estados B, hasta finalizar y ser eliminada también.
+
 Este ejemplo está basado en el siguiente artículo online:
 
 [2] Ref: https://www.sinelabore.de/doku.php/wiki/howto/rtos
