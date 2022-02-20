@@ -13,44 +13,35 @@ void vTaskTA(void *xTimerHandle)
 		newEvent=evInit;
 		int i=0;
 
-		while(i<20){
+		while(i<10){
 			xQueueReceive(queueHandle, &data, portMAX_DELAY);
 			newEvent = data;
 			fsmTest[nextState].fsmEvent == newEvent; //TO DO:data.event
 			nextState = (*fsmTest[nextState].fsmHandler)();
 			i++;
 		}
+		vPrintString("This task is running and about to delete itself.\r\n");
+		vTaskDelete(xTaskStateMachineHandler);
 	}
 }
 
-
-void vTaskStateMachine(void *pvParameters)
+void vTaskTB(void *xTimerHandle)
 {
-	portTickType xLastWakeTime;
-	xLastWakeTime = xTaskGetTickCount();
-
-	eSystemState nextState = STATE_INIT;
-	eSystemEvent newEvent;
-	int i=0;
+	(void)xTimerHandle;
+	eSystemEvent_B newEvent;
 
 	while(true){
-		while(i<20){
+		vPrintString("This task is running.\r\n");
+		eSystemState_B nextState = STATE_INIT_B;
+		newEvent=evInit_B;
+		int i=0;
 
-			if(uartReadByte( UART_USB, &data ))
-			{
-				if( (data!= '\n') && (data != '\r' ) )
-				{
-					newEvent=evReceive;
-					fsmTest[nextState].fsmEvent == newEvent;
-					nextState = (*fsmTest[nextState].fsmHandler)();
-					i++;
-				}
-			}
-			else
-			{
-				//printf("no condition\n;");
-				vTaskDelayUntil(&xLastWakeTime, (50/portTICK_RATE_MS));
-			}
+		while(i<10){
+			xQueueReceive(queueHandle_B, &data_B, portMAX_DELAY);
+			newEvent = data_B;
+			fsmTest_B[nextState].fsmEvent == newEvent; //TO DO:data.event
+			nextState = (*fsmTest_B[nextState].fsmHandler)();
+			i++;
 		}
 		vPrintString("This task is running and about to delete itself.\r\n");
 		vTaskDelete(xTaskStateMachineHandler);

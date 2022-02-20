@@ -20,11 +20,20 @@
 
 DEBUG_PRINT_ENABLE;
 uint8_t data  = 0; /* variable global */
+uint8_t data_B  = 0; /* variable global */
 
-xTaskHandle 	xTaskStateMachineHandler; /* RTOS task handler */
+/* RTOS task handlers */
+xTaskHandle 	xTaskStateMachineHandler; 
+xTaskHandle 	xTaskStateMachineHandler_B; 
+
+/* State Machine */
 TimerHandle_t  	timerHandle; /* RTOS timer */
 QueueHandle_t 	queueHandle; /* RTOS queue */
-
 void timerCallback(TimerHandle_t xTimerHandle); /* RTOS timer */
+
+/* State Machine B*/
+TimerHandle_t  	timerHandle_B; /* RTOS timer */
+QueueHandle_t 	queueHandle_B; /* RTOS queue */
+void timerCallback_B(TimerHandle_t xTimerHandle);/* RTOS timer */
 
 #endif 
