@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-02-20T22:06:40.775Z" agent="5.0 (X11)" etag="hEY7VL4iu6204ooyZ1Yr" version="16.6.1" type="github">
+<mxfile host="app.diagrams.net" modified="2022-02-20T22:08:13.579Z" agent="5.0 (X11)" etag="7nmX31qYVT4zmRrJ52qE" version="16.6.1" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
-    <mxGraphModel dx="1138" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+    <mxGraphModel dx="1896" dy="1093" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -473,6 +473,12 @@
         </mxCell>
         <mxCell id="f0udEpbytXHyqtgXE-Mc-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="f0udEpbytXHyqtgXE-Mc-68" target="f0udEpbytXHyqtgXE-Mc-30">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f0udEpbytXHyqtgXE-Mc-93" value="queue 1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="165" y="1730" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0udEpbytXHyqtgXE-Mc-94" value="queue 2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="165" y="2090" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
