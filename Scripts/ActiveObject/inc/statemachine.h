@@ -3,11 +3,12 @@
 
 #include "sapi.h"
 #include "board.h"
-#include 	<stdio.h>
+#include <stdio.h>
 
-#define  	HEADER 		'3'
-#define  	TRAILER 	'9'
+#define  	HEADER 		1
+#define  	TRAILER 	2
 
+extern uint8_t data;
 
 typedef enum {
 	STATE_INIT,

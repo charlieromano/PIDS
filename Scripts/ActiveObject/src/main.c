@@ -15,7 +15,7 @@ int main(void)
    debugPrintConfigUart( UART_USB, 115200 );
 
    /* Create the task */
-   if( xTaskCreate( vTaskStateMachine, "State Machine test", 
+   if( xTaskCreate( vTaskTA, "State Machine using active object", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, &xTaskStateMachineHandler) 
       == pdFAIL ) {
       perror("Error creating task");
@@ -41,4 +41,12 @@ int main(void)
    while(true);
 
    return 0;
+}
+
+void timerCallback(TimerHandle_t xTimerHandle){
+   static uint8_t cnt = 0;
+   cnt++;
+
+   eSystemEvent data = cnt%4;
+   xQueueSend(queueHandle, &data, 0U);
 }

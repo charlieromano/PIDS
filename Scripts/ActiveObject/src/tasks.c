@@ -1,13 +1,8 @@
 //tasks.c
 #include "tasks.h"
 
-extern uint8_t data;
-extern sStateMachine 	fsmTest[]; /* State Machine struct */
-extern xTaskHandle 	 	xTaskStateMachineHandler; /* RTOS task handler */
-extern TimerHandle_t  	timerHandle; /* RTOS timer */
-extern QueueHandle_t 	queueHandle; /* RTOS queue */
 
-static void vTaskTA(void *pvParameters)
+void vTaskTA(void *xTimerHandle)
 {
 	(void)xTimerHandle;
 	eSystemEvent newEvent;
@@ -15,12 +10,13 @@ static void vTaskTA(void *pvParameters)
 	while(true){
 		vPrintString("This task is running.\r\n");
 		eSystemState nextState = STATE_INIT;
-		newEvent=evReceive;
+		newEvent=evInit;
 		int i=0;
 
-		while(i<10){
+		while(i<20){
 			xQueueReceive(queueHandle, &data, portMAX_DELAY);
-			fsmTest[nextState].fsmEvent == newEvent; //data.event
+			newEvent = data;
+			fsmTest[nextState].fsmEvent == newEvent; //TO DO:data.event
 			nextState = (*fsmTest[nextState].fsmHandler)();
 			i++;
 		}
