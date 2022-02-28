@@ -8,12 +8,12 @@ void vTaskTA(void *xTimerHandle)
 	eSystemEvent newEvent;
 
 	while(true){
-		vPrintString("This task is running.\r\n");
+		vPrintString("Task TA is running.\r\n");
 		eSystemState nextState = STATE_INIT;
 		newEvent=evInit;
 		int i=0;
 
-		while(i<10){
+		while(i<6){
 			xQueueReceive(queueHandle, &data, portMAX_DELAY);
 			newEvent = data;
 			fsmTest[nextState].fsmEvent == newEvent; //TO DO:data.event
@@ -31,12 +31,12 @@ void vTaskTB(void *xTimerHandle)
 	eSystemEvent_B newEvent;
 
 	while(true){
-		vPrintString("This task is running.\r\n");
+		vPrintString("Task TB is running.\r\n");
 		eSystemState_B nextState = STATE_INIT_B;
 		newEvent=evInit_B;
 		int i=0;
 
-		while(i<10){
+		while(i<8){
 			xQueueReceive(queueHandle_B, &data_B, portMAX_DELAY);
 			newEvent = data_B;
 			fsmTest_B[nextState].fsmEvent == newEvent; //TO DO:data.event

@@ -24,7 +24,7 @@ int main(void)
 
    /* Create the task */
    if( xTaskCreate( vTaskTB, "State Machine using active object", 
-      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, &xTaskStateMachineHandler_B) 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+2, &xTaskStateMachineHandler_B) 
       == pdFAIL ) {
       perror("Error creating task");
       return 1;
@@ -35,13 +35,13 @@ int main(void)
    queueHandle_B = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_B));
 
    /* Create the timer */
-   if( (timerHandle = xTimerCreate( "Timer1", 1000, true, NULL, timerCallback))
+   if( (timerHandle = xTimerCreate( "Timer1", 500, true, NULL, timerCallback))
       == NULL ) {
       perror("Error creating timer");
       return 1;
    }
    
-   if( (timerHandle_B = xTimerCreate( "Timer2", 5000, true, NULL, timerCallback_B))
+   if( (timerHandle_B = xTimerCreate( "Timer2", 2000, true, NULL, timerCallback_B))
       == NULL ) {
       perror("Error creating timer");
       return 1;
