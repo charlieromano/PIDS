@@ -238,7 +238,7 @@ void vTaskTA(void *xTimerHandle)
 		newEvent=evInit;
 		int i=0;
 
-		while(i<10){
+		while(i<6){
 			xQueueReceive(queueHandle, &data, portMAX_DELAY);
 			newEvent = data;
 			fsmTest[nextState].fsmEvent == newEvent; //TO DO:data.event
@@ -261,7 +261,7 @@ void vTaskTB(void *xTimerHandle)
 		newEvent=evInit_B;
 		int i=0;
 
-		while(i<10){
+		while(i<8){
 			xQueueReceive(queueHandle_B, &data_B, portMAX_DELAY);
 			newEvent = data_B;
 			fsmTest_B[nextState].fsmEvent == newEvent; //TO DO:data.event
@@ -307,7 +307,7 @@ int main(void)
 
    /* Create the task */
    if( xTaskCreate( vTaskTB, "State Machine using active object", 
-      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, &xTaskStateMachineHandler_B) 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+2, &xTaskStateMachineHandler_B) 
       == pdFAIL ) {
       perror("Error creating task");
       return 1;
@@ -318,13 +318,13 @@ int main(void)
    queueHandle_B = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_B));
 
    /* Create the timer */
-   if( (timerHandle = xTimerCreate( "Timer1", 1000, true, NULL, timerCallback))
+   if( (timerHandle = xTimerCreate( "Timer1", 500, true, NULL, timerCallback))
       == NULL ) {
       perror("Error creating timer");
       return 1;
    }
    
-   if( (timerHandle_B = xTimerCreate( "Timer2", 5000, true, NULL, timerCallback_B))
+   if( (timerHandle_B = xTimerCreate( "Timer2", 2000, true, NULL, timerCallback_B))
       == NULL ) {
       perror("Error creating timer");
       return 1;
@@ -360,13 +360,13 @@ void timerCallback_B(TimerHandle_t xTimerHandle){
 
 ```
 
-La ejecución de cada máquina está limitada a diez iteraciones. Al finalizar el ciclo 'while(i<10)', los objetos activos (tareas de freeRTOS) se destruyen. En la siguiente figura se puede ver la ejecución. 
+La ejecución de cada máquina está limitada a un número finito de  iteraciones. Al finalizar el ciclo 'while(i<6)' en TaskTA y el ciclo 'while(i<8)'  en TaskTB, los objetos activos (tareas de freeRTOS) se destruyen. Observar que para evitar superposición de mensajes de las tareas, se crea la tarea TaskTB con mayor prioridad que TaskTA en la función main. Notar que al iniciar el scheduler arranca la tarea TaskTB primero. Como esta tiene un timer de 2000 ms se puede ver que el cambio de estado STATE_A-STATE_B se da exactamente cada 2 seg., mientras que los estados de la tarea TaskTA se ejecutan cada 500 ms. En la siguiente figura se puede ver la ejecución. 
 
-![](../../Pics/ejemplo_AO.png)
+![](../../Pics/ejemplo_AO_corrected.png)
 
 Se puede observar que luego de la primer eliminación de tareas (objeto activo 1), sólo queda en ejecución la máquina de estados B, hasta finalizar y ser eliminada también.
 
-Este ejemplo está basado en el siguiente artículo online:
+Este ejemplo está inspirado en el siguiente artículo online:
 
 [2] Ref: https://www.sinelabore.de/doku.php/wiki/howto/rtos
 
