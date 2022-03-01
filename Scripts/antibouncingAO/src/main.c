@@ -2,7 +2,7 @@
  * Copyright (c) 2021, Carlos Germán Carreño Romano <charlieromano@gmail.com>
  * All rights reserved.
  * License: gpl-3.0 (see LICENSE.txt)
- * Date: 2022/02/20
+ * Date: 2022/02/28
  * Version: 1.0
  ****************************************************************************/
 
@@ -15,27 +15,28 @@ int main(void)
    debugPrintConfigUart( UART_USB, 115200 );
 
    /* Create the task */
+/*
    if( xTaskCreate( vTaskTA, "State Machine using active object", 
-      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, &xTaskStateMachineHandler) 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, &xTaskStateMachineHandler_AB) 
       == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
-
+*/
    /* Create the task */
    if( xTaskCreate( vTaskTB, "State Machine using active object", 
-      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+2, &xTaskStateMachineHandler_B) 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+2, &xTaskStateMachineHandler_button) 
       == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
 
    /* Create the queue*/
-   queueHandle = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent));
-   queueHandle_B = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_B));
+   queueHandle_button = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
+   queueHandle_AB = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_AB));
 
    /* Create the timer */
-   if( (timerHandle = xTimerCreate( "Timer1", 500, true, NULL, timerCallback))
+/*   if( (timerHandle = xTimerCreate( "Timer1", 5, true, NULL, timerCallback))
       == NULL ) {
       perror("Error creating timer");
       return 1;
@@ -46,11 +47,12 @@ int main(void)
       perror("Error creating timer");
       return 1;
    }
-
+*/
    /* Start the timer */
-   xTimerStart(timerHandle, 0);
-   xTimerStart(timerHandle_B, 0);
-
+/*
+   xTimerStart(timerHandle_button, 0);
+   xTimerStart(timerHandle_AB, 0);
+*/
    /* Start RTOS */
    vTaskStartScheduler();   // Scheduler
 
@@ -59,19 +61,18 @@ int main(void)
    return 0;
 }
 
-void timerCallback(TimerHandle_t xTimerHandle){
+void timerCallback_button(TimerHandle_t xTimerHandle){
    static uint8_t cnt = 0;
    cnt++;
 
-   eSystemEvent data = cnt%4;
-   xQueueSend(queueHandle, &data, 0U);
+   eSystemEvent_button data = cnt%4;
+   xQueueSend(queueHandle_button, &data, 0U);
 }
 
-void timerCallback_B(TimerHandle_t xTimerHandle){
+void timerCallback_AB(TimerHandle_t xTimerHandle){
    static uint8_t cnt = 0;
    cnt++;
 
-   eSystemEvent data_B = cnt%4;
-   xQueueSend(queueHandle_B, &data_B, 0U);
+   eSystemEvent_AB data_AB = cnt%4;
+   xQueueSend(queueHandle_AB, &data_AB, 0U);
 }
-
