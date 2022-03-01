@@ -20,6 +20,9 @@
 #define  	QUEUE_MAX_LENGTH 	12
 
 DEBUG_PRINT_ENABLE;
+
+gpioMap_t button=TEC2;
+
 uint8_t data_button  = 0; /* variable global */
 uint8_t data_AB  = 0; /* variable global */
 
@@ -36,5 +39,8 @@ void timerCallback_button(TimerHandle_t xTimerHandle); /* RTOS timer */
 TimerHandle_t  	timerHandle_AB; /* RTOS timer */
 QueueHandle_t 	queueHandle_AB; /* RTOS queue */
 void timerCallback_AB(TimerHandle_t xTimerHandle);/* RTOS timer */
+
+
+SemaphoreHandle_t xBinarySemaphore;
 
 #endif 

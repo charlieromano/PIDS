@@ -37,7 +37,7 @@ void vTaskTB(void *xTimerHandle)
 		newEvent=evInit_AB;
 		int i=0;
 
-		while(i<8){
+		while(true){
 			xQueueReceive(queueHandle_AB, &data_AB, portMAX_DELAY);
 			newEvent = data_AB;
 			fsmMachineAB[nextState].fsmEvent == newEvent; //TO DO:data.event
@@ -47,4 +47,14 @@ void vTaskTB(void *xTimerHandle)
 		vPrintString("This task is running and about to delete itself.\r\n");
 		vTaskDelete(xTaskStateMachineHandler_AB);
 	}
+}
+
+
+void vHandlerTask(void *pvParameters){
+
+   while(true){
+      xSemaphoreTake(xBinarySemaphore, portMAX_DELAY);
+      gpioWrite(LED2, OFF);
+      printf("HandlerTask: processing event..\r\n");
+   }
 }
