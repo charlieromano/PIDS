@@ -1,30 +1,30 @@
 //tasks.c
 #include "tasks.h"
 
-/*
+
 void vTaskTA(void *xTimerHandle)
 {
 	(void)xTimerHandle;
-	eSystemEvent newEvent;
+	eSystemEvent_button newEvent;
 
 	while(true){
 		vPrintString("Task TA is running.\r\n");
-		eSystemState nextState = STATE_INIT;
-		newEvent=evInit;
+		eSystemState_button nextState = STATE_BUTTON_DOWN;
+		newEvent=evPushed;
 		int i=0;
 
-		while(i<6){
-			xQueueReceive(queueHandle, &data, portMAX_DELAY);
-			newEvent = data;
-			fsmTest[nextState].fsmEvent == newEvent; //TO DO:data.event
-			nextState = (*fsmTest[nextState].fsmHandler)();
+		while(true){
+			xQueueReceive(queueHandle_button, &data_button, portMAX_DELAY);
+			newEvent = data_button;
+			fsmButton[nextState].fsmEvent == newEvent; //TO DO:data.event
+			nextState = (*fsmButton[nextState].fsmHandler)();
 			i++;
 		}
 		vPrintString("This task is running and about to delete itself.\r\n");
-		vTaskDelete(xTaskStateMachineHandler);
+		vTaskDelete(xTaskStateMachineHandler_button);
 	}
 }
-*/
+
 
 void vTaskTB(void *xTimerHandle)
 {

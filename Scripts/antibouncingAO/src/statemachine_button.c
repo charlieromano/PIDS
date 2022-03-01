@@ -6,6 +6,8 @@ extern gpioMap_t button;
 eSystemState_button 	pushingUpHandler(void)
 { 
 	printf("STATE DOWN\n");
+	gpioWrite(LEDG, OFF);
+	gpioWrite(LEDB, ON);
 	if(gpioRead(button)==true){
 		printf("Button pressed:\n");
 		return STATE_BUTTON_RISING;
@@ -18,7 +20,9 @@ eSystemState_button 	pushingUpHandler(void)
 eSystemState_button 	pushingDownHandler(void)
 { 
 	printf("STATE UP\n");
-	if(gpioRead(button)==true){
+	gpioWrite(LEDB, OFF);
+	gpioWrite(LEDG, ON);
+	if(gpioRead(button)!=true){
 		printf("Button pressed:\n");
 		return STATE_BUTTON_FALLING;
 	}
