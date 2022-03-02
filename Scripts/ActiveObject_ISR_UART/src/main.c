@@ -7,31 +7,37 @@
  ****************************************************************************/
 
 #include "main.h"
+uint8_t dato  = 0;
 
 int main(void)
 {
 
    boardConfig();
    debugPrintConfigUart( UART_USB, 115200 );
-   My_IRQ_Init();
+   IRQ_GPIO_Init();
+   IRQ_UART_Init();
 
-   /* Create the task */
-   if( xTaskCreate( vTaskTA, "State Machine using active object", 
-      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
-      &xTaskStateMachineHandler_AB) == pdFAIL ) {
+   /* Create the tasks */
+   // Option 1: echo UART
+   if( xTaskCreate( vTaskEchoUART, "Echo test", 
+      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
 
-   /* Create the task */
    if( xTaskCreate( vTaskTB, "State Machine using active object", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       &xTaskStateMachineHandler_button) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
+   /* Create the timer */
+   if( (timerHandle_AB = xTimerCreate( "Timer2", 1000, true, NULL, 
+      timerCallback_AB)) == NULL ) {
+      perror("Error creating timer");
+      return 1;
+   }
 
-   /* Create the task */
 
    if( xTaskCreate( vHandlerTask, "ISR Handler task", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
@@ -40,36 +46,19 @@ int main(void)
       return 1;
    }
 
-   /* Create the queue*/
-   queueHandle_button = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
-   queueHandle_AB = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_AB));
 
-   /* Create the timer */
-   if( (timerHandle_button = xTimerCreate( "Timer1", 500, true, NULL, 
-      timerCallback_button)) == NULL ) {
-      perror("Error creating timer");
-      return 1;
-   }
-   
-   if( (timerHandle_AB = xTimerCreate( "Timer2", 2000, true, NULL, 
-      timerCallback_AB)) == NULL ) {
-      perror("Error creating timer");
-      return 1;
-   }
-
+   /* Create the semaphore for interrupt management */
    xBinarySemaphore = xSemaphoreCreateBinary();
    if (xBinarySemaphore == NULL){
       perror("Error creating semaphore");
       return 1;
    }
 
-   /* Start the timer */
-   xTimerStart(timerHandle_button, 0);
-   xTimerStart(timerHandle_AB, 0);
-
+   queueHandle_AB = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_AB));
+   xTimerStart(timerHandle_AB, 0);   /* Start the timer */
 
    /* Start RTOS */
-printf("FLAG  OK/NO OK\r\n");
+   printf("Init scheduler..\r\n");
    vTaskStartScheduler();   // Scheduler
 
    while(true);

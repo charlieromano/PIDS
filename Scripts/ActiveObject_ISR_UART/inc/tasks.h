@@ -27,5 +27,6 @@ extern SemaphoreHandle_t xBinarySemaphore;
 void vTaskTA(void *xTimerHandle);
 void vTaskTB(void *xTimerHandle);
 void vHandlerTask(void *pvParameters);
+void vTaskEchoUART(void* pvParameters);
 
 #endif

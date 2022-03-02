@@ -1,6 +1,6 @@
 /* ISR.h */
-#ifndef ISR_H
-#define ISR_H
+#ifndef ISR_GPIO_H
+#define ISR_GPIO_H
 
 #include <stdio.h>
 #include "FreeRTOS.h"   
@@ -12,7 +12,7 @@
 
 extern SemaphoreHandle_t xBinarySemaphore;
 
-void My_IRQ_Init (void);
+void IRQ_GPIO_Init (void);
 
 #endif 
 

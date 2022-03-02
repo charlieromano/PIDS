@@ -5,11 +5,11 @@
  * Date: 2022/02/28
  * Version: 1.0
  ****************************************************************************/
-#include 		 "ISR.h"
+#include 	 "ISR_GPIO.h"
 
 #define MY_ASSERT(CONDICION) my_assert_debug(CONDICION)
 //Inicio IRQs
-void My_IRQ_Init (void){
+void IRQ_GPIO_Init (void){
 
       //Inicializamos las interrupciones (LPCopen)
       Chip_PININT_Init(LPC_GPIO_PIN_INT);
@@ -21,19 +21,10 @@ void My_IRQ_Init (void){
       Chip_PININT_SetPinModeEdge(LPC_GPIO_PIN_INT, PININTCH0);//Se configura el canal para que se active por flanco
       Chip_PININT_EnableIntLow(LPC_GPIO_PIN_INT, PININTCH0);//Se configura para que el flanco sea el de bajada
 
-      // TEC1 RISE
-/*      Chip_SCU_GPIOIntPinSel(1, 0, 4); //(Canal 0 a 7, Puerto GPIO, Pin GPIO)
-      Chip_PININT_SetPinModeEdge(LPC_GPIO_PIN_INT, PININTCH1);//Se configura el canal para que se active por flanco
-      Chip_PININT_EnableIntHigh(LPC_GPIO_PIN_INT, PININTCH1);//En este caso el flanco es de subida
-*/
       //Una vez que se han configurado los eventos para cada canal de interrupcion
       //Se activan las interrupciones para que comiencen a llamar al handler
       NVIC_SetPriority(PIN_INT0_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
       NVIC_EnableIRQ(PIN_INT0_IRQn);
-/*    
-      NVIC_SetPriority(PIN_INT1_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
-      NVIC_EnableIRQ(PIN_INT1_IRQn);
-*/
 
 }
 
@@ -50,11 +41,6 @@ void GPIO0_IRQHandler(void){
       gpioWrite(LED2, ON);
       printf("INTERRUPT!:GPIO0_IRQHandler\r\n");
       xSemaphoreGiveFromISR(xBinarySemaphore, &xHigherPriorityTaskWoken);
-
-   /* YIELD returns a valid value and will request a context switch. 
-    * If xHigherPriorityTaskWoken is still pdFALSE 
-    * then calling portYIELD_FROM_ISR() will have no effect.
-    */
    }
    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 }
