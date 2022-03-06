@@ -23,7 +23,7 @@ La máquina de estados se detalla en el siguiente diagrama:
 
 En este ejercicio se habilitan las interrupciones de la tecla TEC1 y se define un callback que lo único que hace es entregar o habilitar un semáforo binario, logrando que la rutina de interrupción sea lo más corta posible. Luego hay una tarea handler que toma el semáforo binario habilitado por la interrupción y ejecuta una rutina de actualización de una máquina de estados, usando el patrón de objeto activo. En el siguiente diagrama de secuencia se detalla la actividad que se realiza al recibir una interrupción por hardware.
 
-![](../../Pics/activeObject_example_ISR.png)
+![](../../Pics/ISR_semaphore.png)
 
 El código usando freeRTOS en la EDU-CIAA se detalla a continuación:
 
@@ -372,9 +372,6 @@ void vHandlerTask(void *pvParameters){
 }
 
 ```
-Finalmente, el código principal que inicia el scheduler de RTOS define ahora los timers y las colas:
-
-
 
 ```c
 #ifndef MAIN_H
@@ -522,7 +519,7 @@ void timerCallback_AB(TimerHandle_t xTimerHandle){
 
 ```
 
-La ejecución de cada máquina está limitada a un número finito de  iteraciones. Al finalizar el ciclo 'while(i<6)' en TaskTA y el ciclo 'while(i<8)'  en TaskTB, los objetos activos (tareas de freeRTOS) se destruyen. Observar que para evitar superposición de mensajes de las tareas, se crea la tarea TaskTB con mayor prioridad que TaskTA en la función main. Notar que al iniciar el scheduler arranca la tarea TaskTB primero. Como esta tiene un timer de 2000 ms se puede ver que el cambio de estado STATE_A-STATE_B se da exactamente cada 2 seg., mientras que los estados de la tarea TaskTA se ejecutan cada 500 ms. En la siguiente figura se puede ver la ejecución. 
+La ejecución de cada máquina está limitada a un número finito de  iteraciones. Al finalizar los objetos activos (tareas de freeRTOS) se destruyen. Notar que al iniciar el scheduler arranca la tarea TaskTB primero por orden de prioriddad. Se observa que la task que actualiza la máquina de estados AB se ejecuta hasta ser interrumpida por la ISR del botón TEC1. El callback (GPIO0_IRQHandler) entrega un semáforo binario que es tomado por la tarea handler (vTaskHandler) que actualiza la máquina de estados del botòn. En la siguiente figura se puede ver la ejecución. 
 
 ![](../../Pics/ejemplo_ISR.png)
 
