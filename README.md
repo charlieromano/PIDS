@@ -4,7 +4,11 @@
 
 <h1> PIDS</h1>
 
-Repo limpio para el proyecto PIDS de la CESE 2020
+Proyecto PIDS, CESE 2020. 
+
+<h3> Índice </h3>
+
+<hr>
 
 1. [Iniciar Repositorio](#iniciar)
 
@@ -29,15 +33,46 @@ Repo limpio para el proyecto PIDS de la CESE 2020
 
 2. [Ejemplos usando UART](#UART)
 
-3. [Ejemplos usando Máquinas de Estado](#fsm)
+3. [Ejemplos usando Máquinas de Estado y RTOS](#fsm)
+
+4. [Ejemplos usando Objeto Activo](#ActiveObject)
+
+5. [Ejemplos usando Objeto Activo con Interrupciones](#ActiveObjectISR)
+
+6. [Ejemplos usando Objeto Activo con Interrupciones y UART](#ActiveObjectUART)
+
+<hr>
+
 
 ## Ejemplos usando UART <a name="UART"></a>
 
 Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/UART_RTOS
 
-## Ejemplos usando Máquinas de Estado  <a name="fsm"></a>
+<hr>
+
+## Ejemplos usando Máquinas de Estado y RTOS  <a name="fsm"></a>
 
 Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/RTOS_fsm
+
+<hr>
+
+## Ejemplos usando Objeto Activo  <a name="ActiveObject"></a>
+
+Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/ActiveObject
+
+<hr>
+
+## Ejemplos usando Objeto Activo con Interrupciones  <a name="ActiveObjectISR"></a>
+
+Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/ActiveObject_ISR_TEC
+
+<hr>
+
+## Ejemplos usando Objeto Activo con Interrupciones y UART <a name="ActiveObjectUART"></a>
+
+Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/ActiveObject_ISR_UART
+
+<hr>
 
 ## Iniciar Repositorio <a name="iniciar"></a>
 
@@ -316,6 +351,7 @@ Este programa se inicializa con una frase que dice "usb". Si se le envía algún
 
 ![](/home/charlieromano/Pictures/Screenshot from 2021-10-04 21-17-44.png)
 
+<hr>
 
 
 
