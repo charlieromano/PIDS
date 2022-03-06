@@ -4,29 +4,29 @@
 
 
 
-## 1.  Ejemplo de Objetos Activos con máquinas de estado en RTOS <a name="activeObjectRTOS"></a>
+## 1.  Ejemplos usando Objeto Activo <a name="activeObjectRTOS"></a>
 
 **Ejemplo de máquina de estados usando un arreglo de estructuras **
 
 
-En este ejemplo se implementa una máquina de estados sencilla que contiene tres estados:
+En este ejemplo se implementan dos máquinas de estado que se actualizan acorde a dos temporizadores. Una de las máquinas contiene tres estados:
 
 * STATE_LISTENING
 * STATE_HEADER
 * STATE_TRAILER
 
-y una segunda máquina de estados de solamente dos estados:
+y  la otra contiene solamente dos estados:
 
 * STATE_A
 * STATE_B
 
-El ejemplo está implementado en C usando RTOS y tiene como fin implementar progresivamente un diseño de máquina de estados para procesamiento de tramas de red TCN. En este ejercicio se combinan dos máquinas de estado usando la misma estructura funcional y el patrón de objeto activo. Se definen dos timers y dos colas, cada timer envía eventos a las respectivas colas y estas invocan métodos de callback que son ejecutados por las máquinas de estado. La invocación de los eventos queda desacoplada de la ejecución, usando para esto las colas queue_1 y queue_2.
+ En este ejercicio se combinan dos máquinas de estado usando la misma estructura funcional y el patrón de objeto activo. Se definen dos timers y dos colas, cada timer envía eventos a las respectivas colas y estas invocan métodos de callback que son ejecutados por las máquinas de estado. La invocación de los eventos queda desacoplada de la ejecución, usando para esto las colas queue_1 y queue_2.
 
 La máquina de estados inicial se detalla en el siguiente diagrama:
 
 
 
-![](../../Pics/activeObject_example.png)
+![](../../Pics/activeObject_example_timers.png)
 
 
 
@@ -74,7 +74,6 @@ eSystemState 	TrailerHandler(void) 	;
 
 
 #endif
-
 
 //statemachine.c
 #include "statemachine.h"
@@ -188,6 +187,7 @@ sStateMachine_B fsmTest_B [] =
 	{STATE_B, evTimeout2, BtoAHandler}
 };
 
+
 ```
 Luego la ejecución del código principal resulta en una iteración muy sencilla que actualiza el estado de la máquina de estados según el evento de entrada y direccionando el handler que corresponda según el diseño. Con el patrón de objeto activo ahora la invocación se hace encolando y decolando mensajes.
 
@@ -222,7 +222,6 @@ void vTaskTB(void *xTimerHandle);
 
 #endif
 
-
 //tasks.c
 #include "tasks.h"
 
@@ -233,7 +232,7 @@ void vTaskTA(void *xTimerHandle)
 	eSystemEvent newEvent;
 
 	while(true){
-		vPrintString("This task is running.\r\n");
+		vPrintString("Task TA is running.\r\n");
 		eSystemState nextState = STATE_INIT;
 		newEvent=evInit;
 		int i=0;
@@ -256,7 +255,7 @@ void vTaskTB(void *xTimerHandle)
 	eSystemEvent_B newEvent;
 
 	while(true){
-		vPrintString("This task is running.\r\n");
+		vPrintString("Task TB is running.\r\n");
 		eSystemState_B nextState = STATE_INIT_B;
 		newEvent=evInit_B;
 		int i=0;
@@ -274,6 +273,15 @@ void vTaskTB(void *xTimerHandle)
 }
 
 
+void vTaskEchoUART(void* pvParameters){
+   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
+   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
+	while(true){
+      if(  uartReadByte( UART_USB, &data ) ){
+         uartWriteByte( UART_USB, data );
+      }		
+	}
+}
 
 ```
 Finalmente, el código principal que inicia el scheduler de RTOS define ahora los timers y las colas:
@@ -281,6 +289,47 @@ Finalmente, el código principal que inicia el scheduler de RTOS define ahora lo
 
 
 ```c
+#ifndef MAIN_H
+#define MAIN_H
+
+#include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
+#include "FreeRTOS.h"   
+#include "FreeRTOSConfig.h"
+#include "task.h"		
+#include "semphr.h"		
+#include "queue.h"      
+#include "sapi.h"
+#include "board.h"
+#include "tasks.h"
+#include "timers.h"
+#include "statemachine.h"
+#include "udf.h"
+
+#define  	QUEUE_MAX_LENGTH 	12
+
+DEBUG_PRINT_ENABLE;
+uint8_t data  = 0; /* variable global */
+uint8_t data_B  = 0; /* variable global */
+
+/* RTOS task handlers */
+xTaskHandle 	xTaskStateMachineHandler; 
+xTaskHandle 	xTaskStateMachineHandler_B; 
+
+/* State Machine */
+TimerHandle_t  	timerHandle; /* RTOS timer */
+QueueHandle_t 	queueHandle; /* RTOS queue */
+void timerCallback(TimerHandle_t xTimerHandle); /* RTOS timer */
+
+/* State Machine B*/
+TimerHandle_t  	timerHandle_B; /* RTOS timer */
+QueueHandle_t 	queueHandle_B; /* RTOS queue */
+void timerCallback_B(TimerHandle_t xTimerHandle);/* RTOS timer */
+
+#endif 
+
+
 /*****************************************************************************
  * Copyright (c) 2021, Carlos Germán Carreño Romano <charlieromano@gmail.com>
  * All rights reserved.
@@ -357,6 +406,8 @@ void timerCallback_B(TimerHandle_t xTimerHandle){
    eSystemEvent data_B = cnt%4;
    xQueueSend(queueHandle_B, &data_B, 0U);
 }
+
+
 
 ```
 
