@@ -1603,7 +1603,6 @@ Wire Wire Line
 Wire Wire Line
 	1275 9800 1275 10725
 NoConn ~ 1125 10725
-NoConn ~ 1200 10725
 Text GLabel 1275 10450 3    50   Input ~ 0
 LT
 $Comp
@@ -4818,6 +4817,9 @@ Wire Wire Line
 	5525 10875 4925 10875
 Wire Wire Line
 	4925 10550 4925 10875
+Connection ~ 5525 10875
+Wire Wire Line
+	5525 10875 5525 10900
 Wire Bus Line
 	9275 9750 9275 9850
 Wire Bus Line
@@ -4840,6 +4842,8 @@ Wire Bus Line
 	5125 2425 5125 5225
 Wire Bus Line
 	3350 2425 3350 5225
+Wire Bus Line
+	6875 5225 9200 5225
 Wire Bus Line
 	4550 4975 4850 4975
 Wire Bus Line
@@ -4934,9 +4938,6 @@ Wire Bus Line
 	9275 9850 15300 9850
 Wire Bus Line
 	1850 2650 13350 2650
-Connection ~ 5525 10875
-Wire Wire Line
-	5525 10875 5525 10900
-Wire Bus Line
-	6875 5225 9200 5225
+Text Notes 1200 10225 3    50   ~ 0
+SER-2nd74HC595Array
 $EndSCHEMATC
