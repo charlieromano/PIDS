@@ -38,7 +38,6 @@ int main(void)
       return 1;
    }
 
-
    if( xTaskCreate( vHandlerTask, "ISR Handler task", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       NULL) == pdFAIL ) {
@@ -51,6 +50,12 @@ int main(void)
    xBinarySemaphore = xSemaphoreCreateBinary();
    if (xBinarySemaphore == NULL){
       perror("Error creating semaphore");
+      return 1;
+   }
+
+   xBinarySemaphoreUART = xSemaphoreCreateBinary();
+   if (xBinarySemaphoreUART == NULL){
+      perror("Error creating UART semaphore");
       return 1;
    }
 

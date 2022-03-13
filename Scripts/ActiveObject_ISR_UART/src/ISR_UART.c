@@ -19,10 +19,10 @@ void UART_IRQHandler( void )
    
    gpioWrite(LED3, ON);
    printf("UART INTERRUPT!: UART_IRQHandler\r\n");
-   xSemaphoreGiveFromISR(xBinarySemaphore, &xHigherPriorityTaskWoken);
+   xSemaphoreGiveFromISR(xBinarySemaphoreUART, &xHigherPriorityTaskWoken);
    uartClearPendingInterrupt(UART_USB);
    uartCallbackClr(UART_USB, UART_RECEIVE);
-
+   
    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 
 }

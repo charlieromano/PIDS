@@ -44,5 +44,6 @@ void timerCallback_AB(TimerHandle_t xTimerHandle);/* RTOS timer */
 
 
 SemaphoreHandle_t xBinarySemaphore;
+SemaphoreHandle_t xBinarySemaphoreUART;
 
 #endif 

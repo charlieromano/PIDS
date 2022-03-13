@@ -23,6 +23,7 @@ extern TimerHandle_t  	timerHandle_AB; /* RTOS timer */
 extern QueueHandle_t 	queueHandle_button; /* RTOS queue */
 extern QueueHandle_t 	queueHandle_AB; /* RTOS queue */
 extern SemaphoreHandle_t xBinarySemaphore;
+extern SemaphoreHandle_t xBinarySemaphoreUART;
 
 void vTaskTA(void *xTimerHandle);
 void vTaskTB(void *xTimerHandle);

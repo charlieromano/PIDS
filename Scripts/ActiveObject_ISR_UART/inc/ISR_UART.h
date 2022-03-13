@@ -16,5 +16,6 @@ void IRQ_UART_Init( void );
 void UART_IRQHandler( void );
 
 extern SemaphoreHandle_t xBinarySemaphore;
+extern SemaphoreHandle_t xBinarySemaphoreUART;
 
 #endif

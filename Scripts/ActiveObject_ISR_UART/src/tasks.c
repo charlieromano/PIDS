@@ -65,8 +65,13 @@ void vTaskEchoUART(void* pvParameters){
    // Si recibe un byte de la UART_USB lo guardo en la variable dato.
    // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
 	while(1){
+		xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
+      gpioWrite(LED3, OFF);
+      printf("HandlerTaskUART: processing event..\r\n");
+      
       if(  uartReadByte( UART_USB, &dato ) ){
          uartWriteByte( UART_USB, dato );
+         IRQ_UART_Init();
       }
    }
    vTaskDelete(NULL);
