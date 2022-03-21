@@ -15,6 +15,10 @@
 
 extern uint8_t data_button;
 extern uint8_t data_AB;
+extern   uint8_t dato;
+extern   uint8_t rxData;
+extern   uint8_t buffer;
+
 extern sStateMachine_button 	fsmButton[]; /* State Machine struct */
 extern sStateMachine_AB 		fsmMachineAB[]; /* State Machine struct */
 extern xTaskHandle 	 	xTaskStateMachineHandler_button; /* RTOS task handler */
@@ -25,11 +29,11 @@ extern QueueHandle_t 	queueHandle_button; /* RTOS queue */
 extern QueueHandle_t 	queueHandle_AB; /* RTOS queue */
 extern SemaphoreHandle_t xBinarySemaphore;
 extern SemaphoreHandle_t xBinarySemaphoreUART;
-extern   uint8_t dato;
 
 void vTaskTA(void *xTimerHandle);
 void vTaskTB(void *xTimerHandle);
 void vHandlerTask(void *pvParameters);
 void vTaskUART(void* pvParameters);
+void vTaskProcessData(void* pvParameters);
 
 #endif

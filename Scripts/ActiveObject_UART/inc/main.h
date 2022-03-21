@@ -27,6 +27,9 @@ gpioMap_t button=TEC2;
 
 uint8_t data_button  = 0; /* variable global */
 uint8_t data_AB  = 0; /* variable global */
+uint8_t dato  = 0;
+uint8_t rxData = 0;
+uint8_t buffer = 0;
 
 /* RTOS task handlers */
 xTaskHandle 	xTaskStateMachineHandler_button; 

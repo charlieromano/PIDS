@@ -27,6 +27,13 @@ void UART_IRQHandler( void )
 
 }
 
+/*
+     if(  uartReadByte( UART_USB, &dato ) ){
+         uartWriteByte( UART_USB, dato );
+         IRQ_UART_Init();
+      }
+
+*/
 //-------------------------------------------------------------
 // Interrupts
 //-------------------------------------------------------------

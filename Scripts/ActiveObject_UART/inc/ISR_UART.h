@@ -13,11 +13,14 @@
 #include "sapi_uart.h"
 
 #define UART_BAUD_RATE 115200
+#define UART_QUEUE_WAITING_TICKS 0
 
 void IRQ_UART_Init( void );
 void UART_IRQHandler( void );
 
 extern SemaphoreHandle_t xBinarySemaphore;
 extern SemaphoreHandle_t xBinarySemaphoreUART;
+extern QueueHandle_t 	queueUART_Rx;
+extern uint8_t rxData;
 
 #endif

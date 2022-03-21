@@ -10,15 +10,26 @@ void vTaskUART(void* pvParameters){
 		xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
       gpioWrite(LED3, OFF);
       printf("HandlerTaskUART: processing event..\r\n");
-
-      
-      if(  uartReadByte( UART_USB, &dato ) ){
-         uartWriteByte( UART_USB, dato );
-         IRQ_UART_Init();
+      if(uartReadByte(UART_USB, &rxData)){
+      	/* dispatch received data and set back ISR */
+      	if(xQueueSend(queueUART_Rx, &rxData, UART_QUEUE_WAITING_TICKS)!=pdPASS){
+      	/* Data could not be sent after UART_QUEUE_WAITING_TICKS_TIME */
+      		perror("Error sending rxData to the queueUART_Rx");
+      	}
+      	IRQ_UART_Init();
       }
    }
-   vTaskDelete(NULL);
 }
+
+void vTaskProcessData(void* pvParameters){
+/* The data receiver and processing task*/
+	while(true){
+		if(xQueueReceive(queueUART_Rx, &buffer, portMAX_DELAY)==pdPASS){
+			uartWriteByte( UART_USB, buffer );
+		}
+	}
+}
+
 
 
 void vTaskTA(void *xTimerHandle)
