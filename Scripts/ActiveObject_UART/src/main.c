@@ -19,7 +19,7 @@ int main(void)
 
    /* Create the tasks */
    // Option 1: echo UART
-   if( xTaskCreate( vTaskUART, "Echo test", 
+   if( xTaskCreate( vTaskUART, "UART receiving and dispatch task", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
@@ -60,7 +60,23 @@ int main(void)
    }
 
    queueHandle_AB = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_AB));
-   xTimerStart(timerHandle_AB, 0);   /* Start the timer */
+   if (queueHandle_AB == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+
+   if(xTimerStart(timerHandle_AB, 0) != pdPASS){
+      /* Start the timer */
+      perror("Error starting timer");
+      return 1;      
+   }
+
+
+   queueUART_Rx = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(char));
+   if (queueUART_Rx == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
 
    /* Start RTOS */
    printf("Init scheduler..\r\n");

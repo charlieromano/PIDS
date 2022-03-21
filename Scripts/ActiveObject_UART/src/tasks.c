@@ -1,6 +1,25 @@
 //tasks.c
 #include "tasks.h"
 
+void vTaskUART(void* pvParameters){
+   
+   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
+   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
+
+	while(true){
+		xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
+      gpioWrite(LED3, OFF);
+      printf("HandlerTaskUART: processing event..\r\n");
+
+      
+      if(  uartReadByte( UART_USB, &dato ) ){
+         uartWriteByte( UART_USB, dato );
+         IRQ_UART_Init();
+      }
+   }
+   vTaskDelete(NULL);
+}
+
 
 void vTaskTA(void *xTimerHandle)
 {
@@ -57,24 +76,5 @@ void vHandlerTask(void *pvParameters){
       gpioWrite(LED2, OFF);
       printf("HandlerTask: processing event..\r\n");
    }
-}
-
-void vTaskUART(void* pvParameters){
-   
-   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
-   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
-
-	while(true){
-		xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
-      gpioWrite(LED3, OFF);
-      printf("HandlerTaskUART: processing event..\r\n");
-
-      
-      if(  uartReadByte( UART_USB, &dato ) ){
-         uartWriteByte( UART_USB, dato );
-         IRQ_UART_Init();
-      }
-   }
-   vTaskDelete(NULL);
 }
 
