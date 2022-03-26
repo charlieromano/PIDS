@@ -16,8 +16,7 @@ typedef enum {
 typedef enum{
 	evInit_UART,
 	evReceive,
-	evHeader,
-	evTrailer
+	evEOF
 
 } eSystemEvent_UART;
 
@@ -30,8 +29,9 @@ typedef struct{
 } sStateMachine_UART;
 
 eSystemState_UART 	InitHandler_UART(void);
-eSystemState_UART 	Handler_1(void);
-eSystemState_UART 	Handler_2(void);
+eSystemState_UART 	listeningHandler(void);
+eSystemState_UART 	recordingHandler(void);
+eSystemState_UART 	processingHandler(void);
 
 
 #endif

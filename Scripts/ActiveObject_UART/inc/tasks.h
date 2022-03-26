@@ -9,15 +9,15 @@
 #include "timers.h"
 #include "sapi.h"
 #include "board.h"
-#include "statemachine_button.h"
+#include "statemachine_GPIO.h"
 #include "statemachine_AB.h"
 #include "ISR_UART.h"
 
-extern uint8_t data_button;
-extern uint8_t data_AB;
-extern   uint8_t dato;
-extern   uint8_t rxData;
-extern   uint8_t buffer;
+extern 	uint8_t data_button;
+extern	uint8_t data_AB;
+extern  uint8_t dato;
+extern  uint8_t rxData;
+extern  uint8_t dataBuffer;
 
 extern sStateMachine_button 	fsmButton[]; /* State Machine struct */
 extern sStateMachine_AB 		fsmMachineAB[]; /* State Machine struct */
@@ -30,7 +30,7 @@ extern QueueHandle_t 	queueHandle_AB; /* RTOS queue */
 extern SemaphoreHandle_t xBinarySemaphore;
 extern SemaphoreHandle_t xBinarySemaphoreUART;
 
-void vTaskTA(void *xTimerHandle);
+void vTaskButton(void *xTimerHandle);
 void vTaskTB(void *xTimerHandle);
 void vHandlerTask(void *pvParameters);
 void vTaskUART(void* pvParameters);

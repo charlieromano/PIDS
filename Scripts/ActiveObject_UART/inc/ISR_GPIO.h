@@ -9,8 +9,13 @@
 #include "queue.h"      
 #include "sapi.h"
 #include "board.h"
+#include "timers.h"
 
-extern SemaphoreHandle_t xBinarySemaphore;
+/* State Machine Button*/
+extern	SemaphoreHandle_t xBinarySemaphore; 	/* ROTS semaphore */
+extern 	TimerHandle_t	  timerHandle_button; 	/* RTOS timer */
+extern 	QueueHandle_t	  queueHandle_button; 	/* RTOS queue */
+extern	void	timerCallback_button(TimerHandle_t xTimerHandle); /* RTOS timer callback */
 
 void IRQ_GPIO_Init (void);
 

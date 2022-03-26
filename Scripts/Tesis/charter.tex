@@ -7,7 +7,7 @@
 
 
 % El títulos de la memoria, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \ttitle
-\titulo{PIDS: Sistema de información visual para pasajeros de Trenes Argentinos } 
+\titulo{Sistema de información visual para pasajeros de Trenes Argentinos } 
 
 % Nombre del posgrado, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \degreename
 \posgrado{Carrera de Especialización en Sistemas Embebidos} 
@@ -114,6 +114,17 @@ Se adjunta a esta acta la planificación inicial.
 
 
 \section{Introducción}
+
+
+El sistema PIDS tiene la capacidad de presentar diversos mensajes de información al pasajero, como por ejemplo el nombre de la próxima estación, la temperatura actual, el tiempo estimado de arribo a destino, entre otros. Los mensajes se visualizan en carteles LED de 120 cm x 30 cm aproximadamente, usando matrices de punto LED de un solo color. La placa de control es compatible con manejadores de carteles LED comerciales, y también es compatible con la red eléctrica de 110 VDC del tren. El PIDS además cuenta con varios módulos adicionales, como son el sistema de sonido y el sistema de video entre otros. Cada módulo se compone de piezas de hardware específicas, distribuidas e interconectadas a lo largo del tren. En la figura \ref{fig:diagBloques} se presenta un diagrama de bloques del sistema PIDS. Se resalta en color los módulos de control incluidos en el alcance de este proyecto.
+
+Este sistema también ofrece al personal técnico de SOFSE la capacidad de reemplazar placas existentes con alguna falla, configurar el nombre de distintos ramales usando el mismo hardware, y sirve de maqueta para capacitaciones.
+
+Se propone en este trabajo diseñar y fabricar el controlador siguiendo las normas 50155 y 50126. La norma EN 50155 es la norma internacional que rige todos los equipos electrónicos de control, regulación, protección y suministro que se instalan en los vehículos ferroviarios. La norma EN 50126 define el ciclo de vida como: “estructura para la planificación, la gestión, el control y la supervisión de todos los aspectos de un sistema, incluido la fiabilidad, la disponibilidad, la mantenibilidad y la seguridad (RAMS), para entregar el producto adecuado al precio correcto dentro del plazo acordado.”
+
+
+Este trabajo es continuación del trabajo final de la Carrera de Especialización en Sistemas Embebidos titulado Sistema de información visual para pasajeros, que se enmarca en un Proyecto de Desarrollo Estratégico (PDE), 'PDE\_15\_2020' de UBACyT titulado como “Sistema de monitoreo y gestión de la red TCN en formaciones ferroviarias”
+
 \label{sec:intro}
 \subsection{Introducción específica}
 El objetivo de este trabajo es desarrollar y fabricar controladores para el sistema de información visual de pasajeros (PIDS) de Trenes Argentinos (SOFSE). Este sistema presenta mensajes con información al pasajero a través de carteles LED de salón y carteles de frente y contrafrente del tren, como se muestra en la figura 1. Los mensajes indican por ejemplo el ramal destino, la próxima estación, estados de emergencia o cualquier información de interés que puede ser acompañada por el sistema de audio.
@@ -257,10 +268,184 @@ Transm. layer | UDP multicast/unicast, TCP | UDP multicast/unicast, TCP |
 Real-time prot. | TRDP | – |
 App layer serv | DHCP, DNS, SNTP, SNMP | DHCP, DNS, SNTP, SNMP |
 -------------------------------------------------------------------------
+\pagebreak
+\section{Contexto}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
 
 \pagebreak
+\subsection{Trenes Argentinos - SOFSE}
 
-\section{Planificación}
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[scale=0.5]{./Pics/clasesTrainPIDS.png}
+\caption{Diagrama de dependencias del PIDS en el sistema del tren.}
+\label{fig:Clases Train-PIDS}
+\end{figure}
+
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\subsection{TCN: Red de comunicaciones del tren}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/diagramaTrenesArgentinos_TCN_PIDS.png}
+\caption{Plano de la Red TCN. Se remarca en color la posición jerárquica del sistema PIDS.}
+\label{fig:Red TCN}
+\end{figure}
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\pagebreak
+\subsection{PIDS: Sistema de información al pasajero}
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/PIDS_diagram.png}
+\caption{Plano de la Red PIDS.}
+\label{fig:Red PIDS}
+\end{figure}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\pagebreak
+\subsection{SCU: Unidad de control de salón}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/diagramaSCU.png}
+\caption{Diagrama de bloques del SCU.}
+\label{fig:diagrama SCU}
+\end{figure}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth, angle=90]{./Pics/IMG_4560.JPG}
+\caption{Rack de salón.}
+\label{fig:rack Salon}
+\end{figure}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/IMG_4591.JPG}
+\caption{Detalle de la unidad de rack del SCU.}
+\label{fig:rack SCU}
+\end{figure}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\pagebreak
+\subsection{IDU: Cartel LED de salón}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=0.5\textwidth]{./Pics/IMG_4563.JPG}
+\caption{Cartel LED de salón.}
+\label{fig:cartel de salón}
+\end{figure}
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=0.5\textwidth]{./Pics/IMG_20210322_130602.jpg}
+\caption{Placa de control ensamblada en el cartel LED.}
+\label{fig:Placa de control ensamblada}
+\end{figure}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/IDU_controller.jpeg}
+\caption{Placa de control del IDU.}
+\label{fig:controller IDU.}
+\end{figure}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/LED_matrix_driver.jpeg}
+\caption{Placa driver del cartel LED.}
+\label{fig:driver de cartel LED.}
+\end{figure}
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+
 
 \pagebreak
 
@@ -388,63 +573,18 @@ los pasajeros.
 
 4. Alarmas: las alarmas se generan cuando se acciona manualmente el cambio de cabeceras durante el recorrido del tren.
 
+\subsection{Casos de uso}
 
+Como usuario quiero visualizar el nombre de la estación arribada.
 
+\textbf{Descripción:} El sistema genera un mensaje que contiene información para el pasajero y se lo presenta en una marquesina LED.
 
-\pagebreak
-\section{Desarrollo}
+\textbf{Disparadores:} El evento se inicia cuando el tren arriba a una 
+estación.
 
+\subsection{Testing}
 
-\subsubsection{Transceiver}
-\pagebreak
-
-\subsubsection{Driver}
-\pagebreak
-
-\subsubsection{Display}
-La placa de control del display LED matricial se representa con el diagrama de bloques de la figura \ref{fig:blockDiagram LED display}. La entrada es un conector de dieciséis pines (2x8) que entrega señal de datos a dos transceivers 74HC245D. El circuito de los transceivers s
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=1\textwidth]{./Pics/blockDiagram.png}
-\caption{Diagrama de bloques del controlador del display LED.}
-\label{fig:blockDiagram LED display}
-\end{figure}
-
-texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
-
-\includepdf[pages={1},landscape]{Pics/output.driverLED.pdf}	
-
-texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
-\subsection{Controlador}
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=1\textwidth]{./Pics/IMG_20210322_130602.jpg}
-\caption{}
-\label{fig:Placa de control ensamblada}
-\end{figure}
-
-
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=1\textwidth]{./Pics/IMG_20210523_190031.jpg}
-\caption{}
-\label{fig:Placa de control de repuesto.}
-\end{figure}
-
-
-texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
-\pagebreak
-
-
-\includepdf[pages={1},landscape]{Pics/output.placaControl.pdf}	
-
-\pagebreak
-\subsection{Firmware}
-
-\subsubsection{Máquinas de estado (fsm)}
+\subsubsection{PIDS}
 El sistema de visualización de mensajes será el encargado de recibir información por parte de un sistema mayor (red TCN) y de presentar información al pasajero a través de carteles LED. Dado que el sistema completo es un Tren y su función es transportar pasajeros a lo largo de un recorrido o ruta de
 estaciones, se ha modelado la visualización de mensajes del sistema  utilizando el patrón de máquinas de estado. El diseño de pruebas entonces aprovecha este patrón con las técnicas de STT
 (State Transition Testing). A continuación se detalla paso a paso el diseño de las pruebas de sistema y de aceptación. 
@@ -506,9 +646,123 @@ transiciones entre estados posibles en el sistema se detallan en la sección de 
 
 
 
+\pagebreak
+\section{Desarrollo}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+
 
 \pagebreak
-\subsubsection{Sistema operativo de tiempo real (RTOS)}
+\subsection{LED matrix driver}
+La placa de control del display LED matricial se representa con el diagrama de bloques de la figura \ref{fig:blockDiagram LED display}. La entrada es un conector de dieciséis pines (2x8) que entrega señal de datos a dos transceivers 74HC245D. El circuito de los transceivers s
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=0.75\textwidth, angle=90]{./Pics/IMG_20220326_173044.jpg}
+\caption{Placa driver de un cartel LED comercial.}
+\label{fig:driver cartel LED comercial}
+\end{figure}
+
+
+\subsubsection{Diagrama de bloques}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=1\textwidth]{./Pics/blockDiagram.png}
+\caption{Diagrama de bloques del controlador del display LED.}
+\label{fig:blockDiagram LED display}
+\end{figure}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+\subsubsection{Circuito esquemático}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\includepdf[pages={1},landscape]{Pics/output.driverLED.pdf}	
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+\subsubsection{Firmware}
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+\pagebreak
+
+
+\pagebreak
+\subsection{Controller}
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=0.75\textwidth, angle=90]{./Pics/IMG_20210523_190031.jpg}
+\caption{}
+\label{fig:Placa de control de repuesto.}
+\end{figure}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+
+\subsubsection{Diagrama de bloques}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\subsubsection{Circuito esquemático}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\includepdf[pages={1},landscape]{Pics/output.placaControl.pdf}	
+
+\subsubsection{Firmware}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\pagebreak
+\subsection{Transceiver: interfaz TCN}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\subsubsection{Bus de datos}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\subsubsection{Mediciones}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\subsubsection{Tramas}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\subsubsection{Firmware}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+\pagebreak
 
 \begin{figure}[htpb]
 \centering 
@@ -517,8 +771,14 @@ transiciones entre estados posibles en el sistema se detallan en la sección de 
 \label{fig:RTOS tasks}
 \end{figure}
 
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
 \pagebreak
 \section{Pruebas de integración}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
 
 \begin{figure}[htpb]
 \centering 
@@ -527,33 +787,24 @@ transiciones entre estados posibles en el sistema se detallan en la sección de 
 \label{fig:Placa de control map}
 \end{figure}
 
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
 
-\pagebreak
-\subsection{Análisis de los protocolos de comunicación}
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=0.5\textwidth]{./Pics/sniffingDiagram.drawio.png}
-\caption{Diagrama de bloques del ensayo para el análisis de protocolos de comunicación.}
-\label{fig:sniffingDiagram}
-\end{figure}
-
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=0.66\textwidth]{./Pics/IMG_20210322_122403.jpg}
-\caption{Fotografía del punto de medición a intervenir para realizar capturas.}
-\label{fig:NOsniffingPhoto}
-\end{figure}
 
 \pagebreak
 \subsection{Puntos de medición}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
 \begin{figure}[htpb]
 \centering 
 \includegraphics[width=1\textwidth]{./Pics/RedPIDS.drawio.png}
 \caption{Diagrama del plano esquemático del punto de medición.}
 \label{fig:test point SCU-PIDS diagram}
 \end{figure}
+
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
 
 
 
@@ -565,39 +816,51 @@ transiciones entre estados posibles en el sistema se detallan en la sección de 
 \label{fig:sniffingPhoto}
 \end{figure}
 
-\section{Integración}
-
-\end{document}
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
 
 
-El sistema PIDS tiene la capacidad de presentar diversos mensajes de información al pasajero, como por ejemplo el nombre de la próxima estación, la temperatura actual, el tiempo estimado de arribo a destino, entre otros. Los mensajes se visualizan en carteles LED de 120 cm x 30 cm aproximadamente, usando matrices de punto LED de un solo color. La placa de control es compatible con manejadores de carteles LED comerciales, y también es compatible con la red eléctrica de 110 VDC del tren. El PIDS además cuenta con varios módulos adicionales, como son el sistema de sonido y el sistema de video entre otros. Cada módulo se compone de piezas de hardware específicas, distribuidas e interconectadas a lo largo del tren. En la figura \ref{fig:diagBloques} se presenta un diagrama de bloques del sistema PIDS. Se resalta en color los módulos de control incluidos en el alcance de este proyecto.
 
-%\vspace{25px}
+\pagebreak
+\subsection{Análisis de tramas}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
 
 \begin{figure}[htpb]
 \centering 
-\includegraphics[width=.99\textwidth]{./Pics/RedPIDS.png}
-\caption{}
-\label{fig:diagBloques}
+\includegraphics[width=0.5\textwidth]{./Pics/sniffingDiagram.drawio.png}
+\caption{Diagrama de bloques del ensayo para el análisis de protocolos de comunicación.}
+\label{fig:sniffingDiagram}
 \end{figure}
 
-\vspace{25px}
-
-Este sistema también ofrece al personal técnico de SOFSE la capacidad de reemplazar placas existentes con alguna falla, configurar el nombre de distintos ramales usando el mismo hardware, y sirve de maqueta para capacitaciones.
-
-Se propone en este trabajo diseñar y fabricar el controlador siguiendo las normas 50155 y 50126. La norma EN 50155 es la norma internacional que rige todos los equipos electrónicos de control, regulación, protección y suministro que se instalan en los vehículos ferroviarios. La norma EN 50126 define el ciclo de vida como: “estructura para la planificación, la gestión, el control y la supervisión de todos los aspectos de un sistema, incluido la fiabilidad, la disponibilidad, la mantenibilidad y la seguridad (RAMS), para entregar el producto adecuado al precio correcto dentro del plazo acordado.”
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
 
 
-Este trabajo es continuación del trabajo final de la Carrera de Especialización en Sistemas Embebidos titulado Sistema de información visual para pasajeros, que se enmarca en un Proyecto de Desarrollo Estratégico (PDE), 'PDE\_15\_2020' de UBACyT titulado como “Sistema de monitoreo y gestión de la red TCN en formaciones ferroviarias”
 
-\label{sec:backlog}
+\begin{figure}[htpb]
+\centering 
+\includegraphics[width=0.66\textwidth]{./Pics/IMG_20210322_122403.jpg}
+\caption{Fotografía del punto de medición a intervenir para realizar capturas.}
+\label{fig:NOsniffingPhoto}
+\end{figure}
 
-\subsection{UC-1} 
-Como usuario quiero visualizar el nombre de la estación arribada.
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
 
-\textbf{Descripción:} El sistema genera un mensaje que contiene información para el pasajero y se lo presenta en una marquesina LED.
 
-\textbf{Disparadores:} El evento se inicia cuando el tren arriba a una 
-estación.
+\pagebreak
+\subsection{Visualización}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+\pagebreak
+\section{Conclusiones}
+
+texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto 
+
+
+
+\end{document}
 
 

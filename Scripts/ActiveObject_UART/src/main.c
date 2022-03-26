@@ -8,6 +8,7 @@
 
 #include "main.h"
 
+
 int main(void)
 {
 
@@ -16,10 +17,17 @@ int main(void)
    IRQ_GPIO_Init();
    IRQ_UART_Init();
 
-   /* Create the semaphores, queues, timers and tasks */
+   /* Create the semaphores, queues, timers and task for ISR_GPIO */
    xBinarySemaphore = xSemaphoreCreateBinary();
    if (xBinarySemaphore == NULL){
       perror("Error creating semaphore");
+      return 1;
+   }
+
+   if( xTaskCreate( vHandlerTask, "ISR Handler task", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      NULL) == pdFAIL ) {
+      perror("Error creating task");
       return 1;
    }
 
@@ -29,8 +37,14 @@ int main(void)
       return 1;
    }
 
-   queueHandle_AB = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_AB));
-   if (queueHandle_AB == NULL){
+   queueHandle_button = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
+   if (queueHandle_button == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+
+   queueHandleUART_AO = xQueueCreate(QUEUE_ACTIVE_OBJECT, sizeof(eSystemEvent_UART));
+   if (queueHandleUART_AO == NULL ){
       perror("Error creating queue");
       return 1;
    }
@@ -41,46 +55,36 @@ int main(void)
       return 1;
    }
 
-   if( (timerHandle_AB = xTimerCreate( "Timer2", 1000, true, NULL, 
-      timerCallback_AB)) == NULL ) {
-      perror("Error creating timer");
-      return 1;
-   }
-
    if( xTaskCreate( vTaskUART, "UART receiving and dispatch task", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
 
-   if( xTaskCreate( vTaskProcessData, "The data receiver and processing task", 
-      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
-      perror("Error creating task");
-      return 1;
-   }
-
-   if( xTaskCreate( vTaskTB, "State Machine using active object", 
+   if( xTaskCreate( vTaskTA, "State Machine using active object", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       &xTaskStateMachineHandler_button) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
 
-
-   if( xTaskCreate( vHandlerTask, "ISR Handler task", 
-      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
-      NULL) == pdFAIL ) {
-      perror("Error creating task");
+   if( (timerHandle_AB = xTimerCreate( "Timer2", 1000, true, NULL, 
+      timerCallback_AB)) == NULL ) {
+      perror("Error creating timer");
       return 1;
    }
 
-   /* Start the timers and RTOS scheduler */
+
+
+
+
    if(xTimerStart(timerHandle_AB, 0) != pdPASS){
       /* Start the timer */
       perror("Error starting timer");
       return 1;      
    }
 
+   /* Start RTOS */
    printf("Init scheduler..\r\n");
    vTaskStartScheduler();   // Scheduler
 
