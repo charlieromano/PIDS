@@ -13,7 +13,7 @@
 #include "board.h"
 #include "tasks.h"
 #include "timers.h"
-#include "statemachine_GPIO.h"
+#include "statemachine_Button.h"
 #include "statemachine_UART.h"
 #include "ISR_GPIO.h"
 #include "ISR_UART.h"
@@ -27,38 +27,48 @@
 
 DEBUG_PRINT_ENABLE;
 
-gpioMap_t button=TEC2;
+gpioMap_t button=TEC1;
 
-uint8_t data_button  = 0; /* variable global */
-uint8_t data_AB  = 0; /* variable global */
+/* global variables */
+uint8_t timer_button = 0;
+uint8_t data_AB  = 0; 
 uint8_t dato  = 0;
 uint8_t rxData = 0;
 uint8_t dataBuffer = 0;
 
+/* state machines AO queue variables */
+eSystemEvent_button event_button;
+
 /* RTOS task handlers */
 xTaskHandle 	xTaskStateMachineHandler_button; 
+xTaskHandle 	xTaskStateMachineHandler_UART; 
 xTaskHandle 	xTaskStateMachineHandler_AB; 
 
-/* State Machine Button*/
-SemaphoreHandle_t xBinarySemaphore; 	/* ROTS semaphore */
-TimerHandle_t	  timerHandle_button; 	/* RTOS timer */
-QueueHandle_t	  queueHandle_button; 	/* RTOS queue */
-void	timerCallback_button(TimerHandle_t xTimerHandle); /* RTOS timer callback */
-
-void IRQ_GPIO_Init (void);
-
-/* State Machine AB*/
-TimerHandle_t  	timerHandle_AB; /* RTOS timer */
-QueueHandle_t 	queueHandle_AB; /* RTOS queue */
-void timerCallback_AB(TimerHandle_t xTimerHandle);/* RTOS timer */
-
-
-SemaphoreHandle_t xBinarySemaphore;
-SemaphoreHandle_t xBinarySemaphoreUART;
-
-
+/* RTOS queues */
 QueueHandle_t 	queueUART_Rx; /* RTOS queue for UART*/
 QueueHandle_t 	queueHandleUART_AO; /* RTOS queue for UART Active Object*/
+QueueHandle_t	queueHandle_button; 	
+QueueHandle_t 	queueHandle_AB; 
+
+/* RTOS semaphores and mutexes */
+SemaphoreHandle_t xBinarySemaphore;
+SemaphoreHandle_t xBinarySemaphoreUART;
+SemaphoreHandle_t xMutexUART;
+
+/* RTOS timers */
+TimerHandle_t  	timerHandle_AB; 
+TimerHandle_t	timerHandle_button; 
+
+/* timer callbacks */
+void	timerCallback_button(TimerHandle_t xTimerHandle); 
+void 	timerCallback_AB(TimerHandle_t xTimerHandle);
+
+/* ISR */
+void	IRQ_GPIO_Init (void);
+
+
+
+
 
 
 #endif 

@@ -35,9 +35,8 @@ void GPIO0_IRQHandler(void){
    /* Prevent another ISR or task with higher priority block this ISR*/
    BaseType_t xHigherPriorityTaskWoken = pdFALSE; 
 
-   if (Chip_PININT_GetFallStates(LPC_GPIO_PIN_INT) & PININTCH0){ //Verificamos que la interrupciÃ³n es la esperada
-      Chip_PININT_ClearIntStatus(LPC_GPIO_PIN_INT, PININTCH0); //Borramos el flag de interrupciÃ³n
-
+   if(Chip_PININT_GetFallStates(LPC_GPIO_PIN_INT) & PININTCH0){
+      Chip_PININT_ClearIntStatus(LPC_GPIO_PIN_INT, PININTCH0);
       gpioWrite(LED2, ON);
       printf("INTERRUPT!:GPIO0_IRQHandler\r\n");
       xSemaphoreGiveFromISR(xBinarySemaphore, &xHigherPriorityTaskWoken);

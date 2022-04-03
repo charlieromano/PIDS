@@ -4,11 +4,10 @@
 
 void IRQ_UART_Init( void )
 {
-	uartConfig(UART_USB, 115200);	// Inicializamos la UART
+	uartConfig(UART_USB, UART_BAUD_RATE);	// Inicializamos la UART
 
 	// Configuramos el callback de recepcion
 	uartCallbackSet(UART_USB, UART_RECEIVE, UART_IRQHandler, NULL);
-
 	uartInterrupt(UART_USB, true); /* enable interrupt */
 }
 
@@ -18,11 +17,11 @@ void UART_IRQHandler( void )
    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
    
    gpioWrite(LED3, ON);
-   printf("UART INTERRUPT!: UART_IRQHandler\r\n");
-   xSemaphoreGiveFromISR(xBinarySemaphoreUART, &xHigherPriorityTaskWoken);
+   //printf("UART INTERRUPT!: UART_IRQHandler\r\n");
    uartClearPendingInterrupt(UART_USB);
    uartCallbackClr(UART_USB, UART_RECEIVE);
    
+   xSemaphoreGiveFromISR(xBinarySemaphoreUART, &xHigherPriorityTaskWoken);
    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 
 }

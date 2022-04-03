@@ -2,16 +2,25 @@
 #include "statemachine_AB.h"
 
 eSystemState_AB 	InitHandler_AB(void){ 
-	printf("State Machine Init...\n");
+	if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      	printf("State Machine Init...\n");
+      	xSemaphoreGive(xMutexUART);
+    }
 	return STATE_A; 
 }
 
 eSystemState_AB 	AtoBHandler(void){
-	printf("STATE_A;\n");
+	if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      	printf("STATE_A;\n");
+      	xSemaphoreGive(xMutexUART);
+    }
 	return STATE_B; 
 }
 eSystemState_AB 	BtoAHandler(void){ 
-	printf("STATE_B;\n");
+	if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+		printf("STATE_B;\n");
+      	xSemaphoreGive(xMutexUART);
+    }
 	return STATE_A; 
 }
 

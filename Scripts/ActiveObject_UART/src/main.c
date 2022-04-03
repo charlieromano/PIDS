@@ -15,15 +15,33 @@ int main(void)
    boardConfig();
    debugPrintConfigUart( UART_USB, UART_BAUD_RATE);
    IRQ_GPIO_Init();
+
    IRQ_UART_Init();
 
    /* Create the semaphores, queues, timers and task for ISR_GPIO */
+
    xBinarySemaphore = xSemaphoreCreateBinary();
    if (xBinarySemaphore == NULL){
       perror("Error creating semaphore");
       return 1;
    }
 
+   xMutexUART = xSemaphoreCreateMutex();
+   if (xMutexUART == NULL){
+      perror("Error creating MUTEX for UART");
+      return 1;
+   }
+
+
+   gpioWrite(LED2, ON);
+/*
+   if( xTaskCreate( vTaskTB, "State Machine using active object", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskStateMachineHandler_button) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+*/
    if( xTaskCreate( vHandlerTask, "ISR Handler task", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       NULL) == pdFAIL ) {
@@ -31,18 +49,25 @@ int main(void)
       return 1;
    }
 
+/*
    xBinarySemaphoreUART = xSemaphoreCreateBinary();
    if (xBinarySemaphoreUART == NULL){
       perror("Error creating UART semaphore");
       return 1;
    }
+*/
 
    queueHandle_button = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
    if (queueHandle_button == NULL){
       perror("Error creating queue");
       return 1;
    }
-
+   queueHandle_AB = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
+   if (queueHandle_AB == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+/*
    queueHandleUART_AO = xQueueCreate(QUEUE_ACTIVE_OBJECT, sizeof(eSystemEvent_UART));
    if (queueHandleUART_AO == NULL ){
       perror("Error creating queue");
@@ -60,8 +85,8 @@ int main(void)
       perror("Error creating task");
       return 1;
    }
-
-   if( xTaskCreate( vTaskTA, "State Machine using active object", 
+*/
+   if( xTaskCreate( vTaskButton, "State Machine using active object", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       &xTaskStateMachineHandler_button) == pdFAIL ) {
       perror("Error creating task");
@@ -74,12 +99,18 @@ int main(void)
       return 1;
    }
 
+   if( (timerHandle_button = xTimerCreate( "Timer button", 50, true, NULL, 
+      timerCallback_button)) == NULL ) {
+      perror("Error creating timer");
+      return 1;
+   }
 
-
-
+   if(xTimerStart(timerHandle_button, 0) != pdPASS){
+      perror("Error starting timer");
+      return 1;      
+   }
 
    if(xTimerStart(timerHandle_AB, 0) != pdPASS){
-      /* Start the timer */
       perror("Error starting timer");
       return 1;      
    }
@@ -92,19 +123,4 @@ int main(void)
 
    return 0;
 }
-
-void timerCallback_button(TimerHandle_t xTimerHandle){
-
-   eSystemEvent_button data_button = evPushed;
-   xQueueSend(queueHandle_button, &data_button, 0U);
-}
-
-void timerCallback_AB(TimerHandle_t xTimerHandle){
-   static uint8_t cnt = 0;
-   cnt++;
-
-   eSystemEvent_AB data_AB = cnt%4;
-   xQueueSend(queueHandle_AB, &data_AB, 0U);
-}
-
 
