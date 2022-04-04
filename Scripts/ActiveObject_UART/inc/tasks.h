@@ -23,26 +23,31 @@ extern  uint8_t dataBuffer;
 extern eSystemEvent_button event_button;
 
 
-extern sStateMachine_button 	fsmButton[]; /* State Machine struct */
-extern sStateMachine_AB 		fsmMachineAB[]; /* State Machine struct */
+extern sStateMachine_AB 		fsmMachineAB[]; 
+extern sStateMachine_button 	fsmButton[]; 
+extern sStateMachine_button 	fsmUART[]; 
 
-extern xTaskHandle 	 	xTaskStateMachineHandler_button; /* RTOS task handler */
-extern xTaskHandle 	 	xTaskStateMachineHandler_AB; /* RTOS task handler */
+extern xTaskHandle 	 	xTaskStateMachineHandler_AB; 
+extern xTaskHandle 	 	xTaskStateMachineHandler_button; 
+extern xTaskHandle 	 	xTaskStateMachineHandler_UART; 
 
-extern TimerHandle_t  	timerHandle_button; /* RTOS timer */
-extern TimerHandle_t  	timerHandle_AB; /* RTOS timer */
+extern TimerHandle_t  	timerHandle_AB; 
+extern TimerHandle_t  	timerHandle_button; 
+extern TimerHandle_t  	timerHandle_UART; 
 
-extern QueueHandle_t 	queueHandle_button; /* RTOS queue */
-extern QueueHandle_t 	queueHandle_AB; /* RTOS queue */
+extern QueueHandle_t 	queueHandle_AB; 
+extern QueueHandle_t 	queueHandle_button; 
+extern QueueHandle_t 	queueHandle_UART; 
 
 extern SemaphoreHandle_t xBinarySemaphore;
 extern SemaphoreHandle_t xBinarySemaphoreUART;
 extern SemaphoreHandle_t xMutexUART;
 
-void vTaskButton(void* pvParameters);
+void vHandlerTaskGPIO(void *pvParameters);
+void vHandlerTaskUART(void *pvParameters);
+
 void vTaskTB(void *xTimerHandle);
-void vHandlerTask(void *pvParameters);
+void vTaskButton(void* pvParameters);
 void vTaskUART(void* pvParameters);
-void vTaskProcessData(void* pvParameters);
 
 #endif

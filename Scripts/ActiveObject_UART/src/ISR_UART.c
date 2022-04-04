@@ -17,11 +17,11 @@ void UART_IRQHandler( void )
    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
    
    gpioWrite(LED3, ON);
-   //printf("UART INTERRUPT!: UART_IRQHandler\r\n");
+   printf("UART IRQ!\r\n");
    uartClearPendingInterrupt(UART_USB);
    uartCallbackClr(UART_USB, UART_RECEIVE);
-   
    xSemaphoreGiveFromISR(xBinarySemaphoreUART, &xHigherPriorityTaskWoken);
+
    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 
 }

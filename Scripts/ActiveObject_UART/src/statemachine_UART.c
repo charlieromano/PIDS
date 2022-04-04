@@ -20,7 +20,7 @@ eSystemState_UART 	processingHandler(void){
 	return STATE_LISTENING; 
 }
 
-sStateMachine_UART fsmMachineUART[] = 
+sStateMachine_UART fsmUART[] = 
 {
 	{STATE_INIT_UART, evInit_UART, InitHandler_UART},
 	{STATE_LISTENING, evReceive, listeningHandler},

@@ -32,8 +32,12 @@ int main(void)
       return 1;
    }
 
+   xBinarySemaphoreUART = xSemaphoreCreateBinary();
+   if (xBinarySemaphoreUART == NULL){
+      perror("Error creating UART semaphore");
+      return 1;
+   }
 
-   gpioWrite(LED2, ON);
 /*
    if( xTaskCreate( vTaskTB, "State Machine using active object", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
@@ -42,20 +46,21 @@ int main(void)
       return 1;
    }
 */
-   if( xTaskCreate( vHandlerTask, "ISR Handler task", 
+   if( xTaskCreate( vHandlerTaskGPIO, "ISR GPIO Handler task", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       NULL) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
 
-/*
-   xBinarySemaphoreUART = xSemaphoreCreateBinary();
-   if (xBinarySemaphoreUART == NULL){
-      perror("Error creating UART semaphore");
+   if( xTaskCreate( vHandlerTaskUART, "ISR UART Handler task", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      NULL) == pdFAIL ) {
+      perror("Error creating task");
       return 1;
    }
-*/
+
+
 
    queueHandle_button = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
    if (queueHandle_button == NULL){
@@ -92,13 +97,13 @@ int main(void)
       perror("Error creating task");
       return 1;
    }
-
+/*
    if( (timerHandle_AB = xTimerCreate( "Timer2", 1000, true, NULL, 
       timerCallback_AB)) == NULL ) {
       perror("Error creating timer");
       return 1;
    }
-
+*/
    if( (timerHandle_button = xTimerCreate( "Timer button", 50, true, NULL, 
       timerCallback_button)) == NULL ) {
       perror("Error creating timer");
@@ -109,12 +114,12 @@ int main(void)
       perror("Error starting timer");
       return 1;      
    }
-
+/*
    if(xTimerStart(timerHandle_AB, 0) != pdPASS){
       perror("Error starting timer");
       return 1;      
    }
-
+*/
    /* Start RTOS */
    printf("Init scheduler..\r\n");
    vTaskStartScheduler();   // Scheduler

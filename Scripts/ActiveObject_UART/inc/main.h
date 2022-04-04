@@ -30,8 +30,6 @@ DEBUG_PRINT_ENABLE;
 gpioMap_t button=TEC1;
 
 /* global variables */
-uint8_t timer_button = 0;
-uint8_t data_AB  = 0; 
 uint8_t dato  = 0;
 uint8_t rxData = 0;
 uint8_t dataBuffer = 0;
@@ -45,26 +43,28 @@ xTaskHandle 	xTaskStateMachineHandler_UART;
 xTaskHandle 	xTaskStateMachineHandler_AB; 
 
 /* RTOS queues */
-QueueHandle_t 	queueUART_Rx; /* RTOS queue for UART*/
-QueueHandle_t 	queueHandleUART_AO; /* RTOS queue for UART Active Object*/
-QueueHandle_t	queueHandle_button; 	
+QueueHandle_t 	queueUART_Rx; 
 QueueHandle_t 	queueHandle_AB; 
+QueueHandle_t	queueHandle_button; 	
+QueueHandle_t 	queueHandle_UART;
 
 /* RTOS semaphores and mutexes */
+SemaphoreHandle_t xMutexUART;
 SemaphoreHandle_t xBinarySemaphore;
 SemaphoreHandle_t xBinarySemaphoreUART;
-SemaphoreHandle_t xMutexUART;
 
 /* RTOS timers */
 TimerHandle_t  	timerHandle_AB; 
 TimerHandle_t	timerHandle_button; 
+TimerHandle_t	timerHandle_UART; 
 
 /* timer callbacks */
-void	timerCallback_button(TimerHandle_t xTimerHandle); 
 void 	timerCallback_AB(TimerHandle_t xTimerHandle);
+void	timerCallback_button(TimerHandle_t xTimerHandle); 
+void	timerCallback_UART(TimerHandle_t xTimerHandle); 
 
 /* ISR */
-void	IRQ_GPIO_Init (void);
+
 
 
 

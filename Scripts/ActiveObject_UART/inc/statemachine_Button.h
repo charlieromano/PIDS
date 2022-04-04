@@ -10,7 +10,6 @@
 #include "queue.h"      
 #include <stdio.h>
 
-
 #define TIMER_MAX_VALUE    256
 #define TIMER_MIN_TIMEOUT  3
 
@@ -42,12 +41,13 @@ eSystemState_button 	bouncingDownHandler(void);
 eSystemState_button 	buttonPushedUpHandler(void);
 eSystemState_button 	buttonPushedDownHandler(void);
 
-/* State Machine GPIO button*/
-eSystemEvent_button  event_button;
-extern gpioMap_t button;
-extern uint8_t 	timer_cnt;
-extern bool 	timer_flag;
-extern QueueHandle_t queueHandle_button;
-extern SemaphoreHandle_t xMutexUART;
+
+/* State Machine GPIO button */
+
+extern uint8_t 	timer_cnt; /* @tasks */
+extern bool 	timer_flag;/* @tasks */
+extern gpioMap_t button; /* @main */
+extern QueueHandle_t queueHandle_button;/* @main */
+extern SemaphoreHandle_t xMutexUART;/* @main */
 
 #endif
