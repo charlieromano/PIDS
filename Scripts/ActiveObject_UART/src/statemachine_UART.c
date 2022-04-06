@@ -22,8 +22,8 @@ eSystemState_UART 	processingHandler(void){
 
 sStateMachine_UART fsmUART[] = 
 {
-	{STATE_INIT_UART, evInit_UART, InitHandler_UART},
-	{STATE_LISTENING, evReceive, listeningHandler},
-	{STATE_RECORDING, evReceive, recordingHandler},
-	{STATE_PROCESSING, evEOF, processingHandler}
+	{STATE_INIT_UART, evUartInit, InitHandler_UART},
+	{STATE_LISTENING, evUartReceive, listeningHandler},
+	{STATE_RECORDING, evUartReceive, recordingHandler},
+	{STATE_PROCESSING, evUartEof, processingHandler}
 };

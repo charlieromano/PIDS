@@ -4,6 +4,74 @@
 bool timer_flag;
 uint8_t timer_cnt;
 
+
+void vHandlerTaskUART(void *pvParameters){
+
+   while(true){
+      xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
+      gpioWrite(LED3, OFF);
+      if(uartReadByte( UART_USB, &dato ) ){
+         if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+         	printf("dato: %c \r\n", dato);
+         	xSemaphoreGive(xMutexUART);
+         }
+      }
+      IRQ_UART_Init();
+   }
+}
+
+void timerCallback_UART(TimerHandle_t xTimerHandle){
+
+	eSystemEvent_UART newEventFromTimer;
+   if(xQueueSend(queueHandle_UART, &newEventFromTimer, 0U)!=pdPASS){
+      perror("Error sending data to the queueHandle_button\r\n");
+   }
+}
+/*
+void vTaskUART(void* pvParameters)
+{
+	
+	while(true){
+
+      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      	printf("vTaskUART is running.\r\n");
+      	xSemaphoreGive(xMutexUART);
+      }
+
+      eSystemEvent_UART newEvent = evInitUART;
+      eSystemState_UART nextState = STATE_UART_INIT;
+      fsmButton[nextState].fsmEvent = newEvent; 
+		nextState = (*fsmButton[nextState].fsmHandler)();
+
+		while(true){
+			xQueueReceive(queueHandle_UART, &newEvent, portMAX_DELAY);
+			fsmButton[nextState].fsmEvent = newEvent; 
+			nextState = (*fsmButton[nextState].fsmHandler)();
+		}
+	}
+}
+
+*/
+void vTaskUART(void* pvParameters){
+   
+   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
+   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
+	while(true){
+		if (pdTRUE == xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY)){
+			gpioWrite(LED3, OFF);
+			if(uartReadByte(UART_USB, &rxData)){
+			/* dispatch received data and set back ISR */
+				if(xQueueSend(queueUART_Rx, &rxData, UART_QUEUE_WAITING_TICKS)!=pdPASS){
+				  	/* Data could not be sent after UART_QUEUE_WAITING_TICKS_TIME */
+				  	perror("Error sending rxData to the queueUART_Rx");
+				}
+			}
+		}
+	}
+}
+   
+
+
 void vHandlerTaskGPIO(void* pvParameters){
 
 	eSystemEvent_button newEventFromISR;
@@ -86,78 +154,8 @@ void vTaskTB(void *xTimerHandle)
 			nextState = (*fsmMachineAB[nextState].fsmHandler)();
 			i++;
 		}
-		vPrintString("This task is running and about to delete itself.\r\n");
 		vTaskDelete(xTaskStateMachineHandler_AB);
 	}
 }
 
-
-void vHandlerTaskUART(void *pvParameters){
-
-   while(true){
-      xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
-      gpioWrite(LED3, OFF);
-      if(uartReadByte( UART_USB, &dato ) ){
-         if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-         	printf("dato: %c \r\n", dato);
-         	xSemaphoreGive(xMutexUART);
-         }
-      }
-      IRQ_UART_Init();
-   }
-}
-
-void timerCallback_UART(TimerHandle_t xTimerHandle){
-
-/*
-	eSystemEvent_UART newEventFromTimer;
-   if(xQueueSend(queueHandle_button, &newEventFromTimer, 0U)!=pdPASS){
-      perror("Error sending data to the queueHandle_button\r\n");
-   }
-*/
-}
-
-/*
-void vTaskUART(void* pvParameters)
-{
-	
-	while(true){
-
-      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-      	printf("vTaskUART is running.\r\n");
-      	xSemaphoreGive(xMutexUART);
-      }
-
-      eSystemEvent_UART newEvent = evInitUART;
-      eSystemState_UART nextState = STATE_UART_INIT;
-      fsmButton[nextState].fsmEvent = newEvent; 
-		nextState = (*fsmButton[nextState].fsmHandler)();
-
-		while(true){
-			xQueueReceive(queueHandle_UART, &newEvent, portMAX_DELAY);
-			fsmButton[nextState].fsmEvent = newEvent; 
-			nextState = (*fsmButton[nextState].fsmHandler)();
-		}
-	}
-}
-
-*/
-void vTaskUART(void* pvParameters){
-   
-   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
-   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
-	while(true){
-		if (pdTRUE == xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY)){
-			gpioWrite(LED3, OFF);
-			if(uartReadByte(UART_USB, &rxData)){
-			/* dispatch received data and set back ISR */
-				if(xQueueSend(queueUART_Rx, &rxData, UART_QUEUE_WAITING_TICKS)!=pdPASS){
-				  	/* Data could not be sent after UART_QUEUE_WAITING_TICKS_TIME */
-				  	perror("Error sending rxData to the queueUART_Rx");
-				}
-			}
-		}
-	}
-}
-   
 

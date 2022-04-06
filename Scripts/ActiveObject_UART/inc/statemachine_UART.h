@@ -4,6 +4,8 @@
 #include "sapi.h"
 #include "board.h"
 #include <stdio.h>
+#include "ISR_UART.h"
+
 
 typedef enum {
 	STATE_INIT_UART,
@@ -14,9 +16,9 @@ typedef enum {
 } eSystemState_UART;
 
 typedef enum{
-	evInit_UART,
-	evReceive,
-	evEOF
+	evUartInit,
+	evUartReceive,
+	evUartEof
 
 } eSystemEvent_UART;
 
