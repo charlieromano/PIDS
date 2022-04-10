@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-04-10T13:57:19.405Z" agent="5.0 (X11)" etag="WY2qBYc6r112-xups5Ry" version="17.4.2" type="github">
+<mxfile host="app.diagrams.net" modified="2022-04-10T14:04:30.523Z" agent="5.0 (X11)" etag="VUhNP1QdLNoDLZNI4R33" version="17.4.2" type="github">
   <diagram id="3wIASEclzfyMx8OhfcD0" name="Page-1">
-    <mxGraphModel dx="-463" dy="1813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1855" dy="3150" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1335,7 +1335,7 @@
         <mxCell id="a7UcZ_3eAfrkguKsjltG-521" value="MiC+" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;rotation=-90;" vertex="1" parent="a7UcZ_3eAfrkguKsjltG-512">
           <mxGeometry x="11.049999999999727" y="213.94000000000005" width="45" height="6.77" as="geometry" />
         </mxCell>
-        <mxCell id="a7UcZ_3eAfrkguKsjltG-522" value="A1/10P WAGO" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;" vertex="1" parent="a7UcZ_3eAfrkguKsjltG-512">
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-522" value="A2/10P WAGO" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;" vertex="1" parent="a7UcZ_3eAfrkguKsjltG-512">
           <mxGeometry x="25.049999999999727" y="246" width="58.11" height="11.82" as="geometry" />
         </mxCell>
         <mxCell id="a7UcZ_3eAfrkguKsjltG-523" value="f &lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;Blue white" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;horizontal=1;rotation=-90;" vertex="1" parent="a7UcZ_3eAfrkguKsjltG-512">
@@ -1472,6 +1472,85 @@
         </mxCell>
         <mxCell id="a7UcZ_3eAfrkguKsjltG-547" value="4320" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;horizontal=0;" vertex="1" parent="1">
           <mxGeometry x="2640" y="-741" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-548" value="&lt;div&gt;PIS2/4-core M12&lt;/div&gt;&lt;div&gt;connector&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="2933" y="-687" width="62" height="11.82" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-549" value="&lt;div&gt;PIS2/4-core M12&lt;/div&gt;&lt;div&gt;connector&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="3003" y="-687" width="62" height="11.82" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-550" value="D20&amp;nbsp; D18&amp;nbsp; D16&amp;nbsp; D14&amp;nbsp; B14&amp;nbsp; B16&amp;nbsp; B18&amp;nbsp; B20" style="rounded=0;whiteSpace=wrap;html=1;fontSize=7;strokeColor=default;align=left;" vertex="1" parent="1">
+          <mxGeometry x="3090" y="-705" width="140" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-572" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=8;endArrow=none;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3115" y="-706" as="sourcePoint" />
+            <mxPoint x="3198" y="-706" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="3115" y="-740" />
+              <mxPoint x="3198" y="-740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-556" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/bootstrap-vol-2/16/dot-128.png;fontSize=8;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="3106" y="-714" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-573" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=8;endArrow=none;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3100" y="-705" as="sourcePoint" />
+            <mxPoint x="3214" y="-705" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="3100" y="-751" />
+              <mxPoint x="3214" y="-751" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-557" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/bootstrap-vol-2/16/dot-128.png;fontSize=8;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="3090" y="-714" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-570" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;endArrow=none;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3148" y="-705" as="sourcePoint" />
+            <mxPoint x="3165" y="-705" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="3148" y="-720" />
+              <mxPoint x="3165" y="-720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-564" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/bootstrap-vol-2/16/dot-128.png;fontSize=8;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="3139" y="-714" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-571" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=8;endArrow=none;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3132" y="-706" as="sourcePoint" />
+            <mxPoint x="3181" y="-706" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="3132" y="-730" />
+              <mxPoint x="3181" y="-730" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-565" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/bootstrap-vol-2/16/dot-128.png;fontSize=8;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="3123" y="-714" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-566" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/bootstrap-vol-2/16/dot-128.png;fontSize=8;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="3172" y="-714" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-567" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/bootstrap-vol-2/16/dot-128.png;fontSize=8;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="3156" y="-714" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-568" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/bootstrap-vol-2/16/dot-128.png;fontSize=8;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="3205" y="-714" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-569" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/bootstrap-vol-2/16/dot-128.png;fontSize=8;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="3189" y="-714" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-574" value="Address jumper" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="3130" y="-775" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="a7UcZ_3eAfrkguKsjltG-575" value="I0/48P harding connector" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="3113" y="-689.18" width="92" height="11.82" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
