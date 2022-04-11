@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-04-11T12:19:08.457Z" agent="5.0 (X11)" etag="O5L4BsILB9HVPs3H0gZ-" version="17.4.2" type="github">
+<mxfile host="app.diagrams.net" modified="2022-04-11T12:19:57.267Z" agent="5.0 (X11)" etag="OR4GilQj6IIEbs7faFDY" version="17.4.2" type="github">
   <diagram id="3wIASEclzfyMx8OhfcD0" name="Page-1">
-    <mxGraphModel dx="-1201" dy="1388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="-463" dy="1813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -9,9 +9,6 @@
         </mxCell>
         <mxCell id="a7UcZ_3eAfrkguKsjltG-234" value="PCU" style="html=1;strokeWidth=2;" parent="1" vertex="1">
           <mxGeometry x="2070" y="-920" width="100" height="740" as="geometry" />
-        </mxCell>
-        <mxCell id="a7UcZ_3eAfrkguKsjltG-235" value="TLCD" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" parent="1" vertex="1">
-          <mxGeometry x="1825" y="-50" width="70" height="50" as="geometry" />
         </mxCell>
         <mxCell id="a7UcZ_3eAfrkguKsjltG-238" value="SCU" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontStyle=1" parent="1" vertex="1">
           <mxGeometry x="2400" y="-699" width="840" height="82" as="geometry" />
@@ -1219,9 +1216,6 @@
         <mxCell id="a7UcZ_3eAfrkguKsjltG-584" value="" style="pointerEvents=1;verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.signal_sources.protective_earth;fontSize=8;strokeColor=default;fillColor=default;" parent="1" vertex="1">
           <mxGeometry x="2451.25" y="-400" width="17.5" height="14" as="geometry" />
         </mxCell>
-        <mxCell id="a7UcZ_3eAfrkguKsjltG-585" value="" style="pointerEvents=1;verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.signal_sources.signal_ground;fontSize=8;strokeColor=default;fillColor=default;" parent="1" vertex="1">
-          <mxGeometry x="1869" y="-140" width="45" height="30" as="geometry" />
-        </mxCell>
         <mxCell id="a7UcZ_3eAfrkguKsjltG-586" value="" style="shape=mxgraph.electrical.electro-mechanical.switchDisconnector;aspect=fixed;elSwitchState=off;fontSize=8;strokeColor=default;fillColor=default;rotation=-90;" parent="1" vertex="1">
           <mxGeometry x="2408.6299999999997" y="-478.27" width="64.75" height="17.27" as="geometry" />
         </mxCell>
@@ -2015,9 +2009,6 @@
         <mxCell id="a7UcZ_3eAfrkguKsjltG-805" value="I0/48P rectangular&lt;br&gt;harding connector" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;" parent="1" vertex="1">
           <mxGeometry x="2793" y="-655" width="70" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="a7UcZ_3eAfrkguKsjltG-878" value="" style="group" parent="1" vertex="1" connectable="0">
-          <mxGeometry x="2080" y="-220.0000000000001" width="282" height="273" as="geometry" />
-        </mxCell>
         <mxCell id="a7UcZ_3eAfrkguKsjltG-372" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;strokeWidth=1;" parent="1" target="a7UcZ_3eAfrkguKsjltG-380" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="2552" y="-477" as="sourcePoint" />
@@ -2258,12 +2249,6 @@
         </mxCell>
         <mxCell id="a7UcZ_3eAfrkguKsjltG-880" value="5&amp;nbsp; &lt;span style=&quot;white-space: pre&quot;&gt;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt; &lt;/span&gt;4&lt;span style=&quot;white-space: pre&quot;&gt; &lt;/span&gt;3" style="rounded=0;whiteSpace=wrap;html=1;fontSize=7;strokeColor=default;align=left;rotation=-90;" parent="1" vertex="1">
           <mxGeometry x="2533" y="-483.9" width="42.88" height="11.18" as="geometry" />
-        </mxCell>
-        <mxCell id="a7UcZ_3eAfrkguKsjltG-881" value="E&amp;nbsp; &lt;span style=&quot;white-space: pre&quot;&gt;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt; &lt;/span&gt;2&lt;span style=&quot;white-space: pre&quot;&gt; &lt;/span&gt;1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=7;strokeColor=default;align=left;rotation=-90;" parent="1" vertex="1">
-          <mxGeometry x="2395.41" y="-202" width="42.88" height="11.18" as="geometry" />
-        </mxCell>
-        <mxCell id="a7UcZ_3eAfrkguKsjltG-882" value="5&amp;nbsp; &lt;span style=&quot;white-space: pre&quot;&gt;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt; &lt;/span&gt;4&lt;span style=&quot;white-space: pre&quot;&gt; &lt;/span&gt;3" style="rounded=0;whiteSpace=wrap;html=1;fontSize=7;strokeColor=default;align=left;rotation=-90;" parent="1" vertex="1">
-          <mxGeometry x="2443.72" y="-201" width="42.88" height="11.18" as="geometry" />
         </mxCell>
         <mxCell id="a7UcZ_3eAfrkguKsjltG-883" value="PW/4P WAGO" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;rotation=-90;horizontal=1;" parent="1" vertex="1">
           <mxGeometry x="2482" y="-485.77" width="61.06" height="11.82" as="geometry" />
