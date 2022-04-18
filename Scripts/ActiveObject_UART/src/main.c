@@ -67,20 +67,27 @@ int main(void)
       perror("Error creating queue");
       return 1;
    }
+/*
    queueHandle_AB = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
    if (queueHandle_AB == NULL){
       perror("Error creating queue");
       return 1;
    }
-/*
+*/
    queueHandleUART_AO = xQueueCreate(QUEUE_ACTIVE_OBJECT, sizeof(eSystemEvent_UART));
    if (queueHandleUART_AO == NULL ){
       perror("Error creating queue");
       return 1;
    }
 
-   queueUART_Rx = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(char));
-   if (queueUART_Rx == NULL){
+   queueCommRx = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(char));
+   if (queueCommRx == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+
+   queueCommTx = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(char));
+   if (queueCommTx == NULL){
       perror("Error creating queue");
       return 1;
    }

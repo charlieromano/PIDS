@@ -23,10 +23,14 @@
 #define  	QUEUE_UART_RX		64
 #define  	QUEUE_DATA_BUFFER   4
 #define  	QUEUE_ACTIVE_OBJECT 8
+#define     MAX_BUFFER_SIZE 	2
+#define 	DATA_HEADER_MASK 	'7E'
 
 uint8_t data_AB;
 uint8_t dato;
 uint8_t rxData;
+uint8_t data_rx;
+uint8_t data_tx;
 uint8_t dataBuffer;
 
 eSystemEvent_button 	event_button;
@@ -38,6 +42,7 @@ extern sStateMachine_AB 		fsmMachineAB[];
 extern sStateMachine_button 	fsmButton[]; 
 extern sStateMachine_button 	fsmUART[]; 
 extern sStateMachine_button 	fsmPIDS[]; 
+extern sStateMachine_button 	fsmLDU[]; 
 
 xTaskHandle 	 	xTaskStateMachineHandler_AB; 
 xTaskHandle 	 	xTaskStateMachineHandler_button; 
@@ -54,7 +59,8 @@ QueueHandle_t 	queueHandle_button;
 QueueHandle_t 	queueHandle_UART; 
 QueueHandle_t 	queueHandle_PIDS; 
 
-QueueHandle_t 	queueUART_Rx;
+QueueHandle_t 	queueCommRx;
+QueueHandle_t 	queueCommTx;
 
 SemaphoreHandle_t xBinarySemaphore;
 SemaphoreHandle_t xBinarySemaphoreUART;

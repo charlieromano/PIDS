@@ -1,5 +1,5 @@
-#ifndef STATEMACHINE_PIDS_H
-#define STATEMACHINE_PIDS_H
+#ifndef STATEMACHINE_LDU_H
+#define STATEMACHINE_LDU_H
 
 #include "sapi.h"
 #include "board.h"
@@ -24,16 +24,18 @@ typedef enum{
 	evPidsTrainStation,
 	evPidsTrainRunning,
 	evPidsTrainSlowingDown,
-	evPidsTrainStopped,
+	evPidsTrainStopped
 
 } eSystemEvent_PIDS;
 
 typedef eSystemState_PIDS (*pfEventHandler_PIDS)(void);
 
 typedef struct{
+
 	eSystemState_PIDS 		fsmState;
 	eSystemEvent_PIDS 		fsmEvent;
 	pfEventHandler_PIDS		fsmHandler;
+
 } sStateMachine_PIDS;
 
 eSystemState_PIDS 	InitHandler_PIDS(void);

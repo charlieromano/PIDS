@@ -11,14 +11,28 @@ void vHandlerTaskUART(void *pvParameters){
       xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
       gpioWrite(LED3, OFF);
       if(uartReadByte( UART_USB, &dato ) ){
-         if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-         	printf("dato: %c \r\n", dato);
-         	xSemaphoreGive(xMutexUART);
-         }
+      	if(xQueueSend(queueCommRx, &dato, 0U)!=pdPASS){
+      		perror("Error sending data to QUEUE_COMM_RX\r\n");
+      	}
       }
       IRQ_UART_Init();
    }
 }
+
+	uint8_t data_buffer[MAX_BUFFER_SIZE];
+	uint8_t i=0;
+
+		while(true){
+			if(pdPASS == xQueueReceive(queueCommRx, &data_rx, portMAX_DELAY)){
+				data_buffer[i]=data_rx;
+				i=(i+1)%MAX_BUFFER_SIZE;
+				if(data_buffer & DATA_HEADER_MASK){
+					if(xQueueSend(queueCommTx, &data_tx, 0U)!=pdPASS){
+						perror("Error sending data to QUEUE_COMM_RX\r\n");
+					}
+				}
+			}
+		}
 
 void timerCallback_UART(TimerHandle_t xTimerHandle){
 
@@ -27,11 +41,17 @@ void timerCallback_UART(TimerHandle_t xTimerHandle){
       perror("Error sending data to the queueHandle_button\r\n");
    }
 }
-/*
-void vTaskUART(void* pvParameters)
+
+void vTaskIDU(void* pvParameters)
 {
+	uint8_t receivedByte;
 	
 	while(true){
+		if(pdPASS == xQueueReceive(queueCommRx, &receivedByte, portMAX_DELAY)){
+
+
+		}
+
 
       if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
       	printf("vTaskUART is running.\r\n");
@@ -51,7 +71,7 @@ void vTaskUART(void* pvParameters)
 	}
 }
 
-*/
+
 void vTaskUART(void* pvParameters){
    
    // Si recibe un byte de la UART_USB lo guardo en la variable dato.
@@ -118,9 +138,10 @@ void vTaskButton(void* pvParameters)
 		nextState = (*fsmButton[nextState].fsmHandler)();
 
 		while(true){
-			xQueueReceive(queueHandle_button, &newEvent, portMAX_DELAY);
-			fsmButton[nextState].fsmEvent = newEvent; 
-			nextState = (*fsmButton[nextState].fsmHandler)();
+			if( pdPASS == xQueueReceive(queueHandle_button, &newEvent, portMAX_DELAY)){
+				fsmButton[nextState].fsmEvent = newEvent; 
+				nextState = (*fsmButton[nextState].fsmHandler)();
+			}
 		}
 	}
 }
