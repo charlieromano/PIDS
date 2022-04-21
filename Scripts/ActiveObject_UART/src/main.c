@@ -2,7 +2,7 @@
  * Copyright (c) 2022, Carlos Germán Carreño Romano <charlieromano@gmail.com>
  * All rights reserved.
  * License: gpl-3.0 (see LICENSE.txt)
- * Date: 2022/02/28
+ * Date: 2022/04/20
  * Version: 1.0
  ****************************************************************************/
 
@@ -102,19 +102,19 @@ int main(void)
       perror("Error creating UART semaphore");
       return 1;
    }
-/*
    if( xTaskCreate( vHandlerTaskUART, "ISR UART Handler task", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       NULL) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
-*/
+/*
    if( xTaskCreate( vTaskUART, "Echo test", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
+*/
 
 /***************************************************************************/
    

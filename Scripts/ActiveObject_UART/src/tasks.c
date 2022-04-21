@@ -129,21 +129,6 @@ void vHandlerTaskUART(void *pvParameters){
 
 	/* IRQ Handler task */
 
-   while(true){
-      xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
-      gpioWrite(LED3, OFF);
-      if(uartReadByte( UART_USB, &dato ) ){
-      	if(xQueueSend(queueCommRx, &dato, 0U)!=pdPASS){
-      		perror("Error sending data to QUEUE_COMM_RX\r\n");
-      	}
-      }
-      IRQ_UART_Init();
-   }
-
-}
-
-void vTaskUART(void* pvParameters){
-   
    // Si recibe un byte de la UART_USB lo guardo en la variable dato.
    // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
 
@@ -158,7 +143,33 @@ void vTaskUART(void* pvParameters){
          IRQ_UART_Init();
       }
    }
-   vTaskDelete(NULL);
+
+}
+
+void vTaskUART(void* pvParameters){
+
+	/* Active Object */
+	
+	while(true){
+
+      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      	printf("vTaskUART is running.\r\n");
+      	xSemaphoreGive(xMutexUART);
+      }
+
+      /* fsmUART init */
+      eSystemEvent_UART newEvent = evInit;
+      eSystemState_UART nextState = STATE_UART_INIT;
+      fsmUART[nextState].fsmEvent = newEvent; 
+		nextState = (*fsmUART[nextState].fsmHandler)();
+
+		while(true){
+			if( pdPASS == xQueueReceive(queueHandle_UART, &newEvent, portMAX_DELAY)){
+				fsmUART[nextState].fsmEvent = newEvent; 
+				nextState = (*fsmUART[nextState].fsmHandler)();
+			}
+		}
+	}
 }
 
 
