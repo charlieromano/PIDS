@@ -4,149 +4,14 @@
 bool timer_flag;
 uint8_t timer_cnt;
 
-
-void vHandlerTaskUART(void *pvParameters){
-
-   while(true){
-      xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
-      gpioWrite(LED3, OFF);
-      if(uartReadByte( UART_USB, &dato ) ){
-      	if(xQueueSend(queueCommRx, &dato, 0U)!=pdPASS){
-      		perror("Error sending data to QUEUE_COMM_RX\r\n");
-      	}
-      }
-      IRQ_UART_Init();
-   }
-}
-
-	uint8_t data_buffer[MAX_BUFFER_SIZE];
-	uint8_t i=0;
-
-		while(true){
-			if(pdPASS == xQueueReceive(queueCommRx, &data_rx, portMAX_DELAY)){
-				data_buffer[i]=data_rx;
-				i=(i+1)%MAX_BUFFER_SIZE;
-				if(data_buffer & DATA_HEADER_MASK){
-					if(xQueueSend(queueCommTx, &data_tx, 0U)!=pdPASS){
-						perror("Error sending data to QUEUE_COMM_RX\r\n");
-					}
-				}
-			}
-		}
-
-void timerCallback_UART(TimerHandle_t xTimerHandle){
-
-	eSystemEvent_UART newEventFromTimer;
-   if(xQueueSend(queueHandle_UART, &newEventFromTimer, 0U)!=pdPASS){
-      perror("Error sending data to the queueHandle_button\r\n");
-   }
-}
-
-void vTaskIDU(void* pvParameters)
-{
-	uint8_t receivedByte;
-	
-	while(true){
-		if(pdPASS == xQueueReceive(queueCommRx, &receivedByte, portMAX_DELAY)){
-
-
-		}
-
-
-      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-      	printf("vTaskUART is running.\r\n");
-      	xSemaphoreGive(xMutexUART);
-      }
-
-      eSystemEvent_UART newEvent = evInitUART;
-      eSystemState_UART nextState = STATE_UART_INIT;
-      fsmButton[nextState].fsmEvent = newEvent; 
-		nextState = (*fsmButton[nextState].fsmHandler)();
-
-		while(true){
-			xQueueReceive(queueHandle_UART, &newEvent, portMAX_DELAY);
-			fsmButton[nextState].fsmEvent = newEvent; 
-			nextState = (*fsmButton[nextState].fsmHandler)();
-		}
-	}
-}
-
-
-void vTaskUART(void* pvParameters){
-   
-   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
-   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
-	while(true){
-		if (pdTRUE == xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY)){
-			gpioWrite(LED3, OFF);
-			if(uartReadByte(UART_USB, &rxData)){
-			/* dispatch received data and set back ISR */
-				if(xQueueSend(queueUART_Rx, &rxData, UART_QUEUE_WAITING_TICKS)!=pdPASS){
-				  	/* Data could not be sent after UART_QUEUE_WAITING_TICKS_TIME */
-				  	perror("Error sending rxData to the queueUART_Rx");
-				}
-			}
-		}
-	}
-}
-   
-
-
-void vHandlerTaskGPIO(void* pvParameters){
-
-	eSystemEvent_button newEventFromISR;
-
-   while(true){
-
-      if(pdTRUE ==xSemaphoreTake(xBinarySemaphore, portMAX_DELAY)){
-      	gpioWrite(LED2, OFF);
-	      newEventFromISR = evPushed;
-	      if(xQueueSend(queueHandle_button, &newEventFromISR, 0U)!=pdPASS){
-	      	perror("Error sending data to the queueHandle_button\r\n");
-	      }
-	   }
-	}
-}
-
-void timerCallback_button(TimerHandle_t xTimerHandle){
-
-	eSystemEvent_button newEventFromTimer;
-
-   if(timer_flag==true){
-      timer_cnt++;
-      newEventFromTimer = evButtonTimeout;
-      if(xQueueSend(queueHandle_button, &newEventFromTimer, 0U)!=pdPASS){
-         perror("Error sending data to the queueHandle_button\r\n");
-      }
-   }
-}
-
-void vTaskButton(void* pvParameters)
-{
-	
-	while(true){
-
-      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-      	printf("vTaskButton is running.\r\n");
-      	xSemaphoreGive(xMutexUART);
-      }
-
-      /* fsmButton init */
-      eSystemEvent_button newEvent = evInit;
-      eSystemState_button nextState = STATE_BUTTON_INIT;
-      fsmButton[nextState].fsmEvent = newEvent; 
-		nextState = (*fsmButton[nextState].fsmHandler)();
-
-		while(true){
-			if( pdPASS == xQueueReceive(queueHandle_button, &newEvent, portMAX_DELAY)){
-				fsmButton[nextState].fsmEvent = newEvent; 
-				nextState = (*fsmButton[nextState].fsmHandler)();
-			}
-		}
-	}
-}
+/***************************************************************************/
+/* State Machine AB tasks */
+/***************************************************************************/
 
 void timerCallback_AB(TimerHandle_t xTimerHandle){
+
+	/* Timer */
+
    static uint8_t cnt = 0;
    cnt++;
 
@@ -156,6 +21,9 @@ void timerCallback_AB(TimerHandle_t xTimerHandle){
 
 void vTaskTB(void *xTimerHandle)
 {
+
+	/* Active Object */
+
 	(void)xTimerHandle;
 	eSystemEvent_AB newEvent;
 
@@ -179,4 +47,119 @@ void vTaskTB(void *xTimerHandle)
 	}
 }
 
+   
+/***************************************************************************/
+/* Button tasks */
+/***************************************************************************/
 
+void timerCallback_button(TimerHandle_t xTimerHandle){
+
+	/* Timer */
+
+	eSystemEvent_button newEventFromTimer;
+
+   if(timer_flag==true){
+      timer_cnt++;
+      newEventFromTimer = evButtonTimeout;
+      if(xQueueSend(queueHandle_button, &newEventFromTimer, 0U)!=pdPASS){
+         perror("Error sending data to the queueHandle_button\r\n");
+      }
+   }
+}
+
+void vHandlerTaskGPIO(void* pvParameters){
+
+	/* IRQ Handler task */
+
+	eSystemEvent_button newEventFromISR;
+
+   while(true){
+
+      if(pdTRUE ==xSemaphoreTake(xBinarySemaphore, portMAX_DELAY)){
+      	gpioWrite(LED2, OFF);
+	      newEventFromISR = evPushed;
+	      if(xQueueSend(queueHandle_button, &newEventFromISR, 0U)!=pdPASS){
+	      	perror("Error sending data to the queueHandle_button\r\n");
+	      }
+	   }
+	}
+}
+
+void vTaskButton(void* pvParameters)
+{
+	/* Active Object */
+	
+	while(true){
+
+      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      	printf("vTaskButton is running.\r\n");
+      	xSemaphoreGive(xMutexUART);
+      }
+
+      /* fsmButton init */
+      eSystemEvent_button newEvent = evInit;
+      eSystemState_button nextState = STATE_BUTTON_INIT;
+      fsmButton[nextState].fsmEvent = newEvent; 
+		nextState = (*fsmButton[nextState].fsmHandler)();
+
+		while(true){
+			if( pdPASS == xQueueReceive(queueHandle_button, &newEvent, portMAX_DELAY)){
+				fsmButton[nextState].fsmEvent = newEvent; 
+				nextState = (*fsmButton[nextState].fsmHandler)();
+			}
+		}
+	}
+}
+
+/***************************************************************************/
+/* UART tasks */
+/***************************************************************************/
+
+void timerCallback_UART(TimerHandle_t xTimerHandle){
+
+	/* Timer */
+
+	eSystemEvent_UART newEventFromTimer;
+   if(xQueueSend(queueHandle_UART, &newEventFromTimer, 0U)!=pdPASS){
+      perror("Error sending data to the queueHandle_button\r\n");
+   }
+}
+
+void vHandlerTaskUART(void *pvParameters){
+
+	/* IRQ Handler task */
+
+   while(true){
+      xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
+      gpioWrite(LED3, OFF);
+      if(uartReadByte( UART_USB, &dato ) ){
+      	if(xQueueSend(queueCommRx, &dato, 0U)!=pdPASS){
+      		perror("Error sending data to QUEUE_COMM_RX\r\n");
+      	}
+      }
+      IRQ_UART_Init();
+   }
+
+}
+
+void vTaskUART(void* pvParameters){
+   
+   // Si recibe un byte de la UART_USB lo guardo en la variable dato.
+   // Se reenvia el dato a la UART_USB realizando un eco de lo que llega
+
+	while(true){
+		xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY);
+      gpioWrite(LED3, OFF);
+      printf("HandlerTaskUART: processing event..\r\n");
+
+      
+      if(  uartReadByte( UART_USB, &dato ) ){
+         uartWriteByte( UART_USB, dato );
+         IRQ_UART_Init();
+      }
+   }
+   vTaskDelete(NULL);
+}
+
+
+/***************************************************************************/

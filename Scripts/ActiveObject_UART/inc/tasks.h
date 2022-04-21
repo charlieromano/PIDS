@@ -34,15 +34,15 @@ uint8_t data_tx;
 uint8_t dataBuffer;
 
 eSystemEvent_button 	event_button;
-eSystemEvent_UART  	event_UART;
-eSystemEvent_PIDS  	event_PIDS;
+eSystemEvent_UART  		event_UART;
+eSystemEvent_PIDS  		event_PIDS;
 
 
 extern sStateMachine_AB 		fsmMachineAB[]; 
 extern sStateMachine_button 	fsmButton[]; 
 extern sStateMachine_button 	fsmUART[]; 
 extern sStateMachine_button 	fsmPIDS[]; 
-extern sStateMachine_button 	fsmLDU[]; 
+extern sStateMachine_button 	fsmIDU[]; 
 
 xTaskHandle 	 	xTaskStateMachineHandler_AB; 
 xTaskHandle 	 	xTaskStateMachineHandler_button; 
