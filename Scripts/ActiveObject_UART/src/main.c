@@ -97,24 +97,43 @@ int main(void)
 /***************************************************************************/
    /* UART tasks */
 
+   if( (timerHandle_UART = xTimerCreate( "Timer UART ", 200, true, NULL, 
+      timerCallback_UART)) == NULL ) {
+      perror("Error creating timer");
+      return 1;
+   }
+
+   if(xTimerStart(timerHandle_UART, 0) != pdPASS){
+      perror("Error starting timer");
+      return 1;      
+   }
+
    xBinarySemaphoreUART = xSemaphoreCreateBinary();
    if (xBinarySemaphoreUART == NULL){
       perror("Error creating UART semaphore");
       return 1;
    }
+
    if( xTaskCreate( vHandlerTaskUART, "ISR UART Handler task", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       NULL) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
-/*
-   if( xTaskCreate( vTaskUART, "Echo test", 
+
+   dataBufferQueue = xQueueCreate(MAX_BUFFER_SIZE, sizeof(uint8_t));
+   if (dataBufferQueue == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+
+
+   if( xTaskCreate( vTaskUART, "Receing data task", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
-*/
+
 
 /***************************************************************************/
    

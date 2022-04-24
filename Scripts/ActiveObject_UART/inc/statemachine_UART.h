@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "ISR_UART.h"
 
+extern QueueHandle_t dataBuffer;
 
 typedef enum {
 	STATE_UART_INIT,

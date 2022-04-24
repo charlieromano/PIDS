@@ -23,15 +23,17 @@
 #define  	QUEUE_UART_RX		64
 #define  	QUEUE_DATA_BUFFER   4
 #define  	QUEUE_ACTIVE_OBJECT 8
-#define     MAX_BUFFER_SIZE 	2
+#define     MAX_BUFFER_SIZE 	8
+
 #define 	DATA_HEADER_MASK 	'7E'
+#define 	DATA_BUFFER_LENGTH 	4
 
 uint8_t data_AB;
 uint8_t dato;
 uint8_t rxData;
 uint8_t data_rx;
 uint8_t data_tx;
-uint8_t dataBuffer;
+uint8_t data_array[MAX_BUFFER_SIZE*DATA_BUFFER_LENGTH];
 
 eSystemEvent_button 	event_button;
 eSystemEvent_UART  		event_UART;
@@ -59,8 +61,7 @@ QueueHandle_t 	queueHandle_button;
 QueueHandle_t 	queueHandle_UART; 
 QueueHandle_t 	queueHandle_PIDS; 
 
-QueueHandle_t 	queueCommRx;
-QueueHandle_t 	queueCommTx;
+QueueHandle_t 	dataBufferQueue;
 
 SemaphoreHandle_t xBinarySemaphore;
 SemaphoreHandle_t xBinarySemaphoreUART;
@@ -72,4 +73,8 @@ void vHandlerTaskUART(void *pvParameters);
 void vTaskTB(void *xTimerHandle);
 void vTaskButton(void* pvParameters);
 void vTaskUART(void* pvParameters);
+
+void timerCallback_UART(TimerHandle_t xTimerHandle);
+
+
 #endif
