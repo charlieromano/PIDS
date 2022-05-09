@@ -57,9 +57,4 @@
 gpioMap_t CONN_2x8[16];
 
 
-
-void portInit(void);
-void initDisplayTest(void);
-void timerCallback_displayLED(TimerHandle_t xTimerHandle);
-
 #endif

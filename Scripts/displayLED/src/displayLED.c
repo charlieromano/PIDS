@@ -6,39 +6,55 @@
  * Version: 1.0
  ****************************************************************************/
 
-#include <stdio.h>
-#include "FreeRTOS.h"   
-#include "FreeRTOSConfig.h"
-#include "sapi.h"
-#include "timers.h"
-#include "portmap.h"
+#include "displayLED.h"
 
+uint8_t timer_cnt_CLK, timer_cnt_STR;
+bool_t clk_state;
 
+void timerCallback_displayCLK(TimerHandle_t xTimerHandle){
+/* displayLED clock */
+    
+    clk_state = !clk_state;
+    //gpioWrite(CONN_J4_16, clk_state);
+    gpioWrite(SRCLK, clk_state);
+    gpioWrite(SER_ARR_01, clk_state);
+
+}
+
+void timerCallback_displaySTR(TimerHandle_t xTimerHandle){
+/* displayLED clock */
+/*
+    timer_cnt_STR++;
+    printf("STR:%d",timer_cnt_STR);
+    if(timer_cnt_STR<=STR_DUTY_CYCLE_PERIOD){
+        if(timer_cnt_STR<=STR_DUTY_CYCLE_ON)
+            gpioWrite(SER_ARR_01, ON);
+        else
+            gpioWrite(SER_ARR_01, OFF);
+    }
+    else
+        timer_cnt_STR=0;
+*/
+}
 
 void portInit(void){
 /* EDU-CIAA pinout to connector CONN_2x8 */
-    CONN_2x8[0]=CONN_J4_01;
-    CONN_2x8[1]=CONN_J4_02;
-    CONN_2x8[2]=CONN_J4_03;
-    CONN_2x8[3]=CONN_J4_04;
-    CONN_2x8[4]=CONN_J4_05;
-    CONN_2x8[5]=CONN_J4_06;
-    CONN_2x8[6]=CONN_J4_07;
-    CONN_2x8[7]=CONN_J4_08;
-    CONN_2x8[8]=CONN_J4_09;
-    CONN_2x8[9]=CONN_J4_10;
-    CONN_2x8[10]=CONN_J4_11;
-    CONN_2x8[11]=CONN_J4_12;
-    CONN_2x8[12]=CONN_J4_13;
-    CONN_2x8[13]=CONN_J4_14;
-    CONN_2x8[14]=CONN_J4_15;
-    CONN_2x8[15]=CONN_J4_16;
-}
-
-
-void timerCallback_displayLED(TimerHandle_t xTimerHandle){
-/* displayLED clock */
-    gpioToggle(SRCLK);
+    gpioConfig( CONN_J4_01, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_02, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_03, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_04, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_05, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_06, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_07, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_08, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_09, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_10, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_11, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_12, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_13, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_14, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_15, GPIO_OUTPUT );
+    gpioConfig( CONN_J4_16, GPIO_OUTPUT );
 
 }
 

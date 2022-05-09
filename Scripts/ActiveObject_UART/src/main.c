@@ -97,7 +97,7 @@ int main(void)
 /***************************************************************************/
    /* UART tasks */
 
-   if( (timerHandle_UART = xTimerCreate( "Timer UART ", 200, true, NULL, 
+   if( (timerHandle_UART = xTimerCreate( "Timer UART ", 800, true, NULL, 
       timerCallback_UART)) == NULL ) {
       perror("Error creating timer");
       return 1;
@@ -128,12 +128,25 @@ int main(void)
    }
 
 
-   if( xTaskCreate( vTaskUART, "Receing data task", 
+   if( xTaskCreate( vTaskUART_buffer, "Receing data task", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
+/*
+   queueHandle_UART = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_UART));
+   if (queueHandle_UART == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
 
+   if( xTaskCreate( vTaskUART, "State Machine using active object", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskStateMachineHandler_UART) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+*/
 
 /***************************************************************************/
    
