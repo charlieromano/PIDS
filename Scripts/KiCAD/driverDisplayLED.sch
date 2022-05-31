@@ -1603,8 +1603,8 @@ Wire Wire Line
 Wire Wire Line
 	1275 9800 1275 10725
 NoConn ~ 1125 10725
-Text GLabel 1275 10450 3    50   Input ~ 0
-LT
+Text GLabel 1275 10725 3    50   Input ~ 0
+STR
 $Comp
 L Device:R_Network04 RN2
 U 1 1 6139F201
@@ -3741,8 +3741,6 @@ F 3 "~" H 5675 9150 50  0001 C CNN
 	1    5675 9150
 	0    1    1    0   
 $EndComp
-NoConn ~ 3725 10250
-NoConn ~ 1275 10725
 NoConn ~ 1450 10475
 Wire Wire Line
 	1875 4875 1875 4525
@@ -4797,7 +4795,6 @@ Wire Bus Line
 	18725 4475 20725 4475
 Wire Bus Line
 	18725 4575 20725 4575
-NoConn ~ 1725 9400
 Wire Wire Line
 	5025 10550 4925 10550
 $Comp
@@ -4820,6 +4817,41 @@ Wire Wire Line
 Connection ~ 5525 10875
 Wire Wire Line
 	5525 10875 5525 10900
+Text Notes 1200 10225 3    50   ~ 0
+SER-2nd74HC595Array
+$Comp
+L power:GND #PWR?
+U 1 1 6298D265
+P 1525 9225
+F 0 "#PWR?" H 1525 8975 50  0001 C CNN
+F 1 "GND" H 1530 9052 50  0000 C CNN
+F 2 "" H 1525 9225 50  0001 C CNN
+F 3 "" H 1525 9225 50  0001 C CNN
+	1    1525 9225
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1525 9200 1525 9225
+NoConn ~ 1725 9400
+Wire Wire Line
+	1725 9200 1725 9400
+Wire Wire Line
+	1525 9200 1725 9200
+Wire Wire Line
+	3725 10250 3475 10250
+Wire Wire Line
+	3475 10250 3475 10350
+Connection ~ 3475 10350
+Wire Wire Line
+	825  9900 825  10000
+Wire Wire Line
+	825  10000 1350 10000
+Connection ~ 825  9900
+Connection ~ 1350 10000
+Wire Wire Line
+	1450 10100 825  10100
+Wire Wire Line
+	825  10100 825  10000
 Wire Bus Line
 	9275 9750 9275 9850
 Wire Bus Line
@@ -4938,6 +4970,8 @@ Wire Bus Line
 	9275 9850 15300 9850
 Wire Bus Line
 	1850 2650 13350 2650
-Text Notes 1200 10225 3    50   ~ 0
-SER-2nd74HC595Array
+Connection ~ 1450 10100
+Connection ~ 825  10000
+Text Label 1275 10725 3    50   ~ 0
+STR
 $EndSCHEMATC

@@ -22,9 +22,20 @@
 
 #define PERIOD_C	100
 
+#define LED_MATRIX_WIDTH		64
+#define LED_MATRIX_HEIGHT		32
+#define LED_MATRIX_FRAME_RATE 	50
+
+
 void portInit(void);
 void initDisplayTest(void);
 void timerCallback_displayCLK(TimerHandle_t xTimerHandle);
 void timerCallback_displaySTR(TimerHandle_t xTimerHandle);
+
+void clock_signal(void);
+void latch_enable(void);
+void send_data(unsigned int data_out);
+
+void deco_signal(void);
 
 #endif

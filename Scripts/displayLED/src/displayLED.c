@@ -8,34 +8,102 @@
 
 #include "displayLED.h"
 
+#define CLK_BIT_LENGTH  16
+#define CLK_PERIOD      64
+
 uint8_t timer_cnt_CLK, timer_cnt_STR;
 bool_t clk_state;
+uint8_t clock_cnt;
 
-void timerCallback_displayCLK(TimerHandle_t xTimerHandle){
-/* displayLED clock */
-    
-    clk_state = !clk_state;
-    //gpioWrite(CONN_J4_16, clk_state);
-    gpioWrite(SRCLK, clk_state);
-    gpioWrite(SER_ARR_01, clk_state);
+#Global variable 
+portTickType xLastWakeTimeDisplayLED;
 
-}
 
-void timerCallback_displaySTR(TimerHandle_t xTimerHandle){
-/* displayLED clock */
-/*
-    timer_cnt_STR++;
-    printf("STR:%d",timer_cnt_STR);
-    if(timer_cnt_STR<=STR_DUTY_CYCLE_PERIOD){
-        if(timer_cnt_STR<=STR_DUTY_CYCLE_ON)
-            gpioWrite(SER_ARR_01, ON);
-        else
-            gpioWrite(SER_ARR_01, OFF);
+void vTaskFunction( void *pvParameters ){
+
+    xLastWakeTimeDisplayLED = xTaskGetTickCount();
+
+    int i;
+    uint16_t data_out=0b00001000;
+
+    gpioMap_t output_pin    =   SER_ARR_01;
+    gpioMap_t clk_pin       =   SRCLK;
+    gpioMap_t latch_pin     =   STR;
+    uint8_t clk_period      =   1;
+
+    while(true){
+        for (int j=0; j<LED_MATRIX_HEIGHT; j++){
+            for (int i=0 ; i<LED_MATRIX_WIDTH; i++)
+            {
+                output_pin = (output_data >> i) & (0x01);
+                clock_signal(clk_pin, 2*clk_period );
+            }
+            latch_enable(latch_pin, clk_period); // Data finally submitted
+            deco_signal(j, LED_MATRIX_FRAME_RATE/LED_MATRIX_HEIGHT);
+        }
     }
-    else
-        timer_cnt_STR=0;
-*/
 }
+
+
+void clock_signal(gpioMap_t clk_pin, uint8_t period_ms){
+
+    gpioWrite(clk_pin, ON);
+    vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( period_ms / portTICK_RATE_MS ) );
+    gpioWrite(clk_pin, OFF);
+    vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( period_ms / portTICK_RATE_MS ) );
+
+}
+
+void latch_enable(gpioMap_t latch_pin, uint8_t period_ms){
+
+    gpioWrite(latch_pin, ON);
+    vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( period_ms / portTICK_RATE_MS ) );
+    gpioWrite(latch_pin, OFF);
+
+}
+
+void deco_signal(uint8_t code, uint8_t period_ms){
+
+    vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( period_ms / portTICK_RATE_MS ) );
+
+    switch(code){
+    case 0:
+        gpioWrite(DECO_A0,OFF);
+        gpioWrite(DECO_A1,OFF);
+        gpioWrite(DECO_A2,OFF);
+    case 1:
+        gpioWrite(DECO_A0,OFF);
+        gpioWrite(DECO_A1,OFF);
+        gpioWrite(DECO_A2,ON);
+    case 2:
+        gpioWrite(DECO_A0,OFF);
+        gpioWrite(DECO_A1,ON);
+        gpioWrite(DECO_A2,OFF);
+    case 3:
+        gpioWrite(DECO_A0,OFF);
+        gpioWrite(DECO_A1,ON);
+        gpioWrite(DECO_A2,ON);            
+    case 4:
+        gpioWrite(DECO_A0,ON);
+        gpioWrite(DECO_A1,OFF);
+        gpioWrite(DECO_A2,OFF);
+    case 5:
+        gpioWrite(DECO_A0,ON);
+        gpioWrite(DECO_A1,OFF);
+        gpioWrite(DECO_A2,ON);
+    case 6:
+        gpioWrite(DECO_A0,ON);
+        gpioWrite(DECO_A1,ON);
+        gpioWrite(DECO_A2,OFF);
+    case 7:
+        gpioWrite(DECO_A0,ON);
+        gpioWrite(DECO_A1,ON);
+        gpioWrite(DECO_A2,ON);
+    default:
+        gpioWrite(LEDR, ON);
+    }
+}
+ 
 
 void portInit(void){
 /* EDU-CIAA pinout to connector CONN_2x8 */
@@ -77,3 +145,6 @@ void initDisplayTest(void){
 #define SER_ARR_02  HC245_B3_L
 #define SRCLK       HC245_B5_L
 */
+
+
+

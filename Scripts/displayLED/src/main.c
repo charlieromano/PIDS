@@ -113,30 +113,12 @@ int main(void)
    
    /* displayLED tasks */
 
-
-
-   if( (timerHandle_displayCLK = xTimerCreate( "Timer display LED", DISPLAY_LED_CLK, true, NULL, 
-      timerCallback_displayCLK)) == NULL ) {
-      perror("Error creating timer");
+   if( xTaskCreate( vTaskFunction, "Display LED task", 
+      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      perror("Error creating task");
       return 1;
    }
 
-   if(xTimerStart(timerHandle_displayCLK, 0) != pdPASS){
-      perror("Error starting timer");
-      return 1;      
-   }
-
-
-   if( (timerHandle_displaySTR = xTimerCreate( "Timer display LED", STR_DUTY_CYCLE_PERIOD*portTICK_RATE_MS*100, true, NULL, 
-      timerCallback_displaySTR)) == NULL ) {
-      perror("Error creating timer");
-      return 1;
-   }
-
-   if(xTimerStart(timerHandle_displaySTR, 0) != pdPASS){
-      perror("Error starting timer");
-      return 1;      
-   }
 
 /***************************************************************************/
 
