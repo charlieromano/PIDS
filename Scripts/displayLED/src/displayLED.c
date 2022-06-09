@@ -8,53 +8,98 @@
 
 #include "displayLED.h"
 
-#define CLK_BIT_LENGTH  16
-#define CLK_PERIOD      64
-
 uint8_t timer_cnt_CLK, timer_cnt_STR;
 bool_t clk_state;
 uint8_t clock_cnt;
 
-#Global variable 
+/* Global variables */
 portTickType xLastWakeTimeDisplayLED;
 
 
-void vTaskFunction( void *pvParameters ){
+void vTaskDisplayLED( void *pvParameters ){
+
+    printf("vTaskDisplayLED\r\n");
 
     xLastWakeTimeDisplayLED = xTaskGetTickCount();
 
-    int i;
-    uint16_t data_out=0b00001000;
+    uint16_t output_data=0x24;
+ 
+    //gpioWrite(R1, ON);
+    //gpioWrite(R2, OFF);
+    //gpioWrite(G1, ON);
+    //gpioWrite(G2, OFF);
 
-    gpioMap_t output_pin    =   SER_ARR_01;
-    gpioMap_t clk_pin       =   SRCLK;
-    gpioMap_t latch_pin     =   STR;
-    uint8_t clk_period      =   1;
+
+    gpioMap_t clk_array[]={LEDB, LED1, LED2, LED3};
 
     while(true){
-        for (int j=0; j<LED_MATRIX_HEIGHT; j++){
-            for (int i=0 ; i<LED_MATRIX_WIDTH; i++)
-            {
-                output_pin = (output_data >> i) & (0x01);
-                clock_signal(clk_pin, 2*clk_period );
-            }
-            latch_enable(latch_pin, clk_period); // Data finally submitted
-            deco_signal(j, LED_MATRIX_FRAME_RATE/LED_MATRIX_HEIGHT);
-        }
+
+//        display_send_data(output_data);
+        display_clock_array(clk_array, 4, 64);
+
     }
 }
 
+#define     TOTAL_PERIOD    4000 //ms
 
-void clock_signal(gpioMap_t clk_pin, uint8_t period_ms){
 
-    gpioWrite(clk_pin, ON);
+
+void display_clock_array(gpioMap_t *clk_array, uint8_t array_len, uint8_t clk_number ){
+
+    for(int i=0; i<array_len; i++){
+        gpioWrite(clk_array[i], ON);
+    }
+
+    
+    for(int i=0; i<clk_number/2;i++){
+        gpioToggle(clk_array[0]);
+        if((i%2)==0){gpioToggle(clk_array[1]);}
+        if((i%4)==0){gpioToggle(clk_array[2]);}
+        if((i%8)==0){gpioToggle(clk_array[3]);}
+        vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( (int)(TOTAL_PERIOD/clk_number) / portTICK_RATE_MS ) );
+    }
+    for(int i=0; i<clk_number/2;i++){
+        for(int j=0; j<array_len; j++){
+            gpioWrite(clk_array[j], ON);
+        }
+        vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( (int)(TOTAL_PERIOD/clk_number) / portTICK_RATE_MS ) );
+    }
+
+}
+
+void display_send_data(unsigned int data){
+
+    gpioMap_t output_pin    =   STR;//LED3;//SER_ARR_01;
+    gpioMap_t clk_pin       =   CLK;//LED2;//SRCLK;
+    gpioMap_t latch_pin     =   G1;//LED1;//STR;
+
+    int    timer_ms =   4;
+
+
+    for (int j=0; j<LED_MATRIX_ROWS; j++){
+
+        for (int i=0 ; i<LED_MATRIX_COLUMNS; i++){
+
+            gpioWrite(output_pin, (data >> i) & (0x01));
+            display_clock_signal(clk_pin, timer_ms);
+
+        }
+
+        display_latch_enable(latch_pin, timer_ms); 
+        display_deco_signal();
+    }
+}
+
+void display_clock_signal(gpioMap_t clock_pin, float32_t period_ms){
+
+    gpioWrite(clock_pin, ON);
     vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( period_ms / portTICK_RATE_MS ) );
-    gpioWrite(clk_pin, OFF);
+    gpioWrite(clock_pin, OFF);
     vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( period_ms / portTICK_RATE_MS ) );
 
 }
 
-void latch_enable(gpioMap_t latch_pin, uint8_t period_ms){
+void display_latch_enable(gpioMap_t latch_pin, float32_t period_ms){
 
     gpioWrite(latch_pin, ON);
     vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( period_ms / portTICK_RATE_MS ) );
@@ -62,11 +107,22 @@ void latch_enable(gpioMap_t latch_pin, uint8_t period_ms){
 
 }
 
-void deco_signal(uint8_t code, uint8_t period_ms){
+void display_deco_signal(void){
 
-    vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( period_ms / portTICK_RATE_MS ) );
+    for(int i=0; i<LED_MATRIX_ROWS; i++){
+        gpioWriteDecoOutput(i);
+        vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( (LED_MATRIX_FRAME_RATE/LED_MATRIX_HEIGHT) / portTICK_RATE_MS ) );
+    }
 
-    switch(code){
+}
+
+
+
+
+
+void gpioWriteDecoOutput(uint8_t output){
+
+    switch(output){
     case 0:
         gpioWrite(DECO_A0,OFF);
         gpioWrite(DECO_A1,OFF);
@@ -102,8 +158,8 @@ void deco_signal(uint8_t code, uint8_t period_ms){
     default:
         gpioWrite(LEDR, ON);
     }
+
 }
- 
 
 void portInit(void){
 /* EDU-CIAA pinout to connector CONN_2x8 */

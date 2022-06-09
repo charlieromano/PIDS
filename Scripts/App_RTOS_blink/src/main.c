@@ -39,48 +39,39 @@ int main( void )
    return 0;
 }
 
-TickType_t xLastWakeTime;
+TickType_t xLastWakeTime_1;
 
 void tarea_tecla( void* taskParmPtr )
 {
-    extern TickType_t xLastWakeTime;
 
-    xLastWakeTime = xTaskGetTickCount();
+
+    xLastWakeTime_1 = xTaskGetTickCount();
 
 	while( true ){
-        toggle1();
+
+        for(int i=0; i<4; i++){
+            toggle1();
+        }
+
         toggle2();
-
-
 	}
 }
 
 void toggle1(void){
-    extern TickType_t xLastWakeTime;
-        gpioToggle( LEDB );
-        vTaskDelayUntil( &xLastWakeTime, 250 / portTICK_RATE_MS );
+extern TickType_t xLastWakeTime_1;
+
+        gpioWrite(LEDB, ON);
+        vTaskDelayUntil( &xLastWakeTime_1, 100 / portTICK_RATE_MS );
+        gpioWrite(LEDB, OFF);
+        vTaskDelayUntil( &xLastWakeTime_1, 100 / portTICK_RATE_MS );
 }
 
 void toggle2(void){
-        extern TickType_t xLastWakeTime;
-        gpioToggle( LED3 );
-        vTaskDelayUntil( &xLastWakeTime, 400 / portTICK_RATE_MS );
+extern TickType_t xLastWakeTime_2;
+
+        gpioWrite(LED1, ON);
+        vTaskDelayUntil( &xLastWakeTime_1, 500 / portTICK_RATE_MS );
+        gpioWrite(LED1, OFF);
+        vTaskDelayUntil( &xLastWakeTime_1, 500 / portTICK_RATE_MS );
+
 }
-// Implementacion de funcion de la tarea
-void tarea_led( void* taskParmPtr )
-{
-    gpioMap_t led = (gpioMap_t) taskParmPtr;
-    
-    while( TRUE )
-    {
-    	xSemaphoreTake(  tecla_pulsada_sem  ,  portMAX_DELAY );  //esperar tecla
-
-    	TickType_t dif = get_diff();
-    	//clear_diff();
-
-		gpioWrite( LED2 , ON );
-		vTaskDelay( dif );
-		gpioWrite( LED2 , OFF );
-    }
-}
-

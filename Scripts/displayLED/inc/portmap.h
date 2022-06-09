@@ -7,22 +7,16 @@
 
 /* pinout conversion: connector CONN_2x8 (schematic J4) to displayLED signals */
 
-#define CONN_J4_01 GND
-#define CONN_J4_02 GPIO0
-#define CONN_J4_03 GND
-#define CONN_J4_04 GPIO1
-#define CONN_J4_05 GND
-#define CONN_J4_06 GPIO3
-#define CONN_J4_07 T_COL1
-#define CONN_J4_08 GPIO5
-#define CONN_J4_09 T_FIL0
-#define CONN_J4_10 GPIO7
-#define CONN_J4_11 T_FIL3
-#define CONN_J4_12 GPIO8
-#define CONN_J4_13 T_FIL2
-#define CONN_J4_14 T_COL2
-#define CONN_J4_15 GND
-#define CONN_J4_16 T_FIL1
+#define A 	HC245_A1_R
+#define B 	HC245_A2_R
+#define C 	HC245_A3_R
+#define D 	HC245_A4_R
+#define G1 	HC245_B2_L
+#define G2 	HC245_A5_R
+#define R1 	HC245_B1_L
+#define R2 	HC245_B3_L
+#define STR HC245_B4_L
+#define CLK SRCLK
 
 #define	DECO_A0 	HC245_A1_R
 #define DECO_A1		HC245_A2_R
@@ -31,7 +25,7 @@
 #define DECO_E3_E1	HC245_A4_R
 #define SER_ARR_01	HC245_B1_L
 #define SER_ARR_02	HC245_B3_L
-#define SRCLK 		HC245_B5_L
+#define SRCLK 		HC245_B5_L 
 
 #define GND_CONN_J4_01 	CONN_J4_01
 #define HC245_A1_R 		CONN_J4_02
@@ -50,6 +44,22 @@
 #define GND_CONN_J4_15	CONN_J4_15
 #define HC245_B5_L		CONN_J4_16
 
+#define CONN_J4_01 GND
+#define CONN_J4_02 GPIO0
+#define CONN_J4_03 GND
+#define CONN_J4_04 GPIO1
+#define CONN_J4_05 GND
+#define CONN_J4_06 GPIO3
+#define CONN_J4_07 T_COL1
+#define CONN_J4_08 GPIO5
+#define CONN_J4_09 T_FIL0
+#define CONN_J4_10 GPIO7
+#define CONN_J4_11 T_FIL3
+#define CONN_J4_12 GPIO8
+#define CONN_J4_13 T_FIL2
+#define CONN_J4_14 T_COL2
+#define CONN_J4_15 GND
+#define CONN_J4_16 T_FIL1
 
 
 #define CLK_DISPLAY_LED	2 /* ms */

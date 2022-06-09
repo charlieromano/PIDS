@@ -113,7 +113,7 @@ int main(void)
    
    /* displayLED tasks */
 
-   if( xTaskCreate( vTaskFunction, "Display LED task", 
+   if( xTaskCreate( vTaskDisplayLED, "Display LED task", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
