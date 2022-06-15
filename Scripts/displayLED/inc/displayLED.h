@@ -18,12 +18,16 @@
 #define LED_MATRIX_COLUMNS	 	LED_MATRIX_WIDTH
 #define LED_MATRIX_LATCH_PERIOD
 
+#define     TOTAL_PERIOD    		20 //ms
+#define 	TIMER_DISPLAY_LED_MS 	50//ms
+
 void portInit(void);
 void initDisplayTest(void);
-void timerCallback_displayCLK(TimerHandle_t xTimerHandle);
-void timerCallback_displaySTR(TimerHandle_t xTimerHandle);
 
-void display_send_data(unsigned int data);
+TimerHandle_t  	timerHandleDisplayLED; /* RTOS timer */
+void timerCallbackDisplayLED(TimerHandle_t xTimerHandle);
+
+void display_send_data(gpioMap_t *data_pin_array, unsigned int data);
 void display_clock_signal(gpioMap_t clock_pin, float32_t period_ms);
 void display_latch_enable(gpioMap_t latch_pin, float32_t period_ms);
 void display_deco_signal(void);
