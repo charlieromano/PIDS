@@ -1,3 +1,5 @@
+//displayLEDRefactoring
+
 /*****************************************************************************
  * Copyright (c) 2022, Carlos Germán Carreño Romano <charlieromano@gmail.com>
  * All rights reserved.
@@ -18,9 +20,9 @@ uint32_t    timer;
 uint32_t    clock_cnt;
 
 gpioMap_t   timer_pin=LEDG;
-gpioMap_t   clk_array[]={LEDB, LED1, LED2, LED3};
-gpioMap_t   deco_pin_array[] = {A, B, C, D};
-gpioMap_t   data_pin_array[] = {CLK, STR, R1, R2};
+//gpioMap_t clk_array[]={LEDB, LED1, LED2, LED3};
+gpioMap_t   clk_array[]      = {A, B, C, D};
+gpioMap_t   data_pin_array[] = {CLK, STR, SER_ARR_01, SER_ARR_02};
 
 /***************************************************************************/
 
@@ -37,31 +39,28 @@ void timerCallbackDisplayLED(TimerHandle_t xTimerHandle){
 
 void displayInit(void){
 
-    gpioWrite(R1, OFF);
-    gpioWrite(R2, OFF);
+    gpioWrite(R1, ON);
+    gpioWrite(R2, ON);
     gpioWrite(G1, OFF);
     gpioWrite(G2, OFF);
-    gpioWrite(deco_pin_array[0], OFF);
-    gpioWrite(deco_pin_array[1], OFF);
-    gpioWrite(deco_pin_array[2], OFF);
-    gpioWrite(deco_pin_array[3], OFF);
-    gpioWrite(data_pin_array[0], OFF);
-    gpioWrite(data_pin_array[1], OFF);
-    gpioWrite(data_pin_array[2], OFF);
-    gpioWrite(data_pin_array[3], OFF);
+    gpioWrite(clk_array[0], ON);
+    gpioWrite(clk_array[1], OFF);
+    gpioWrite(clk_array[2], ON);
+    gpioWrite(clk_array[3], OFF);
+    gpioWrite(data_pin_array[0], ON);
+    gpioWrite(data_pin_array[1], ON);
+    gpioWrite(data_pin_array[2], ON);
+    gpioWrite(data_pin_array[3], ON);
 
 }
-
-#define     SCAN_PERIOD 20
-#define     TIME_SLOT   10
-#define     CLK_TIME    1
-#define     HALF_PERIOD 4096000
 
 void vTaskDisplayLED( void *pvParameters ){
 
     printf("vTaskDisplayLED\r\n");
 
     xLastWakeTimeDisplayLED = xTaskGetTickCount();
+
+    const TickType_t xDelay250ms = pdMS_TO_TICKS(250);
 
     uint16_t output_data=0x00;
 
@@ -70,12 +69,10 @@ void vTaskDisplayLED( void *pvParameters ){
     while(true){
 
         printf("data: %d\r\n",((output_data++)%64));
-
-        gpioWriteDecoOutput(1);
-        display_send_data(data_pin_array, ((output_data++)%512));
-        vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( SCAN_PERIOD / portTICK_RATE_MS ) );
-
-
+        display_send_data(data_pin_array, ((output_data++)%64));
+        for(int i=0; i<LED_MATRIX_ROWS/2; i++){
+            gpioWriteDecoOutput(i);
+        }
     }
 }
 
@@ -87,97 +84,65 @@ void display_send_data(gpioMap_t *data_pin_array, unsigned int data){
     gpioMap_t output_pin    =   data_pin_array[2];//STR;//LED3;//SER_ARR_01;
     gpioMap_t output_pin_2  =   data_pin_array[3];//STR;//LED3;//SER_ARR_01;
 
+    int    timer_ms =   1;
+
     for (int i=0 ; i<LED_MATRIX_COLUMNS; i++){
-
-        printf("loop: i=%d \r\n",i);
-
-        gpioWrite(output_pin, (data >> (i%8)) & (0x01));
-        gpioWrite(output_pin_2, (data >> (i%8)) & (0x01));
-        
-        gpioWrite(clk_pin, ON);
-        vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( CLK_TIME / portTICK_RATE_MS ) );
-        gpioWrite(clk_pin, OFF);
-        vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( CLK_TIME / portTICK_RATE_MS ) );
-
-    }
-
-    gpioWrite(latch_pin, ON);
-    gpioWrite(latch_pin, OFF);
-
+            printf("loop: i=%d \r\n",i);
+            gpioWrite(output_pin, (data >> (i%8)) & (0x01));
+            gpioWrite(output_pin_2, (data << (i%8)) & (0x01));
+            display_clock_signal(clk_pin, timer_ms*4);
+        }
+    display_latch_enable(latch_pin, timer_ms); 
+    printf("latch!\r\n");
 }
 
 void gpioWriteDecoOutput(uint8_t output){
 
-    for(int i=0; i<HALF_PERIOD;i++){
-
-        gpioToggle(deco_pin_array[0]);
+    uint8_t row = output%8;
+    printf("row=%d \r\n",row);
     
-        if((i%2)==0){        
-            gpioToggle(deco_pin_array[1]);
-        }
-        if((i%4)==0){
-            gpioToggle(deco_pin_array[2]);
-        }
-        if((i%8)==0){
-            gpioToggle(deco_pin_array[3]);
-        }
-        if((i%16)==0){
-            for(int j=0; j<4; j++){
-                gpioWrite(deco_pin_array[j], ON);
-            }
-        }
-    }
-/*
-
-    for(int i=0; i<HALF_PERIOD;i++){
-        for(int j=0; j<3; j++){
-            gpioToggle(deco_pin_array[j]);
-        }
-    }
-
     switch(row){
-    case 0:
+    case 7:
         gpioWrite(DECO_A0,OFF);
         gpioWrite(DECO_A1,OFF);
         gpioWrite(DECO_A2,OFF);
-    case 1:
+    case 6:
         gpioWrite(DECO_A0,OFF);
         gpioWrite(DECO_A1,OFF);
         gpioWrite(DECO_A2,ON);
-    case 2:
+    case 5:
         gpioWrite(DECO_A0,OFF);
         gpioWrite(DECO_A1,ON);
         gpioWrite(DECO_A2,OFF);
-    case 3:
+    case 4:
         gpioWrite(DECO_A0,OFF);
         gpioWrite(DECO_A1,ON);
         gpioWrite(DECO_A2,ON);            
-    case 4:
+    case 3:
         gpioWrite(DECO_A0,ON);
         gpioWrite(DECO_A1,OFF);
         gpioWrite(DECO_A2,OFF);
-    case 5:
+    case 2:
         gpioWrite(DECO_A0,ON);
         gpioWrite(DECO_A1,OFF);
         gpioWrite(DECO_A2,ON);
-    case 6:
+    case 1:
         gpioWrite(DECO_A0,ON);
         gpioWrite(DECO_A1,ON);
         gpioWrite(DECO_A2,OFF);
-    case 7:
+    case 0:
         gpioWrite(DECO_A0,ON);
         gpioWrite(DECO_A1,ON);
         gpioWrite(DECO_A2,ON);
     default:
         break;//gpioWrite(LEDB, ON);
     }
-*/
 }
 
 
 void display_clock_array(gpioMap_t *clk_array, uint8_t array_len, uint8_t period_divider ){
         
-/*    for(int i=0; i<period_divider/2;i++){
+    for(int i=0; i<period_divider/2;i++){
         gpioToggle(clk_array[0]);
         if((i%2)==0){gpioToggle(clk_array[1]);}
         if((i%4)==0){gpioToggle(clk_array[2]);}
@@ -190,7 +155,7 @@ void display_clock_array(gpioMap_t *clk_array, uint8_t array_len, uint8_t period
         }
         vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( (TOTAL_PERIOD/period_divider) / portTICK_RATE_MS ) );
     }
-*/
+
 }
 
 void portInit(void){

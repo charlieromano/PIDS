@@ -13,13 +13,14 @@ int main(void)
 {
 
    boardConfig();
-   
    debugPrintConfigUart( UART_USB, UART_BAUD_RATE);
+
    IRQ_GPIO_Init();
    IRQ_UART_Init();
 
    portInit();
-   initDisplayTest();
+   displayInit();
+
 
    /* Create the semaphores, queues, timers and task for ISR_GPIO */
 
@@ -88,14 +89,14 @@ int main(void)
       perror("Error creating UART semaphore");
       return 1;
    }
-
+/*
    if( xTaskCreate( vHandlerTaskUART, "ISR UART Handler task", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       NULL) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
-
+*/
    dataBufferQueue = xQueueCreate(MAX_BUFFER_SIZE, sizeof(uint8_t));
    if (dataBufferQueue == NULL){
       perror("Error creating queue");
@@ -104,7 +105,8 @@ int main(void)
 
 
    if( xTaskCreate( vTaskUART_buffer, "Receing data task", 
-      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 
+      0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
@@ -125,7 +127,7 @@ int main(void)
    }
 
    if( xTaskCreate( vTaskDisplayLED, "Display LED task", 
-      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }

@@ -18,8 +18,11 @@
 #define LED_MATRIX_COLUMNS	 	LED_MATRIX_WIDTH
 #define LED_MATRIX_LATCH_PERIOD
 
-#define     TOTAL_PERIOD    		20 //ms
-#define 	TIMER_DISPLAY_LED_MS 	50//ms
+#define     TOTAL_PERIOD    		1 //ms
+#define  	PERIOD_DIVIDER 			1//2*LED_MATRIX_COLUMNS
+#define 	TIMER_DISPLAY_LED_MS 	1//ms
+#define  	CLK_PERIOD_TICKS 		2000
+#define  	LATCH_TICKS  			100
 
 void portInit(void);
 void initDisplayTest(void);
@@ -34,6 +37,7 @@ void display_deco_signal(void);
 void display_clock_array(gpioMap_t *clk_array, uint8_t array_len, uint8_t clk_number );
 void gpioWriteDecoOutput(uint8_t output);
 void vTaskDisplayLED(void* pvParameters);
+void displayInit(void);
 
 
 #endif
