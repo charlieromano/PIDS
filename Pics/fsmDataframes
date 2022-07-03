@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-07-03T22:59:51.480Z" agent="5.0 (X11)" etag="JKIQ1Sso7Pv9sIRAlekj" version="20.0.4" type="github">
+<mxfile host="app.diagrams.net" modified="2022-07-03T23:00:56.072Z" agent="5.0 (X11)" etag="cSrlTDu1rj8A8rUlYE8W" version="20.0.4" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
     <mxGraphModel dx="1778" dy="1025" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
@@ -1625,7 +1625,10 @@
           <mxGeometry x="2920" y="2125" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="dkJDqE-cgsTrcB1LDBMe-41" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="2603" y="1760" width="257" height="480" as="geometry" />
+          <mxGeometry x="2603" y="1740" width="257" height="490" as="geometry" />
+        </mxCell>
+        <mxCell id="dkJDqE-cgsTrcB1LDBMe-42" value="Sistema embebido" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="2603" y="1751" width="257" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
