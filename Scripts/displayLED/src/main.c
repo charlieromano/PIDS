@@ -104,7 +104,7 @@ int main(void)
    }
 
 
-   if( xTaskCreate( vTaskUART_buffer, "Receing data task", 
+   if( xTaskCreate( vTaskUART_buffer, "Receving data task", 
       configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 
       0) == pdFAIL ) {
       perror("Error creating task");

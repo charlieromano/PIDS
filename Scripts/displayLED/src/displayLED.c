@@ -7,6 +7,7 @@
  ****************************************************************************/
 
 #include "displayLED.h"
+#include "MAX7219.h"
 
 /* Global variables */
 /****************************************************************************/
@@ -37,14 +38,16 @@ void timerCallbackDisplayLED(TimerHandle_t xTimerHandle){
 
 void displayInit(void){
 
-    gpioWrite(R1, OFF);
-    gpioWrite(R2, OFF);
+    gpioWrite(R1, ON);
+    gpioWrite(R2, ON);
     gpioWrite(G1, OFF);
     gpioWrite(G2, OFF);
+
     gpioWrite(deco_pin_array[0], OFF);
     gpioWrite(deco_pin_array[1], OFF);
     gpioWrite(deco_pin_array[2], OFF);
     gpioWrite(deco_pin_array[3], OFF);
+
     gpioWrite(data_pin_array[0], OFF);
     gpioWrite(data_pin_array[1], OFF);
     gpioWrite(data_pin_array[2], OFF);
@@ -52,10 +55,10 @@ void displayInit(void){
 
 }
 
-#define     SCAN_PERIOD 20
+#define     SCAN_PERIOD 5
 #define     TIME_SLOT   10
 #define     CLK_TIME    1
-#define     HALF_PERIOD 4096000
+#define     HALF_PERIOD 4096000/100
 
 void vTaskDisplayLED( void *pvParameters ){
 
@@ -71,28 +74,26 @@ void vTaskDisplayLED( void *pvParameters ){
 
         printf("data: %d\r\n",((output_data++)%64));
 
-        gpioWriteDecoOutput(1);
-        display_send_data(data_pin_array, ((output_data++)%512));
-        vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( SCAN_PERIOD / portTICK_RATE_MS ) );
-
-
+        gpioWriteDecoOutput();
+        display_send_data(data_pin_array, ((output_data++)%64));
+        //vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( SCAN_PERIOD / portTICK_RATE_MS ) );
     }
 }
 
 
-void display_send_data(gpioMap_t *data_pin_array, unsigned int data){
+void display_send_data(gpioMap_t *data_pin_array, uint8_t data){
 
     gpioMap_t clk_pin       =   data_pin_array[0];//CLK;//LED2;//SRCLK;
     gpioMap_t latch_pin     =   data_pin_array[1];//G1;//LED1;//STR;
     gpioMap_t output_pin    =   data_pin_array[2];//STR;//LED3;//SER_ARR_01;
     gpioMap_t output_pin_2  =   data_pin_array[3];//STR;//LED3;//SER_ARR_01;
 
-    for (int i=0 ; i<LED_MATRIX_COLUMNS; i++){
+    for (int i=0 ; i<PANEL_COLUMNS; i++){
 
         printf("loop: i=%d \r\n",i);
 
-        gpioWrite(output_pin, (data >> (i%8)) & (0x01));
-        gpioWrite(output_pin_2, (data >> (i%8)) & (0x01));
+        gpioWrite(output_pin, 0xFF);//(data >> (i%8)) & (0x01));
+        gpioWrite(output_pin_2, 0xFF);//(data >> (i%8)) & (0x01));
         
         gpioWrite(clk_pin, ON);
         vTaskDelayUntil( &xLastWakeTimeDisplayLED, ( CLK_TIME / portTICK_RATE_MS ) );
@@ -106,7 +107,7 @@ void display_send_data(gpioMap_t *data_pin_array, unsigned int data){
 
 }
 
-void gpioWriteDecoOutput(uint8_t output){
+void gpioWriteDecoOutput(void){
 
     for(int i=0; i<HALF_PERIOD;i++){
 
@@ -121,57 +122,7 @@ void gpioWriteDecoOutput(uint8_t output){
         if((i%8)==0){
             gpioToggle(deco_pin_array[3]);
         }
-        if((i%16)==0){
-            for(int j=0; j<4; j++){
-                gpioWrite(deco_pin_array[j], ON);
-            }
-        }
     }
-/*
-
-    for(int i=0; i<HALF_PERIOD;i++){
-        for(int j=0; j<3; j++){
-            gpioToggle(deco_pin_array[j]);
-        }
-    }
-
-    switch(row){
-    case 0:
-        gpioWrite(DECO_A0,OFF);
-        gpioWrite(DECO_A1,OFF);
-        gpioWrite(DECO_A2,OFF);
-    case 1:
-        gpioWrite(DECO_A0,OFF);
-        gpioWrite(DECO_A1,OFF);
-        gpioWrite(DECO_A2,ON);
-    case 2:
-        gpioWrite(DECO_A0,OFF);
-        gpioWrite(DECO_A1,ON);
-        gpioWrite(DECO_A2,OFF);
-    case 3:
-        gpioWrite(DECO_A0,OFF);
-        gpioWrite(DECO_A1,ON);
-        gpioWrite(DECO_A2,ON);            
-    case 4:
-        gpioWrite(DECO_A0,ON);
-        gpioWrite(DECO_A1,OFF);
-        gpioWrite(DECO_A2,OFF);
-    case 5:
-        gpioWrite(DECO_A0,ON);
-        gpioWrite(DECO_A1,OFF);
-        gpioWrite(DECO_A2,ON);
-    case 6:
-        gpioWrite(DECO_A0,ON);
-        gpioWrite(DECO_A1,ON);
-        gpioWrite(DECO_A2,OFF);
-    case 7:
-        gpioWrite(DECO_A0,ON);
-        gpioWrite(DECO_A1,ON);
-        gpioWrite(DECO_A2,ON);
-    default:
-        break;//gpioWrite(LEDB, ON);
-    }
-*/
 }
 
 

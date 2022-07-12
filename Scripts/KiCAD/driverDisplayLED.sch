@@ -4852,6 +4852,18 @@ Wire Wire Line
 	1450 10100 825  10100
 Wire Wire Line
 	825  10100 825  10000
+Connection ~ 1450 10100
+Connection ~ 825  10000
+Text Label 1275 10725 3    50   ~ 0
+STR
+Text Label 5000 9650 2    50   ~ 0
+A
+Text Label 5000 9750 2    50   ~ 0
+B
+Text Label 5000 9850 2    50   ~ 0
+C
+Text Label 5000 9950 2    50   ~ 0
+D
 Wire Bus Line
 	9275 9750 9275 9850
 Wire Bus Line
@@ -4970,8 +4982,12 @@ Wire Bus Line
 	9275 9850 15300 9850
 Wire Bus Line
 	1850 2650 13350 2650
-Connection ~ 1450 10100
-Connection ~ 825  10000
-Text Label 1275 10725 3    50   ~ 0
-STR
+Text Label 5025 10050 2    50   ~ 0
+G2
+Text Label 1675 9600 2    50   ~ 0
+G1
+Text Label 1675 9500 2    50   ~ 0
+R1
+Text Label 1675 9700 2    50   ~ 0
+R2
 $EndSCHEMATC
