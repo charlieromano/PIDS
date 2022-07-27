@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-07-27T12:57:44.823Z" agent="5.0 (X11)" etag="oSEGrUEf_3kqwE0Ngp0F" version="20.2.1" type="github">
+<mxfile host="app.diagrams.net" modified="2022-07-27T13:02:29.641Z" agent="5.0 (X11)" etag="-fTD4bWvCJ8217TR3MS9" version="20.2.1" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
-    <mxGraphModel dx="1053" dy="607" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+    <mxGraphModel dx="1237" dy="713" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1504,7 +1504,7 @@
         <mxCell id="dkJDqE-cgsTrcB1LDBMe-298" value="" style="group;fontSize=12;" parent="1" vertex="1" connectable="0">
           <mxGeometry x="2200" y="850" width="1058" height="549" as="geometry" />
         </mxCell>
-        <mxCell id="oECe6iUre1D4yYISJaGh-53" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;arcSize=6;" parent="dkJDqE-cgsTrcB1LDBMe-298" vertex="1">
+        <mxCell id="oECe6iUre1D4yYISJaGh-53" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;arcSize=6;strokeWidth=2;" parent="dkJDqE-cgsTrcB1LDBMe-298" vertex="1">
           <mxGeometry x="50" y="210" width="613" height="320" as="geometry" />
         </mxCell>
         <mxCell id="oECe6iUre1D4yYISJaGh-54" value="sStateMachine UART" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;sketch=0;strokeWidth=2;gradientColor=none;swimlaneFillColor=default;fontSize=14;" parent="dkJDqE-cgsTrcB1LDBMe-298" vertex="1">
@@ -1925,10 +1925,10 @@
         <mxCell id="dkJDqE-cgsTrcB1LDBMe-302" value="" style="group" parent="1" vertex="1" connectable="0">
           <mxGeometry x="3390" y="980" width="780" height="437.5" as="geometry" />
         </mxCell>
-        <mxCell id="dkJDqE-cgsTrcB1LDBMe-276" value="" style="group" parent="dkJDqE-cgsTrcB1LDBMe-302" vertex="1" connectable="0">
+        <mxCell id="dkJDqE-cgsTrcB1LDBMe-276" value="" style="group;strokeWidth=2;" parent="dkJDqE-cgsTrcB1LDBMe-302" vertex="1" connectable="0">
           <mxGeometry y="17.5" width="780" height="420" as="geometry" />
         </mxCell>
-        <mxCell id="dkJDqE-cgsTrcB1LDBMe-147" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;arcSize=6;" parent="dkJDqE-cgsTrcB1LDBMe-276" vertex="1">
+        <mxCell id="dkJDqE-cgsTrcB1LDBMe-147" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;arcSize=6;strokeWidth=2;" parent="dkJDqE-cgsTrcB1LDBMe-276" vertex="1">
           <mxGeometry x="10" y="20" width="670" height="400" as="geometry" />
         </mxCell>
         <mxCell id="dkJDqE-cgsTrcB1LDBMe-148" value="sStateMachine UART" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=1;sketch=0;strokeWidth=2;gradientColor=none;swimlaneFillColor=default;" parent="dkJDqE-cgsTrcB1LDBMe-276" vertex="1">
