@@ -47,6 +47,6 @@ void gpioWriteDecoOutput(void);
 void vTaskDisplayLED(void* pvParameters);
 void displayInit(void);
 void vTaskDisplayLED_new( void *pvParameters );
-uint8_t* transform_data(char *message);
+void transform_data(char message[], uint8_t display_data[]);
 
 #endif

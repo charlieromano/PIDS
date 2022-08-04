@@ -41,10 +41,9 @@ void vTaskDisplayLED_new( void *pvParameters ){
 
     uint16_t    *data_16b=NULL;
     uint32_t    *data_32b=NULL;
-    TickType_t xFreq = 50;
+    TickType_t xFreq = 100;
 
     displayInit();
-
 
     gpioMap_t clk       = data_pin_array[0];
     gpioMap_t latch     = data_pin_array[1];
@@ -91,12 +90,10 @@ void vTaskDisplayLED_new( void *pvParameters ){
     }
 }
 
-uint8_t* transform_data(char *message){
+void transform_data(char message[], uint8_t display_data[]){
 
-    uint8_t data[16];
+    uint8_t data[32*8];
 
-
-    return data;
 }
 
 void timerCallbackDisplayLED(TimerHandle_t xTimerHandle){
