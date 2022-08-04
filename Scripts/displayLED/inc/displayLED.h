@@ -46,6 +46,7 @@ void display_clock_array(gpioMap_t *clk_array, uint8_t array_len, uint8_t clk_nu
 void gpioWriteDecoOutput(void);
 void vTaskDisplayLED(void* pvParameters);
 void displayInit(void);
+void vTaskDisplayLED_new( void *pvParameters );
 
 
 #endif
