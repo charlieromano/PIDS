@@ -127,7 +127,7 @@ int main(void)
    }
 */
    if( xTaskCreate( vTaskDisplayLED_new, "Display LED task", 
-      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      configMINIMAL_STACK_SIZE*8, NULL, tskIDLE_PRIORITY+3, 0) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
