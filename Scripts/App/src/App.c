@@ -29,7 +29,7 @@ int main( void )
    // ----- Repeat for ever -------------------------
    while( true ) {
       gpioToggle(LED);
-      delay(100);
+      delay(250);
    }
 
    // YOU NEVER REACH HERE, because this program runs directly or on a

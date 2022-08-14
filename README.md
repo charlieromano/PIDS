@@ -163,7 +163,51 @@ sudo ln -s /usr/share/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux/gcc-arm-no
 
 Luego funcionó ok.
 
+**UPDATE**: Para Ubuntu 22 (con arm-none-eabi-10.3-2021.10) completé todos los links a comandos con el siguiente código:
 
+```bash
+charlieromano@Toshiba-L845:~/Downloads/PIDS/Scripts/firmware_v3$ ls -l /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/ | awk '{print "sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/"$9"  /usr/bin/"$9}'
+```
+
+Con el código resultante, excepto la primera línea, se copian todos los links. Es decir, copiar y pegar en la terminal 
+
+```bash
+#sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/  /usr/bin/
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-addr2line  /usr/bin/arm-none-eabi-addr2line
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-ar  /usr/bin/arm-none-eabi-ar
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-as  /usr/bin/arm-none-eabi-as
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-c++  /usr/bin/arm-none-eabi-c++
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-c++filt  /usr/bin/arm-none-eabi-c++filt
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-cpp  /usr/bin/arm-none-eabi-cpp
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-elfedit  /usr/bin/arm-none-eabi-elfedit
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-g++  /usr/bin/arm-none-eabi-g++
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc  /usr/bin/arm-none-eabi-gcc
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-10.3.1  /usr/bin/arm-none-eabi-gcc-10.3.1
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ar  /usr/bin/arm-none-eabi-gcc-ar
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-nm  /usr/bin/arm-none-eabi-gcc-nm
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ranlib  /usr/bin/arm-none-eabi-gcc-ranlib
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcov  /usr/bin/arm-none-eabi-gcov
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcov-dump  /usr/bin/arm-none-eabi-gcov-dump
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcov-tool  /usr/bin/arm-none-eabi-gcov-tool
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb  /usr/bin/arm-none-eabi-gdb
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-add-index  /usr/bin/arm-none-eabi-gdb-add-index
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-add-index-py  /usr/bin/arm-none-eabi-gdb-add-index-py
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py  /usr/bin/arm-none-eabi-gdb-py
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gprof  /usr/bin/arm-none-eabi-gprof
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-ld  /usr/bin/arm-none-eabi-ld
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-ld.bfd  /usr/bin/arm-none-eabi-ld.bfd
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-lto-dump  /usr/bin/arm-none-eabi-lto-dump
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-nm  /usr/bin/arm-none-eabi-nm
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objcopy  /usr/bin/arm-none-eabi-objcopy
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump  /usr/bin/arm-none-eabi-objdump
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-ranlib  /usr/bin/arm-none-eabi-ranlib
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-readelf  /usr/bin/arm-none-eabi-readelf
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-size  /usr/bin/arm-none-eabi-size
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-strings  /usr/bin/arm-none-eabi-strings
+sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-strip  /usr/bin/arm-none-eabi-strip
+```
+
+Con esto comenzó a funcionar usando además el troubleshooting para ubuntu 22 de la sección que sigue.
 
 #### 3.2.2 Troubleshooting Ubuntu 22  <a name="troubleshootingUbuntu22"></a>
 
