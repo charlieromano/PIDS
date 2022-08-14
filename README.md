@@ -13,21 +13,22 @@ Proyecto PIDS, CESE 2020.
 1. [Iniciar Repositorio](#iniciar)
 
  	1.1. [Clonar repositorio](#clonar)
-
-	1.2. [Incluir submódulos](#submodulos)
-
+ 	
+ 	1.2. [Incluir submódulos](#submodulos)
+ 	
  	1.3. [Instalar software](#software)
-
+ 	
  		1.3.1 [openocd](#openocd)
-
+ 	
  		1.3.2 [gcc arm](#gcc)
-
+ 	
  			1.3.2.1 [Troubleshooting gcc](#troubleshooting)
-
+ 			1.3.2.2 [Troubleshooting Ubuntu 22](#troubleshootingUbuntu22)
+ 	
  		1.3.3 [EDU-CIAA](#educiaa)
-
+ 	
  	1.4. [Crear un programa](#create)
-
+ 	
  	1.5. [Seleccionar un programa](#select)
 
 
@@ -116,7 +117,7 @@ sudo apt install openocd
 ```
 
 #### 3.2 Instalar gcc-arm-none-eab <a name="gcc"></a>
- 
+
 
 ```bash
 sudo apt install gcc-arm-none-eabi
@@ -161,6 +162,87 @@ sudo ln -s /usr/share/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux/gcc-arm-no
 ```
 
 Luego funcionó ok.
+
+
+
+#### 3.2.2 Troubleshooting Ubuntu 22  <a name="troubleshootingUbuntu22"></a>
+
+
+
+Error al compilar:
+
+```bash
+charlieromano@Toshiba-L845:~/Downloads/PIDS/Scripts/firmware_v3$ make download 
+  ../App/out/../App/src/App.o ../App/out/libs/cmsis_core//src/armv7m_startup.o ../App/out/libs/editline//src/editline.o ../App/out/libs/sys_newlib//src/system.o  
+DOWNLOAD to FLASH
+Open On-Chip Debugger 0.11.0
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+dap command not exists. Use OLD script
+DEPRECATED! use 'adapter driver' not 'interface'
+DEPRECATED! use 'adapter speed' not 'adapter_khz'
+scripts/openocd/lpc4337_old.cfg:121: Error: target requires -dap parameter instead of -chain-position!
+in procedure 'script' 
+at file "embedded:startup.tcl", line 26
+at file "scripts/openocd/lpc4337.cfg", line 37
+at file "scripts/openocd/lpc4337_old.cfg", line 121
+make: *** [Makefile:296: .download_flash] Error 1
+
+```
+
+Link a la solución: https://groups.google.com/g/embebidos32/c/yFN8wUIiS0s
+
+Al parecer en la última actualización se deprecaron algunos comandos. Se reemplazan en el archivo lpc4337_old.cfg.
+
+
+
+```bash
+charlieromano@Toshiba-L845:~/Downloads/PIDS/Scripts/firmware_v3$ find -name lpc4337_old.cfg
+./scripts/openocd/lpc4337_old.cfg
+charlieromano@Toshiba-L845:~/Downloads/PIDS/Scripts/firmware_v3$ cd scripts/openocd/
+charlieromano@Toshiba-L845:~/Downloads/PIDS/Scripts/firmware_v3/scripts/openocd$ vim lpc4337_old.cfg 
+
+```
+
+
+
+En el siguiente extracto de código están los comandos que se deben reemplazar.
+
+```bash
+# Utilizar una interface tipo FTDI, todo lo que sigue está basado en ello
+######################################################################################################
+#interface ftdi
+adapter driver ftdi
+
+#.
+#.
+#.
+
+################################################################
+# Especifica en KHz la frecuencia del Clock en el JTAG (TCK)
+################################################################
+transport select jtag
+#adapter_khz 2000
+adapter speed 2000
+
+#.
+#.
+#.
+
+################################################################
+# Creo los 2 targets lpc4337.m4 y lpc4337.m0
+################################################################
+#target create $_CHIPNAME.m4 cortex_m -chain-position $_CHIPNAME.m4
+#target create $_CHIPNAME.m0 cortex_m -chain-position $_CHIPNAME.m0
+dap create $_CHIPNAME.m4.dap-chain-position $_CHIPNAME.m4
+target create $_CHIPNAME.m4 cortex_m-dap $_CHIPNAME.m4.dap
+
+```
+
+
+
+Con esto volvió a funcionar. 
 
 #### 3.3 	Instalar software EDU-CIAA (opcional) <a name="educiaa"></a>
 
