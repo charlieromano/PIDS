@@ -13,9 +13,6 @@
 #define TIMER_MAX_VALUE    256
 #define TIMER_MIN_TIMEOUT  3
 
-uint8_t 	timer_cnt;
-bool 		timer_flag;
-
 typedef enum {
 	STATE_BUTTON_INIT,
 	STATE_BUTTON_UP,
@@ -46,6 +43,9 @@ eSystemState_button 	buttonPushedDownHandler(void);
 
 
 /* State Machine GPIO button */
+
+extern uint8_t 	timer_cnt; /* @tasks */
+extern bool 	timer_flag;/* @tasks */
 extern gpioMap_t button; /* @main */
 extern QueueHandle_t queueHandle_button;/* @main */
 extern SemaphoreHandle_t xMutexUART;/* @main */

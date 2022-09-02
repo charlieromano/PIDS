@@ -279,9 +279,8 @@ adapter speed 2000
 ################################################################
 #target create $_CHIPNAME.m4 cortex_m -chain-position $_CHIPNAME.m4
 #target create $_CHIPNAME.m0 cortex_m -chain-position $_CHIPNAME.m0
-dap create $_CHIPNAME.m4.dap-chain-position $_CHIPNAME.m4
-target create $_CHIPNAME.m4 cortex_m-dap $_CHIPNAME.m4.dap
-
+dap create $_CHIPNAME.m4.dap -chain-position $_CHIPNAME.m4
+target create $_CHIPNAME.m4 cortex_m -dap $_CHIPNAME.m4.dap
 ```
 
 

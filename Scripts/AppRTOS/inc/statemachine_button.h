@@ -1,5 +1,5 @@
-#ifndef STATEMACHINE_BUTTON_H
-#define STATEMACHINE_BUTTON_H
+#ifndef __STATEMACHINE_BUTTON_H__
+#define __STATEMACHINE_BUTTON_H__
 
 #include "FreeRTOS.h"
 #include "FreeRTOSConfig.h"
@@ -13,8 +13,9 @@
 #define TIMER_MAX_VALUE    256
 #define TIMER_MIN_TIMEOUT  3
 
-uint8_t 	timer_cnt;
-bool 		timer_flag;
+extern uint8_t 	timer_cnt;
+extern bool		timer_flag;
+extern gpioMap_t button;
 
 typedef enum {
 	STATE_BUTTON_INIT,
@@ -46,8 +47,9 @@ eSystemState_button 	buttonPushedDownHandler(void);
 
 
 /* State Machine GPIO button */
-extern gpioMap_t button; /* @main */
+
 extern QueueHandle_t queueHandle_button;/* @main */
 extern SemaphoreHandle_t xMutexUART;/* @main */
+
 
 #endif
