@@ -30,8 +30,8 @@ int main( void )
    IRQ_GPIO_Init();
    //IRQ_UART_Init();
 
-   //portInit();
-   //displayInit();
+   portInit();
+   displayInit();
 
 /*
 
@@ -55,6 +55,7 @@ int main( void )
 /***************************************************************************/
 /* State Machine AB */
 /***************************************************************************/
+/*
    // Create the timer
    if( (timerHandle_AB = xTimerCreate( "Timer2", 2000/4, true, NULL, timerCallback_AB))
       == NULL ) {
@@ -82,11 +83,12 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
-/*
 */
 /***************************************************************************/
 /* Button */
 /***************************************************************************/
+/*
+*/
    if( (timerHandle_button = xTimerCreate( "Timer button", 10, true, NULL, 
       timerCallback_button)) == NULL ) {
       perror("Error creating timer");
@@ -124,9 +126,21 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
-/*
 
+/***************************************************************************/
+/* display Led */
+/***************************************************************************/
+
+   if( xTaskCreate( vTaskDisplayLed, "Display Led task", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskDisplayLedHandler) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+
+/*
 */
+
 /***************************************************************************/
 /* RTOS start */
 /***************************************************************************/

@@ -8,8 +8,8 @@
 
 /*=====[Avoid multiple inclusion - begin]====================================*/
 
-#ifndef __MAIN_H__
-#define __MAIN_H__
+#ifndef __DISPLAY_LED_H__
+#define __DISPLAY_LED_H__
 
 /*=====[Inclusions of public function dependencies]==========================*/
 
@@ -21,8 +21,10 @@
 #include "task.h"
 
 #include "sapi.h"
-#include "userTasks.h"
-#include "displayLed.h"
+#include "timers.h"
+
+#include "portmap.h"
+
 
 /*=====[C++ - begin]=========================================================*/
 
@@ -31,35 +33,16 @@ extern "C" {
 #endif
 
 /*=====[Definition macros of public constants]===============================*/
-
 /*=====[Public function-like macros]=========================================*/
 
 /*=====[Definitions of public data types]====================================*/
 
-gpioMap_t button=TEC3;
-gpioMap_t led=LEDR;
-
-uint8_t             timer_cnt;
-bool                timer_flag;
-
-uint8_t             data_AB;
-
-TimerHandle_t       timerHandle_AB; 
-TimerHandle_t       timerHandle_button; 
-
-QueueHandle_t       queueHandle_button;
-QueueHandle_t       queueHandle_AB;
-
-xTaskHandle         xTaskStateMachineHandler_button; 
-xTaskHandle         xTaskStateMachineHandler_AB; 
-xTaskHandle         xTaskDisplayLedHandler; 
-
-SemaphoreHandle_t   xBinarySemaphore;
-SemaphoreHandle_t   xMutexUART;
-
-portTickType    xLastWakeTimeDisplayLed;
 
 /*=====[Prototypes (declarations) of public functions]=======================*/
+
+void portInit(void);
+void displayInit(void);
+void vTaskDisplayLed( void *pvParameters );
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
