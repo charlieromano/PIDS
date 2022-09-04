@@ -1,0 +1,115 @@
+% Chapter 1
+
+\chapter{Introducción} % Main chapter title
+En el capítulo 1 se introduce al lector a la motivación original del trabajo realizado. Se explica el marco de investigación del que forma parte este proyecto, se presenta el estado del arte en controles de carteles led.
+En el capítulo 2 se introduce vocabulario técnico específico. Se presenta una descripción del sistema con el foco en la red de comunicaciones, el subsistema de visualización de información al pasajero, sus interacciones y componentes.\\
+
+
+En el capítulo 3 se abordan cuestiones de diseño de sistema. Se especifican los requerimientos y casos de uso que se plantean en el espacio problema. Se detalla también la solución planteada en términos de arquitectura, patrones de software implementados, descripción de componentes e interfaces. Se incluye también circuitos eléctricos de las placas de hardware existentes al realizar este trabajo.\\
+
+
+En el capítulo 4 se abordarán cuestiones relacionadas al entorno real del sistema: visitas técnicas, mediciones realizadas, hardware ad-hoc realizado para las mediciones y un breve análisis de las tramas de datos de la red PIDS existente.\\
+
+
+En el capítulo 5 se tratan las conclusiones principales del desarrollo, su potencial fabricación en serie y los pasos a seguir para integrar al resto de ramales ferroviarios. En el apéndice de bibliografía se encontrarán las principales referencias técnicas, científicas e institucionales relevantes para este trabajo.\\
+
+
+\label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+\label{Intro}
+
+
+
+%----------------------------------------------------------------------------------------
+
+% Define some commands to keep the formatting separated from the content 
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\tabhead}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{\bfseries#1}}
+\newcommand{\option}[1]{\texttt{\itshape#1}}
+\newcommand{\grados}{$^{\circ}$}
+
+%----------------------------------------------------------------------------------------
+
+%\section{Introducción}
+
+%----------------------------------------------------------------------------------------
+\pagebreak
+\section{Introducción general}
+
+\pagebreak
+\section{Objetivos y alcance}
+
+\pagebreak
+\section{Estado del arte}
+\subsection{Descripción general de los sistemas de visualización de información al pasajero}
+
+\pagebreak
+\section{Bibliografía}
+\label{sec:biblio}
+
+Las opciones de formato de la bibliografía se controlan a través del paquete de latex \option{biblatex} que se incluye en la memoria en el archivo memoria.tex.  Estas opciones determinan cómo se generan las citas bibliográficas en el cuerpo del documento y cómo se genera la bibliografía al final de la memoria.
+
+En el preámbulo se puede encontrar el código que incluye el paquete biblatex, que no requiere ninguna modificación del usuario de la plantilla, y que contiene las siguientes opciones:
+
+\begin{lstlisting}
+\usepackage[backend=bibtex,
+	natbib=true, 
+	style=numeric, 
+	sorting=none]
+{biblatex}
+\end{lstlisting}
+
+En el archivo \file{reference.bib} se encuentran las referencias bibliográficas que se pueden citar en el documento.  Para incorporar una nueva cita al documento lo primero es agregarla en este archivo con todos los campos necesario.  Todas las entradas bibliográficas comienzan con $@$ y una palabra que define el formato de la entrada.  Para cada formato existen campos obligatorios que deben completarse. No importa el orden en que las entradas estén definidas en el archivo .bib.  Tampoco es importante el orden en que estén definidos los campos de una entrada bibliográfica. A continuación se muestran algunos ejemplos:
+
+\begin{lstlisting}
+@ARTICLE{ARTICLE:1,
+    AUTHOR="John Doe",
+    TITLE="Title",
+    JOURNAL="Journal",
+    YEAR="2017",
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}
+@BOOK{BOOK:1,
+    AUTHOR="John Doe",
+    TITLE="The Book without Title",
+    PUBLISHER="Dummy Publisher",
+    YEAR="2100",
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}
+@INBOOK{BOOK:2,
+    AUTHOR="John Doe",
+    TITLE="The Book without Title",
+    PUBLISHER="Dummy Publisher",
+    YEAR="2100",
+    PAGES="100-200",
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}
+@MISC{WEBSITE:1,
+    HOWPUBLISHED = "\url{http://example.com}",
+    AUTHOR = "Intel",
+    TITLE = "Example Website",
+    MONTH = "12",
+    YEAR = "1988",
+    URLDATE = {2012-11-26}
+}
+\end{lstlisting}
+
+Se debe notar que los nombres \emph{ARTICLE:1}, \emph{BOOK:1}, \emph{BOOK:2} y \emph{WEBSITE:1} son nombres de fantasía que le sirve al autor del documento para identificar la entrada. En este sentido, se podrían reemplazar por cualquier otro nombre.  Tampoco es necesario poner : seguido de un número, en los ejemplos sólo se incluye como un posible estilo para identificar las entradas.
+
+La entradas se citan en el documento con el comando: 
+
+\begin{verbatim}
+\citep{nombre_de_la_entrada}
+\end{verbatim}
+
+Y cuando se usan, se muestran así: \citep{ARTICLE:1}, \citep{BOOK:1}, \citep{BOOK:2}, \citep{WEBSITE:1}.  Notar cómo se conforma la sección Bibliografía al final del documento. 
