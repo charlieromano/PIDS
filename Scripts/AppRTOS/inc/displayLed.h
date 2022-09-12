@@ -15,6 +15,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <string.h>
 
 #include "FreeRTOS.h"
 #include "FreeRTOSConfig.h"
@@ -22,6 +23,7 @@
 
 #include "sapi.h"
 #include "timers.h"
+#include "semphr.h"
 
 #include "portmap.h"
 
@@ -42,7 +44,10 @@ extern "C" {
 
 void portInit(void);
 void displayInit(void);
+
 void vTaskDisplayLed( void *pvParameters );
+void vTaskDisplayLedTest( void *pvParameters );
+void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *array_out);
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
