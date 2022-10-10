@@ -18,13 +18,17 @@
 \label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 \label{Intro}
 
-Los sistemas de información visual suelen estar presentes en diversas industrias y aplicaciones. A grandes rasgos se componen de un sistema que genera o procesa información, una red de transmisión y finalmente carteles que exponen mensajes para que las personas los puedan consumir visualmente.\\
+Los sistemas de información visual para pasajeros suelen estar presentes en diversas industrias y aplicaciones. Cumplen la función de facilitar información a pasajeros en tránsito. A grandes rasgos se componen de un sistema que genera o procesa información, una red de transmisión y finalmente una red de carteles o pantallas que exponen mensajes para que las personas los puedan consumir visualmente.\\
 
- Estos sistemas tienen un rol fundamental en la industria del transporte. Las personas se trasladan tanto por tierra como por aire usando distintos medios de transporte tales como automóviles, trenes o aviones. En cada uno de estos casos existen sistemas de información visual con diferentes características. En una autopista se suelen utilizar estos sistemas para comunicar eventos que suceden en algún tramo del recorrido a los conductores, como un choque o una obra vial en ejecución. En los trenes y aeropuertos estos sistemas tienen que estar sincronizados con el estado de la trayectoria del vehículo en cuestión. Los pasajeros en los aeropuertos consumen información del estado de los vuelos programados, en arribo o próximos a despegar. Los pasajeros en trenes usan estos sistemas para conocer la estación destino o la próxima estación cuando están viajando en una formación. \\
+ Estos sistemas tienen un rol fundamental en la industria del transporte. Las personas se trasladan tanto por tierra como por aire usando distintos medios tales como automóviles, taxis, ómnibus, subtes, metros, trenes  o aviones. En cada caso existen necesidades y soluciones de distintas características. En una autopista se suelen comunicar accidentes u obras viales en ejecución a los conductores usando carteles gigantes y en tiempo real. Los pasajeros en los aeropuertos consumen la información de arribo o despegue de un vuelo programado, que debe recolectar el estado de vuelo de distintas aerolíneas. Los pasajeros de ómnibus pueden estar interesados en conocer las líneas en operación al llegar a la estación, y los tiempos de espera o de viaje durante el recorrido. En un caso los carteles suelen estar a la intemperie y en el otro dentro del coche, pero en ambos casos requieren estar sincronizados con los vehículos en movimiento. Los pasajeros en trenes usan estos sistemas para conocer el destino o la próxima estación cuando están viajando en una formación. En cada coche suele haber una o más unidades de visualización y en toda una formación una red de carteles sincronizados. \\
 
-En este trabajo en particular se desarrolla el sistema de control para carteles de matriz led del sistema de información visual para pasajeros de trenes argentinos. Las formaciones de trenes argentinos cuentan con carteles de matriz led en los coches y en el frente y contrafrente del tren. Todos los carteles se interconectan a una red de comunicación transversal al tren. Por la misma red viajan datos que tienen distinto origen, como la información de sensores o los eventos que indican que un tren ha llegado a destino, por citar ejemplos. \\
+En este trabajo en particular se desarrolla el sistema de control para carteles de matriz led del sistema de información visual para pasajeros de trenes argentinos. Las formaciones de trenes argentinos cuentan con carteles de matriz led en sus coches y en el frente y contrafrente del tren. Todos los carteles se interconectan a una red de comunicación transversal por la que que viajan datos de distintas fuentes: información de sensores, eventos que indican frenado o cierre de puertas, por citar algunos ejemplos. \\
 
-Los carteles led van presentando fallas a lo largo del tiempo, motivo por el cual el personal de trenes tiene que realizar tareas de mantenimiento, reparación o reposición. Si bien existen muchos tipos de carteles led disponibles comercialmente, la integración al sistema de comunicación del tren es propietaria del fabricante de trenes. El desarrollo de un sistema a medida de los trenes es el eje de este trabajo. La necesidad que prima es generar y brindar al personal de trenes, asi como a los usuarios, de la información necesaria para construir estos sistemas de información visual.\\
+Los carteles led presentan fallas a lo largo de su ciclo de vida. Esto implica realizar tareas de mantenimiento, reparación o reposición. Si bien existen muchos tipos de carteles led disponibles comercialmente, la integración al sistema de comunicaciones del tren es propietaria del fabricante de trenes. Para el caso de trenes argentinos, el proveedor en el caso de trenes está radicado en China, haciendo no sólo muy costoso sino también muy lento el proceso de reposición o mantenimiento de este tipo de equipamiento. El desarrollo local de tecnología para sistemas de información visual al pasajero es estratégico porque extiende la vida útil de los trenes.\\
+
+%Esta necesidad motiva el desarrollo como búsqueda de autonomía tecnológica en áreas de vacancia que pueden ser cubiertas por el sistema científico-tecnológico nacional.
+
+El desarrollo de un sistema a medida para Trenes Argentinos es el eje de este trabajo. La necesidad que prima es generar y brindar al personal de operaciones de la información necesaria para construir y mantener estos sistemas de información visual al pasajero. Como consecuencia, este trabajo también tiene impacto directo en el pasajero, ya que contribuye a la calidad del servicio.\\
 
 
 En el capítulo 1 se introduce al lector a la motivación original del trabajo realizado. Se explica el marco de investigación del que forma parte este proyecto, se presenta el estado del arte en controles de carteles led.\\
@@ -41,6 +45,26 @@ En el capítulo 5 se tratan las conclusiones principales del desarrollo, su pote
 \pagebreak
 \section{Introducción general}
 
+El cliente de mayor impacto de los servicios que provee un sistema PIDS es la red de transporte (trenes, subtes, metros, ómnibus) de una gran ciudad, debido a su masividad. Lo que se observa en general es que las empresas que proveen sistemas PIDS a las redes metropolitanas de transporte de las grandes ciudades lo hacen bajo formatos distintos. Algunas instalan televisores, otras carteles led, otras incluyen carteles impresos con algún elemento indicador tipo led, leds en forma de flecha para indicar nombres de estaciones impresos, pantallas led para desplegar publicidad entre mensajes, etcétera. En algunos países se han realizado esfuerzos durante la última década para que los sistemas PIDS faciliten el acceso a la información del transporte para personas con discapacidades y de edades avanzadas.
+
+
+FOTOS
+
+Cuatro principales consideraciones en el abastecimiento de un sistema de información al pasajero son: la disponibilidad de datos ya que su recolección puede requerir uso intensivo de recursos, la precisón de los datos ya que la recolección es susceptible a errores, los mecanismos de entrega de la información al pasajero como puede ser un cartel o una pantalla led y finalmente la latencia o tiempo de respuesta, donde aparecen soluciones de tiempo real.
+
+[Hitachi] Una vez instalados, los sistemas PIDS suelen requerir mantenimiento. Muchas veces hay fallas de hardware, como por ejemplo leds que dejan de funcionar, una fuente de alimentación o una memoria que se deba reemplazar. Otras veces se requieren cambios en el software, por ejemplo actualizar el contenido de un mensaje o bien cambiarlo. Los atributos de mantenibilidad, versatilidad, modularidad y confiabilidad en la implementación pueden tener un impacto económico relevante en la operación de un servicio de transporte. Para líneas de trenes que cuentan con muchas formaciones ferroviarias operando en simultáneo, las tareas de actualización pueden ser muy intensivas en términos de horas de trabajo y requerir también capacitaciones técnicas periódicas al personal de mantenimiento. Incluso no todos los dispositivos pueden recibir actualizaciones en producción, esto es, en la locación física donde funciona. Muchas veces se los necesita desinstalar, llevar a un centro técnico y actualizar fuera de operación, lo que requiere de ventanas de mantenimiento y de tiempos reducidos para realizar tareas que pueden ser susceptibles a errores. Otra forma es enviar un técnico al sitio que pueda conectar algún periférico y actualizar manualmente cada dispositivo.
+
+Hitachi ofrece una solución para publicidad de tres pantallas en array que se sincronizan para formar una sola y transmitir video. Cada uno de estos arreglos los posicionan arriba de las ventanas en ambos lados de los coches, alcanzando el despliegue de hasta dieciocho pantallas sincronizadas por coche. Con esto logran transmitir varios mensajes distintos en simultáneo a los pasajeros sin que tengan que moverse de su asiento.
+
+https://www.hitachi.com/rev/archive/2021/r2021_05/05a09/index.html
+
+Toshiba ofrece una solución que permite transmitir publicidad e información al pasajero en una misma pantalla LCD en simultáneo. La solución está centrada en la pantalla como dispositivo central, ofreciendo pantallas de 32" y 42" de 1920 x 540 píxeles, full color de hasta 16.7 millones de colores, de amplio ángulo de visión y de gran luminancia.
+
+https://www.global.toshiba/ww/products-solutions/railway/rolling-stock/passenger-information-display.html
+
+\pagebreak
+\section{Objetivos y alcance}
+
 El  marco de este trabajo es un Proyecto de Desarrollo Estratégico (PDE) de la Secretaría de Ciencia y Técnica de la Universidad de Buenos Aires (UBACyT). El PDE se titula PDE\_15\_2020 - "Sistema de monitoreo y gestión de la red TCN en formaciones ferroviarias". Las partes que se involucran y forman parte del equipo de trabajo en este proyecto son el Grupo de Investigación en Calidad y Seguridad de las Aplicaciones Ferroviarias (GICSAFE), creado en 2017 en el marco del Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET) de la República Argentina, y la  Operadora Ferroviaria Sociedad del Estado (SOFSE), también conocida como Trenes Argentinos Operaciones. El proyecto está orientado a cubrir necesidades tecnológicas concretas del sistema ferroviario argentino. Este tipo de proyectos son instrumentos de promoción científico-tecnológica que revalorizan e incrementan el aporte de la Universidad al desarrollo socioproductivo.\\
 
 El objetivo principal de este trabajo es diseñar e implementar un sistema de información visual para pasajeros a bordo del tren. El sistema de información visual para pasajeros existente tiene una parte manual y una automática. Cuando el conductor del tren toma cabina para brindar servicio, programa en una pantalla cuáles van a ser las estaciones cabecera. Los nombres de estas estaciones cabecera se visualizan en las marquesinas del frente y contrafrente del tren, como puede verse en la figura \ref{fig:tren}.
@@ -52,8 +76,6 @@ El objetivo principal de este trabajo es diseñar e implementar un sistema de in
 	\label{fig:tren}
 \end{figure}
 
-\pagebreak
-\section{Objetivos y alcance}
 
 En el interior de los coches también hay marquesinas led. En estas marquesinas se presentan
 mensajes a los pasajeros como el nombre de la próxima estación, o la estación arribada
