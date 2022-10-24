@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-10-24T23:36:07.940Z" agent="5.0 (X11; Ubuntu)" etag="dxOfysIwVbgYO154ym_R" version="20.5.1" type="github">
+<mxfile host="app.diagrams.net" modified="2022-10-24T23:47:07.275Z" agent="5.0 (X11; Ubuntu)" etag="IOAjrHGXtJR7Mhw2qK1P" version="20.5.1" type="github">
   <diagram id="OLPzdQ6984Ci1N3j3NNt" name="Page-1">
     <mxGraphModel dx="1770" dy="418" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -375,16 +375,16 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-52" value="Module" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="290" y="1460" width="190" height="210" as="geometry" />
+          <mxGeometry x="290" y="1460" width="190" height="260" as="geometry" />
         </mxCell>
-        <mxCell id="Xs5vUdzzKSqXodpOFpAN-53" value="+ rows: int&#xa;+ columns: int&#xa;+ pinout: gpio[array]&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-52">
+        <mxCell id="Xs5vUdzzKSqXodpOFpAN-53" value="+ rows: int&#xa;+ columns: int&#xa;+ pinout: gpio[array]&#xa;+data: char[array]&#xa;&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-52">
           <mxGeometry y="26" width="190" height="74" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-54" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-52">
           <mxGeometry y="100" width="190" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="Xs5vUdzzKSqXodpOFpAN-55" value="+ bytes_out(string msg, int n, &#xa;&#xa;                uint8_t[array]): void&#xa;+reshape(rows, columns)&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-52">
-          <mxGeometry y="108" width="190" height="102" as="geometry" />
+        <mxCell id="Xs5vUdzzKSqXodpOFpAN-55" value="+ bytes_out(string msg, int n, &#xa;&#xa;                uint8_t[array]): void&#xa;+reshape(rows, columns)&#xa;+print(): void&#xa;+pinout_set(gpio[array]): void&#xa;+pinout_get(gpio[array]): void&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-52">
+          <mxGeometry y="108" width="190" height="152" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=1;endArrow=block;endFill=0;" edge="1" parent="1" source="Xs5vUdzzKSqXodpOFpAN-56" target="Xs5vUdzzKSqXodpOFpAN-57">
           <mxGeometry relative="1" as="geometry" />
@@ -402,28 +402,28 @@
           <mxGeometry x="170" y="1240" width="110" height="50" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-61" value="Panel" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="520" y="1460" width="240" height="210" as="geometry" />
+          <mxGeometry x="520" y="1460" width="240" height="260" as="geometry" />
         </mxCell>
-        <mxCell id="Xs5vUdzzKSqXodpOFpAN-62" value="+ rows: module&#xa;+ columns: module&#xa;+ pinout: gpio[array]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-61">
+        <mxCell id="Xs5vUdzzKSqXodpOFpAN-62" value="+ rows: module&#xa;+ columns: module&#xa;+ pinout: gpio[array]&#xa;+data: char[array]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-61">
           <mxGeometry y="26" width="240" height="74" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-63" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-61">
           <mxGeometry y="100" width="240" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="Xs5vUdzzKSqXodpOFpAN-64" value="+ bytes_out(string msg, int n, &#xa;&#xa;                uint8_t[array]): void&#xa;+reshape(rows, columns)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-61">
-          <mxGeometry y="108" width="240" height="102" as="geometry" />
+        <mxCell id="Xs5vUdzzKSqXodpOFpAN-64" value="+ bytes_out(string msg, int n, &#xa;&#xa;                uint8_t[array]): void&#xa;+reshape(rows, columns)&#xa;+print(): void&#xa;+pinout_set(gpio[array]): void&#xa;+pinout_get(gpio[array]): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-61">
+          <mxGeometry y="108" width="240" height="152" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-65" value="Display" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="790" y="1460" width="220" height="210" as="geometry" />
+          <mxGeometry x="790" y="1460" width="220" height="260" as="geometry" />
         </mxCell>
-        <mxCell id="Xs5vUdzzKSqXodpOFpAN-66" value="+ rows: panel&#xa;+ columns: panel&#xa;+ pinout: gpio[array]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-65">
+        <mxCell id="Xs5vUdzzKSqXodpOFpAN-66" value="+ rows: panel&#xa;+ columns: panel&#xa;+ pinout: gpio[array]&#xa;+data: char[array]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-65">
           <mxGeometry y="26" width="220" height="74" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-67" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-65">
           <mxGeometry y="100" width="220" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="Xs5vUdzzKSqXodpOFpAN-68" value="+ bytes_out(string msg, int n, &#xa;&#xa;                uint8_t[array]): void&#xa;+reshape(rows, columns)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-65">
-          <mxGeometry y="108" width="220" height="102" as="geometry" />
+        <mxCell id="Xs5vUdzzKSqXodpOFpAN-68" value="+ bytes_out(string msg, int n, &#xa;&#xa;                uint8_t[array]): void&#xa;+reshape(rows, columns)&#xa;+print(): void&#xa;+pinout_set(gpio[array]): void&#xa;+pinout_get(gpio[array]): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Xs5vUdzzKSqXodpOFpAN-65">
+          <mxGeometry y="108" width="220" height="152" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
