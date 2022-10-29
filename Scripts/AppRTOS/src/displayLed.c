@@ -22,7 +22,7 @@ extern SemaphoreHandle_t   xMutexUART;
 bool_t      timerFlag;
 uint32_t    timer;
 uint32_t    clock_cnt;
-TickType_t  xFreq = 5;
+TickType_t  xFreq = 10;
 
 gpioMap_t   timer_pin=LEDB;
 gpioMap_t   clk_array[]={LEDB, LED1, LED2, LED3};
@@ -176,16 +176,22 @@ void vTaskDisplayLed( void *pvParameters ){
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         vPrintString( "displayLED with freeRTOS y sAPI.\r\n" );
+        vTaskDisplayLedTest(pvParameters);
         xSemaphoreGive(xMutexUART);
     }
    
-    size_t      length=32*8;
+    size_t      length=8*8; //8 columns per module, 8 modules per row
     //uint8_t     data_8b[length];
     uint8_t     data_8b[] = {
+/*        
         0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00, 
         0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00, 
         0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00, 
         0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00
+        new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34],
+        new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35]
+
+*/      0xAF
     };//*test_data;
 
     uint16_t    *data_16b=NULL;
@@ -204,35 +210,43 @@ void vTaskDisplayLed( void *pvParameters ){
  
     while(true){
   
-          for (int j=0;  j<= 16 ;j++){ // 16 rows/panel
-              for (int i=0 ; i< length; i++){ // length data
-            // send_data 
-            for (int k=0 ; k< 8; k++){ // k< 8bits
-                gpioWrite(panel_1, (data_8b[i] >> k) & (0x01));
-                gpioWrite(panel_2, (data_8b[i] >> k) & (0x01));
-                gpioWrite(clk, ON);
-                gpioWrite(clk, OFF);
-            }
+        for (int j=0;  j< 16*2 ;j++){ // rows
+        // 16 rows/panel, 2 panels per display
 
+            // send_data 
+            for (int i=0 ; i< length; i++){ // columns
+            // row data length
+                uint8_t str1[]="ab";
+                uint8_t str1_len=strlen(str1);
+                #define buffer_size str1_len*8
+                uint8_t buffer[buffer_size];
+                string_read_to_8x8_bytes_out(str1,str1_len,buffer);
+                data_8b[i] = buffer[j];
+
+                for (int k=0 ; k< 8; k++){ 
+                // k< 8 bits , 8 bits per module
+                    gpioWrite(panel_1, (data_8b[i] >> k) & (0x01));
+                    gpioWrite(panel_2, (data_8b[i] >> k) & (0x01));
+                    gpioWrite(clk, ON);
+                    gpioWrite(clk, OFF);
+                }
+            }
             // latch 
             gpioWrite(latch, ON);
             gpioWrite(latch, OFF);
 
             // deco scan 
-            gpioToggle(deco_A0);
-        
+            if((j%1)==0){ gpioToggle(deco_A0); }
             if((j%2)==0){ gpioToggle(deco_A1); }
             if((j%4)==0){ gpioToggle(deco_A2); }
             if((j%8)==0){ gpioToggle(deco_A3); }
 
             vTaskDelayUntil( &xLastWakeTimeDisplayLed, xFreq);
-            //( 10 / portTICK_RATE_MS ) );
-            }
         }
     }
+}
 /*
 */
-}
 
 void timerCallbackDisplayLED(TimerHandle_t xTimerHandle){
 
@@ -258,7 +272,8 @@ uint16_t i,j,k;
 
 void vTaskDisplayLedTest( void *pvParameters ){
 
-uint8_t str1[]="Hi, how are you?";
+//uint8_t str1[]="Hi, how are you?";
+uint8_t str1[]="ab";    
 uint8_t str1_len=strlen(str1);
 uint8_t buffer[buffer_size];
 string_read_to_8x8_bytes_out(str1,str1_len,buffer);
@@ -291,3 +306,92 @@ void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *arra
         }
     }
 }
+
+void msgToData(uint8_t *str_in, uint8_t strlen, uint8_t *array_out){
+
+    string_read_to_8x8_bytes_out(str_in,  strlen, array_out);
+
+}
+
+void dataToPanelRows(uint8_t *array_in, uint8_t array_len, uint8_t *panel_out){
+
+    uint16_t i,j,k;
+    if(panel_len == array_len) // q < l
+    {
+        for( i=0; i<array_len; i++){
+            panel_out[i]=array_in[i*8+k];
+        }
+    }
+/*
+
+    else if (panel_len > array_len)
+    {
+
+    }
+*/
+}
+
+void panelRowsToDisplayEncode(uint8_t *panel_in, uint8_t panel_len, uint8_t *display_out){
+
+}
+
+dataOut >> k = dataIn >> k 
+dataOut >> k+1 = dataIn >> k 
+
+
+uint8_t* f1(uint8_t x)
+{
+    
+    uint8_t y=z=0x00;
+    uint8_t mask=0b11110000;
+    y = x & mask;
+    z = x & ~mask;
+    uint8_t out[2] = {y,z};
+    return out;
+}
+
+int hi_nibble(int x)
+{
+    int mask=0xF0;
+    int y;
+    y = x & mask;
+    return y;
+}
+
+int low_nibble(int x){
+    int mask=0xF0;
+    int z;
+    z = x & ~mask;
+    return z;
+}
+
+int f(int y)
+{
+    int mask=0xF0;
+    int yy=0x00;
+    int n=7;
+    int a=0x00;
+    int b=0x00;
+    for (int k=0; k<8; k++ ){
+        a |= (y>>((n+1)/2))   & (mask>>k);
+        b |= (y>>((n+1)/2-1)) & (mask>>k);
+        yy = a | b;
+    }
+    return yy;
+}
+
+int g(int z)
+{
+    int mask=0x01;
+    int zz=0x00;
+    int n=7;
+    int a=0x00;
+    int b=0x00;
+    for (int k=0; k<8; k++ ){
+        a |= (z<<((n+1)/2))   & (mask<<k);
+        b |= (z<<((n+1)/2-1)) & (mask<<k);
+        zz = a | b;
+    }
+    return zz;
+}
+

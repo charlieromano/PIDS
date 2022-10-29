@@ -49,6 +49,12 @@ void vTaskDisplayLed( void *pvParameters );
 void vTaskDisplayLedTest( void *pvParameters );
 void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *array_out);
 
+void msgToData(uint8_t *str_in, uint8_t strlen, uint8_t *array_out);
+
+void dataToPanelRows(uint8_t *array_in, uint8_t array_len, uint8_t *rows_out);
+
+void panelRowsToDisplayEncode(uint8_t *panel_in, uint8_t panel_len, uint8_t *display_out);
+
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
 /*=====[C++ - end]===========================================================*/

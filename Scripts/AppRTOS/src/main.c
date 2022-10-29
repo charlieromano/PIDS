@@ -132,7 +132,7 @@ int main( void )
 /***************************************************************************/
 
    if( xTaskCreate( vTaskDisplayLed, "Display Led task", 
-      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 
       &xTaskDisplayLedHandler) == pdFAIL ) {
       perror("Error creating task");
       return 1;
