@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-10-29T22:36:47.275Z" agent="5.0 (X11; Ubuntu)" etag="1u5g9srwh__0APqD30Vl" version="20.5.1" type="github">
+<mxfile host="app.diagrams.net" modified="2022-10-29T22:37:02.857Z" agent="5.0 (X11; Ubuntu)" etag="KURPXFPQOnWf7eQCnGQD" version="20.5.1" type="github">
   <diagram id="OLPzdQ6984Ci1N3j3NNt" name="Page-1">
     <mxGraphModel dx="1354" dy="781" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -375,7 +375,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-52" value="Module" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeWidth=2;" parent="1" vertex="1">
-          <mxGeometry x="170" y="2060" width="280" height="260" as="geometry" />
+          <mxGeometry x="510" y="1770" width="280" height="260" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-53" value="+ rows: int&#xa;+ columns: int&#xa;+ pinout: gpio[array]&#xa;+data: char[array]&#xa;&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;strokeWidth=2;" parent="Xs5vUdzzKSqXodpOFpAN-52" vertex="1">
           <mxGeometry y="26" width="280" height="74" as="geometry" />
@@ -402,7 +402,7 @@
           <mxGeometry x="170" y="1240" width="110" height="50" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-61" value="Panel" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeWidth=2;" parent="1" vertex="1">
-          <mxGeometry x="170" y="1770" width="280" height="260" as="geometry" />
+          <mxGeometry x="510" y="1480" width="280" height="260" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-62" value="+ rows: module&#xa;+ columns: module&#xa;+ pinout: gpio[array]&#xa;+data: char[array]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;strokeWidth=2;" parent="Xs5vUdzzKSqXodpOFpAN-61" vertex="1">
           <mxGeometry y="26" width="280" height="74" as="geometry" />
@@ -414,7 +414,7 @@
           <mxGeometry y="108" width="280" height="152" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-65" value="Display" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeWidth=2;" parent="1" vertex="1">
-          <mxGeometry x="170" y="1480" width="280" height="260" as="geometry" />
+          <mxGeometry x="510" y="1190" width="280" height="260" as="geometry" />
         </mxCell>
         <mxCell id="Xs5vUdzzKSqXodpOFpAN-66" value="+ rows: panel&#xa;+ columns: panel&#xa;+ pinout: gpio[array]&#xa;+data: char[array]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;strokeWidth=2;" parent="Xs5vUdzzKSqXodpOFpAN-65" vertex="1">
           <mxGeometry y="26" width="280" height="74" as="geometry" />
