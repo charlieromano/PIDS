@@ -182,11 +182,14 @@ void displayRowEncoding(uint8_t *buffer, uint8_t buffer_len, uint8_t cols){
 
 void zeros(int *b, int p, int q)
 {
+//	memset(b,0,sizeof(b[0][0])*p*q);
+/*
 	for(int j=0; j<q;j++){
 	for(int i=0; i<p; i++){
 		b[j*q+i]=0;
 	}
 	}
+*/
 }
 
 
@@ -200,7 +203,8 @@ void reshapeDisplay(int *buffer_in, int *buffer_out, int len_buffer_in, int len_
 	p=8;
 	q=len_buffer_out/8;
 
-zeros(b,p,q);
+printf("n=%d; m=%d\n",n,m);
+printf("p=%d; q=%d\n",p,q);
 
 if(m>=q){
 	for(int j=0; j<n;j++){
@@ -208,6 +212,7 @@ if(m>=q){
 		b[j*q+i]=a[p*i+j];
 	}}
 }
+
 if(m<q){
 	for(int j=0; j<n;j++){
 	for(int i=0; i<m; i++){
@@ -226,35 +231,48 @@ int main(void){
 	uint8_t str1_len=strlen(str1);
 	uint8_t buffer[buffer_size];
 
-	string_read_to_8x8_bytes_out(str1,str1_len,buffer);
+//	string_read_to_8x8_bytes_out(str1,str1_len,buffer);
 
-	printHexArray(buffer, str1_len);
+//	printHexArray(buffer, str1_len);
 
-	printBinaryArray(buffer,buffer_size);
+//	printBinaryArray(buffer,buffer_size);
 
 	int A[]={11,12,13,14,15,16,17,18,21,22,23,24,25,26,27,28};
-	int *B;
-	int C[16];
 
 	int n=8;
 	int m=2;
 	int p=8;
 	int q=2;
 
+	int B[8*2]={0};
+//	zeros(B,p,q);
+	
+	printf("Antes \n");
 	for(int i=0; i<16; i++)
 	{
 		printf("%d ",A[i]);
 		if(i%8==7)printf("\n");
 
 	}
-	
-	zeros(C,p,q);	
-	//reshapeDisplay(A,B, 16,16);
-	
-	
 	for(int i=0; i<16; i++)
 	{
-		printf("%d ",C[i]);
+		printf("%d ",B[i]);
+		if(i%q==(q-1))printf("\n");
+
+	}
+	
+	reshapeDisplay(A,B, 16,16);
+	
+	printf("Después \n");	
+	for(int i=0; i<16; i++)
+	{
+		printf("%d ",A[i]);
+		if(i%8==7)printf("\n");
+
+	}
+	for(int i=0; i<16; i++)
+	{
+		printf("%d ",B[i]);
 		if(i%q==(q-1))printf("\n");
 
 	}
