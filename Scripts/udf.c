@@ -123,11 +123,11 @@ void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *arra
 }
 
 
-void printHexArray(uint8_t *buffer, int len){
+void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size){
 	for (int i=0; i<len; i++){
-	for (int j=0;j<8;j++){
-		printf("0x%.2x, ", buffer[(i*8)+j]);
-		if (j%8==7)printf("\n");
+	for (int j=0;j<size;j++){
+		printf("0x%.2x, ", buffer[(i*size)+j]);
+		if (j%size==7)printf("\n");
 	}
 	}
 }
@@ -193,9 +193,9 @@ void zeros(int *b, int p, int q)
 }
 
 
-void reshapeDisplay(int *buffer_in, int *buffer_out, int len_buffer_in, int len_buffer_out)
+void reshapeDisplay(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buffer_in, uint8_t len_buffer_out)
 {
-	int *a,*b,m,n,p,q;
+	uint8_t *a,*b,m,n,p,q;
 	a=buffer_in;
 	b=buffer_out;
 	n=8;
@@ -227,33 +227,37 @@ for(int i=0; i<p*q; i++){
 
 int main(void){
 	
-	uint8_t str1[]="0123";	
+	uint8_t str1[]="010";	
 	uint8_t str1_len=strlen(str1);
 	uint8_t buffer[buffer_size];
 
-//	string_read_to_8x8_bytes_out(str1,str1_len,buffer);
-
-//	printHexArray(buffer, str1_len);
+	printf("print str to buffer: %s \n",str1);
+	string_read_to_8x8_bytes_out(str1,str1_len,buffer);
+	
+	printf("printHexArray(buffer): \n");
+	printHexArray(buffer, str1_len, 8);
 
 //	printBinaryArray(buffer,buffer_size);
 
-	int A[]={11,12,13,14,15,16,17,18,21,22,23,24,25,26,27,28};
+	uint8_t A[]={11,12,13,14,15,16,17,18,21,22,23,24,25,26,27,28};
 
 	int n=8;
 	int m=2;
 	int p=8;
 	int q=2;
 
-	int B[8*2]={0};
+	uint8_t B[8*2]={0};
 //	zeros(B,p,q);
 	
 	printf("Antes \n");
+	printf("A: \n");
 	for(int i=0; i<16; i++)
 	{
 		printf("%d ",A[i]);
 		if(i%8==7)printf("\n");
 
 	}
+	printf("B: \n");
 	for(int i=0; i<16; i++)
 	{
 		printf("%d ",B[i]);
@@ -264,12 +268,14 @@ int main(void){
 	reshapeDisplay(A,B, 16,16);
 	
 	printf("Después \n");	
+	printf("A: \n");
 	for(int i=0; i<16; i++)
 	{
 		printf("%d ",A[i]);
 		if(i%8==7)printf("\n");
 
 	}
+	printf("B: \n");	
 	for(int i=0; i<16; i++)
 	{
 		printf("%d ",B[i]);
@@ -277,10 +283,9 @@ int main(void){
 
 	}
 
-
+	printHexArray(A,16, 1);
 
 	return 0;
-
 }
 
 
