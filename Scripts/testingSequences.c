@@ -113,7 +113,7 @@ uint8_t new_ascii[855]={
 
 
 #define DISPLAY_COLS		8
-#define DISPLAY_ROWS		1*8
+#define DISPLAY_ROWS		8*4
 #define CHAR_LENGTH  		8
 
 //#define buffer_size str1_len*8
@@ -124,7 +124,7 @@ int main(void){
 	/* Test 1: message longer than display cols */
 	/**************************************************************/
 	
-	uint8_t str1[]="h";	
+	uint8_t str1[]="hola hola hola";
 	uint8_t str1_len=strlen(str1);
 	uint8_t buffer_size=str1_len*CHAR_LENGTH;
 	uint8_t buffer[buffer_size];
@@ -133,7 +133,7 @@ int main(void){
 	string_read_to_8x8_bytes_out(str1,str1_len,buffer);
 	
 	printf("printHexArray(buffer); str_len=%d; buffer_size=%d \n", str1_len, buffer_size);
-	printHexArray(buffer, str1_len, 8);
+	printHexArray(buffer, str1_len, CHAR_LENGTH);
 
 	int n=CHAR_LENGTH; 
 	int m=str1_len;
@@ -144,6 +144,7 @@ int main(void){
 
 	uint8_t B[display_size];
 	for(int i; i<display_size;i++){B[i]=0;}
+
 	printf("B: (before) \n");
 	for(int i=0; i<display_size; i++){
 		printf("%d ",B[i]);
@@ -151,14 +152,9 @@ int main(void){
 	}
 
 	reshape_to_display(buffer,B, buffer_size, display_size);
-	
-	printf("B: (after reshape)\n");
-	for(int i=0; i<display_size; i++){
-		printf("%d \t",B[i]);
-		if(i%DISPLAY_COLS==(DISPLAY_COLS-1))printf("\n");
-	}
+
 	printf("printHexArray(B); rows=%d; cols=%d \n", p, q);
-	printHexArray(B,DISPLAY_COLS, 8);
+	printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
 
 	/**************************************************************/
 
@@ -182,13 +178,12 @@ void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *arra
     }
 }
 
-
+//printHexArray(buffer, str1_len, CHAR_LENGTH);
+//printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
 void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size){
-	for (int i=0; i<len; i++){
-	for (int j=0;j<size;j++){
-		printf("0x%.2x\t ", buffer[(i*size)+j]);
-		if (j%size==7)printf("\n");
-	}
+	for(int i=0; i<len*size; i++){
+		printf("0x%.2x\t ", buffer[i]);
+		if(i%size==(size-1))printf("\n");
 	}
 }
 
@@ -204,6 +199,15 @@ void printBinaryArray(uint8_t *buffer, int len){
 	}
 }
 
+/*
+	int n=CHAR_LENGTH; 
+	int m=str1_len;
+	int p=DISPLAY_ROWS;
+	int q=DISPLAY_COLS;
+
+	int display_size = p*q;
+	reshape_to_display(buffer,B, buffer_size, display_size);
+*/
 void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buffer_in, uint8_t len_buffer_out)
 {
 	uint8_t *a,*b,m,n,p,q;
@@ -211,7 +215,7 @@ void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buf
 	b=buffer_out;
 
 	n=CHAR_LENGTH; 
-	m=len_buffer_in/n;
+	m=len_buffer_in/CHAR_LENGTH;
 	p=DISPLAY_ROWS;
 	q=DISPLAY_COLS;
 
@@ -227,7 +231,7 @@ if((m<q)&(n<p)){
 	printf("Case 0: (m<q)&(n<p)\n");
 	for(int j=0; j<n;j++){
 	for(int i=0; i<m; i++){
-		b[j*q+i]=a[p*i+j];
+		b[j*q+i]=a[n*i+j];
 	}
 	for(int i=m; i<q; i++){
 		b[j*q+i]=0;
@@ -237,38 +241,36 @@ if((m<q)&(n<p)){
 		b[j*q+i]=0;
 	}}
 }
-//case 2: m>=q, n<p
-if((m>=q)&(n<p)){
-	printf("Case 2: (m>=q)&(n<p)\n");	
-	for(int j=0; j<n;j++){
-	for(int i=0; i<q; i++){
-		b[j*q+i]=a[p*i+j];
-	}}
-	for(int j=n; j<p; j++){
-	for(int i=0; i<q; i++){
-		b[j*q+i]=0;
-	}}	
-}
-
 //case 1: m<q, n>=p
 if((m<q)&(n>=p)){
 	printf("Case 1: (m<q)&(n>=p)\n");	
 	for(int j=0; j<p;j++){
 	for(int i=0; i<m; i++){
-		b[j*q+i]=a[p*i+j];
+		b[j*q+i]=a[n*i+j];
 	}}
 	for(int j=0; j<p; j++){
 	for(int i=m; i<q; i++){
 		b[j*q+i]=0;
 	}}
 }
-
+//case 2: m>=q, n<p
+if((m>=q)&(n<p)){
+	printf("Case 2: (m>=q)&(n<p)\n");	
+	for(int j=0; j<n;j++){
+	for(int i=0; i<q; i++){
+		b[j*q+i]=a[n*i+j];
+	}}
+	for(int j=n; j<p; j++){
+	for(int i=0; i<q; i++){
+		b[j*q+i]=0;
+	}}	
+}
 //case 3: m>=q, n>=p
 if((m>=q)&(n>=p)){
 	printf("Case 3: (m>=q)&(n>=p)\n");
 	for(int j=0; j<p;j++){
 	for(int i=0; i<q; i++){
-		b[j*q+i]=a[p*i+j];
+		b[j*q+i]=a[n*i+j];
 	}}
 }
 
