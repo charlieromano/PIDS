@@ -113,7 +113,7 @@ uint8_t new_ascii[855]={
 
 
 #define DISPLAY_COLS		8
-#define DISPLAY_ROWS		8*4
+#define DISPLAY_ROWS		8*1
 #define CHAR_LENGTH  		8
 
 //#define buffer_size str1_len*8
