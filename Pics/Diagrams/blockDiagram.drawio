@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-11-27T23:24:21.411Z" agent="5.0 (X11; Ubuntu)" etag="9MO_Xkax56LaSh1B0W3B" version="20.6.0" type="github">
+<mxfile host="app.diagrams.net" modified="2022-11-28T00:36:01.430Z" agent="5.0 (X11; Ubuntu)" etag="XVEC08QhOSBSixNCqa2Q" version="20.6.0" type="github">
   <diagram id="OLPzdQ6984Ci1N3j3NNt" name="Page-1">
-    <mxGraphModel dx="1138" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2844" dy="1640" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -792,6 +792,9 @@
         </mxCell>
         <mxCell id="fnQ-S_slkOZR-ePP5-Ds-182" value="fsmUART" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=2;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="858" y="1599" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fnQ-S_slkOZR-ePP5-Ds-183" value="RS485 Bus" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="374" y="1720" width="107" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
