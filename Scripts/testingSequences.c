@@ -281,3 +281,48 @@ for(int i=0; i<p*q; i++){
 }
 }
 
+
+#define BIT_MASK 	0x01
+
+void f3(uint8_t *buffer_out, uint8_t len_buffer_in, gpioMap_t *pinout){
+
+	//gpioMap_t TO DO: define struct with pinout.clk, pinout.latch, ...
+
+	uint8_t 	*msg;
+	uint8_t 	data;
+
+	msg = buffer_out;
+
+	/* TO DO: define send_to_display() */
+    for (int j=0;  j< DISPLAY_ROWS ;j++){ 
+
+    	for(int i=0; i<DISPLAY_COLS; i++){ 
+
+    		data = msg[j*DISPLAY_COLS+i];
+
+    		// send_data 
+    		for (int k=0 ; k < CHAR_LENGTH; k++){
+                gpioWrite(panel_1, (data >> k) & BIT_MASK);
+                gpioWrite(panel_2, (data >> k) & BIT_MASK);
+                /* TO DO: define clk(pinout.clk) */
+                gpioWrite(clk, ON);
+                gpioWrite(clk, OFF);
+            }
+
+            // latch
+            /* TO DO: define clk(pinout.latch) */
+            gpioWrite(latch, ON);
+            gpioWrite(latch, OFF);
+        }
+
+        // switch row
+        /* TO DO: define row_enable(j) */
+        if((j%1)==0){ gpioToggle(deco_A0); }
+        if((j%2)==0){ gpioToggle(deco_A1); }
+        if((j%4)==0){ gpioToggle(deco_A2); }
+        if((j%8)==0){ gpioToggle(deco_A3); }
+
+        /* TO DO: replace with timer(REFRESH_PERIOD/DISPLAY_ROWS) */
+        vTaskDelayUntil( &xLastWakeTimeDisplayLed, xFreq);
+    }
+}
