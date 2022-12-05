@@ -18,9 +18,9 @@
 \label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 \label{Intro}
 
-Los sistemas de información visual para pasajeros suelen estar presentes en diversas industrias y aplicaciones. Cumplen la función de facilitar información a pasajeros en tránsito. A grandes rasgos se componen de un sistema que genera o procesa información, una red de transmisión y finalmente una red de carteles o pantallas que exponen mensajes para que las personas los puedan consumir visualmente.\\
+Los sistemas de información visual para pasajeros suelen estar presentes en diversas industrias y aplicaciones. Cumplen la función de facilitar información a pasajeros en tránsito. A grandes rasgos se componen de un sistema que genera o procesa información, una red de transmisión y carteles o pantallas que presentan mensajes para que las personas los consuman visualmente.\\
 
- Estos sistemas tienen un rol fundamental en la industria del transporte. Las personas se trasladan tanto por tierra como por aire usando distintos medios tales como automóviles, taxis, ómnibus, subtes, metros, trenes  o aviones. En cada caso existen necesidades y soluciones de distintas características. En una autopista se suelen comunicar accidentes u obras viales en ejecución a los conductores usando carteles gigantes y en tiempo real. Los pasajeros en los aeropuertos consumen la información de arribo o despegue de un vuelo programado, que debe recolectar el estado de vuelo de distintas aerolíneas. Los pasajeros de ómnibus pueden estar interesados en conocer las líneas en operación al llegar a la estación, y los tiempos de espera o de viaje durante el recorrido. En un caso los carteles suelen estar a la intemperie y en el otro dentro del coche, pero en ambos casos requieren estar sincronizados con los vehículos en movimiento. Los pasajeros en trenes usan estos sistemas para conocer el destino o la próxima estación cuando están viajando en una formación. En cada coche suele haber una o más unidades de visualización y en toda una formación una red de carteles sincronizados. \\
+ Estos sistemas tienen un rol fundamental en la industria del transporte. Las personas se trasladan tanto por tierra como por aire usando distintos medios tales como los automóviles, taxis, ómnibus, subtes, metros, trenes  o aviones. En cada caso existen necesidades y soluciones de distintas características. En una autopista se suele comunicar accidentes u obras viales en ejecución a los conductores a través de carteles gigantes y con información en tiempo real. En los aeropuertos los pasajeros visualizan la información de arribo, estado o despegue de los vuelos programados. En estos sistemas se debe recolectar información de distintas aerolíneas. Por otro lado, los pasajeros de ómnibus pueden estar interesados en conocer las líneas en operación al llegar a la estación, y los tiempos de espera o de viaje durante el recorrido. En un caso los carteles suelen estar a la intemperie y en el otro dentro del coche, pero en ambos casos requieren estar sincronizados con los vehículos en movimiento. Los pasajeros en trenes usan estos sistemas para conocer el destino o la próxima estación cuando están viajando en una formación. En cada coche suele haber una o más unidades de visualización y en toda una formación una red de carteles sincronizados. \\
 
 En este trabajo en particular se desarrolla el sistema de control para carteles de matriz led del sistema de información visual para pasajeros de trenes argentinos. Las formaciones de trenes argentinos cuentan con carteles de matriz led en sus coches y en el frente y contrafrente del tren. Todos los carteles se interconectan a una red de comunicación transversal por la que que viajan datos de distintas fuentes: información de sensores, eventos que indican frenado o cierre de puertas, por citar algunos ejemplos. \\
 
@@ -56,9 +56,9 @@ Cuatro principales consideraciones en el abastecimiento de un sistema de informa
 
 Hitachi ofrece una solución para publicidad de tres pantallas en array que se sincronizan para formar una sola y transmitir video. Cada uno de estos arreglos los posicionan arriba de las ventanas en ambos lados de los coches, alcanzando el despliegue de hasta dieciocho pantallas sincronizadas por coche. Con esto logran transmitir varios mensajes distintos en simultáneo a los pasajeros sin que tengan que moverse de su asiento.
 
-https://www.hitachi.com/rev/archive/2021/r2021_05/05a09/index.html
+https://www.hitachi.com/rev/archive/2021/r2021\_ 05/05a09/index.html
 
-Toshiba ofrece una solución que permite transmitir publicidad e información al pasajero en una misma pantalla LCD en simultáneo. La solución está centrada en la pantalla como dispositivo central, ofreciendo pantallas de 32" y 42" de 1920 x 540 píxeles, full color de hasta 16.7 millones de colores, de amplio ángulo de visión y de gran luminancia.
+Toshiba ofrece una solución que permite transmitir publicidad e información al pasajero en una misma pantalla LCD en simultáneo. La solución está centrada en la pantalla como dispositivo central, ofreciendo pantallas de 32\" y 42\" de 1920 x 540 píxeles, full color de hasta 16.7 millones de colores, de amplio ángulo de visión y de gran luminancia.
 
 https://www.global.toshiba/ww/products-solutions/railway/rolling-stock/passenger-information-display.html
 
@@ -93,10 +93,10 @@ controles de puertas, los monitores de velocidad, el sistema de información, et
 El sistema propuesto pretende leer del bus MVB los mensajes de información al pasajero que
 viajan por la red TCN existente y presentarlos en un display LED. El sistema se compone
 principalmente de cuatro partes:
-● un display LED
-● una placa de control y comunicación
-● cables de interconexión
-● firmware asociado
+un display LED
+una placa de control y comunicación
+cables de interconexión
+firmware asociado
 El diagrama del prototipo se presenta en la figura 2. El display LED matricial representa la
 marquesina del tren. La placa de control se debe poder conectar al bus MVB de la red TCN
 como entrada y al display LED como salida.
@@ -111,8 +111,8 @@ presentarlos en el display.
 
 
 Las necesidades que debe satisfacer este proyecto son:
-● compatibilidad tecnológica: debe cumplir con los estándares asociados a la red TCN
-● practicidad: debe ser de uso simple para el personal de Trenes Argentinos Operaciones
+compatibilidad tecnológica: debe cumplir con los estándares asociados a la red TCN
+practicidad: debe ser de uso simple para el personal de Trenes Argentinos Operaciones
 Este proyecto permitirá implementar las funciones de visualización del sistema de información al
 pasajero sin depender del equipamiento existente. El sistema existente es un equipamiento
 integrado y propietario, y este proyecto busca desacoplar algunas de las funciones, las que
@@ -129,8 +129,8 @@ En el trabajo se propone explorar los datos del sistema de información al pasaj
 la red TCN. Mediante la implementación de firmware sobre una placa de control se pretende
 interpretar estos datos de sistema y presentarlos en un display LED. Algunos aspectos a resolver
 incluyen:
-● obtener datos del bus MVB asociados al sistema de información al pasajero
-● controlar un display LED para presentar la información recibida del bus MVB
+obtener datos del bus MVB asociados al sistema de información al pasajero
+controlar un display LED para presentar la información recibida del bus MVB
 Para resolver estos aspectos se considera el desarrollo de firmware sobre un microcontrolador
 con arquitectura de 32 bits. Usando la metodología del SWEBOK [6] se pretende garantizar
 calidad de software. Con este enfoque se pretende generar documentación sistemática, simple y

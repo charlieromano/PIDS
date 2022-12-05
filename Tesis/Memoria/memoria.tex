@@ -76,7 +76,7 @@ headsepline, % Uncomment to get a line under the header
 %The Thesis Abstract is written here (and usually kept to just this page). The page is kept centered vertically so can expand into the blank space above the title too\ldots
 \centering
 
-Las formaciones ferroviarias usan distintos sistemas de control para funcionar que se interconectan por medio de una red de comunicaciones (TCN). Algunos ejemplos son el sistema de frenos, el control de puertas, el aire acondicionado y el sistema de información visual al pasajero (PIDS). El PIDS es el responsable de transmitir mensajes como el destino o la próxima estación a través de carteles de matriz led usando su propia red. El propósito de este trabajo es desarrollar firmware y hardware necesarios para controlar los carteles de matriz LED de salón (IDU) de las formaciones ferroviarias de Trenes Argentinos. El principal valor que aporta es generar herramientas de mantenimiento para extender la vida útil de los trenes. Si bien existen carteles led comerciales de propósito general, en los trenes hace falta conectarlos a la red, interpretar datos y protocolos del PIDS, presentar mensajes en función de los datos y considerar restricciones eléctricas. En el diseño e implementación del sistema embebido de este trabajo se aplicaron patrones de software concurrente (máquinas de estado y objeto activo) usando un sistema operativo de tiempo real (RTOS) sobre una plataforma EDU-CIAA. También se desarrollaron piezas de hardware para adaptar el sistema a la red y se realizaron capturas de tramas de datos en formaciones ferroviarias operando en vivo.				
+En las formaciones ferroviarias modernas existen distintos sistemas de control que se interconectan a través de una red de comunicaciones (TCN). En particular, las formaciones de Trenes Argentinos cuentan con la TCN que sigue el estándar .... En Algunos ejemplos son el sistema de frenos, el control de puertas, el aire acondicionado y el sistema de información visual al pasajero (PIDS). El PIDS es el responsable de transmitir mensajes como el destino o la próxima estación a través de carteles de matriz led usando su propia red. El propósito de este trabajo es desarrollar firmware y hardware necesarios para controlar los carteles de matriz LED de salón (IDU) de las formaciones ferroviarias de Trenes Argentinos. El principal valor que aporta es generar herramientas de mantenimiento para extender la vida útil de los trenes. Si bien existen carteles led comerciales de propósito general, en los trenes hace falta conectarlos a la red, interpretar datos y protocolos del PIDS, presentar mensajes en función de los datos y considerar restricciones eléctricas. En el diseño e implementación del sistema embebido de este trabajo se aplicaron patrones de software concurrente (máquinas de estado y objeto activo) usando un sistema operativo de tiempo real (RTOS) sobre una plataforma EDU-CIAA. También se desarrollaron piezas de hardware para adaptar el sistema a la red y se realizaron capturas de tramas de datos en formaciones ferroviarias operando en vivo.				
 
 \end{abstract}
 
@@ -88,7 +88,13 @@ Las formaciones ferroviarias usan distintos sistemas de control para funcionar q
 %\addchaptertocentry{\acknowledgementname} % Descomentando esta línea se puede agregar los agradecimientos al índice
 \vspace{1.5cm}
 
-Quiero agradecer al personal altamente calificado de la Gerencia de Material Rodante Eléctrico de la companía Trenes Argentinos Operaciones (SOFSE), el Ing. Sergio Dieleke. 
+En primer lugar quiero agradecer al Dr. Ing. Pablo Gomez por su inagotable paciencia y excelente predisposición a lo largo de todo el tiempo que llevó concluir este trabajo. También quiero agradecer al Dr. Ing. Ariel Lutenberg por su empuje, su espíritu motivador y su actitud de concertación. Me gustaría destacar su liderazgo en la generación de propuestas concretas de vinculación entre la universidad y la industria a través de proyectos. También agradecer a ellos dos y a todo el plantel de profesores que han volcado a lo largo de los años un enorme y minucioso trabajo en el desarrollo de los contenidos del programa de la Carrera de Especialización en Sistemas Embebidos. Ha sido altamente satisfactorio completar el posgrado.
+
+Quiero agradecer al personal altamente calificado de la Gerencia de Material Rodante Eléctrico de la companía Trenes Argentinos Operaciones (SOFSE), el Ing. Sergio Dieleke, y a todos los colaboradores que nos han brindado atención, seguridad y tiempo para realizar mediciones en las formaciones ferroviarias. En especial también quiero agradecer a Bruno Pilato por su colaboración desde los talleres de Castelar para realizar pruebas en conjunto durante la pandemia. 
+
+Por último también agradezco a Magui, que me brindó soporte en 
+todo momento; a mi madre y padre por enseñarme a valorar tanto la formación académica como la experiencia técnica con igual importancia; y a mis tutores y colegas de la empresa con quienes comparto el día a día e intercambio ideas sumamente útiles para pensar fuera de la caja.
+
 
 \end{acknowledgements}
 
@@ -107,7 +113,7 @@ Quiero agradecer al personal altamente calificado de la Gerencia de Material Rod
 %	CONTENIDO DE LA MEMORIA  - DEDICATORIA
 %----------------------------------------------------------------------------------------
 
-\dedicatory{\textbf{Dedicado a... [OPCIONAL]}}  % escribir acá si se desea una dedicatoria
+\dedicatory{\textbf{Dedicado a la Facultad de Ingeniería de la Universidad de Buenos Aires y a la empresa Trenes Argentinos Operaciones}}  % escribir acá si se desea una dedicatoria
 
 %----------------------------------------------------------------------------------------
 %	CONTENIDO DE LA MEMORIA  - CAPÍTULOS
