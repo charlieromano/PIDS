@@ -18,49 +18,38 @@
 \label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 \label{Intro}
 
-Los sistemas de información visual para pasajeros suelen estar presentes en diversas industrias y aplicaciones. Cumplen la función de facilitar información a pasajeros en tránsito. A grandes rasgos se componen de un sistema que genera o procesa información, una red de transmisión y carteles o pantallas que presentan mensajes para que las personas los consuman visualmente.\\
+Los sistemas de información visual para pasajeros están presentes en diversas industrias y aplicaciones. Se encargan de proveer información a pasajeros en  movimiento y tienen un rol fundamental en la industria del transporte.\\
 
- Estos sistemas tienen un rol fundamental en la industria del transporte. Las personas se trasladan tanto por tierra como por aire usando distintos medios tales como los automóviles, taxis, ómnibus, subtes, metros, trenes  o aviones. En cada caso existen necesidades y soluciones de distintas características. En una autopista se suele comunicar accidentes u obras viales en ejecución a los conductores a través de carteles gigantes y con información en tiempo real. En los aeropuertos los pasajeros visualizan la información de arribo, estado o despegue de los vuelos programados. En estos sistemas se debe recolectar información de distintas aerolíneas. Por otro lado, los pasajeros de ómnibus pueden estar interesados en conocer las líneas en operación al llegar a la estación, y los tiempos de espera o de viaje durante el recorrido. En un caso los carteles suelen estar a la intemperie y en el otro dentro del coche, pero en ambos casos requieren estar sincronizados con los vehículos en movimiento. Los pasajeros en trenes usan estos sistemas para conocer el destino o la próxima estación cuando están viajando en una formación. En cada coche suele haber una o más unidades de visualización y en toda una formación una red de carteles sincronizados. \\
+ Las personas se trasladan por tierra o aire usando automóviles, ómnibus, subtes, trenes o aviones, entre otros. Los sistemas de información visual para cada cada caso presentan necesidades y soluciones distintas. En una autopista se suele comunicar accidentes u obras viales en ejecución a los conductores a través de carteles gigantes y con información en tiempo real. En los aeropuertos los pasajeros visualizan la información de arribo, estado o despegue de  vuelo. A los pasajeros de ómnibus les interesa conocer los tiempos de espera y las líneas en operación al llegar a una estación. En un caso los carteles pueden estar a la intemperie y en  otro dentro de un recinto, pero siempre requieren estar sincronizados con los vehículos en movimiento. Los pasajeros de trenes usan estos sistemas para conocer el destino o la próxima estación cuando están viajando. \\
 
-En este trabajo en particular se desarrolla el sistema de control para carteles de matriz led del sistema de información visual para pasajeros de trenes argentinos. Las formaciones de trenes argentinos cuentan con carteles de matriz led en sus coches y en el frente y contrafrente del tren. Todos los carteles se interconectan a una red de comunicación transversal por la que que viajan datos de distintas fuentes: información de sensores, eventos que indican frenado o cierre de puertas, por citar algunos ejemplos. \\
+Los sistemas de información al pasajero (PIDS) tienen principalmente tres componentes: un sistema que genera datos, una red de transmisión y un sistema de displays. Dependiendo del dominio de aplicación, las especificaciones de cada sistema tienen distintos requerimientos. Típicamente en los trenes se requiere comunicación en tiempo real, lo que conlleva la adopción de protocolos de tiempo real (RTP). En aplicaciones ferroviarias también es importante la integridad, disponibilidad y confiabilidad de los datos. Pero también existen otros requerimientos de carácter operativo, como el mantenimiento y la facilidad de instalación. Estos últimos aspectos son esenciales en la operación de una formación ferroviaria y tienen impacto directo en el ciclo de vida de un tren.\\
 
-Los carteles led presentan fallas a lo largo de su ciclo de vida. Esto implica realizar tareas de mantenimiento, reparación o reposición. Si bien existen muchos tipos de carteles led disponibles comercialmente, la integración al sistema de comunicaciones del tren es propietaria del fabricante de trenes. Para el caso de trenes argentinos, el proveedor en el caso de trenes está radicado en China, haciendo no sólo muy costoso sino también muy lento el proceso de reposición o mantenimiento de este tipo de equipamiento. El desarrollo local de tecnología para sistemas de información visual al pasajero es estratégico porque extiende la vida útil de los trenes.\\
+ Los sistemas PIDS instalados en los trenes se interconectan con una red de comunicaciones del tren (TCN). Esta red TCN sigue un estándar y define tanto interfaces eléctricas como protocolos de datos. A la red TCN se conectan dispositivos para el sensado y control de frenos, de puertas, de monitoreo, entre otros, usando una arquitectura jerárquica de buses de datos. La red TCN representa un estándar robusto, maduro, probado y con gran aceptación internacional. Sin embargo los sistemas PIDS se presentan sin la necesidad de ser compatibles con los estándares de TCN. Existen diversas soluciones comerciales para aplicaciones de entretenimiento por ejemplo, pero se requiere de un trabajo de integración adicional para que funcionen en un tren.\\
+ 
+ En este trabajo se introduce una breve descripción de las redes TCN y su evolución en el tiempo. Para el caso de las formaciones de Trenes Argentinos, que forman el marco de este trabajo, se presenta también el detalle de interconexión TCN-PIDS, el desarrollo de un sistema de control para los carteles led del sistema PIDS y los resultados de las pruebas de campo realizadas. Se ha organizado esta memoria buscando acercar al lector primero los conceptos principales de la aplicación y luego el detalle de diseño del sistema embebido propuesto. \\
+  
 
-%Esta necesidad motiva el desarrollo como búsqueda de autonomía tecnológica en áreas de vacancia que pueden ser cubiertas por el sistema científico-tecnológico nacional.
+En el capítulo 1 se introduce al lector a la motivación original del trabajo realizado. Se explica el marco de investigación del que forma parte este proyecto y se presenta el estado del arte en controles de carteles led.\\
 
-El desarrollo de un sistema a medida para Trenes Argentinos es el eje de este trabajo. La necesidad que prima es generar y brindar al personal de operaciones de la información necesaria para construir y mantener estos sistemas de información visual al pasajero. Como consecuencia, este trabajo también tiene impacto directo en el pasajero, ya que contribuye a la calidad del servicio.\\
+En el capítulo 2 se introduce vocabulario técnico específico. Se presenta una descripción del sistema con el foco en la red de comunicaciones TCN, el sistema PIDS, sus interacciones y componentes.\\
 
+En el capítulo 3 se abordan cuestiones de diseño de sistema. Se especifican los requerimientos y casos de uso que se plantean en el espacio problema y también las consideraciones del espacio solución. Se detalla la solución en términos de arquitectura, patrones de software, descripción de componentes e implementación. Se incluye también los planos de los circuitos eléctricos del hardware existente que fueron relevados al realizar este trabajo.\\
 
-En el capítulo 1 se introduce al lector a la motivación original del trabajo realizado. Se explica el marco de investigación del que forma parte este proyecto, se presenta el estado del arte en controles de carteles led.\\
-
-En el capítulo 2 se introduce vocabulario técnico específico. Se presenta una descripción del sistema con el foco en la red de comunicaciones, el subsistema de visualización de información al pasajero, sus interacciones y componentes.\\
-
-En el capítulo 3 se abordan cuestiones de diseño de sistema. Se especifican los requerimientos y casos de uso que se plantean en el espacio problema. Se detalla también la solución planteada en términos de arquitectura, patrones de software implementados, descripción de componentes e interfaces. Se incluye también circuitos eléctricos de las placas de hardware existentes al realizar este trabajo.\\
-
-En el capítulo 4 se abordarán cuestiones relacionadas al entorno real del sistema: visitas técnicas, mediciones realizadas, hardware ad-hoc realizado para las mediciones y un breve análisis de las tramas de datos de la red PIDS existente.\\
+En el capítulo 4 se abordan cuestiones relacionadas al entorno real del sistema: visitas técnicas, mediciones realizadas, hardware ad-hoc realizado para las mediciones y un breve análisis de las tramas de datos de la red PIDS existente.\\
 
 En el capítulo 5 se tratan las conclusiones principales del desarrollo, su potencial fabricación en serie y los pasos a seguir para integrar al resto de ramales ferroviarios. En el apéndice de bibliografía se encontrarán las principales referencias técnicas, científicas e institucionales relevantes para este trabajo.\\
 
 
 \pagebreak
 \section{Introducción general}
+En este trabajo se desarrolla el sistema de control para carteles de matriz led del sistema de información visual para pasajeros de trenes argentinos. Las formaciones de trenes argentinos cuentan con carteles de matriz led en sus coches y en el frente y contrafrente del tren. Todos los carteles se interconectan a una red de comunicación TCN por la que que viajan datos de distintas fuentes: información de sensores, eventos que indican frenado o cierre de puertas, por citar algunos ejemplos. \\
 
-El cliente de mayor impacto de los servicios que provee un sistema PIDS es la red de transporte (trenes, subtes, metros, ómnibus) de una gran ciudad, debido a su masividad. Lo que se observa en general es que las empresas que proveen sistemas PIDS a las redes metropolitanas de transporte de las grandes ciudades lo hacen bajo formatos distintos. Algunas instalan televisores, otras carteles led, otras incluyen carteles impresos con algún elemento indicador tipo led, leds en forma de flecha para indicar nombres de estaciones impresos, pantallas led para desplegar publicidad entre mensajes, etcétera. En algunos países se han realizado esfuerzos durante la última década para que los sistemas PIDS faciliten el acceso a la información del transporte para personas con discapacidades y de edades avanzadas.
+Los carteles led presentan fallas a lo largo de su ciclo de vida. Esto implica realizar tareas de mantenimiento, reparación o reposición. Si bien existen muchos tipos de carteles led disponibles comercialmente, la integración al sistema de comunicaciones del tren es propietaria del fabricante de trenes. Para el caso de trenes argentinos, el proveedor está radicado en China, haciendo no sólo muy costoso sino también muy lento el proceso de reposición o mantenimiento de equipamiento. El desarrollo local de tecnología para sistemas PIDS es estratégico porque extiende la vida útil de los trenes.\\
 
+%Esta necesidad motiva el desarrollo como búsqueda de autonomía tecnológica en áreas de vacancia que pueden ser cubiertas por el sistema científico-tecnológico nacional.
 
-FOTOS
+El desarrollo de un sistema a medida para Trenes Argentinos es el eje de este trabajo. La necesidad que prima es generar y brindar al personal de operaciones de la información necesaria para construir y mantener estos sistemas de información visual al pasajero. Como consecuencia, este trabajo también tiene impacto directo en el pasajero, ya que contribuye a la calidad del servicio.\\
 
-Cuatro principales consideraciones en el abastecimiento de un sistema de información al pasajero son: la disponibilidad de datos ya que su recolección puede requerir uso intensivo de recursos, la precisón de los datos ya que la recolección es susceptible a errores, los mecanismos de entrega de la información al pasajero como puede ser un cartel o una pantalla led y finalmente la latencia o tiempo de respuesta, donde aparecen soluciones de tiempo real.
-
-[Hitachi] Una vez instalados, los sistemas PIDS suelen requerir mantenimiento. Muchas veces hay fallas de hardware, como por ejemplo leds que dejan de funcionar, una fuente de alimentación o una memoria que se deba reemplazar. Otras veces se requieren cambios en el software, por ejemplo actualizar el contenido de un mensaje o bien cambiarlo. Los atributos de mantenibilidad, versatilidad, modularidad y confiabilidad en la implementación pueden tener un impacto económico relevante en la operación de un servicio de transporte. Para líneas de trenes que cuentan con muchas formaciones ferroviarias operando en simultáneo, las tareas de actualización pueden ser muy intensivas en términos de horas de trabajo y requerir también capacitaciones técnicas periódicas al personal de mantenimiento. Incluso no todos los dispositivos pueden recibir actualizaciones en producción, esto es, en la locación física donde funciona. Muchas veces se los necesita desinstalar, llevar a un centro técnico y actualizar fuera de operación, lo que requiere de ventanas de mantenimiento y de tiempos reducidos para realizar tareas que pueden ser susceptibles a errores. Otra forma es enviar un técnico al sitio que pueda conectar algún periférico y actualizar manualmente cada dispositivo.
-
-Hitachi ofrece una solución para publicidad de tres pantallas en array que se sincronizan para formar una sola y transmitir video. Cada uno de estos arreglos los posicionan arriba de las ventanas en ambos lados de los coches, alcanzando el despliegue de hasta dieciocho pantallas sincronizadas por coche. Con esto logran transmitir varios mensajes distintos en simultáneo a los pasajeros sin que tengan que moverse de su asiento.
-
-https://www.hitachi.com/rev/archive/2021/r2021\_ 05/05a09/index.html
-
-Toshiba ofrece una solución que permite transmitir publicidad e información al pasajero en una misma pantalla LCD en simultáneo. La solución está centrada en la pantalla como dispositivo central, ofreciendo pantallas de 32\" y 42\" de 1920 x 540 píxeles, full color de hasta 16.7 millones de colores, de amplio ángulo de visión y de gran luminancia.
-
-https://www.global.toshiba/ww/products-solutions/railway/rolling-stock/passenger-information-display.html
 
 \pagebreak
 \section{Objetivos y alcance}
@@ -81,69 +70,62 @@ En el interior de los coches también hay marquesinas led. En estas marquesinas 
 mensajes a los pasajeros como el nombre de la próxima estación, o la estación arribada
 (“próxima estación Belgrano”, “estás en estación Belgrano”, por ejemplo). Ésta información se
 presenta automáticamente en base a variables de sistema que monitorean el detenimiento del
-tren, su velocidad y la apertura o cierre de puertas. Esta y otra información de monitoreo y
+tren, su velocidad y la apertura o cierre de puertas. Esta y otra información de monitoreo y control viaja por una red de comunicación interna del tren que se denomina TCN (Train Communication Network) de acuerdo al estándar que la define [IEC-61375]. Este estándar define para la red TCN dos buses jerárquicos donde se conectan los subsistemas electrónicos: el WTB (Wire Train Bus) [3] y el MVB (Multi-Vehicle Bus) [4]. El primero es el bus de mayor jerarquía que se conecta entre vagones y que se usa para monitorear cambios topográficos del tren. En el
+segundo se conectan los sensores y actuadores de cada coche como son los frenos, los controles de puertas, los monitores de velocidad, el sistema de información, etcétera.\\
 
-control viaja por una red de comunicación interna del tren que se denomina TCN (Train
-Communication Network) de acuerdo al estándar que la define [IEC-61375]. Este estándar define
-para la red TCN dos buses jerárquicos donde se conectan los subsistemas electrónicos: el WTB
-(Wire Train Bus) [3] y el MVB (Multi-Vehicle Bus) [4]. El primero es el bus de mayor jerarquía que
-se conecta entre vagones y que se usa para monitorear cambios topográficos del tren. El
-segundo se conectan los sensores y actuadores de cada coche como son los frenos, los
-controles de puertas, los monitores de velocidad, el sistema de información, etcétera.
-El sistema propuesto pretende leer del bus MVB los mensajes de información al pasajero que
-viajan por la red TCN existente y presentarlos en un display LED. El sistema se compone
-principalmente de cuatro partes:
-un display LED
-una placa de control y comunicación
-cables de interconexión
-firmware asociado
-El diagrama del prototipo se presenta en la figura 2. El display LED matricial representa la
-marquesina del tren. La placa de control se debe poder conectar al bus MVB de la red TCN
-como entrada y al display LED como salida.
+ El sistema propuesto en este trabajo pretende leer los mensajes de información al pasajero que viajan por la red TCN existente y presentarlos en un display LED. El sistema se compone principalmente de cuatro partes:
+ \begin{itemize}
+\item display LED
+\item placa de control
+\item cableado de interconexión
+\item firmware del sistema embebido
+ \end{itemize}
 
+El diagrama del prototipo se presenta en la figura \ref{fig:diagramaPIDSCIAA}. El display LED matricial representa la marquesina del tren. La placa de control se debe poder conectar al bus MVB de la red TCN como entrada y al display LED como salida.
 
-La placa de control estará basada en alguna de las plataformas desarrolladas por el
-CONICET-GICSAFe. La conexión entre el display y la placa así como de la placa con la red TCN
-deberá ser compatible con el estándar RS-485, definido como capa física en la red TCN. El
-firmware a desarrollar se cargará a la placa de control usando el puerto USB de una laptop. Este
-firmware será el responsable de leer los mensajes del sistema de información al pasajero y
-presentarlos en el display.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/diagramaPIDSCIAA.png}
+	\caption{Diagrama de bloques del sistema embebido propuesto basado en la plataforma EDU-CIAA.}
+	\label{fig:diagramaPIDSCIAA}
+\end{figure}
 
 
-Las necesidades que debe satisfacer este proyecto son:
-compatibilidad tecnológica: debe cumplir con los estándares asociados a la red TCN
-practicidad: debe ser de uso simple para el personal de Trenes Argentinos Operaciones
-Este proyecto permitirá implementar las funciones de visualización del sistema de información al
-pasajero sin depender del equipamiento existente. El sistema existente es un equipamiento
-integrado y propietario, y este proyecto busca desacoplar algunas de las funciones, las que
-corresponden a la visualización de información, y presentarlas en un display LED genérico. Por
-otro lado, permitirá reponer los carteles que en la actualidad quedan fuera de servicio por fallas o
-pérdida del material original y no pueden ser reparados. De esta manera, el valor principal que
-aporta este proyecto es contribuir con la sustitución de repuestos faltantes por medio de
-desarrollo y reducir la dependencia tecnológica de la empresa con los fabricantes. Este proyecto
-tiene impacto directo en las formaciones ferroviarias existentes que brindan servicio al pasajero
-todos los días.
+La placa de control está basada en alguna de las plataformas desarrolladas por el CONICET-GICSAFe. La conexión entre el display y la placa así como de la placa con la red TCN deberá ser compatible con el estándar RS-485, definido como capa física de la red TCN. El
+firmware a desarrollar se carga a la placa de control usando el puerto USB de una laptop. Este firmware es el responsable de leer los mensajes del sistema de información al pasajero y presentarlos en el display.\\
 
+Las cualidades que debe satisfacer este proyecto son:
+\begin{itemize}
+\item compatibilidad: debe cumplir con los estándares asociados a la red TCN;
+\item practicidad: debe ser de fácil uso para el personal de Trenes Argentinos Operaciones
+\end{itemize}
 
-En el trabajo se propone explorar los datos del sistema de información al pasajero que viajan por
-la red TCN. Mediante la implementación de firmware sobre una placa de control se pretende
-interpretar estos datos de sistema y presentarlos en un display LED. Algunos aspectos a resolver
-incluyen:
-obtener datos del bus MVB asociados al sistema de información al pasajero
-controlar un display LED para presentar la información recibida del bus MVB
-Para resolver estos aspectos se considera el desarrollo de firmware sobre un microcontrolador
-con arquitectura de 32 bits. Usando la metodología del SWEBOK [6] se pretende garantizar
-calidad de software. Con este enfoque se pretende generar documentación sistemática, simple y
-de fácil lectura. La integración con la red TCN involucra el estudio de protocolos que usa la
-comunicación del bus MVB, que se vinculan con la materia de Protocolos de Comunicación del
-segundo bimestre. También existe la opción de usar sistemas operativos de tiempo real en la
-placa controladora para obtener los mensajes a visualizar. Estos puntos se vinculan con las
-materias del segundo y tercer bimestre de Sistemas Operativos de Tiempo Real. Las pruebas del
-sistema se diseñarán en conjunto con las piezas de código funcional y de test en cada etapa.
+Este proyecto permitirá implementar las funciones de visualización del sistema de información al pasajero sin depender del equipamiento existente. El sistema existente es un equipamiento integrado y propietario, y este proyecto busca desacoplar algunas de sus funciones, las que corresponden a la visualización de información, y presentarlas en un display LED genérico. Por otro lado, permitirá reponer los carteles que en la actualidad quedan fuera de servicio por fallas o pérdida del material original y no pueden ser reparados. De esta manera, el valor principal que aporta este proyecto es contribuir con la sustitución de repuestos faltantes por medio de desarrollo y reducir la dependencia tecnológica de la empresa con los fabricantes. Este proyecto tiene impacto directo en las formaciones ferroviarias existentes que brindan servicio al pasajero todos los días.
 
 \pagebreak
 \section{Estado del arte}
-El uso de carteles de matriz led es de uso muy extendido en distintas aplicaciones. Además de los trenes,  existen sistemas de información visual al pasajero en aeropuertos, en paradas de ómnibus, en señalamiento vial, en la industria del entretenimiento por mencionar algunos ejemplos. Las dimensiones del cartel, la densidad de píxeles por unidad de área, la cantidad de colores o leds por píxel, los niveles de intensidad lumínica, el brillo y contraste, la potencia eléctrica, son algunas de las especificaciones típicas.\\
+
+
+
+El cliente de mayor impacto de los servicios que provee un sistema PIDS es la red de transporte (trenes, subtes, metros, ómnibus) de una gran ciudad, debido a su masividad. Lo que se observa en general es que las empresas que proveen sistemas PIDS a las redes metropolitanas de transporte de las grandes ciudades lo hacen bajo formatos distintos. Algunas instalan televisores, otras carteles led, otras incluyen carteles impresos con algún elemento indicador tipo led, leds en forma de flecha para indicar nombres de estaciones impresos, pantallas led para desplegar publicidad entre mensajes, etcétera. En algunos países se han realizado esfuerzos durante la última década para que los sistemas PIDS faciliten el acceso a la información del transporte para personas con discapacidades y de edades avanzadas.
+
+
+FOTOS
+
+Cuatro principales consideraciones en el abastecimiento de un sistema de información al pasajero son: la disponibilidad de datos ya que su recolección puede requerir uso intensivo de recursos, la precisión de los datos ya que la recolección es susceptible a errores, los mecanismos de entrega de la información al pasajero como puede ser un cartel o una pantalla led, y finalmente la latencia o tiempo de respuesta, donde aparecen soluciones de tiempo real.
+
+[Hitachi] Una vez instalados, los sistemas PIDS suelen requerir mantenimiento. Muchas veces hay fallas de hardware, como por ejemplo leds que dejan de funcionar, una fuente de alimentación o una memoria que se deba reemplazar. Otras veces se requieren cambios en el software, por ejemplo actualizar el contenido de un mensaje o bien cambiarlo. Los atributos de mantenibilidad, versatilidad, modularidad y confiabilidad en la implementación pueden tener un impacto económico relevante en la operación de un servicio de transporte. Para líneas de trenes que cuentan con muchas formaciones ferroviarias operando en simultáneo, las tareas de actualización pueden ser muy intensivas en términos de horas de trabajo y requerir también capacitaciones técnicas periódicas al personal de mantenimiento. Incluso no todos los dispositivos pueden recibir actualizaciones en producción, esto es, en la locación física donde funcionan. Muchas veces se los necesita desinstalar, llevar a un centro técnico y actualizar fuera de operación, lo que requiere de ventanas de mantenimiento y de tiempos reducidos para realizar tareas que pueden ser susceptibles a errores. Otra forma es enviar un técnico al sitio que pueda conectar algún periférico y actualizar manualmente cada dispositivo.
+
+Hitachi ofrece una solución para publicidad de tres pantallas en array que se sincronizan para formar una sola y transmitir video. Cada uno de estos arreglos los posicionan arriba de las ventanas en ambos lados de los coches, alcanzando el despliegue de hasta dieciocho pantallas sincronizadas por coche. Con esto logran transmitir varios mensajes distintos en simultáneo a los pasajeros sin que tengan que moverse de su asiento.
+
+https://www.hitachi.com/rev/archive/2021/r2021\_ 05/05a09/index.html
+
+Toshiba ofrece una solución que permite transmitir publicidad e información al pasajero en una misma pantalla LCD en simultáneo. La solución está centrada en la pantalla como dispositivo central, ofreciendo pantallas de 32" y 42", de 1920 x 540 píxeles, full color de hasta 16.7 millones de colores, de amplio ángulo de visión y de gran luminancia.
+
+https://www.global.toshiba/ww/products-solutions/railway/rolling-stock/passenger-information-display.html
+https://www.trapezegroup.com.au/blog/passenger-information-displays-stop-app-website/
+
+Las dimensiones del cartel, la densidad de píxeles por unidad de área, la cantidad de colores o leds por píxel, los niveles de intensidad lumínica, el brillo y contraste, la potencia eléctrica, son algunas de las especificaciones típicas.\\
 
  Los controladores de los carteles de matriz led suelen basarse en circuitos digitales, en microcontroladores de 8, 16 o 32 bits o en FPGA. La transmisión de datos y el formato de los mismos dependen de la implementación de cada sistema.  \\
 
