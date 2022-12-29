@@ -188,10 +188,7 @@ void vTaskDisplayLed( void *pvParameters ){
         0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00, 
         0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00, 
         0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00
-        new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34], new_ascii[34],
-        new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35], new_ascii[35]
-
-*/      0xAF
+*/      
     };//*test_data;
 
     uint16_t    *data_16b=NULL;
