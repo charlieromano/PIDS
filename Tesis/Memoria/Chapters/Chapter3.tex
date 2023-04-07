@@ -1,14 +1,16 @@
 \chapter{Diseño e implementación} % Main chapter title
 
-En este capítulo se describe la arquitectura en detalle de la solución. Se presenta una breve introducción a los patrones de software utilizados con especial foco en las técnicas de concurrencia. El trabajo realizado utiliza la plataforma de hardware EDU-CIAA, la API desarrollada bajo el nombre de Firmware\_ v3, y el sistema operativo de tiempo real FreeRTOS.\\
+En este capítulo se presentan los requerimientos y la solución propuesta. Se describe la arquitectura, algunos patrones de software, técnicas de concurrencia utilizadas y distintas vistas de despliegue, tanto a nivel de interacción entre componentes como las secuencias de los casos de uso.\\
 
-Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se presenta el siguiente orden: requerimientos, funcionalidades y casos de uso principales como ejes del espacio problema; arquitectura, patrones, firmware y hardware para describir el espacio solución.\\
+ En este trabajo se usa la plataforma de hardware EDU-CIAA\cite{CIAA}, la API desarrollada bajo el nombre de Firmware\_ v3\cite{firmwareV3}, y el sistema operativo de tiempo real FreeRTOS\cite{freeRTOS}.\\
+
+Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se presentan el desarrollo en el siguiente orden: requerimientos, funcionalidades y casos de uso principales como ejes del espacio problema; arquitectura, patrones, firmware y hardware para describir el espacio solución.\\
 
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.9,0.9,0.9}
+\definecolor{mygray}{rgb}{0.95,0.95,0.95}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,8 +68,124 @@ sStateMachine fsmTest [] =
 
 \section{Requerimientos}
 
+ El objetivo principal de este trabajo es diseñar e implementar un sistema de información visual
+para pasajeros a bordo del tren. 
+
+Está dirigido a:
+\begin{enumerate}
+\item Todos los  miembros del grupo de trabajo GICSAFE y SOFSE que participan de proyectos orientados a cubrir necesidades tecnológicas del sistema ferroviario argentino.
+\item Alumnos y personal académico con intenciones de participar en proyectos de desarrollo aplicados a la industria.
+\item Desarrolladores de software y equipamiento para trenes.
+\end{enumerate}
+
+A nivel general, los requerimientos del proyecto son los siguientes:
+
+\begin{itemize}
+
+\item El sistema debe leer datos de información al pasajero de la red interna de los trenes y presentarlos en un display LED. El sistema no se encargará de presentar los mensajes en formato de audio.
+
+\item Este sistema permitirá implementar las funciones de visualización del sistema de información al pasajero existente. El sistema comercial existente es un equipamiento propietario que integra otras funciones como el sistema de audio, un CCTV usando cámaras de seguridad, entre otras. 
+
+\item El sistema que se especifica busca desacoplar funciones del equipamiento comercial para permitir reponer carteles que en la actualidad quedan fuera de servicio por fallas o pérdida del material original y que no pueden ser reparados. 
+
+\end{itemize}
+
+Estos requerimientos generales se traducen en requerimientos específicos y se dividen en tres grupos que se detallan a continuación: requerimientos funcionales, de integración y de documentación. 
+
+\textbf{Requerimientos funcionales
+}\begin{itemize}
+\item El sistema debe controlar arreglos de matrices LED de 8x8 (64 LED individuales).
+\item El sistema debe presentar en el display información dinámicamente.
+\item El sistema debe poder almacenar una cantidad de información para visualización.
+\item El sistema debe permitir elegir entre distintos mensajes de visualización.
+\item El sistema debe permitir cargar los mensajes a visualizar a través de una computadora.
+\item El sistema debe poder reaccionar a un mensaje que es enviado para visualizar.
+\end{itemize}
+
+\textbf{Requerimientos de integración con la red TCN
+}\begin{itemize}
+\item Las placas de control deben ser compatibles con el sistema PIDS existente.
+\item Las placas de control deben poder alimentarse con 110 VDC.
+\item El bus de datos de entrada debe ser una interfaz RS-485.
+\item El sistema debe interpretar las tramas del PIDS que corresponden a los módulos LDU.
+\item El sistema debe manejar tramas en ciclos típicos de 16-20 ms.
+\end{itemize}
+
+\textbf{Requerimientos de documentación
+}\begin{itemize}
+\item Se debe generar un documento de casos de prueba.
+\item Se debe generar una guía de usuario.
+\item Se debe generar una presentación del sistema.
+\item Se debe generar un informe final de proyecto.
+\end{itemize}
+
+La tabla \ref{tab:Reqs} sintetiza los requerimientos y les asigna un código de referencia para la evaluación de su cumplimiento.
+	
+\begin{table}[htb]
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Código} & \textbf{Descripción}                                 \\ \hline
+PIDS-REQ-FN-01  & Control de módulos de matriz led 8x8                 \\ \hline
+PIDS-REQ-FN-02  & Control de paneles de 2x6 modulos                    \\ \hline
+PIDS-REQ-FN-03  & Control de displays basados en arreglos de 3 paneles \\ \hline
+PIDS-REQ-FN-04  & Visualización de mensajes en idioma castellano       \\ \hline
+PIDS-REQ-FN-05  & Visualización de mensajes dinámicos                  \\ \hline
+PIDS-REQ-FN-06  & Almacenamiento de información de trayecto            \\ \hline
+PIDS-REQ-FN-07  & Selección de contenidos disponibles                  \\ \hline
+PIDS-REQ-FN-08  & Upstream de mensajes desde una computadora personal  \\ \hline
+PIDS-REQ-INT-01 & Compatibilidad de sistema con sistema existente      \\ \hline
+PIDS-REQ-INT-02 & Compatibilidad eléctrica                             \\ \hline
+PIDS-REQ-INT-03 & Compatibilidad de interfaces RS485                   \\ \hline
+PIDS-REQ-INT-04 & Compatibilidad con tramas de datos del módulo LDU    \\ \hline
+PIDS-REQ-INT-05 & Procesamiento de tramas menor a 16 ms                \\ \hline
+PIDS-REQ-DOC-01 & Documentación de casos de prueba                     \\ \hline
+PIDS-REQ-DOC-02 & Guía de usuario                                      \\ \hline
+PIDS-REQ-DOC-03 & Presentación del sistema                             \\ \hline
+PIDS-REQ-DOC-04 & Informe final de proyecto                            \\ \hline
+\end{tabular}
+	\caption{Tabla de requerimientos funcionales, de integración y de documentación del proyecto.}
+	\label{tab:Reqs}
+\end{table}
+
+
+Por último se explicita que para el desarrollo del presente proyecto se asume que:
+
+\begin{itemize}
+\item No habrá dependencias directas con otros proyectos enmarcados en el mismo PDE\cite{PDE-TCN}.
+\item No habrá dificultad ni excesivas demoras en la compra de los componentes electrónicos o
+de software necesarios.
+\item Se contará con recursos y materiales necesarios para validar los test realizados.
+Trenes Argentinos dará acceso a una formación ferroviaria con red TCN para realizar
+pruebas de campo.
+\item El Sistema de Información al Pasajero se va a montar sobre el sistema PIDS existente de
+las formaciones ferroviarias en operación.
+\item El sistema de información al pasajero no se va a montar sobre redes TCN de tiempo real
+basadas en Ethernet (ETB/ECN).
+\end{itemize}
+
+
 \pagebreak
 \section{Casos de Uso}
+
+Se presentan los principales casos de uso del sistema en la tabla \ref{tab:UseCases}. 
+
+\begin{center}
+\begin{table}[htb]
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Código} & \textbf{Descripción}     \\ \hline
+PIDS-UC-01  & Visualizar estación         \\ \hline
+PIDS-UC-02  & Elegir destino             \\ \hline
+PIDS-UC-03  & Información de asistencia \\ \hline
+PIDS-UC-04  & Receptor de tramas       \\ \hline
+\end{tabular}
+	\caption{Tabla de casos de uso.}
+	\label{tab:UseCases}
+\end{table}
+\end{center}
+
+El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a una estación y presenta información visual al pasajero usando los carteles LED de salón. El UC-2 resuelve una acción del conductor al presionar un botón, y presenta también información visual al pasajero, en este caso las estaciones cabecera del recorrido que se visualizan en los carteles LED de frente y contrafrente del tren. El tercer caso de uso, UC-3, presenta información de asistencia previamente cargada y que se dispara por acción de un timer mientras el tren está en circulación. Por último, el caso de uso UC-4 involucra al módulo SCU de la red PIDS y a un sistema externo, como puede ser una computadora de un operador, para decodificar las tramas de datos recibidas desde el SCU.\\
+
 
 \pagebreak
 
