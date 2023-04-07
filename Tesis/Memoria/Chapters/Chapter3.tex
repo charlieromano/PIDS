@@ -2,20 +2,20 @@
 
 En este capítulo se describe la arquitectura en detalle de la solución. Se presenta una breve introducción a los patrones de software utilizados con especial foco en las técnicas de concurrencia. El trabajo realizado utiliza la plataforma de hardware EDU-CIAA, la API desarrollada bajo el nombre de Firmware\_ v3, y el sistema operativo de tiempo real FreeRTOS.\\
 
-Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se presentan los requerimientos, las funcionalidades y los casos de uso principales como ejes del espacio problema. Para describir el espacio solución se presenta la arquitectura, patrones, firmware y planos del hardware en el resto de las secciones.\\
+Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se presenta el siguiente orden: requerimientos, funcionalidades y casos de uso principales como ejes del espacio problema; arquitectura, patrones, firmware y hardware para describir el espacio solución.\\
 
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mygray}{rgb}{0.9,0.9,0.9}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parámetros para configurar el formato del código en los entornos lstlisting
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstset{ %
-  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  backgroundcolor=\color{mygray},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
   basicstyle=\footnotesize,        % the size of the fonts that are used for the code
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
   breaklines=true,                 % sets automatic line breaking
@@ -42,42 +42,26 @@ Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se p
   title=\lstname,                  % show the filename of files included with \lstinputlisting; also try caption instead of title
   morecomment=[s]{/*}{*/}
 }
+\lstdefinestyle{nonumbers}
+{numbers=none}
 
 
 A modo de ejemplo:
 
-\begin{lstlisting}[label=cod:vControl,caption=Pseudocódigo del lazo principal de control.]  % Start your code-block
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
 
-#define MAX_SENSOR_NUMBER 3
-#define MAX_ALARM_NUMBER  6
-#define MAX_ACTUATOR_NUMBER 6
-
-uint32_t sensorValue[MAX_SENSOR_NUMBER];		
-FunctionalState alarmControl[MAX_ALARM_NUMBER];	//ENABLE or DISABLE
-state_t alarmState[MAX_ALARM_NUMBER];						//ON or OFF
-state_t actuatorState[MAX_ACTUATOR_NUMBER];			//ON or OFF
-
-void vControl() {
-
-	initGlobalVariables();
-	
-	period = 500 ms;
-		
-	while(1) {
-
-		ticks = xTaskGetTickCount();
-		
-		updateSensors();
-		
-		updateAlarms();
-		
-		controlActuators();
-		
-		vTaskDelayUntil(&ticks, period);
-	}
-}
+sStateMachine fsmTest [] = 
+{
+	{STATE_INIT, evInit, InitHandler},
+	{STATE_LISTENING, evReceive, ListeningHandler},
+	{STATE_HEADER, evReceive, HeaderHandler},
+	{STATE_TRAILER, evReceive, TrailerHandler}
+};
 \end{lstlisting}
-
+    
 
 
 \section{Requerimientos}
@@ -122,6 +106,7 @@ void vControl() {
 \pagebreak
 \subsection{Diseño}
 
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{./Figures/diagVistaReDisenhoEduCIAA.png}
@@ -144,12 +129,138 @@ void vControl() {
 	\label{fig:diagVistaDisenhoExtendida}
 \end{figure}
 
+\pagebreak
+\subsection{Implementación}
+
+El desarrollo de la arquitectura propuesta se basa en la interacción de máquinas de estado.
+En este trabajo las máquinas de estado se implementan en C a partir de la siguiente estructura:
+
+1. Definir los estados posibles con un tipo definido como "eSystemState":
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
+typedef enum {
+	STATE_INIT,
+	STATE_LISTENING,
+	STATE_HEADER,
+	STATE_TRAILER
+} eSystemState;
+\end{lstlisting}
+
+2. Definir los eventos que van a generar transiciones entre estados con un tipo definido "eSystemEvent":
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
+typedef enum{
+	evInit,
+	evReceive,
+	evHeader,
+	evTrailer
+} eSystemEvent;
+\end{lstlisting}
+
+3. A partir de un diagrama de la máquina de estados en cuestión, 
+definir un tipo puntero a función definido como "*pfEventHandler()":
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
+typedef eSystemState (*pfEventHandler)(void);
+\end{lstlisting}
+
+4: Definir una estructura para la máquina de estados con un tipo definido "sStateMachine" que incluya una variable estado (eSystemState), una variable evento (eSystemEvent) y un puntero a función (pfEventHandler). El puntero a función será una instancia de handler específico que maneje las transiciones entre estados. 
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
+typedef struct{
+	eSystemState 		fsmState;
+	eSystemEvent 		fsmEvent;
+	pfEventHandler 		fsmHandler;
+} sStateMachine;
+\end{lstlisting}
+
+De esta manera queda desacoplada la implentación de los handlers del resto de la estructura de la máquina de estados, logrando portabilidad, escala y modularidad. Los handlers serán funciones que se implementan con el sufico Handler() y que por definición tienen un solo argumento de tipo void.
+
+5. Definir los handlers a implementar para el manejo de ejecución y transiciones entre estados.
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
+
+eSystemState 	InitHandler(void)		;
+eSystemState 	ListeningHandler(void)	;
+eSystemState 	HeaderHandler(void)		;
+eSystemState 	TrailerHandler(void) 	;
+
+\end{lstlisting}
+
+Con esta técnica de desacoplamiento, se implementan dos archivos por cada máquina de estado : uno de encabezados (stateMachine.h) con las definiciones de los puntos 1 a 4 y otro con la implementación (stateMachine.c) de los handlers.
+
+Una implementación de handler a modo de ejemplo se presenta a continuación.
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
+eSystemState 	TrailerHandler(void){ 
+	printf("STATE_TRAILER;\n");
+	return STATE_LISTENING; 
+}
+\end{lstlisting}
+
+6. Finalmente, cada implementación de máquina de estado debe definir la instancia de la máquina de estados propiamente dicha con un arreglo de estructuras definido como "sStateMachine fsmStateMachine []". Este arreglo de estructuras máquina de estados se define a partir de los estados, sus transiciones y los handlers correspondientes. En este punto es mandatorio incluir un diagrama de la máquina de estados.
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
+
+sStateMachine fsmTest [] = 
+{
+	{STATE_INIT, evInit, InitHandler},
+	{STATE_LISTENING, evReceive, ListeningHandler},
+	{STATE_HEADER, evReceive, HeaderHandler},
+	{STATE_TRAILER, evReceive, TrailerHandler}
+};
+\end{lstlisting}
 
 
+El diagrama para esta máquina es el siguiente:
 
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	style=nonumbers]
+\end{lstlisting}
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/stateMachineUARTv1.png}
+	\caption{Diagrama del objeto activo de la máquina de estados asociada.}
+	\label{fig:fsmUARTv1}
+\end{figure}
+
+	
 \pagebreak
 \section{Patrones}
 
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/estructuraCodigos.png}
+	\caption{Estructura del código en C.}
+	\label{fig:codestructure}
+\end{figure}
 
 \begin{figure}[ht]
 	\centering
