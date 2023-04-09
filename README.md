@@ -15,12 +15,15 @@ Proyecto PIDS, CESE 2020.
  	1.1. [Clonar repositorio](#clonar)	
  	1.2. [Incluir submódulos](#submodulos)
  	1.3. [Instalar software](#software)
+  
  		1.3.1 [openocd](#openocd)
  		1.3.2 [gcc arm](#gcc)
- 			1.3.2.1 [Troubleshooting gcc](#troubleshooting)
- 			1.3.2.2 [Troubleshooting Ubuntu 22](#troubleshootingUbuntu22)
-      1.3.2.3 [Troubleshooting Virtualbox Ubuntu 22 Guest OS](#troubleshootingUbuntu22GuestOS)
- 		1.3.3 [EDU-CIAA](#educiaa)	
+ 		1.3.3 [EDU-CIAA](#educiaa)
+    1.3.4 [Troubleshooting gcc-arm](#troubleshooting)
+    1.3.4.1 [Troubleshooting gcc-arm](#gcc-arm)
+    1.3.4.2 [Troubleshooting Ubuntu 22](#Ubuntu22)
+    1.3.4.3 [Troubleshooting Virtualbox Ubuntu 22 Guest OS](#GuestOS)	
+
  	1.4. [Crear un programa](#create)
  	1.5. [Seleccionar un programa](#select)
 
@@ -118,7 +121,25 @@ sudo apt install gcc-arm-none-eabi
 ```
 Si todo sale ok saltar a la sección crear programa.
 
-#### 3.2.1 Troubleshooting gcc-arm-none-eabi <a name="troubleshooting"></a>
+#### 3.3  Instalar software EDU-CIAA (opcional) <a name="educiaa"></a>
+
+
+Debe descargar de [releases](https://github.com/epernia/software/releases/tag/r1.1.0) la versión para Windows o Linux.
+
+Link: https://github.com/epernia/software/releases/tag/r1.1.0
+
+Descomprimir la carpeta en una ruta conocida, sin espacios y con los permisos adecuados. Se recomiendan:
+
+- **Windows**. C:\CIAA\
+- **Linux**. $HOME/CIAA/
+
+Luego ingresar a la carpeta y ejecutar el lanzador de apliaciones. 
+
+
+#### 3.4 Troubleshooting  <a name="troubleshooting"></a>
+
+
+#### 3.4.1 Troubleshooting gcc-arm-none-eabi <a name="gcc-arm"></a>
 
 
 Este fue el primer fail al intentar compilar un programa con el comando "make download". Para solucionarlo, en la instalación de ubuntu 20 LTS lo que hice fue seguir el siguiente hilo: https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa
@@ -202,7 +223,7 @@ sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-strip  /u
 
 Con esto comenzó a funcionar usando además el troubleshooting para ubuntu 22 de la sección que sigue.
 
-#### 3.2.2 Troubleshooting Ubuntu 22  <a name="troubleshootingUbuntu22"></a>
+#### 3.4.2 Troubleshooting Ubuntu 22  <a name="ubuntu22"></a>
 
 
 
@@ -280,7 +301,7 @@ target create $_CHIPNAME.m4 cortex_m -dap $_CHIPNAME.m4.dap
 
 Con esto volvió a funcionar. 
 
-#### 3.2.3 Ubuntu 22 como Virtualbox Guest OS <a name="troubleshootingUbuntu22GuestOS"></a>
+#### 3.4.3 Ubuntu 22 como Virtualbox Guest OS <a name="guestOS"></a>
 
 Seguir los siguientes pasos:
 
@@ -309,20 +330,6 @@ Seguir los siguientes pasos:
 Referencia: https://maker.pro/linux/projects/how-to-use-a-hosts-serial-port-from-a-guest-in-virtualbox
 
 
-
-#### 3.3 	Instalar software EDU-CIAA (opcional) <a name="educiaa"></a>
-
-
-Debe descargar de [releases](https://github.com/epernia/software/releases/tag/r1.1.0) la versión para Windows o Linux.
-
-Link: https://github.com/epernia/software/releases/tag/r1.1.0
-
-Descomprimir la carpeta en una ruta conocida, sin espacios y con los permisos adecuados. Se recomiendan:
-
-- **Windows**. C:\CIAA\
-- **Linux**. $HOME/CIAA/
-
-Luego ingresar a la carpeta y ejecutar el lanzador de apliaciones. 
 
 
 
