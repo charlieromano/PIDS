@@ -1,4 +1,4 @@
- <img src="Pics/UBA.png" height=100>       <img src="Pics/fiuba_logo.jpg" height=50>        <img src="Pics/trenesArgentinos_logo.png" height=50>                                    
+ <img src="Pics/UBA.png" height=100>       <img src="Pics/fiuba_logo.jpg" height=50>        <img src="Pics/trenes_argentinos_logo.jpg" height=100>                                    
 
 
 
@@ -15,16 +15,16 @@ Proyecto PIDS, CESE 2020.
  	1.1. [Clonar repositorio](#clonar)	
  	1.2. [Incluir submódulos](#submodulos)
  	1.3. [Instalar software](#software)
-
+ 	
  		1.3.1 [openocd](#openocd)
  		1.3.2 [gcc arm](#gcc)
  		1.3.3 [EDU-CIAA](#educiaa)
-
-    1.3.4 [Troubleshooting ](#troubleshooting)
-    1.3.4.1 [Troubleshooting gcc-arm](#gcc-arm)
-    1.3.4.2 [Troubleshooting Ubuntu 22](#ubuntu22)
-    1.3.4.3 [Troubleshooting Virtualbox Ubuntu 22 Guest OS](#guestOS)	
-
+ 		1.3.4 [Troubleshooting ](#troubleshooting)
+ 			1.3.4.1 [Troubleshooting gcc-arm](#gcc-arm)
+ 			1.3.4.2 [Troubleshooting Ubuntu 22](#ubuntu22)
+ 			1.3.4.3 [Troubleshooting Virtualbox Ubuntu 22 Guest OS](#guestOS)
+ 			1.3.4.4 [Troubleshooting FTDI driver](#ftdi)
+ 	
  	1.4. [Crear un programa](#create)
  	1.5. [Seleccionar un programa](#select)
 
@@ -72,7 +72,7 @@ Link: https://github.com/charlieromano/PIDS/tree/main/Scripts/ActiveObject_ISR_U
 
 <hr>
 
-## Iniciar Repositorio <a name="iniciar"></a>
+## 1. Iniciar Repositorio <a name="iniciar"></a>
 
 Para ejecutar el software desarrollado en este repositorio hace falta incluir submódulos y también software adicional relacionado a la plataforma EDU-CIAA. Para esto, se explican los pasos:
 
@@ -80,14 +80,14 @@ Para ejecutar el software desarrollado en este repositorio hace falta incluir su
 2. Incluir submódulos
 3. Instalar software
 
-### 1: Clonar este repositorio <a name="clonar"></a>
+### 1.1: Clonar este repositorio <a name="clonar"></a>
 
 
 ```bash
 git clone https://github.com/charlieromano/PIDS.git
 ```
 
-### 2: Incluir submódulos <a name="submodulos"></a>
+### 1.2: Incluir submódulos <a name="submodulos"></a>
 
 
 ```bash
@@ -99,21 +99,21 @@ git submodule update
 
 ```
 
-### 3: Instalar software <a name="software"></a>
+### 1.3: Instalar software <a name="software"></a>
 
 
 Si tiene todo el software instalado puede saltar a la sección siguiente de Crear un Programa.
 
 
 
-#### 3.1 Instalar openocd <a name="openocd"></a>
+#### 1.3.1 Instalar openocd <a name="openocd"></a>
 
 
 ```bash
 sudo apt install openocd
 ```
 
-#### 3.2 Instalar gcc-arm-none-eab <a name="gcc"></a>
+#### 1.3.2 Instalar gcc-arm-none-eab <a name="gcc"></a>
 
 
 ```bash
@@ -122,7 +122,7 @@ sudo apt install gcc-arm-none-eabi
 ```
 Si todo sale ok saltar a la sección crear programa.
 
-#### 3.3  Instalar software EDU-CIAA (opcional) <a name="educiaa"></a>
+#### 1.3.3  Instalar software EDU-CIAA (opcional) <a name="educiaa"></a>
 
 
 Debe descargar de [releases](https://github.com/epernia/software/releases/tag/r1.1.0) la versión para Windows o Linux.
@@ -137,10 +137,10 @@ Descomprimir la carpeta en una ruta conocida, sin espacios y con los permisos ad
 Luego ingresar a la carpeta y ejecutar el lanzador de apliaciones. 
 
 
-#### 3.4 Troubleshooting  <a name="troubleshooting"></a>
+#### 1.3.4 Troubleshooting  <a name="troubleshooting"></a>
 
 
-#### 3.4.1 Troubleshooting gcc-arm-none-eabi <a name="gcc-arm"></a>
+#### 1.3.4.1 Troubleshooting gcc-arm-none-eabi <a name="gcc-arm"></a>
 
 
 Este fue el primer fail al intentar compilar un programa con el comando "make download". Para solucionarlo, en la instalación de ubuntu 20 LTS lo que hice fue seguir el siguiente hilo: https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa
@@ -224,7 +224,7 @@ sudo ln -s /usr/share/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-strip  /u
 
 Con esto comenzó a funcionar usando además el troubleshooting para ubuntu 22 de la sección que sigue.
 
-#### 3.4.2 Troubleshooting Ubuntu 22  <a name="ubuntu22"></a>
+#### 1.3.4.2 Troubleshooting Ubuntu 22  <a name="ubuntu22"></a>
 
 
 
@@ -302,7 +302,7 @@ target create $_CHIPNAME.m4 cortex_m -dap $_CHIPNAME.m4.dap
 
 Con esto volvió a funcionar. 
 
-#### 3.4.3 Ubuntu 22 como Virtualbox Guest OS <a name="guestOS"></a>
+#### 1.3.4.3 Ubuntu 22 como Virtualbox Guest OS <a name="guestOS"></a>
 
 Seguir los siguientes pasos:
 
@@ -329,6 +329,58 @@ Seguir los siguientes pasos:
   
 
 Referencia: https://maker.pro/linux/projects/how-to-use-a-hosts-serial-port-from-a-guest-in-virtualbox
+
+#### 		1.3.4.4  Troubleshooting FTDI driver <a name="ftdi"></a>
+
+Este troubleshooting sirve para configurar y utilizar una maquina virtual Ubuntu 22.04 (guest OS) sobre Windows (Host) usando Virtualbox. El error del compilador cuando se intenta descargar un programa a la placa es ***"Error: unable to open ftdi device with vid 0403, pid 6010, description '', serial '' at bus location '*'"*** 
+
+```makefile
+charlieromano@Ubuntu22:~/Downloads/PIDS/Scripts/firmware_v3$ make download 
+
+../App/out/../App/src/App.o ../App/out/libs/cmsis_core//src/armv7m_startup.o ../App/out/libs/editline//src/editline.o ../App/out/libs/sys_newlib//src/system.o  
+
+DOWNLOAD to FLASH
+
+Open On-Chip Debugger 0.11.0
+
+Licensed under GNU GPL v2
+
+For bug reports, read
+
+	http://openocd.org/doc/doxygen/bugs.html
+
+dap command not exists. Use OLD script
+
+Error: no device found
+
+Error: unable to open ftdi device with vid 0403, pid 6010, description '*', serial '*' at bus location '*'
+
+make: *** [Makefile:296: .download_flash] Error 1
+
+
+```
+
+Esto se debe a que no hay una correcta configuracion de los drivers USB. Se deben seguir las referencias. En device manager debe aparecer en Universal Serial Bus devices el driver Dual RS232-HS:
+
+![](.\Pics\DualRS232.png)
+
+![](.\Pics\VMPorts.png)
+
+![](.\Pics\zadig.png)
+
+Una vez verificados estos pasos, en la virtual machine hace falta activar el driver desde la interfaz de virtualbox. Ver en la imagen el boton USB abajo a la derecha:
+
+![](.\Pics\FTDI.png)
+
+Con este driver FTDI Dual RS232-HS activado, volver a ejectura el make download. Con esto funciona OK.
+
+
+
+**References**:
+
+- Foro: https://groups.google.com/g/embebidos32/c/cZ0JRElbmHU/m/wD15QAjoDAAJ
+- Zadig: https://zadig.akeo.ie/#
+- FTDI: https://ftdichip.com/drivers/vcp-drivers/
 
 
 
