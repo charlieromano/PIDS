@@ -1,4 +1,4 @@
- <img src="Pics/UBA.png" height=100>       <img src="Pics/fiuba_logo.jpg" height=50>        <img src="Pics/trenes_argentinos_logo.jpg" height=100>                                    
+ <img src="Pics/UBA.png" height=100 style="zoom:67%;" >       <img src="Pics/fiuba_logo.jpg" height=50>   <img src="Pics/trenes_argentinos_logo.jpg" height=100 style="zoom:150%;" >                                 
 
 
 
@@ -362,15 +362,15 @@ make: *** [Makefile:296: .download_flash] Error 1
 
 Esto se debe a que no hay una correcta configuracion de los drivers USB. Se deben seguir las referencias. En device manager debe aparecer en Universal Serial Bus devices el driver Dual RS232-HS:
 
-![](.\Pics\DualRS232.png)
+<img src="Pics\DualRS232.png" style="zoom:50%;" />
 
-![](.\Pics\VMPorts.png)
+<img src="Pics\VMPorts.png" style="zoom:50%;" />
 
-![](.\Pics\zadig.png)
+<img src="Pics\zadig.png" style="zoom:50%;" />
 
 Una vez verificados estos pasos, en la virtual machine hace falta activar el driver desde la interfaz de virtualbox. Ver en la imagen el boton USB abajo a la derecha:
 
-![](.\Pics\FTDI.png)
+![](Pics\FTDI.png)
 
 Con este driver FTDI Dual RS232-HS activado, volver a ejectura el make download. Con esto funciona OK.
 
