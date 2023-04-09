@@ -15,11 +15,12 @@ Proyecto PIDS, CESE 2020.
  	1.1. [Clonar repositorio](#clonar)	
  	1.2. [Incluir submódulos](#submodulos)
  	1.3. [Instalar software](#software)
-  
+
  		1.3.1 [openocd](#openocd)
  		1.3.2 [gcc arm](#gcc)
  		1.3.3 [EDU-CIAA](#educiaa)
-    1.3.4 [Troubleshooting gcc-arm](#troubleshooting)
+
+    1.3.4 [Troubleshooting ](#troubleshooting)
     1.3.4.1 [Troubleshooting gcc-arm](#gcc-arm)
     1.3.4.2 [Troubleshooting Ubuntu 22](#Ubuntu22)
     1.3.4.3 [Troubleshooting Virtualbox Ubuntu 22 Guest OS](#GuestOS)	
