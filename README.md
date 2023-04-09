@@ -22,8 +22,8 @@ Proyecto PIDS, CESE 2020.
 
     1.3.4 [Troubleshooting ](#troubleshooting)
     1.3.4.1 [Troubleshooting gcc-arm](#gcc-arm)
-    1.3.4.2 [Troubleshooting Ubuntu 22](#Ubuntu22)
-    1.3.4.3 [Troubleshooting Virtualbox Ubuntu 22 Guest OS](#GuestOS)	
+    1.3.4.2 [Troubleshooting Ubuntu 22](#ubuntu22)
+    1.3.4.3 [Troubleshooting Virtualbox Ubuntu 22 Guest OS](#guestOS)	
 
  	1.4. [Crear un programa](#create)
  	1.5. [Seleccionar un programa](#select)
