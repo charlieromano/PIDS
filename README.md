@@ -287,6 +287,36 @@ target create $_CHIPNAME.m4 cortex_m -dap $_CHIPNAME.m4.dap
 
 Con esto volvió a funcionar. 
 
+#### 3.2.3 Ubuntu 22 como Virtualbox Guest OS <a name="troubleshootingUbuntu22GuestOS"></a>
+
+Seguir los siguientes pasos:
+
+* conectar EDU-CIAA
+
+* virtualbox settings: 
+
+  * Serial Ports: Enable Port 1 
+    * Port Number: COM1
+    * Port Mode: Host Device (Conncet to existing pipe/socket)
+    * Path/Address: COM3
+  * Serial Ports: Enable Port 2
+    * Port Number: COM2
+    * Port Mode: Host Device (Conncet to existing pipe/socket)
+    * Path/Address: COM4
+
+* instalar cutecom en Guest OS
+
+  * iniciar como superuser
+  * conectar Device: /dev/ttyS1
+
+* OK
+
+  
+
+Referencia: https://maker.pro/linux/projects/how-to-use-a-hosts-serial-port-from-a-guest-in-virtualbox
+
+
+
 #### 3.3 	Instalar software EDU-CIAA (opcional) <a name="educiaa"></a>
 
 
