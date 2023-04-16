@@ -312,6 +312,7 @@ void msgToData(uint8_t *str_in, uint8_t strlen, uint8_t *array_out){
 
 void dataToPanelRows(uint8_t *array_in, uint8_t array_len, uint8_t *panel_out){
 
+/*
     uint16_t i,j,k;
     if(panel_len == array_len) // q < l
     {
@@ -319,7 +320,6 @@ void dataToPanelRows(uint8_t *array_in, uint8_t array_len, uint8_t *panel_out){
             panel_out[i]=array_in[i*8+k];
         }
     }
-/*
 
     else if (panel_len > array_len)
     {
@@ -329,17 +329,19 @@ void dataToPanelRows(uint8_t *array_in, uint8_t array_len, uint8_t *panel_out){
 }
 
 void panelRowsToDisplayEncode(uint8_t *panel_in, uint8_t panel_len, uint8_t *display_out){
+/*
+dataOut >> k = dataIn >> k 
+dataOut >> k+1 = dataIn >> k 
+*/
 
 }
 
-dataOut >> k = dataIn >> k 
-dataOut >> k+1 = dataIn >> k 
 
 
 uint8_t* f1(uint8_t x)
 {
-    
-    uint8_t y=z=0x00;
+    uint8_t y=0x00;
+    uint8_t z=0x00;
     uint8_t mask=0b11110000;
     y = x & mask;
     z = x & ~mask;

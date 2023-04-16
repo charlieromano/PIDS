@@ -22,6 +22,7 @@
 #include "statemachine_button.h"
 #include "statemachine_AB.h"
 #include "ISR_GPIO.h"
+#include "statemachine_displayLed.h"
 
 /*=====[C++ - begin]=========================================================*/
 
@@ -42,19 +43,24 @@ extern SemaphoreHandle_t   xBinarySemaphore;
 extern SemaphoreHandle_t   xMutexUART;
 extern QueueHandle_t       queueHandle_button;
 extern QueueHandle_t       queueHandle_AB;
+extern QueueHandle_t       queueHandle_displayLed;
 
 extern sStateMachine_AB         fsmMachineAB[]; 
 extern sStateMachine_button     fsmButton[]; 
+extern sStateMachine_displayLed fsmDisplayLed[]; 
 
 extern xTaskHandle         xTaskStateMachineHandler_AB; 
 extern xTaskHandle         xTaskStateMachineHandler_button; 
+extern xTaskHandle         xTaskStateMachineHandler_displayLed; 
 
 extern TimerHandle_t   timerHandle_AB; 
 extern TimerHandle_t   timerHandle_button; 
+extern TimerHandle_t   timerHandle_displayLed; 
 
 extern uint8_t     timer_cnt; 
 extern bool        timer_flag;
 extern uint8_t     data_AB;
+extern uint8_t     data_display;
 
 
 /*=====[Prototypes (declarations) of public functions]=======================*/
@@ -62,12 +68,14 @@ extern uint8_t     data_AB;
 
 void timerCallback_button(TimerHandle_t xTimerHandle);  
 void timerCallback_AB(TimerHandle_t xTimerHandle);
+void timerCallback_displayLed(TimerHandle_t xTimerDisplayHandle);
 
 void vHandlerTaskGPIO(void* pvParameters);
 
 void myTask( void* taskParmPtr );  // Task declaration
 void vTaskButton(void* pvParameters);
 void vTaskAB(void *xTimerHandle);
+void vTaskDisplayLed(void *xTimerDisplayHandle);
 
 
 

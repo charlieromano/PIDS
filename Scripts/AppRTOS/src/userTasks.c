@@ -174,6 +174,59 @@ void vTaskButton(void* pvParameters)
 }
 
 
+/***************************************************************************/
+/* State Machine display Led tasks */
+/***************************************************************************/
+
+
+void timerCallback_displayLed(TimerHandle_t xTimerDisplayHandle){
+
+   static uint8_t cnt = 0;
+   cnt++;
+
+   eSystemEvent_displayLed  = cnt%4;
+   if(xQueueSend(queueHandle_displayLed, &data_display, 0U)!=pdPASS){
+         perror("Error sending data to the queueHandle_displayLed\r\n");
+   }
+}
+
+      
+void vTaskDisplayLed(void *xTimerDisplayHandle)
+{
+   (void)xTimerDisplayHandle;
+
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      vPrintString("Task display led is running.\r\n");
+      xSemaphoreGive(xMutexUART);
+   }
+   
+
+   while(true){
+
+      // fsmMachineDisplayLed init 
+      eSystemEvent_displayLed newEvent = ;
+      eSystemState_displayLed nextState = ;
+      fsmMachineAB[nextState].fsmEvent = newEvent; 
+      nextState = (*fsmMachineAB[nextState].fsmHandler)();
+
+   // Active object
+      while(true){
+
+        if( pdPASS == xQueueReceive(queueHandle_AB, &newEvent, portMAX_DELAY)){
+            fsmMachineAB[nextState].fsmEvent = newEvent; 
+            nextState = (*fsmMachineAB[nextState].fsmHandler)();
+         }
+      }
+      //vPrintString("This task is running and about to delete itself.\r\n");
+      //vTaskDelete(xTaskStateMachineHandler);
+   }
+}
+
+/*
+*/
+/***************************************************************************/
+
+
 
 
 /*=====[Implementations of interrupt functions]==============================*/
