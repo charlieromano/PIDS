@@ -29,6 +29,16 @@ gpioMap_t   clk_array[]={LEDB, LED1, LED2, LED3};
 gpioMap_t   deco_pin_array[] = {A, B, C, D};
 gpioMap_t   data_pin_array[] = {CLK, STR, R1, R2};
 
+gpioMap_t clk       = data_pin_array[0];
+gpioMap_t latch     = data_pin_array[1];
+gpioMap_t panel_1   = data_pin_array[2];
+gpioMap_t panel_2   = data_pin_array[3];
+gpioMap_t deco_A0   = deco_pin_array[0];
+gpioMap_t deco_A1   = deco_pin_array[1];
+gpioMap_t deco_A2   = deco_pin_array[2];
+gpioMap_t deco_A3   = deco_pin_array[3];
+
+
 uint8_t new_ascii[855]={
     0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,   //
     0x21, 0x18, 0x3c, 0x3c, 0x18, 0x18, 0x00, 0x18, 0x00,   //>!
@@ -217,7 +227,7 @@ void vTaskDisplayLed( void *pvParameters ){
                 uint8_t str1_len=strlen(str1);
                 #define buffer_size str1_len*8
                 uint8_t buffer[buffer_size];
-                string_read_to_8x8_bytes_out(str1,str1_len,buffer);
+                string_read_to_8x8_bytes_out(str1,str1_len, );
                 data_8b[i] = buffer[j];
 
                 for (int k=0 ; k< 8; k++){ 

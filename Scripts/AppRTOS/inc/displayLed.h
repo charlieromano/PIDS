@@ -27,20 +27,12 @@
 
 #include "portmap.h"
 
-
-/*=====[C++ - begin]=========================================================*/
+#define     DISPLAY_MAX_ROWS 16
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/*=====[Definition macros of public constants]===============================*/
-/*=====[Public function-like macros]=========================================*/
-
-/*=====[Definitions of public data types]====================================*/
-
-
-/*=====[Prototypes (declarations) of public functions]=======================*/
 
 void portInit(void);
 void displayInit(void);
@@ -55,14 +47,9 @@ void dataToPanelRows(uint8_t *array_in, uint8_t array_len, uint8_t *rows_out);
 
 void panelRowsToDisplayEncode(uint8_t *panel_in, uint8_t panel_len, uint8_t *display_out);
 
-/*=====[Prototypes (declarations) of public interrupt functions]=============*/
-
-/*=====[C++ - end]===========================================================*/
 
 #ifdef __cplusplus
 }
 #endif
-
-/*=====[Avoid multiple inclusion - end]======================================*/
 
 #endif /* __APPRTOS_H__ */

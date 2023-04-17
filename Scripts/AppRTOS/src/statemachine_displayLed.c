@@ -2,6 +2,13 @@
 #include "statemachine_displayLed.h"
 
 
+uint8_t 	deco_counter;
+extern gpioMap_t 	deco_A0;
+extern gpioMap_t 	deco_A1;
+extern gpioMap_t 	deco_A2;
+extern gpioMap_t 	deco_A3;/*DECO_E3_E1*/
+
+
 sStateMachine_displayLed fsmMachineDisplayLed [] = 
 {
 	{STATE_DISPLAY_INIT, evDisplayInit, displayled_initHandler},
@@ -15,6 +22,8 @@ sStateMachine_displayLed fsmMachineDisplayLed [] =
 
 eSystemState_displayLed 	displayled_initHandler(void){
 
+	deco_counter = 0;
+
 	return STATE_DISPLAY_ENCODING;
 }
 
@@ -27,13 +36,25 @@ eSystemState_displayLed 	displayled_dataHandler(void){
 
 eSystemState_displayLed 	displayled_latchHandler(void){
 
+    // latch 
+    gpioWrite(latch, ON);
+    gpioWrite(latch, OFF);
+    // next row
+    deco_counter++;
+    deco_counter%=DISPLAY_MAX_ROWS;
+
 	return STATE_DISPLAY_OUTPUT_ENABLE;
 
 }
 
 eSystemState_displayLed 	displayled_outputHandler(void){
 
+    // deco scan 
+    if((deco_counter%1)==0){ gpioToggle(deco_A0); }
+    if((deco_counter%2)==0){ gpioToggle(deco_A1); }
+    if((deco_counter%4)==0){ gpioToggle(deco_A2); }
+    if((deco_counter%8)==0){ gpioToggle(deco_A3); }
+
 	return STATE_DISPLAY_WAITING;
 
 }
-
