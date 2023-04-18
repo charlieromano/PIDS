@@ -7,6 +7,9 @@ extern gpioMap_t 	deco_A0;
 extern gpioMap_t 	deco_A1;
 extern gpioMap_t 	deco_A2;
 extern gpioMap_t 	deco_A3;/*DECO_E3_E1*/
+extern gpioMap_t 	clk;
+extern gpioMap_t  	latch;
+
 
 
 sStateMachine_displayLed fsmMachineDisplayLed [] = 
@@ -28,9 +31,11 @@ eSystemState_displayLed 	displayled_initHandler(void){
 }
 
 eSystemState_displayLed 	displayled_dataHandler(void){
-	if(/* msg completed*/){
+	/* msg completed*/
+	/*
+	if(){
 		return STATE_DISPLAY_IDLE;
-	}
+	}*/
 	return STATE_DISPLAY_LATCH;
 }
 

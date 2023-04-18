@@ -6,18 +6,27 @@
  * Version: 1.0
  *===========================================================================*/
 
-/*=====[Inclusions of function dependencies]=================================*/
-
 #include "displayLed.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include "portmap.h"
 
-/*=====[Definition macros of private constants]==============================*/
 
-/*=====[Definitions of extern global variables]==============================*/
+#define     CHAR_LENGTH     8 
+#define     DISPLAY_ROWS    16   
+#define     DISPLAY_COLS    32
 
 extern portTickType    xLastWakeTimeDisplayLed;
 extern SemaphoreHandle_t   xMutexUART;
 
-/*=====[Definitions of public global variables]==============================*/
+void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *array_out);
+void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size);
+void printBinaryArray(uint8_t *buffer, int len);
+void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buffer_in, uint8_t len_buffer_out);
+
+/*=====[Global variables]====================================================*/
 
 bool_t      timerFlag;
 uint32_t    timer;
@@ -29,15 +38,16 @@ gpioMap_t   clk_array[]={LEDB, LED1, LED2, LED3};
 gpioMap_t   deco_pin_array[] = {A, B, C, D};
 gpioMap_t   data_pin_array[] = {CLK, STR, R1, R2};
 
-gpioMap_t clk       = data_pin_array[0];
-gpioMap_t latch     = data_pin_array[1];
-gpioMap_t panel_1   = data_pin_array[2];
-gpioMap_t panel_2   = data_pin_array[3];
-gpioMap_t deco_A0   = deco_pin_array[0];
-gpioMap_t deco_A1   = deco_pin_array[1];
-gpioMap_t deco_A2   = deco_pin_array[2];
-gpioMap_t deco_A3   = deco_pin_array[3];
+gpioMap_t clk       = SRCLK;
+gpioMap_t latch     = STR;
+gpioMap_t panel_1   = R1;
+gpioMap_t panel_2   = R2;
+gpioMap_t deco_A0   = DECO_A0;
+gpioMap_t deco_A1   = DECO_A1;
+gpioMap_t deco_A2   = DECO_A2;
+gpioMap_t deco_A3   = DECO_E3_E1;
 
+#define ascii_index 95
 
 uint8_t new_ascii[855]={
     0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,   //
@@ -137,10 +147,7 @@ uint8_t new_ascii[855]={
     0x7e, 0x76, 0xdc, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,   //~
 };
 
-
-/*=====[Definitions of private global variables]=============================*/
-
-/*=====[Main function, program entry point after power on or reset]==========*/
+/*===========================================================================*/
 
 void portInit(void){
 /* EDU-CIAA pinout to connector CONN_2x8 */
@@ -161,6 +168,7 @@ void portInit(void){
     gpioConfig( CONN_J4_15, GPIO_OUTPUT );
     gpioConfig( CONN_J4_16, GPIO_OUTPUT );
 }
+/*===========================================================================*/
 
 void displayInit(void){
 
@@ -179,9 +187,10 @@ void displayInit(void){
     gpioWrite(data_pin_array[2], OFF);
     gpioWrite(data_pin_array[3], OFF);
 }
+/*===========================================================================*/
 
+/*
 void vTaskDisplayLed( void *pvParameters ){
-
     xLastWakeTimeDisplayLed = xTaskGetTickCount();
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
@@ -192,14 +201,7 @@ void vTaskDisplayLed( void *pvParameters ){
    
     size_t      length=8*8; //8 columns per module, 8 modules per row
     //uint8_t     data_8b[length];
-    uint8_t     data_8b[] = {
-/*        
-        0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00, 
-        0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00, 
-        0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00, 
-        0x00, 0xFF, 0x0A, 0xA0, 0xAB, 0xBA, 0xFF, 0x00
-*/      
-    };//*test_data;
+    uint8_t     data_8b[] = {   };//*test_data;
 
     uint16_t    *data_16b=NULL;
     uint32_t    *data_32b=NULL;
@@ -252,60 +254,74 @@ void vTaskDisplayLed( void *pvParameters ){
         }
     }
 }
-/*
 */
+
+/*===========================================================================*/
+
+extern bool_t   timerFlag;
+extern uint16_t timer_display;
 
 void timerCallbackDisplayLED(TimerHandle_t xTimerHandle){
 
     timerFlag=true;
-
-    /* Timer */
-/*    while(timerFlag){
-
-        timer++;
-        
-        if((timer%10000000)==0){
-            printf("Timer\r\n");
-            gpioToggle(timer_pin);
-        }
+    while(timerFlag){
+        timer_display++;
+        timer_display=timer_display%100000;
     }
-*/
 }
 
+/*===========================================================================*/
 
-#define ascii_index 95
-#define buffer_size str1_len*8
-uint16_t i,j,k;
 
 void vTaskDisplayLedTest( void *pvParameters ){
 
-//uint8_t str1[]="Hi, how are you?";
-uint8_t str1[]="ab";    
-uint8_t str1_len=strlen(str1);
-uint8_t buffer[buffer_size];
-string_read_to_8x8_bytes_out(str1,str1_len,buffer);
+    uint8_t str1[]="Hola";
+    uint8_t str1_len=strlen(str1);
+    uint8_t buffer_size=str1_len*CHAR_LENGTH;
+    uint8_t buffer[buffer_size];
 
-for (i=0;i<str1_len;i++)
-{
-    printf("letter %c:\n", str1[i]);
-    for (j=0;j<8;j++){
-    printf("0x%.2x ", buffer[(i*8)+j]);
-    if (j%8==7)printf("\n");}
+    printf("print str to buffer: %s \n",str1);
+    string_read_to_8x8_bytes_out(str1,str1_len,buffer);
+    
+    printf("printHexArray(buffer); str_len=%d; buffer_size=%d \n", str1_len, buffer_size);
+    printHexArray(buffer, str1_len, CHAR_LENGTH);
+
+    int n=CHAR_LENGTH; 
+    int m=str1_len;
+    int p=DISPLAY_ROWS;
+    int q=DISPLAY_COLS;
+
+    int display_size = p*q;
+
+    uint8_t B[display_size];
+    for(int i; i<display_size;i++){B[i]=0;}
+
+    printf("B: (before) \n");
+    for(int i=0; i<display_size; i++){
+        printf("%d ",B[i]);
+        if(i%DISPLAY_COLS==(DISPLAY_COLS-1))printf("\n");
+    }
+
+    reshape_to_display(buffer,B, buffer_size, display_size);
+
+    printf("printHexArray(B); rows=%d; cols=%d \n", p, q);
+    printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
+
 }
 
-}
-/*
-*/
+
+
+/*===========================================================================*/
 
 void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *array_out)
 {
-    for (i=0;i<strlen;i++)
+    for (int i=0;i<strlen;i++)
     {
-        for (k=0;k<ascii_index;k++)
+        for (int k=0;k<ascii_index;k++)
         {
             if (str_in[i]==new_ascii[k*9])
             {
-                for (j=0;j<8;j++)
+                for (int j=0;j<8;j++)
                 {
                     array_out[(i*8)+j]=new_ascii[((k*9)+1)+j];
                 }
@@ -313,40 +329,106 @@ void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *arra
         }
     }
 }
+/*===========================================================================*/
 
-void msgToData(uint8_t *str_in, uint8_t strlen, uint8_t *array_out){
-
-    string_read_to_8x8_bytes_out(str_in,  strlen, array_out);
-
+//printHexArray(buffer, str1_len, CHAR_LENGTH);
+//printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
+void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size){
+    for(int i=0; i<len*size; i++){
+        printf("0x%.2x\t ", buffer[i]);
+        if(i%size==(size-1))printf("\n");
+    }
 }
 
-void dataToPanelRows(uint8_t *array_in, uint8_t array_len, uint8_t *panel_out){
+/*===========================================================================*/
 
-/*
-    uint16_t i,j,k;
-    if(panel_len == array_len) // q < l
-    {
-        for( i=0; i<array_len; i++){
-            panel_out[i]=array_in[i*8+k];
+void printBinaryArray(uint8_t *buffer, int len){
+
+    for (int i=0; i<len; i++){
+    uint8_t data_8b = buffer[i];
+    for (int j=0 ; j< 8; j++){
+        printf("%c", ((data_8b << j) & (0x80))? '1' : '0');
+    } 
+    printf(" ");
+    if (i%8==7)printf("\n");
+    }
+}
+
+/*===========================================================================*/
+
+void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buffer_in, uint8_t len_buffer_out)
+{
+    uint8_t *a,*b,m,n,p,q;
+    a=buffer_in;
+    b=buffer_out;
+
+    /* matrix notation */
+    n=CHAR_LENGTH; 
+    m=(int)(len_buffer_in/CHAR_LENGTH);
+    p=DISPLAY_ROWS;
+    q=DISPLAY_COLS;
+
+    uint8_t display_size = p*q;
+
+    printf("\nReshaping...\n");
+    printf("n=%d; m=%d\n",n,m);
+    printf("p=%d; q=%d\n",p,q);
+    printf("\n");
+
+    //case 0:  m<q, n<p
+    if((m<q)&(n<p)){
+        printf("Case 0: (m<q)&(n<p)\n");
+        for(int j=0; j<n;j++){
+        for(int i=0; i<m; i++){
+            b[j*q+i]=a[n*i+j];
         }
+        for(int i=m; i<q; i++){
+            b[j*q+i]=0;
+        }}
+        for(int j=n; j<p; j++){
+        for(int i=0; i<q; i++){
+            b[j*q+i]=0;
+        }}
     }
-
-    else if (panel_len > array_len)
-    {
-
+    //case 1: m<q, n>=p
+    if((m<q)&(n>=p)){
+        printf("Case 1: (m<q)&(n>=p)\n");   
+        for(int j=0; j<p;j++){
+        for(int i=0; i<m; i++){
+            b[j*q+i]=a[n*i+j];
+        }}
+        for(int j=0; j<p; j++){
+        for(int i=m; i<q; i++){
+            b[j*q+i]=0;
+        }}
     }
-*/
+    //case 2: m>=q, n<p
+    if((m>=q)&(n<p)){
+        printf("Case 2: (m>=q)&(n<p)\n");   
+        for(int j=0; j<n;j++){
+        for(int i=0; i<q; i++){
+            b[j*q+i]=a[n*i+j];
+        }}
+        for(int j=n; j<p; j++){
+        for(int i=0; i<q; i++){
+            b[j*q+i]=0;
+        }}  
+    }
+    //case 3: m>=q, n>=p
+    if((m>=q)&(n>=p)){
+        printf("Case 3: (m>=q)&(n>=p)\n");
+        for(int j=0; j<p;j++){
+        for(int i=0; i<q; i++){
+            b[j*q+i]=a[n*i+j];
+        }}
+    }
+    // final output
+    for(int i=0; i<p*q; i++){
+        buffer_out[i]=b[i];
+    }
 }
 
-void panelRowsToDisplayEncode(uint8_t *panel_in, uint8_t panel_len, uint8_t *display_out){
-/*
-dataOut >> k = dataIn >> k 
-dataOut >> k+1 = dataIn >> k 
-*/
-
-}
-
-
+/*===========================================================================*/
 
 uint8_t* f1(uint8_t x)
 {
@@ -374,6 +456,8 @@ int low_nibble(int x){
     return z;
 }
 
+/*===========================================================================*/
+
 int f(int y)
 {
     int mask=0xF0;
@@ -388,6 +472,8 @@ int f(int y)
     }
     return yy;
 }
+
+/*===========================================================================*/
 
 int g(int z)
 {
@@ -404,3 +490,4 @@ int g(int z)
     return zz;
 }
 
+/*===========================================================================*/

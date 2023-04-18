@@ -184,7 +184,7 @@ void timerCallback_displayLed(TimerHandle_t xTimerDisplayHandle){
    static uint8_t cnt = 0;
    cnt++;
 
-   eSystemEvent_displayLed  = cnt%4;
+   eSystemEvent_displayLed  displayLed_timer_event= cnt%4;
    if(xQueueSend(queueHandle_displayLed, &data_display, 0U)!=pdPASS){
          perror("Error sending data to the queueHandle_displayLed\r\n");
    }
@@ -204,8 +204,8 @@ void vTaskDisplayLed(void *xTimerDisplayHandle)
    while(true){
 
       // fsmMachineDisplayLed init 
-      eSystemEvent_displayLed newEvent = ;
-      eSystemState_displayLed nextState = ;
+      eSystemEvent_displayLed newEvent = evDisplayInit;
+      eSystemState_displayLed nextState = STATE_DISPLAY_INIT;
       fsmMachineAB[nextState].fsmEvent = newEvent; 
       nextState = (*fsmMachineAB[nextState].fsmHandler)();
 
