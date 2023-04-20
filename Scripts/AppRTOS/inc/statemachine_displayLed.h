@@ -39,6 +39,7 @@ typedef struct{
 } sStateMachine_displayLed;
 
 eSystemState_displayLed 	displayled_initHandler(void);
+eSystemState_displayLed 	displayled_idleHandler(void);
 eSystemState_displayLed 	displayled_dataHandler(void);
 eSystemState_displayLed 	displayled_latchHandler(void);
 eSystemState_displayLed 	displayled_waitingHandler(void);
