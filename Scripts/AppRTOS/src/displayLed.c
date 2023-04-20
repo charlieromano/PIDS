@@ -280,11 +280,18 @@ void vTaskDisplayLedTest( void *pvParameters ){
     uint8_t buffer_size=str1_len*CHAR_LENGTH;
     uint8_t buffer[buffer_size];
 
-    printf("print str to buffer: %s \n",str1);
+    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+        printf("print str to buffer: %s \r\n",str1);
+        xSemaphoreGive(xMutexUART);
+    }
+    
     string_read_to_8x8_bytes_out(str1,str1_len,buffer);
     
-    printf("printHexArray(buffer); str_len=%d; buffer_size=%d \n", str1_len, buffer_size);
-    printHexArray(buffer, str1_len, CHAR_LENGTH);
+    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+        printf("printHexArray(buffer); str_len=%d; buffer_size=%d \r\n", str1_len, buffer_size);
+        printHexArray(buffer, str1_len, CHAR_LENGTH);
+        xSemaphoreGive(xMutexUART);
+    }
 
     int n=CHAR_LENGTH; 
     int m=str1_len;
@@ -294,18 +301,29 @@ void vTaskDisplayLedTest( void *pvParameters ){
     int display_size = p*q;
 
     uint8_t B[display_size];
-    for(int i; i<display_size;i++){B[i]=0;}
+    for(int i=0; i<display_size;i++){B[i]=0;}
 
-    printf("B: (before) \n");
-    for(int i=0; i<display_size; i++){
-        printf("%d ",B[i]);
-        if(i%DISPLAY_COLS==(DISPLAY_COLS-1))printf("\n");
+    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+        printf("B: (before) \r\n");
+        for(int i=0; i<display_size; i++){
+            printf("%d ",B[i]);
+            if(i%DISPLAY_COLS==(DISPLAY_COLS-1))printf("\n");
+        }
+        xSemaphoreGive(xMutexUART);
     }
 
     reshape_to_display(buffer,B, buffer_size, display_size);
 
-    printf("printHexArray(B); rows=%d; cols=%d \n", p, q);
-    printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
+    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+        printf("printHexArray(B); rows=%d; cols=%d \r\n", p, q);
+        printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
+        xSemaphoreGive(xMutexUART);
+    }
+
+    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+        printf("FLAG\r\n");
+        xSemaphoreGive(xMutexUART);
+    }
 
 }
 
