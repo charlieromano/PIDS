@@ -203,18 +203,18 @@ void vTaskDisplayLed(void *xTimerDisplayHandle)
 
    while(true){
 
-      // fsmMachineDisplayLed init 
+      // fsmDisplayLed init 
       eSystemEvent_displayLed newEvent = evDisplayInit;
       eSystemState_displayLed nextState = STATE_DISPLAY_INIT;
-      fsmMachineAB[nextState].fsmEvent = newEvent; 
-      nextState = (*fsmMachineAB[nextState].fsmHandler)();
+      fsmDisplayLed[nextState].fsmEvent = newEvent; 
+      nextState = (*fsmDisplayLed[nextState].fsmHandler)();
 
    // Active object
       while(true){
 
-        if( pdPASS == xQueueReceive(queueHandle_AB, &newEvent, portMAX_DELAY)){
-            fsmMachineAB[nextState].fsmEvent = newEvent; 
-            nextState = (*fsmMachineAB[nextState].fsmHandler)();
+        if( pdPASS == xQueueReceive(queueHandle_displayLed, &newEvent, portMAX_DELAY)){
+            fsmDisplayLed[nextState].fsmEvent = newEvent; 
+            nextState = (*fsmDisplayLed[nextState].fsmHandler)();
          }
       }
       //vPrintString("This task is running and about to delete itself.\r\n");

@@ -12,7 +12,7 @@ extern gpioMap_t  	latch;
 
 
 
-sStateMachine_displayLed fsmMachineDisplayLed [] = 
+sStateMachine_displayLed fsmDisplayLed[] = 
 {
 	{STATE_DISPLAY_INIT, evDisplayInit, displayled_initHandler},
 	{STATE_DISPLAY_ENCODING, evDisplay_ready, displayled_dataHandler},
