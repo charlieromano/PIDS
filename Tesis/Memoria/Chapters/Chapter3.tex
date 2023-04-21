@@ -166,10 +166,16 @@ basadas en Ethernet (ETB/ECN).
 
 \pagebreak
 \section{Casos de Uso}
+Los casos de uso planteados se presentan como respuesta a historias de usuario. Las historias de usuario principales son:
+\begin{itemize}
+\item Como usuario del tren quiero ver el nombre de la estación a la que estoy arribando.
+\item Como conductor del tren quiero elegir el destino y recorrido asociado que se visualizará en los coches.
+\item Como sistema vinculado quiero transmitir mensajes de asistencia, emergencia e información al pasajero.
+\item Como componente de sistema quiero recibir e interpretar tramas de la red de datos del sistema PIDS
+\end{itemize}
 
-Se presentan los principales casos de uso del sistema en la tabla \ref{tab:UseCases}. 
-
-\begin{center}
+Estas historias de usuario presentan cuatro tipos distintos de usuarios: pasajeros, conductores, sistemas de información al pasajero, y componentes internos del sistema. Con esta oferta de usuarios de sistema se busca definir funcionalidad y casos de uso. Los principales casos de uso del sistema se presentan en la tabla \ref{tab:UseCases}. \\
+ 	
 \begin{table}[htb]
 \begin{tabular}{|l|l|}
 \hline
@@ -182,16 +188,76 @@ PIDS-UC-04  & Receptor de tramas       \\ \hline
 	\caption{Tabla de casos de uso.}
 	\label{tab:UseCases}
 \end{table}
-\end{center}
 
 El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a una estación y presenta información visual al pasajero usando los carteles LED de salón. El UC-2 resuelve una acción del conductor al presionar un botón, y presenta también información visual al pasajero, en este caso las estaciones cabecera del recorrido que se visualizan en los carteles LED de frente y contrafrente del tren. El tercer caso de uso, UC-3, presenta información de asistencia previamente cargada y que se dispara por acción de un timer mientras el tren está en circulación. Por último, el caso de uso UC-4 involucra al módulo SCU de la red PIDS y a un sistema externo, como puede ser una computadora de un operador, para decodificar las tramas de datos recibidas desde el SCU.\\
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{|lll|}
+\hline
+ 
+\multicolumn{3}{|l|}{{ \textbf{UC-1: Visualización del nombre de la estación arribada}}} \\ \hline
+ 
+\multicolumn{1}{|r|}{{ 1}} & \multicolumn{1}{l|}{{ Nombre}} & { Visualizar el nombre de la estación arribada.} \\ \hline
+ 
+\multicolumn{1}{|r|}{{ 1.1}} & \multicolumn{1}{l|}{{ Descripción}} & { El sistema genera un mensaje que contiene información para el pasajero y se lo presenta en una marquesina LED.} \\ \hline
+ 
+\multicolumn{1}{|r|}{{ 1.2}} & \multicolumn{1}{l|}{{ Actor principal}} & { Pasajeros} \\ \hline
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ Disparadores}} & { El evento se inicia cuando el tren arriba a una estación.} \\ \hline
+ 
+\multicolumn{1}{|r|}{{ 2}} & \multicolumn{1}{l|}{{ Flujo de eventos}} & { } \\ \hline
+ 
+\multicolumn{1}{|r|}{{ 2.1}} & \multicolumn{1}{l|}{{ Flujo básico}} & { El tren comienza a frenar hasta llegar a velocidad 0 km/h.} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema PIDS recibe del bus MVB las tramas con la variable de velocidad.} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema PIDS busca el nombre de la estación actual, busca el nombre de la estación siguiente y genera la trama.} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema PIDS envía la trama a la Red TCN con destino al subsistema HMI.} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema HMI recibe la trama generada por el PIDS y presenta en display el mensaje a visualizar.} \\
+ 
+\multicolumn{1}{|r|}{{ 2.2}} & \multicolumn{1}{l|}{{ Flujo alternativo}} & { El tren se queda detenido en la estación.} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema PIDS recibe del bus MVB las tramas con la variable de velocidad.} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema PIDS compara el estado actual y no detecta cambios.} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema PIDS envía una trama a la red TCN interrogando al subsistema HMI por el mensaje que está se visualizando.} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema HMI recibe el requerimiento y entrega el mensaje que tiene cargado en el sistema al PIDS .} \\
+ 
+\multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema PIDS recibe el mensaje y no detecta cambios, no envía señales de cambio.} \\ \hline
+ 
+\multicolumn{1}{|r|}{{ 3}} & \multicolumn{1}{l|}{{ Requerimientos especiales}} & { } \\ \hline
+ 
+\multicolumn{1}{|r|}{{ 4}} & \multicolumn{1}{l|}{{ Pre-condiciones}} & { El sistema debe estar en modo ONLINE.} \\ \hline
+ 
+\multicolumn{1}{|r|}{{ 5}} & \multicolumn{1}{l|}{{ Post-condiciones}} & { El sistema pasa al estado detenido.} \\ \hline
+\end{tabular}
+\caption{}
+\label{tab:my-table}
+\end{table}
 
 
 \pagebreak
 
 \section{Arquitectura}
 
+El sistema PIDS de Trenes Argentinos sigue una arquitectura específica que está relacionada con la implementación de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes de esa arquitectura que tienen relación con los componentes del sistema embebido propuesto.\\
+
+El sistema embebido diseñado en este trabajo sigue una arquitectura orientada a eventos. Se han desarrollado distintos patrones de software a lo largo del trabajo, buscando modularidad, portabilidad y escalabilidad. Algunos de los objetos que se implementaron se describen a nivel de detalle para resaltar los criterios y decisiones de diseño tomadas. \\
+
+La relación entre la arquitectura existente del PIDS de trenes y la arquitectura del sistema embebido basado en la plataforma CIAA busca satisfacer por un lado la compatibilidad eléctrica de hardware y por otro las historias de usuario planteadas en los casos de uso en la etapa de definición de requerimientos. \\
+
+En las secciones siguientes se describen los componentes del sistema y sus interacciones. Se mencionan también algunas mejoras evaluadas para futuras implementaciones que buscan optimizar fragmentos de código con potencial de optimización de recursos usando instrucciones en lenguaje assembly propias de arquitecturas ARM M4.\\
+
 \subsection{Contexto}
+
+El sistema PIDS forma parte de una solución integral, la red de comunicaciones del tren o red TCN, brinda información a los pasajeros y puede ser operada por el conductor del tren o los operadores, tal como se representa en el diagrama de la figura \ref{fig:diagTrenTcnPids}.\\
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.66\textwidth]{./Figures/diagTrenTcnPids.png}
@@ -199,12 +265,17 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 	\label{fig:diagTrenTcnPids}
 \end{figure}
 
+La red TCN dispone define una comunicación usando dos buses jerárquicos llamados WTB y MVB. El sistema PIDS se interconecta al bus de datos MVB, como se indica en el diagrama de la figura \ref{fig:diagTcnPidsBuusesWtbMvb}.\\
+
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.66\textwidth]{./Figures/diagTcnPidsBusesWtbMvb.png}
 	\caption{Diagrama de interconexión TCN-PIDS}
 	\label{fig:diagTcnPidsBuusesWtbMvb}
 \end{figure}
+
+El sistema PIDS tiene un bus de comunicación propio a través de una red RS485. Uno de los componentes de esta red es el módulo SCU, al cual se conectan distintos dispositivos como los display LED, los mapas de recorrido LED, las cámaras y parlantes, tal como se indica en la figura 	\ref{fig:diagPidsScuDevices}.\\
 
 
 \begin{figure}[ht]
@@ -214,6 +285,9 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 	\label{fig:diagPidsScuDevices}
 \end{figure}
 
+Al módulo SCU se conectan las unidades IDU, que corresponden a los display LED de salón. Cada unidad IDU contiene un driver y el arreglo de módulos de matriz de led que conforman el display. En la figura \ref{fig:diagScuDriverDisplay} se representan estos bloques funcionales.\\
+
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.66\textwidth]{./Figures/diagScuDriverDisplay.png}
@@ -221,8 +295,14 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 	\label{fig:diagScuDriverDisplay}
 \end{figure}
 
+El alcance del sistema desarrollado en este trabajo cubre la funcionalidad de este conjunto de bloques Driver + Display, que en la nomenclatura del sistema PIDS existente corresponde a los módulos IDU. Existen dos unidades de estos módulos por cada salón. Comunmente un tren tiene siete salones, por lo que se tiene un mínimo de catorce unidades IDU más dos displays externos adicionales para el frente y contrafrente del tren que indican las estaciones cabecera del recorrido, dando un total aproximado de dieciséis unidades de control de display por cada tren.\\
+
+
 \pagebreak
 \subsection{Diseño}
+La propuesta de diseño busca cubrir las funcionalidades del bloque de control del display LED. El display LED es una unidad que se puede adquirir comercialmente. Sin embargo el driver para la red PIDS es una solución propietaria del fabricante y es la que se busca reemplazar con este desarrollo.\\
+
+En la figura \ref{fig:diagVistaReDisenhoEduCIAA} se presenta un diagrama de bloques del sistema de control propuesto. Este controlador usa comunicación serie a través de interfaces UART-RS485 y UART-USB. La UART es un periférico del microcontrolador de la plataforma CIAA. La alimentación de la CIAA difiere de aquella existente en la red RS485, por lo que también es necesario un bloque de conversión DC-DC para garantizar compatibilidad eléctrica. La comunicación con el display se realiza a través de un adaptador, que consiste básicamente en un puerto de entrada-salida.\\
 
 
 \begin{figure}[ht]
@@ -232,6 +312,7 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 	\label{fig:diagVistaReDisenhoEduCIAA}
 \end{figure}
 
+A nivel lógico, el sistema que se propone consiste en cuatro objetos activos que interactúan entre sí, tal como se indica en la figura \ref{fig:diagVistaDisenho}. 
 
 \begin{figure}[ht]
 	\centering
@@ -239,6 +320,8 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 	\caption{Vista de interacciones del sistema propuesto.}
 	\label{fig:diagVistaDisenho}
 \end{figure}
+
+El objeto activo UART es el encargado de recibir e interpretar las tramas de datos que viajan por la red RS485 del bus de datos del SCU.
 
 \begin{figure}[ht]
 	\centering
