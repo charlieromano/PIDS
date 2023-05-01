@@ -13,9 +13,10 @@
 #define TIMER_MAX_VALUE    256
 #define TIMER_MIN_TIMEOUT  3
 
-extern uint8_t 	timer_cnt;
-extern bool		timer_flag;
-extern gpioMap_t button;
+extern uint8_t 				timer_cnt;
+extern bool					timer_flag;
+extern gpioMap_t 			button;
+
 
 typedef enum {
 	STATE_BUTTON_INIT,

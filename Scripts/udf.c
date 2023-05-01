@@ -9,8 +9,7 @@ void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buf
 
 void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size);
 
-void printBinaryArray(uint8_t *buffer, int len);
-
+void printBinaryArray(uint8_t *buffer, uint8_t len, uint8_t size);
 
 #define ascii_index 95
 
@@ -114,7 +113,7 @@ uint8_t new_ascii[855]={
 
 
 #define DISPLAY_COLS		8
-#define DISPLAY_ROWS		8*1
+#define DISPLAY_ROWS		16
 #define CHAR_LENGTH  		8
 
 int main(void){
@@ -123,7 +122,7 @@ int main(void){
 	/* Test 1: message longer than display cols */
 	/**************************************************************/
 	
-	uint8_t str1[]="hola hola hola";
+	uint8_t str1[]="Hola que se yo";
 	uint8_t str1_len=strlen(str1);
 	uint8_t buffer_size=str1_len*CHAR_LENGTH;
 	uint8_t buffer[buffer_size];
@@ -155,10 +154,15 @@ int main(void){
 	printf("printHexArray(B); rows=%d; cols=%d \n", p, q);
 	printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
 
-	/**************************************************************/
+	printf("printBinaryArray(B); rows=%d; cols=%d \n", p, q);
+	printBinaryArray(B,DISPLAY_ROWS, DISPLAY_COLS);
 
+
+	/**************************************************************/
 	return 0;
 }
+
+/*===========================================================================*/
 
 void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *array_out)
 {
@@ -176,98 +180,165 @@ void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *arra
         }
     }
 }
+/*===========================================================================*/
 
 //printHexArray(buffer, str1_len, CHAR_LENGTH);
 //printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
 void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size){
-	for(int i=0; i<len*size; i++){
-		printf("0x%.2x\t ", buffer[i]);
-		if(i%size==(size-1))printf("\n");
-	}
+    for(int i=0; i<len*size; i++){
+        printf("0x%.2x\t ", buffer[i]);
+        if(i%size==(size-1))printf("\n");
+    }
 }
 
-void printBinaryArray(uint8_t *buffer, int len){
+/*===========================================================================*/
 
-	for (int i=0; i<len; i++){
-	uint8_t data_8b = buffer[i];
-	for (int j=0 ; j< 8; j++){
-		printf("%c", ((data_8b << j) & (0x80))? '1' : '0');
-	} 
-	printf(" ");
-	if (i%8==7)printf("\n");
-	}
+void printBinaryArray(uint8_t *buffer, uint8_t len, uint8_t size){
+
+    for (int i=0; i<len*size; i++){
+        uint8_t data_8b = buffer[i];
+        for (int j=0 ; j< 8; j++){
+            printf("%c", ((data_8b << j) & (0x80))? '1' : '0');
+        } 
+        printf(" ");
+        if(i%size==(size-1))printf("\n");
+    }
 }
+
+/*===========================================================================*/
 
 void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buffer_in, uint8_t len_buffer_out)
 {
-	uint8_t *a,*b,m,n,p,q;
-	a=buffer_in;
-	b=buffer_out;
+    uint8_t *a,*b,m,n,p,q;
+    a=buffer_in;
+    b=buffer_out;
 
-	n=CHAR_LENGTH; 
-	m=len_buffer_in/CHAR_LENGTH;
-	p=DISPLAY_ROWS;
-	q=DISPLAY_COLS;
+    /* matrix notation */
+    n=CHAR_LENGTH; 
+    m=(int)(len_buffer_in/CHAR_LENGTH);
+    p=DISPLAY_ROWS;
+    q=DISPLAY_COLS;
 
-	uint8_t display_size = p*q;
+    uint8_t display_size = p*q;
 
-printf("\nReshaping...\n");
-printf("n=%d; m=%d\n",n,m);
-printf("p=%d; q=%d\n",p,q);
-printf("\n");
+    printf("\nReshaping...\n");
+    printf("n=%d; m=%d\n",n,m);
+    printf("p=%d; q=%d\n",p,q);
+    printf("\n");
 
-//case 0:  m<q, n<p
-if((m<q)&(n<p)){
-	printf("Case 0: (m<q)&(n<p)\n");
-	for(int j=0; j<n;j++){
-	for(int i=0; i<m; i++){
-		b[j*q+i]=a[n*i+j];
-	}
-	for(int i=m; i<q; i++){
-		b[j*q+i]=0;
-	}}
-	for(int j=n; j<p; j++){
-	for(int i=0; i<q; i++){
-		b[j*q+i]=0;
-	}}
+    //case 0:  m<q, n<p
+    if((m<q)&(n<p)){
+        printf("Case 0: (m<q)&(n<p)\n");
+        for(int j=0; j<n;j++){
+        for(int i=0; i<m; i++){
+            b[j*q+i]=a[n*i+j];
+        }
+        for(int i=m; i<q; i++){
+            b[j*q+i]=0;
+        }}
+        for(int j=n; j<p; j++){
+        for(int i=0; i<q; i++){
+            b[j*q+i]=0;
+        }}
+    }
+    //case 1: m<q, n>=p
+    if((m<q)&(n>=p)){
+        printf("Case 1: (m<q)&(n>=p)\n");   
+        for(int j=0; j<p;j++){
+        for(int i=0; i<m; i++){
+            b[j*q+i]=a[n*i+j];
+        }}
+        for(int j=0; j<p; j++){
+        for(int i=m; i<q; i++){
+            b[j*q+i]=0;
+        }}
+    }
+    //case 2: m>=q, n<p
+    if((m>=q)&(n<p)){
+        printf("Case 2: (m>=q)&(n<p)\n");   
+        for(int j=0; j<n;j++){
+        for(int i=0; i<q; i++){
+            b[j*q+i]=a[n*i+j];
+        }}
+        for(int j=n; j<p; j++){
+        for(int i=0; i<q; i++){
+            b[j*q+i]=0;
+        }}  
+    }
+    //case 3: m>=q, n>=p
+    if((m>=q)&(n>=p)){
+        printf("Case 3: (m>=q)&(n>=p)\n");
+        for(int j=0; j<p;j++){
+        for(int i=0; i<q; i++){
+            b[j*q+i]=a[n*i+j];
+        }}
+    }
+    // final output
+    for(int i=0; i<p*q; i++){
+        buffer_out[i]=b[i];
+    }
 }
-//case 1: m<q, n>=p
-if((m<q)&(n>=p)){
-	printf("Case 1: (m<q)&(n>=p)\n");	
-	for(int j=0; j<p;j++){
-	for(int i=0; i<m; i++){
-		b[j*q+i]=a[n*i+j];
-	}}
-	for(int j=0; j<p; j++){
-	for(int i=m; i<q; i++){
-		b[j*q+i]=0;
-	}}
-}
-//case 2: m>=q, n<p
-if((m>=q)&(n<p)){
-	printf("Case 2: (m>=q)&(n<p)\n");	
-	for(int j=0; j<n;j++){
-	for(int i=0; i<q; i++){
-		b[j*q+i]=a[n*i+j];
-	}}
-	for(int j=n; j<p; j++){
-	for(int i=0; i<q; i++){
-		b[j*q+i]=0;
-	}}	
-}
-//case 3: m>=q, n>=p
-if((m>=q)&(n>=p)){
-	printf("Case 3: (m>=q)&(n>=p)\n");
-	for(int j=0; j<p;j++){
-	for(int i=0; i<q; i++){
-		b[j*q+i]=a[n*i+j];
-	}}
+
+/*===========================================================================*/
+
+uint8_t* f1(uint8_t x)
+{
+    uint8_t y=0x00;
+    uint8_t z=0x00;
+    uint8_t mask=0b11110000;
+    y = x & mask;
+    z = x & ~mask;
+    uint8_t out[2] = {y,z};
+    return out;
 }
 
-
-// final output
-for(int i=0; i<p*q; i++){
-	buffer_out[i]=b[i];
+int hi_nibble(int x)
+{
+    int mask=0xF0;
+    int y;
+    y = x & mask;
+    return y;
 }
+
+int low_nibble(int x){
+    int mask=0xF0;
+    int z;
+    z = x & ~mask;
+    return z;
 }
 
+/*===========================================================================*/
+
+int f(int y)
+{
+    int mask=0xF0;
+    int yy=0x00;
+    int n=7;
+    int a=0x00;
+    int b=0x00;
+    for (int k=0; k<8; k++ ){
+        a |= (y>>((n+1)/2))   & (mask>>k);
+        b |= (y>>((n+1)/2-1)) & (mask>>k);
+        yy = a | b;
+    }
+    return yy;
+}
+
+/*===========================================================================*/
+
+int g(int z)
+{
+    int mask=0x01;
+    int zz=0x00;
+    int n=7;
+    int a=0x00;
+    int b=0x00;
+    for (int k=0; k<8; k++ ){
+        a |= (z<<((n+1)/2))   & (mask<<k);
+        b |= (z<<((n+1)/2-1)) & (mask<<k);
+        zz = a | b;
+    }
+    return zz;
+}
+
+/*===========================================================================*/

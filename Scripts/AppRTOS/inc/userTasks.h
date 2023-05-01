@@ -39,23 +39,23 @@ extern "C" {
 
 /*=====[Definitions of public data types]====================================*/
 
-extern SemaphoreHandle_t   xBinarySemaphore;
-extern SemaphoreHandle_t   xMutexUART;
-extern QueueHandle_t       queueHandle_button;
-extern QueueHandle_t       queueHandle_AB;
-extern QueueHandle_t       queueHandle_displayLed;
+extern SemaphoreHandle_t    xBinarySemaphore;
+extern SemaphoreHandle_t    xMutexUART;
+extern QueueHandle_t        queueHandle_button;
+extern QueueHandle_t        queueHandle_AB;
+extern QueueHandle_t        queueHandle_displayLed;
 
 extern sStateMachine_AB         fsmMachineAB[]; 
 extern sStateMachine_button     fsmButton[]; 
 extern sStateMachine_displayLed fsmDisplayLed[]; 
 
-extern xTaskHandle         xTaskStateMachineHandler_AB; 
-extern xTaskHandle         xTaskStateMachineHandler_button; 
-extern xTaskHandle         xTaskStateMachineHandler_displayLed; 
+extern xTaskHandle          xTaskStateMachineHandler_AB; 
+extern xTaskHandle          xTaskStateMachineHandler_button; 
+extern xTaskHandle          xTaskStateMachineHandler_displayLed; 
 
-extern TimerHandle_t   timerHandle_AB; 
-extern TimerHandle_t   timerHandle_button; 
-extern TimerHandle_t   timerHandle_displayLed; 
+extern TimerHandle_t        timerHandle_AB; 
+extern TimerHandle_t        timerHandle_button; 
+extern TimerHandle_t        timerHandle_displayLed; 
 
 extern uint8_t     timer_cnt; 
 extern bool        timer_flag;

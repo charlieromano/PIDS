@@ -15,8 +15,8 @@
 
 
 #define     CHAR_LENGTH     8 
-#define     DISPLAY_ROWS    16   
-#define     DISPLAY_COLS    32
+#define     DISPLAY_ROWS    8   
+#define     DISPLAY_COLS    8
 
 extern portTickType    xLastWakeTimeDisplayLed;
 extern SemaphoreHandle_t   xMutexUART;
@@ -321,9 +321,20 @@ void vTaskDisplayLedTest( void *pvParameters ){
     }
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-        printf("FLAG\r\n");
+        printf("FLAG BINARY MESSAGE\r\n");
         xSemaphoreGive(xMutexUART);
     }
+
+    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+        printf("B: (after) \r\n");
+
+        for(int i=0; i<DISPLAY_ROWS; i++){
+            printBinaryArray(B[i],DISPLAY_COLS);
+            if(i%DISPLAY_COLS==(DISPLAY_COLS-1))printf("\n");
+        }
+        xSemaphoreGive(xMutexUART);
+    }
+
 
 }
 
@@ -363,12 +374,12 @@ void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size){
 void printBinaryArray(uint8_t *buffer, int len){
 
     for (int i=0; i<len; i++){
-    uint8_t data_8b = buffer[i];
-    for (int j=0 ; j< 8; j++){
-        printf("%c", ((data_8b << j) & (0x80))? '1' : '0');
-    } 
-    printf(" ");
-    if (i%8==7)printf("\n");
+        uint8_t data_8b = buffer[i];
+        for (int j=0 ; j< 8; j++){
+            printf("%c", ((data_8b << j) & (0x80))? '1' : '0');
+        } 
+        printf(" ");
+        if (i%8==7)printf("\n");
     }
 }
 

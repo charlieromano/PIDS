@@ -9,13 +9,13 @@ extern gpioMap_t 	deco_A2;
 extern gpioMap_t 	deco_A3;/*DECO_E3_E1*/
 extern gpioMap_t 	clk;
 extern gpioMap_t  	latch;
-
+extern QueueHandle_t        queueHandle_displayLed;
 
 
 sStateMachine_displayLed fsmDisplayLed[] = 
 {
 	{STATE_DISPLAY_INIT, evDisplayInit, displayled_initHandler},
-	{STATE_DISPLAY_IDLE, evDisplay_msg_received, displayled_idleHandler}
+	{STATE_DISPLAY_IDLE, evDisplay_msg_received, displayled_idleHandler},
 	{STATE_DISPLAY_ENCODING, evDisplay_ready, displayled_dataHandler},
 	{STATE_DISPLAY_LATCH, evDisplay_ready, displayled_latchHandler},
 	{STATE_DISPLAY_OUTPUT_ENABLE, evDisplay_ready, displayled_outputHandler},
@@ -32,15 +32,15 @@ eSystemState_displayLed 	displayled_initHandler(void){
 }
 
 eSystemState_displayLed 	displayled_idleHandler(void){
-
-     if(xQueueSend(queueHandle_button, &newEventFromTimer, 0U)!=pdPASS){
+/*
+     if(xQueueSend(queueHandle_displayLed, &newEventFromTimer, 0U)!=pdPASS){
          perror("Error sending data to the queueHandle_button\r\n");
       }
  
     if( pdPASS == xQueueReceive(..., &..., portMAX_DELAY)){
 
     }
-
+*/
 
 	return STATE_DISPLAY_ENCODING;
 
