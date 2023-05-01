@@ -1,4 +1,4 @@
-\chapter{Diseño e implementación} % Main chapter title
+\chapter{Desarrollo} % Main chapter title
 
 En este capítulo se presentan los requerimientos y la solución propuesta. Se describe la arquitectura, algunos patrones de software, técnicas de concurrencia utilizadas y distintas vistas de despliegue, tanto a nivel de interacción entre componentes como las secuencias de los casos de uso.\\
 
@@ -11,6 +11,7 @@ Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se p
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.95,0.95,0.95}
+\definecolor{mygray50}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,7 +34,7 @@ Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se p
   %otherkeywords={*,...},           % if you want to add more keywords to the set
   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
   numbersep=5pt,                   % how far the line-numbers are from the code
-  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  numberstyle=\tiny\color{mygray50}, % the style that is used for the line-numbers
   rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
   showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
   showstringspaces=false,          % underline spaces within strings only
@@ -46,24 +47,7 @@ Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se p
 }
 \lstdefinestyle{nonumbers}
 {numbers=none}
-
-
-A modo de ejemplo:
-
-\begin{lstlisting}[
-	language=C, 
-	backgroundcolor=\color{mygray},
-	style=nonumbers]
-
-sStateMachine fsmTest [] = 
-{
-	{STATE_INIT, evInit, InitHandler},
-	{STATE_LISTENING, evReceive, ListeningHandler},
-	{STATE_HEADER, evReceive, HeaderHandler},
-	{STATE_TRAILER, evReceive, TrailerHandler}
-};
-\end{lstlisting}
-    
+  
 
 
 \section{Requerimientos}
@@ -166,7 +150,7 @@ basadas en Ethernet (ETB/ECN).
 
 \pagebreak
 \section{Casos de Uso}
-Los casos de uso planteados se presentan como respuesta a historias de usuario. Las historias de usuario principales son:
+Los casos de uso planteados se presentan como respuesta a historias de usuario. Las historias de usuario principales propuestas en este trabajo son:
 \begin{itemize}
 \item Como usuario del tren quiero ver el nombre de la estación a la que estoy arribando.
 \item Como conductor del tren quiero elegir el destino y recorrido asociado que se visualizará en los coches.
@@ -243,12 +227,12 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 
 
 \pagebreak
-
+\newpage
 \section{Arquitectura}
 
-El sistema PIDS de Trenes Argentinos sigue una arquitectura específica que está relacionada con la implementación de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes de esa arquitectura que tienen relación con los componentes del sistema embebido propuesto.\\
+El sistema PIDS de Trenes Argentinos sigue una arquitectura específica que está relacionada con la implementación de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes de esa arquitectura que tienen relación con los componentes del sistema propuesto.\\
 
-El sistema embebido diseñado en este trabajo sigue una arquitectura orientada a eventos. Se han desarrollado distintos patrones de software a lo largo del trabajo, buscando modularidad, portabilidad y escalabilidad. Algunos de los objetos que se implementaron se describen a nivel de detalle para resaltar los criterios y decisiones de diseño tomadas. \\
+El sistema diseñado en este trabajo sigue una arquitectura orientada a eventos. Se desarrollaron e implementaron distintos patrones de software a lo largo del trabajo buscando propiedades de modularidad, portabilidad y escalabilidad. Algunos de los objetos implementados se describen a nivel de detalle para resaltar criterios y decisiones de diseño relevantes. \\
 
 La relación entre la arquitectura existente del PIDS de trenes y la arquitectura del sistema embebido basado en la plataforma CIAA busca satisfacer por un lado la compatibilidad eléctrica de hardware y por otro las historias de usuario planteadas en los casos de uso en la etapa de definición de requerimientos. \\
 
@@ -316,70 +300,150 @@ A nivel lógico, el sistema que se propone consiste en cuatro objetos activos qu
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.75\textwidth]{./Figures/diagVistaDisenho.png}
+	\includegraphics[width=1\textwidth]{./Figures/diagVistaDisenho.png}
 	\caption{Vista de interacciones del sistema propuesto.}
 	\label{fig:diagVistaDisenho}
 \end{figure}
 
 El objeto activo UART es el encargado de recibir e interpretar las tramas de datos que viajan por la red RS485 del bus de datos del SCU.
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{./Figures/diagVistaDisenhoExtendida.png}
-	\caption{Vista de interacciones extendida del sistema propuesto.}
-	\label{fig:diagVistaDisenhoExtendida}
-\end{figure}
 
 \pagebreak
-\subsection{Implementación}
+\section{Implementación}
+En este trabajo se implementa un sistema embebido en lenguaje C usando el sistema operativo de tiempo real freeRTOS sobre una arquitectura de 32 bits ARM Cortex-M4/M0. La plataforma de hardware elegida es la CIAA-EDU-NXP, que dispone de un microcontrolador LPC4337 de la companía NXP (\cite{NXPLPC4337}).\\
+ 
+Se ha utilizado la \textit{SAPI} y el \textit{firmwareV3} \cite{firmwarev3}, como API que funciona como capa de abstracción de las funciones específicas de la biblioteca del fabricante del microcontrlador. Esta API es parte fundamental del proyecto CIAA.\\
+ 
+En el desarrollo del firmware se ha preferido el uso de plantillas para implementar patrones de software como máquinas de estado y objetos activos, de manera que se facilite la documentación y testing y con ello el mantenimiento y la escalabilidad. Se describen los lineamientos y fragmentos de código principales en la sección de patrones de software.\\
 
-El desarrollo de la arquitectura propuesta se basa en la interacción de máquinas de estado.
-En este trabajo las máquinas de estado se implementan en C a partir de la siguiente estructura:
+Finalmente se dedica una sección a nivel de detalle para la implementación del controlador del diplay led. El firmware busca ser portable a aquellas versiones de hardware de display basadas en conjunto de chips 74HC245, 74HC595 y 74HC138 o equivalentes de compuertas digitales. \\
 
-1. Definir los estados posibles con un tipo definido como "eSystemState":
+
+\subsection{Organización del código fuente}
+La organización del código fuente que conforma el sistema embebido de este trabajo se describe en el siguiente árbol de archivos:
 
 \begin{lstlisting}[
-	language=C, 
+	language=Bash, 
 	backgroundcolor=\color{mygray},
-	style=nonumbers]
-typedef enum {
-	STATE_INIT,
-	STATE_LISTENING,
-	STATE_HEADER,
-	STATE_TRAILER
-} eSystemState;
+	]
+AppRTOS
+|-- config.mk
+|-- inc
+|   |-- displayLed.h
+|   |-- FreeRTOSConfig.h
+|   |-- ISR_GPIO.h
+|   |-- main.h
+|   |-- modulePanelDisplay.h
+|   |-- portmap.h
+|   |-- statemachine_AB.h
+|   |-- statemachine_button.h
+|   |-- statemachine_displayLed.h
+|   `-- userTasks.h
+|-- LICENSE.txt
+`-- src
+    |-- displayLed.c
+    |-- ISR_GPIO.c
+    |-- main.c
+    |-- statemachine_AB.c
+    |-- statemachine_button.c
+    |-- statemachine_displayLed.c
+    `-- userTasks.c
 \end{lstlisting}
 
-2. Definir los eventos que van a generar transiciones entre estados con un tipo definido "eSystemEvent":
+Se pueden observar dos directorios principales: \textit{inc} y \textit{src}. En \textit{inc} se incluyen los archivos de encabezados y en \textit{src} los archivos de código ejecutable. Existe un archivo principal o \textit{main} que es el que instancia las secuencias de incialización, recursos y tareas del sistema operativo. Las tareas, entendidas como los objetos activos y procesos del sistema, se implementan en los archivos \textit{userTasks}. Luego, para cada implementación de objeto activo existe una máquina de estados asociada en un archivo de encabezados y un archivo ejecutable con el prefijo \textit{statemachine}. Finalmente los archivos con el prefijo \textit{ISR} corresponden a las rutinas de interrupción.\\
+
+Esta organización permite encapsulamiento y modularidad entre componentes del sistema. Con ello se facilita el mantenimiento y con el uso de las mismas reglas de diseño y plantillas se facilita la escalabilidad.\\
+
+\subsection{RTOS: Sistema operativo de tiempo real}
+
+En este desarrollo se utiliza freeRTOS, una versión en C de un kernel de sistema operativo de tiempo real. La implementación se basa en la inclusión de los archivos FreeRTOS.h y FreeRTOSConfig.h. Esta implementación ha sido validada en arquitecturas ARM Cortex-M4, en particular en la plataforma EDU-CIAA. 
+
+En todos los casos que fue posible se utilizaron semáforos, colas y mutex para organizar y proteger el uso compartido de recursos. \\
+
+El caso de uso típico de \textit{mutex} es la interacción de distintas tareas con la misma interfaz UART-USB para imprimir mensajes por pantalla. \\
+
+Las colas, \textit{Queue}, se utilizan principalmente para comunicar eventos entre objetos activos. En todos los casos se referencian con handlers usando la nomenclatura \textit{queueHandle} \\
+
+Todas las tareas y recursos del sistema operativo se han protegido contra errores informando al usuario ante fallas en la instanciación previas al inicio del scheduler.
 
 \begin{lstlisting}[
 	language=C, 
 	backgroundcolor=\color{mygray},
-	style=nonumbers]
+	]
+   if( xTaskCreate( vTaskReadSerial, "Serial Comm reading task", 
+      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+2, &xTaskReadSerialHandler) 
+      == pdFAIL ) {
+      perror("Error creating task");
+\end{lstlisting}
+
+Se utilizan también punteros de tipo \textit{xTaskHandle}para referenciar las tareas del sistema operativo. Este tipo de referencias es de especial utilidad a la hora de crear o eliminar tareas de forma dinámica en tiempo de ejecución. También es posible usar estas referencias para comunicación interprocesos, o entre tareas.\\
+
+También se utilizan \textit{Timers} por software en aquellos casos que su uso facilita el mantenimiento, legibilidad y comprensión de la implementación. Especial cuidado de superposición o competición del reloj del sistema operativo se procura al disponer de componentes que tienen requisitos temporales que compiten entre si por prioridad del scheduler. Se verá en detalle la implementación del display Led como ejemplo.\\
+
+Finalmente, se han utilizado rutinas de interrupciones o \textit{ISR} en aquellos casos que se requiere respuesta inmediata, como el accionamiento manual de un interruptor o bien la comunicación del bus de datos del tren. El caso de uso de interrupciones se representa en la figura \ref{fig:ISR}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/ISR_semaphore.png}
+	\caption{Diagrama de secuencia que representa la interacción entre componentes del sistema operativo cuando se dispara una interrupción o ISR.}
+	\label{fig:ISR}
+\end{figure}
+
+El recurso de hardware que genera una interrupción (ISR) tiene asignado una función específica \textit{ISR callback} que entrega un semáforo que luego es tomado por una tarea de sistema (vHandlerTask). Esta última normalmente representa un objeto activo que actualiza una máquina de estado.\\
+
+\subsection{Patrones de software}
+\subsubsection{Máquinas de estado}
+El desarrollo de la arquitectura orientada a eventos propuesta se basa en la interacción de máquinas de estado usando objetos activos. En este trabajo las máquinas de estado se implementan sistemáticamente en C con siguiente estructura:
+
+\begin{enumerate}
+\item Representar los estados y eventos con un diagrama de máquina de estados.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.66\textwidth]{./Figures/statemachineAB.png}
+	\caption{Diagrama de la máquina de estados AB ejemplo.}
+	\label{fig:fsmAB}
+\end{figure}
+
+\item Definir los estados. Usar tipo enumerativo definido como \textit{eSystemState}:
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	]
+typedef enum {
+    STATE_INIT,
+	STATE_A,
+	STATE_B
+	} eSystemState;
+\end{lstlisting}
+
+\item Definir los eventos. Los eventos representan transiciones entre estados con un tipo definido \textit{eSystemEvent}:
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	]
 typedef enum{
 	evInit,
-	evReceive,
-	evHeader,
-	evTrailer
-} eSystemEvent;
+	evTimeout
+	} eSystemEvent;
 \end{lstlisting}
 
-3. A partir de un diagrama de la máquina de estados en cuestión, 
-definir un tipo puntero a función definido como "*pfEventHandler()":
+\item Definir un tipo puntero a función para designar los handlers como \textit{*pfEventHandler()}:
 
 \begin{lstlisting}[
 	language=C, 
 	backgroundcolor=\color{mygray},
-	style=nonumbers]
+	]
 typedef eSystemState (*pfEventHandler)(void);
 \end{lstlisting}
 
-4: Definir una estructura para la máquina de estados con un tipo definido "sStateMachine" que incluya una variable estado (eSystemState), una variable evento (eSystemEvent) y un puntero a función (pfEventHandler). El puntero a función será una instancia de handler específico que maneje las transiciones entre estados. 
+\item Definir una estructura para la máquina de estados con un tipo \textit{sStateMachine}. Esta estructura debe incluir una variable estado (eSystemState), una variable evento (eSystemEvent) y un puntero a función (pfEventHandler). El puntero a función será una instancia de handler específico que maneje las transiciones entre estados. 
 
 \begin{lstlisting}[
 	language=C, 
 	backgroundcolor=\color{mygray},
-	style=nonumbers]
+	]
 typedef struct{
 	eSystemState 		fsmState;
 	eSystemEvent 		fsmEvent;
@@ -387,100 +451,113 @@ typedef struct{
 } sStateMachine;
 \end{lstlisting}
 
-De esta manera queda desacoplada la implentación de los handlers del resto de la estructura de la máquina de estados, logrando portabilidad, escala y modularidad. Los handlers serán funciones que se implementan con el sufico Handler() y que por definición tienen un solo argumento de tipo void.
-
-5. Definir los handlers a implementar para el manejo de ejecución y transiciones entre estados.
+\item Definir los handlers a implementar para el manejo de ejecución y transiciones entre estados.
 
 \begin{lstlisting}[
 	language=C, 
 	backgroundcolor=\color{mygray},
-	style=nonumbers]
-
-eSystemState 	InitHandler(void)		;
-eSystemState 	ListeningHandler(void)	;
-eSystemState 	HeaderHandler(void)		;
-eSystemState 	TrailerHandler(void) 	;
-
+	]
+eSystemState 	InitHandler(void);
+eSystemState 	AtoBHandler(void);
+eSystemState 	BtoAHandler(void);
 \end{lstlisting}
 
-Con esta técnica de desacoplamiento, se implementan dos archivos por cada máquina de estado : uno de encabezados (stateMachine.h) con las definiciones de los puntos 1 a 4 y otro con la implementación (stateMachine.c) de los handlers.
-
-Una implementación de handler a modo de ejemplo se presenta a continuación.
+\item Instanciar la máquina de estados como un arreglo de estructuras de tipo \textit{sStateMachine}. Para el ejemplo de la máquina AB la instancia de arreglo de estructuras sería la siguiente:
 
 \begin{lstlisting}[
 	language=C, 
 	backgroundcolor=\color{mygray},
-	style=nonumbers]
-eSystemState 	TrailerHandler(void){ 
-	printf("STATE_TRAILER;\n");
-	return STATE_LISTENING; 
-}
-\end{lstlisting}
-
-6. Finalmente, cada implementación de máquina de estado debe definir la instancia de la máquina de estados propiamente dicha con un arreglo de estructuras definido como "sStateMachine fsmStateMachine []". Este arreglo de estructuras máquina de estados se define a partir de los estados, sus transiciones y los handlers correspondientes. En este punto es mandatorio incluir un diagrama de la máquina de estados.
-
-\begin{lstlisting}[
-	language=C, 
-	backgroundcolor=\color{mygray},
-	style=nonumbers]
-
-sStateMachine fsmTest [] = 
+	]
+sStateMachine_AB fsmMachineAB [] = 
 {
-	{STATE_INIT, evInit, InitHandler},
-	{STATE_LISTENING, evReceive, ListeningHandler},
-	{STATE_HEADER, evReceive, HeaderHandler},
-	{STATE_TRAILER, evReceive, TrailerHandler}
+	{STATE_INIT_AB, evInit_AB, InitHandler_AB},
+	{STATE_A, evTimeout_A, AtoBHandler},
+	{STATE_B, evTimeout_B, BtoAHandler}
 };
 \end{lstlisting}
 
-
-El diagrama para esta máquina es el siguiente:
+\item Escribir el código ejecutable de los handlers. Una implementación de handler a modo de ejemplo se presenta a continuación.
 
 \begin{lstlisting}[
 	language=C, 
 	backgroundcolor=\color{mygray},
-	style=nonumbers]
+	]
+eSystemState 	InitHandler(void){ 
+	printf("State Machine Init...\n");
+	return STATE_A; 
+}
 \end{lstlisting}
 
+\end{enumerate}
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{./Figures/stateMachineUARTv1.png}
-	\caption{Diagrama del objeto activo de la máquina de estados asociada.}
-	\label{fig:fsmUARTv1}
-\end{figure}
+De esta manera queda desacoplada la implentación de los handlers del resto de la estructura de la máquina de estados, logrando portabilidad, escala y modularidad. Los handlers serán funciones que se implementan con el sufijo Handler() y que por definición tienen un solo argumento de tipo void.
 
+Con esta técnica de desacoplamiento, se implementan dos archivos por cada máquina de estado : uno de encabezados (stateMachine.h) con las definiciones y otro con la implementación (stateMachine.c) de los handlers.
+
+
+
+
+\subsubsection{Objeto Activo}
 	
+Los objetos activos se implementan en esta aplicación como tareas de freeRTOS con dos superciclos de tipo \textit{while(true)}, como se muestra en el siguiente fragmento de código: 
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	]
+void vTaskAB(void *xTimerHandle)
+{
+   (void)xTimerHandle;
+
+   // Task successful creation message
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("Task AB is running.\r\n");
+      xSemaphoreGive(xMutexUART);
+   }
+
+   while(true){
+      
+      // State machine init
+      eSystemEvent_AB newEvent	=	evInit_AB;
+      eSystemState_AB nextState	=	STATE_INIT_AB;
+      fsmMachineAB[nextState].fsmEvent = newEvent; 
+      nextState = (*fsmMachineAB[nextState].fsmHandler)();
+
+      // Active object
+      while(true){
+        if( pdPASS == xQueueReceive(queueHandle_AB, &newEvent, portMAX_DELAY)){
+            fsmMachineAB[nextState].fsmEvent = newEvent; 
+            nextState = (*fsmMachineAB[nextState].fsmHandler)();
+         }
+      }
+   }
+}
+\end{lstlisting}
+
+Notar que el primer ciclo while() es el que corresponde al funcionamiento normal de una tarea o proceso de RTOS. En este caso es el encargado de inicializar la máquina de estados asociada al objeto activo. El segundo ciclo while()de la línea 20 está anidado y se encarga de bloquear la tarea hasta que se reciba un evento. La interfaz del objeto activo es una cola FIFO con la función de sistema xQueueReceive() de la línea 21. Si se recibe un evento, entonces se actualiza el estado de la máquina instanciando el handler que corresponda, como se observa en la línea 25. El diagrama de la figura \ref{fig:AOfsmAB} representa el objeto activo detallado. 
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.85\textwidth]{./Figures/AOstatemachineAB.png}
+	\caption{Diagrama del objeto activo de la máquina de estados AB ejemplo.}
+	\label{fig:AOfsmAB}
+\end{figure}
+
+En este caso la tarea recibe una referencia a un timer (\textit{xTimerHandle}) que genera eventos de timeout y los encola en la interfaz del objeto activo. Con la misma interfaz, los eventos podrían ser generados también por otros objetos activos o por rutinas de interrupción.\\
+
+
+
+
 \pagebreak
-\section{Patrones}
-
-
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{./Figures/estructuraCodigos.png}
-	\caption{Estructura del código en C.}
-	\label{fig:codestructure}
-\end{figure}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{./Figures/fsmTrain.png}
-	\caption{Diagrama del objeto activo PIDS y detalle de la máquina de estados asociada.}
-	\label{fig:fsmTrain}
-\end{figure}
-
-\pagebreak
-\section{Firmware}
+\subsection{Componentes}
 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{./Figures/fsmUART.png}
-	\caption{Diagrama de detalle de la implementación en RTOS del objeto activo UART.}
-	\label{fig:fsmUART}
+	\includegraphics[width=1\textwidth]{./Figures/diagVistaDisenhoExtendida.png}
+	\caption{Vista de interacciones extendida del sistema propuesto.}
+	\label{fig:diagVistaDisenhoExtendida}
 \end{figure}
-
 
 \begin{figure}[ht]
 	\centering
@@ -490,7 +567,8 @@ El diagrama para esta máquina es el siguiente:
 \end{figure}
 
 \pagebreak
-\section{Hardware}
+\subsubsection{Display LED}
+
 
 \begin{figure}[ht]
 	\centering
@@ -512,3 +590,7 @@ El diagrama para esta máquina es el siguiente:
 	\caption{Lógica de procesamiento de datos para visualizar en el display.}
 	\label{fig:displayDataLogic}
 \end{figure}
+\subsubsection{Controlador}
+\pagebreak
+\subsection{Interfaces}
+\subsection{Vistas de sistema}
