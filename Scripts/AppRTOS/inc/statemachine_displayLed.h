@@ -10,11 +10,11 @@
 typedef enum {
 	
 	STATE_DISPLAY_INIT,
+	STATE_DISPLAY_IDLE,
+	STATE_DISPLAY_PROCESSING,	
 	STATE_DISPLAY_ENCODING,
 	STATE_DISPLAY_LATCH,
-	STATE_DISPLAY_OUTPUT_ENABLE,
-	STATE_DISPLAY_WAITING,
-	STATE_DISPLAY_IDLE
+	STATE_DISPLAY_OUTPUT_ENABLE
 
 } eSystemState_displayLed;
 
@@ -24,7 +24,7 @@ typedef enum{
 	evDisplay_msg_received,
 	evDisplay_ready,
 	evDisplay_timeout,
-	evDisplay_msg_transmited
+	evDisplay_empty
 
 } eSystemEvent_displayLed;
 
@@ -40,6 +40,7 @@ typedef struct{
 
 eSystemState_displayLed 	displayled_initHandler(void);
 eSystemState_displayLed 	displayled_idleHandler(void);
+eSystemState_displayLed 	displayled_procHandler(void);
 eSystemState_displayLed 	displayled_dataHandler(void);
 eSystemState_displayLed 	displayled_latchHandler(void);
 eSystemState_displayLed 	displayled_waitingHandler(void);

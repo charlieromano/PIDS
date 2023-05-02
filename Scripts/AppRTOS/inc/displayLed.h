@@ -29,6 +29,10 @@
 
 #define     DISPLAY_MAX_ROWS 16
 
+#define     CHAR_LENGTH     8 
+#define     DISPLAY_ROWS    8   
+#define     DISPLAY_COLS    8
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -39,14 +43,11 @@ void displayInit(void);
 
 void vTaskDisplayLed( void *pvParameters );
 void vTaskDisplayLedTest( void *pvParameters );
+
 void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *array_out);
-
-void msgToData(uint8_t *str_in, uint8_t strlen, uint8_t *array_out);
-
-void dataToPanelRows(uint8_t *array_in, uint8_t array_len, uint8_t *rows_out);
-
-void panelRowsToDisplayEncode(uint8_t *panel_in, uint8_t panel_len, uint8_t *display_out);
-
+void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size);
+void printBinaryArray(uint8_t *buffer, uint8_t len, uint8_t size);
+void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buffer_in, uint8_t len_buffer_out);
 
 #ifdef __cplusplus
 }
