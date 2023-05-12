@@ -1,10 +1,8 @@
 \chapter{Desarrollo} % Main chapter title
 
-En este capítulo se presentan los requerimientos y la solución propuesta. Se describe la arquitectura, algunos patrones de software, técnicas de concurrencia utilizadas y distintas vistas de despliegue, tanto a nivel de interacción entre componentes como las secuencias de los casos de uso.\\
+En este capítulo se presentan los requerimientos del sistema y la solución propuesta. En el desarrollo se utiliza la plataforma de hardware EDU-CIAA\cite{CIAA}, la API Firmware\_ v3\cite{firmwareV3}, y freeRTOS\cite{freeRTOS} como sistema operativo de tiempo real.\\
 
- En este trabajo se usa la plataforma de hardware EDU-CIAA\cite{CIAA}, la API desarrollada bajo el nombre de Firmware\_ v3\cite{firmwareV3}, y el sistema operativo de tiempo real FreeRTOS\cite{freeRTOS}.\\
-
-Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se presentan el desarrollo en el siguiente orden: requerimientos, funcionalidades y casos de uso principales como ejes del espacio problema; arquitectura, patrones, firmware y hardware para describir el espacio solución.\\
+Se presenta el desarrollo siguiendo lineamientos de ingeniería de software en el siguiente orden: requerimientos, funcionalidades y casos de uso principales como ejes del espacio problema; arquitectura, patrones de software involucrados, técnicas de concurrencia, diagramas de secuencia, de interacción entre componentes, organización del firmware y planos de hardware para describir el espacio solución.\\
 
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
@@ -52,10 +50,7 @@ Siguiendo los lineamientos del marco de trabajo en ingeniería de software, se p
 
 \section{Requerimientos}
 
- El objetivo principal de este trabajo es diseñar e implementar un sistema de información visual
-para pasajeros a bordo del tren. 
-
-Está dirigido a:
+ El objetivo principal de este trabajo es diseñar e implementar un sistema de información visual para pasajeros a bordo del tren. Está dirigido a:
 \begin{enumerate}
 \item Todos los  miembros del grupo de trabajo GICSAFE y SOFSE que participan de proyectos orientados a cubrir necesidades tecnológicas del sistema ferroviario argentino.
 \item Alumnos y personal académico con intenciones de participar en proyectos de desarrollo aplicados a la industria.
@@ -138,17 +133,16 @@ Por último se explicita que para el desarrollo del presente proyecto se asume q
 \item No habrá dependencias directas con otros proyectos enmarcados en el mismo PDE\cite{PDE-TCN}.
 \item No habrá dificultad ni excesivas demoras en la compra de los componentes electrónicos o
 de software necesarios.
-\item Se contará con recursos y materiales necesarios para validar los test realizados.
+\item Se contará con recursos y materiales necesarios para validar las pruebas realizadas.
 Trenes Argentinos dará acceso a una formación ferroviaria con red TCN para realizar
 pruebas de campo.
-\item El Sistema de Información al Pasajero se va a montar sobre el sistema PIDS existente de
+\item El Sistema de Información al Pasajero se va a instalar en el sistema PIDS existente de
 las formaciones ferroviarias en operación.
-\item El sistema de información al pasajero no se va a montar sobre redes TCN de tiempo real
+\item El sistema de información al pasajero no se va a instalar en redes TCN de tiempo real
 basadas en Ethernet (ETB/ECN).
 \end{itemize}
 
 
-\pagebreak
 \section{Casos de Uso}
 Los casos de uso planteados se presentan como respuesta a historias de usuario. Las historias de usuario principales propuestas en este trabajo son:
 \begin{itemize}
@@ -159,7 +153,8 @@ Los casos de uso planteados se presentan como respuesta a historias de usuario. 
 \end{itemize}
 
 Estas historias de usuario presentan cuatro tipos distintos de usuarios: pasajeros, conductores, sistemas de información al pasajero, y componentes internos del sistema. Con esta oferta de usuarios de sistema se busca definir funcionalidad y casos de uso. Los principales casos de uso del sistema se presentan en la tabla \ref{tab:UseCases}. \\
- 	
+
+\begin{center}
 \begin{table}[htb]
 \begin{tabular}{|l|l|}
 \hline
@@ -172,8 +167,9 @@ PIDS-UC-04  & Receptor de tramas       \\ \hline
 	\caption{Tabla de casos de uso.}
 	\label{tab:UseCases}
 \end{table}
+\end{center}
 
-El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a una estación y presenta información visual al pasajero usando los carteles LED de salón. El UC-2 resuelve una acción del conductor al presionar un botón, y presenta también información visual al pasajero, en este caso las estaciones cabecera del recorrido que se visualizan en los carteles LED de frente y contrafrente del tren. El tercer caso de uso, UC-3, presenta información de asistencia previamente cargada y que se dispara por acción de un timer mientras el tren está en circulación. Por último, el caso de uso UC-4 involucra al módulo SCU de la red PIDS y a un sistema externo, como puede ser una computadora de un operador, para decodificar las tramas de datos recibidas desde el SCU.\\
+El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a una estación y presenta información visual al pasajero usando los carteles LED de salón. El UC-2 resuelve una acción del conductor al presionar un botón, y presenta también información visual al pasajero, en este caso las estaciones cabecera del recorrido que se visualizan en los carteles LED de frente y contrafrente del tren. El tercer caso de uso, UC-3, presenta información de asistencia previamente cargada que se dispara por acción de un timer mientras el tren está en circulación. Por último, el caso de uso UC-4 involucra al módulo SCU (ver \ref{fig:diagramaPIDS} de la red PIDS y a un sistema externo, como puede ser una computadora de un operador u otro componente de la red, para decodificar las tramas de datos recibidas desde el SCU.\\
 
 
 \begin{table}[]
@@ -202,6 +198,7 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 \multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema PIDS envía la trama a la Red TCN con destino al subsistema HMI.} \\
  
 \multicolumn{1}{|l|}{{ }} & \multicolumn{1}{l|}{{ }} & { El subsistema HMI recibe la trama generada por el PIDS y presenta en display el mensaje a visualizar.} \\
+\hline
  
 \multicolumn{1}{|r|}{{ 2.2}} & \multicolumn{1}{l|}{{ Flujo alternativo}} & { El tren se queda detenido en la estación.} \\
  
@@ -230,9 +227,9 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 \newpage
 \section{Arquitectura}
 
-El sistema PIDS de Trenes Argentinos sigue una arquitectura específica que está relacionada con la implementación de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes de esa arquitectura que tienen relación con los componentes del sistema propuesto.\\
+El sistema PIDS de Trenes Argentinos sigue una arquitectura que está relacionada con la implementación de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes de esa arquitectura que tienen relación con los componentes del sistema propuesto.\\
 
-El sistema diseñado en este trabajo sigue una arquitectura orientada a eventos. Se desarrollaron e implementaron distintos patrones de software a lo largo del trabajo buscando propiedades de modularidad, portabilidad y escalabilidad. Algunos de los objetos implementados se describen a nivel de detalle para resaltar criterios y decisiones de diseño relevantes. \\
+El sistema diseñado en este trabajo sigue una arquitectura orientada a eventos. Se desarrollaron e implementaron distintos patrones de software a lo largo del trabajo buscando satisfacer propiedades de modularidad, portabilidad y escalabilidad. Algunos de los objetos implementados se describen a nivel de detalle para resaltar criterios y decisiones de diseño relevantes. \\
 
 La relación entre la arquitectura existente del PIDS de trenes y la arquitectura del sistema embebido basado en la plataforma CIAA busca satisfacer por un lado la compatibilidad eléctrica de hardware y por otro las historias de usuario planteadas en los casos de uso en la etapa de definición de requerimientos. \\
 
@@ -249,7 +246,7 @@ El sistema PIDS forma parte de una solución integral, la red de comunicaciones 
 	\label{fig:diagTrenTcnPids}
 \end{figure}
 
-La red TCN dispone define una comunicación usando dos buses jerárquicos llamados WTB y MVB. El sistema PIDS se interconecta al bus de datos MVB, como se indica en el diagrama de la figura \ref{fig:diagTcnPidsBuusesWtbMvb}.\\
+La red TCN define una comunicación estándar usando dos buses jerárquicos llamados WTB(Wire Train Bus) y MVB (Multifunction Vehicle Bus). El sistema PIDS se interconecta al bus de datos MVB, como se indica en el diagrama de la figura \ref{fig:diagTcnPidsBuusesWtbMvb}.\\
 
 
 \begin{figure}[ht]
@@ -279,10 +276,10 @@ Al módulo SCU se conectan las unidades IDU, que corresponden a los display LED 
 	\label{fig:diagScuDriverDisplay}
 \end{figure}
 
-El alcance del sistema desarrollado en este trabajo cubre la funcionalidad de este conjunto de bloques Driver + Display, que en la nomenclatura del sistema PIDS existente corresponde a los módulos IDU. Existen dos unidades de estos módulos por cada salón. Comunmente un tren tiene siete salones, por lo que se tiene un mínimo de catorce unidades IDU más dos displays externos adicionales para el frente y contrafrente del tren que indican las estaciones cabecera del recorrido, dando un total aproximado de dieciséis unidades de control de display por cada tren.\\
+El alcance del sistema desarrollado en este trabajo cubre la funcionalidad de este conjunto de bloques Driver + Display, que en la nomenclatura del sistema PIDS existente corresponde a los módulos IDU. Existen dos unidades de estos módulos por cada salón o coche.\\
 
+Comúnmente un tren tiene siete coches en las formaciones de SOFSE, por lo que se tiene un mínimo de catorce unidades IDU más dos displays externos adicionales para el frente y contrafrente del tren que indican las estaciones cabecera del recorrido. Esto resulta en un total de dieciséis unidades de control de display por cada tren. Teniendo en cuenta las formaciones operativas de las líneas Mitre, Sarmiento y Roca del Área Metropolitana de Buenos Aires (AMBA), se puede estimar alrededor de treinta trenes operando en simultáneo, lo que resulta en aproximadamente 500 unidades de displays operando en vivo. El impacto que puede tener el aporte de este trabajo estará directamente relacionado con la operación de Trenes Argentinos y definitivamente puede contribuir a la extensión de la vida útil de los trenes.\\
 
-\pagebreak
 \subsection{Diseño}
 La propuesta de diseño busca cubrir las funcionalidades del bloque de control del display LED. El display LED es una unidad que se puede adquirir comercialmente. Sin embargo el driver para la red PIDS es una solución propietaria del fabricante y es la que se busca reemplazar con este desarrollo.\\
 
@@ -305,10 +302,11 @@ A nivel lógico, el sistema que se propone consiste en cuatro objetos activos qu
 	\label{fig:diagVistaDisenho}
 \end{figure}
 
-El objeto activo UART es el encargado de recibir e interpretar las tramas de datos que viajan por la red RS485 del bus de datos del SCU.
+El objeto activo UART es el encargado de recibir e interpretar las tramas de datos que viajan por la red RS485 del bus de datos del SCU. El objeto activo fsmButton es el control manual del operador para accionar el sistema. El objeto activo fsmTrain es una máquina de estados que representa el estado del tren y es el que contiene los mensajes y nombres de las estaciones. El objeto activo Display es el encargado de codificar los mensajes en el formato correspondiente a la matriz led del display.\\
+
+Esta vista de interacción entre objetos indica la dependencia funcional de los componentes del sistema. Su diseño modular permite hacer cambios en los componentes de sistema de forma independiente. Por ejemplo se podrían reemplazar los mensajes al pasajero en el objeto fsmTrain sin afectar el resto del sistema, o bien reemplazar la lógica de control del display si fuera necesario cambiar la tecnología de control del display led modificando únicamente el objeto Display.\\
 
 
-\pagebreak
 \section{Implementación}
 En este trabajo se implementa un sistema embebido en lenguaje C usando el sistema operativo de tiempo real freeRTOS sobre una arquitectura de 32 bits ARM Cortex-M4/M0. La plataforma de hardware elegida es la CIAA-EDU-NXP, que dispone de un microcontrolador LPC4337 de la companía NXP (\cite{NXPLPC4337}).\\
  
@@ -316,7 +314,7 @@ Se ha utilizado la \textit{SAPI} y el \textit{firmwareV3} \cite{firmwarev3}, com
  
 En el desarrollo del firmware se ha preferido el uso de plantillas para implementar patrones de software como máquinas de estado y objetos activos, de manera que se facilite la documentación y testing y con ello el mantenimiento y la escalabilidad. Se describen los lineamientos y fragmentos de código principales en la sección de patrones de software.\\
 
-Finalmente se dedica una sección a nivel de detalle para la implementación del controlador del diplay led. El firmware busca ser portable a aquellas versiones de hardware de display basadas en conjunto de chips 74HC245, 74HC595 y 74HC138 o equivalentes de compuertas digitales. \\
+Finalmente se dedica una sección a nivel de detalle para la implementación del controlador del diplay led. El firmware busca ser portable a aquellas versiones de hardware de display basadas en el conjunto de chips 74HC245, 74HC595 y 74HC138 o equivalentes de compuertas digitales. \\
 
 
 \subsection{Organización del código fuente}
@@ -360,9 +358,31 @@ En este desarrollo se utiliza freeRTOS, una versión en C de un kernel de sistem
 
 En todos los casos que fue posible se utilizaron semáforos, colas y mutex para organizar y proteger el uso compartido de recursos. \\
 
-El caso de uso típico de \textit{mutex} es la interacción de distintas tareas con la misma interfaz UART-USB para imprimir mensajes por pantalla. \\
+El caso de uso típico de \textit{mutex} es la interacción de distintas tareas con la misma interfaz UART-USB para imprimir mensajes por pantalla. En el código fuente de cada objeto implementado se utiliza la siguiente plantilla para proteger el recurso evitando accesos múltiples y posibilidad de deadlock:\\
 
-Las colas, \textit{Queue}, se utilizan principalmente para comunicar eventos entre objetos activos. En todos los casos se referencian con handlers usando la nomenclatura \textit{queueHandle} \\
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	]
+if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+   vPrintString("Task AB is running.\r\n");
+   xSemaphoreGive(xMutexUART);
+}
+\end{lstlisting}
+
+Las colas, \textit{Queue}, se utilizan principalmente para comunicar eventos entre objetos activos. En todos los casos se referencian con handlers usando la nomenclatura con prefijo \textit{queueHandle}. En el siguiente fragmento de código se muestra un ejemplo, exibiendo los mecanismos de control de errores usados. \\
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	]
+queueHandle_button = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
+if (queueHandle_button == NULL){
+    perror("Error creating queue");
+    return 1;
+}
+\end{lstlisting}
+
 
 Todas las tareas y recursos del sistema operativo se han protegido contra errores informando al usuario ante fallas en la instanciación previas al inicio del scheduler.
 
@@ -370,10 +390,11 @@ Todas las tareas y recursos del sistema operativo se han protegido contra errore
 	language=C, 
 	backgroundcolor=\color{mygray},
 	]
-   if( xTaskCreate( vTaskReadSerial, "Serial Comm reading task", 
-      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+2, &xTaskReadSerialHandler) 
-      == pdFAIL ) {
-      perror("Error creating task");
+if( xTaskCreate( vTaskReadSerial, "Serial Comm reading task", 
+    configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+2, &xTaskReadSerialHandler) 
+    == pdFAIL ) {
+    perror("Error creating task");
+}
 \end{lstlisting}
 
 Se utilizan también punteros de tipo \textit{xTaskHandle}para referenciar las tareas del sistema operativo. Este tipo de referencias es de especial utilidad a la hora de crear o eliminar tareas de forma dinámica en tiempo de ejecución. También es posible usar estas referencias para comunicación interprocesos, o entre tareas.\\
@@ -392,8 +413,10 @@ Finalmente, se han utilizado rutinas de interrupciones o \textit{ISR} en aquello
 El recurso de hardware que genera una interrupción (ISR) tiene asignado una función específica \textit{ISR callback} que entrega un semáforo que luego es tomado por una tarea de sistema (vHandlerTask). Esta última normalmente representa un objeto activo que actualiza una máquina de estado.\\
 
 \subsection{Patrones de software}
+En este desarrollo se ha hecho uso extensivo de los patrones máquina de estado, objeto activo, pipeline, observ and react, y superciclo. Se presenta en detalle el formato de plantillas desarrollado en C para freeRTOS.\\
+
 \subsubsection{Máquinas de estado}
-El desarrollo de la arquitectura orientada a eventos propuesta se basa en la interacción de máquinas de estado usando objetos activos. En este trabajo las máquinas de estado se implementan sistemáticamente en C con siguiente estructura:
+El desarrollo de la arquitectura orientada a eventos propuesta se basa en la interacción de máquinas de estado usando objetos activos. En este trabajo las máquinas de estado se implementan sistemáticamente en C con el siguiente procedimiento paso a paso:
 
 \begin{enumerate}
 \item Representar los estados y eventos con un diagrama de máquina de estados.
@@ -404,32 +427,36 @@ El desarrollo de la arquitectura orientada a eventos propuesta se basa en la int
 	\label{fig:fsmAB}
 \end{figure}
 
-\item Definir los estados. Usar tipo enumerativo definido como \textit{eSystemState}:
-
-\begin{lstlisting}[
-	language=C, 
-	backgroundcolor=\color{mygray},
-	]
-typedef enum {
-    STATE_INIT,
-	STATE_A,
-	STATE_B
-	} eSystemState;
-\end{lstlisting}
-
-\item Definir los eventos. Los eventos representan transiciones entre estados con un tipo definido \textit{eSystemEvent}:
+\item Definir los estados. Usar tipo enumerativo definido con el prefijo \textit{eSystemState}:
 
 \begin{lstlisting}[
 	language=C, 
 	backgroundcolor=\color{mygray},
 	]
 typedef enum{
-	evInit,
-	evTimeout
-	} eSystemEvent;
+
+    STATE_INIT,
+	STATE_A,
+	STATE_B
+
+} eSystemState;
 \end{lstlisting}
 
-\item Definir un tipo puntero a función para designar los handlers como \textit{*pfEventHandler()}:
+\item Definir los eventos. Los eventos representan transiciones entre estados con un tipo definido con el prefijo \textit{eSystemEvent}:
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	]
+typedef enum{
+
+	evInit,
+	evTimeout
+
+} eSystemEvent;
+\end{lstlisting}
+
+\item Definir un tipo puntero a función para designar los handlers con el prefijo \textit{*pfEventHandler()}:
 
 \begin{lstlisting}[
 	language=C, 
@@ -445,9 +472,11 @@ typedef eSystemState (*pfEventHandler)(void);
 	backgroundcolor=\color{mygray},
 	]
 typedef struct{
-	eSystemState 		fsmState;
-	eSystemEvent 		fsmEvent;
-	pfEventHandler 		fsmHandler;
+
+	eSystemState  	fsmState;
+	eSystemEvent  	fsmEvent;
+	pfEventHandler	fsmHandler;
+
 } sStateMachine;
 \end{lstlisting}
 
@@ -499,7 +528,7 @@ Con esta técnica de desacoplamiento, se implementan dos archivos por cada máqu
 
 \subsubsection{Objeto Activo}
 	
-Los objetos activos se implementan en esta aplicación como tareas de freeRTOS con dos superciclos de tipo \textit{while(true)}, como se muestra en el siguiente fragmento de código: 
+Los objetos activos se implementan en esta aplicación como tareas de freeRTOS con dos superciclos anidados de tipo \textit{while(true)}, como se muestra en el siguiente fragmento de código: 
 
 \begin{lstlisting}[
 	language=C, 
@@ -534,7 +563,7 @@ void vTaskAB(void *xTimerHandle)
 }
 \end{lstlisting}
 
-Notar que el primer ciclo while() es el que corresponde al funcionamiento normal de una tarea o proceso de RTOS. En este caso es el encargado de inicializar la máquina de estados asociada al objeto activo. El segundo ciclo while()de la línea 20 está anidado y se encarga de bloquear la tarea hasta que se reciba un evento. La interfaz del objeto activo es una cola FIFO con la función de sistema xQueueReceive() de la línea 21. Si se recibe un evento, entonces se actualiza el estado de la máquina instanciando el handler que corresponda, como se observa en la línea 25. El diagrama de la figura \ref{fig:AOfsmAB} representa el objeto activo detallado. 
+Notar que el primer ciclo while() es el que corresponde al funcionamiento normal de una tarea o proceso de RTOS. En este caso es el encargado de inicializar la máquina de estados asociada al objeto activo. El superciclo while() de la línea 20 se encarga de bloquear la tarea hasta que se reciba un evento por la interfaz (cola de eventos). La interfaz del objeto activo es una cola FIFO con la función de sistema xQueueReceive() (línea 21). Si se recibe un evento, entonces se actualiza el estado de la máquina instanciando el handler que corresponda, como se observa en la línea 25. El diagrama de la figura \ref{fig:AOfsmAB} representa el objeto activo detallado. 
 
 \begin{figure}[ht]
 	\centering
@@ -543,7 +572,7 @@ Notar que el primer ciclo while() es el que corresponde al funcionamiento normal
 	\label{fig:AOfsmAB}
 \end{figure}
 
-En este caso la tarea recibe una referencia a un timer (\textit{xTimerHandle}) que genera eventos de timeout y los encola en la interfaz del objeto activo. Con la misma interfaz, los eventos podrían ser generados también por otros objetos activos o por rutinas de interrupción.\\
+En este caso la tarea recibe una referencia a un timer (\textit{xTimerHandle}) que genera eventos de timeout y los encola en la interfaz del objeto activo. Con la misma interfaz, los eventos podrían ser generados también por otros objetos activos o por rutinas de interrupción, tal como se indica en la figura.\\
 
 
 
