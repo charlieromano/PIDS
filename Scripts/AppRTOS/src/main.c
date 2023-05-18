@@ -131,15 +131,38 @@ int main( void )
 /* display Led */
 /***************************************************************************/
 
-   if( xTaskCreate( vTaskDisplayLedTest, "Display Led task", 
-      configMINIMAL_STACK_SIZE*8, NULL, tskIDLE_PRIORITY+1, 
-      &xTaskDisplayLedHandler) == pdFAIL ) {
-      perror("Error creating task");
+   if( (timerHandle_displayLed = xTimerCreate( "Timer displayLed", 5000, true, NULL, 
+      timerCallback_displayLed)) == NULL ) {
+      perror("Error creating timer");
       return 1;
    }
 
+   if(xTimerStart(timerHandle_displayLed, 0) != pdPASS){
+      perror("Error starting timer");
+      return 1;      
+   }
+
+   queueHandle_displayLed = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_displayLed));
+   if (queueHandle_displayLed == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+
+   if( xTaskCreate( vTaskDisplayLedTest, "Display Led task", 
+      configMINIMAL_STACK_SIZE*8, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskDisplayLedTestHandler) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
 /*
+vTaskDisplayLed
 */
+   if( xTaskCreate( vTaskDisplayLed, "Display Led State Machine task", 
+      configMINIMAL_STACK_SIZE*8, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskStateMachineHandler_displayLed) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
 
 /***************************************************************************/
 /* RTOS start */

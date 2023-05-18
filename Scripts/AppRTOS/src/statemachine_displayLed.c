@@ -13,16 +13,25 @@ extern gpioMap_t    panel_1;
 extern QueueHandle_t        queueHandle_displayLed;
 extern SemaphoreHandle_t    xMutexUART;
 
+/*
 sStateMachine_displayLed fsmDisplayLed[] = 
 {
 	{STATE_DISPLAY_INIT, evDisplayInit, displayled_initHandler},
     {STATE_DISPLAY_IDLE, evDisplay_msg_received, displayled_idleHandler},
     {STATE_DISPLAY_PROCESSING, evDisplay_ready, displayled_procHandler},
 	{STATE_DISPLAY_ENCODING, evDisplay_ready, displayled_dataHandler},
-	{STATE_DISPLAY_LATCH, evDisplay_ready, displayled_latchHandler},
 	{STATE_DISPLAY_OUTPUT_ENABLE,  evDisplay_timeout, displayled_outputHandler}
 };
+*/
 
+sStateMachine_displayLed fsmDisplayLed[] = 
+{
+    {STATE_DISPLAY_INIT, evDisplayInit, displayled_initHandler},
+    {STATE_DISPLAY_IDLE, evDisplay_timeout, displayled_idleHandler},
+    {STATE_DISPLAY_PROCESSING, evDisplay_timeout, displayled_procHandler},
+    {STATE_DISPLAY_ENCODING, evDisplay_timeout, displayled_dataHandler}
+
+};
 
 // Settings 
 static  uint8_t      display_size = DISPLAY_ROWS*DISPLAY_COLS;
@@ -33,6 +42,7 @@ uint8_t      display_deco_cnt;
 // Globals
 static char             *msg_ptr = NULL;
 static volatile uint8_t  msg_flag = 0;
+static uint8_t buf_idx;
 
 
 eSystemState_displayLed 	displayled_initHandler(void){
@@ -46,34 +56,52 @@ eSystemState_displayLed 	displayled_initHandler(void){
     buf_idx            = 0;
     display_buffer_idx = 0;
 	display_deco_cnt   = 0;
+   
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("STATE_DISPLAY_INIT\r\n");
+      xSemaphoreGive(xMutexUART);
+   }
+     
 
     // Clear whole buffer
-    memset(display_buffer, 0, display_size);
-  
+    //memset(display_buffer, 0, display_size);
 	return STATE_DISPLAY_IDLE;
 }
 
 eSystemState_displayLed 	displayled_idleHandler(void){
 /*
-*/
     if (msg_flag == 1) {
 
         vPortFree(msg_ptr);
         msg_ptr = NULL;
         msg_flag = 0;
 
-        return STATE_DISPLAY_PROCESSING;
     }
+*/
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("STATE_DISPLAY_IDLE\r\n");
+      xSemaphoreGive(xMutexUART);
+   }        
+
+       return STATE_DISPLAY_PROCESSING;
+//        return STATE_DISPLAY_INIT;
+
 }
 
 eSystemState_displayLed 	displayled_procHandler(void){
 
-    char *str1;
-    strcpy(str1, msg_ptr);
+//    char *str1;
+    char str1[]="Hola msg";
     uint8_t str1_len=strlen(str1);
     uint8_t buffer_size=str1_len*CHAR_LENGTH;
     uint8_t buffer[buffer_size];
 
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("STATE_DISPLAY_PROCESSING\r\n");
+      xSemaphoreGive(xMutexUART);
+   }
+
+    //strcpy(str1, msg_ptr);
     string_read_to_8x8_bytes_out(str1,str1_len,buffer);
 
     int n=CHAR_LENGTH; 
@@ -90,11 +118,19 @@ eSystemState_displayLed 	displayled_procHandler(void){
     reshape_to_display(buffer, display_buffer, buffer_size, display_size);
 
     display_buffer_idx=0;
+/*
 
-	return STATE_DISPLAY_ENCODING;
+*/
+    return STATE_DISPLAY_ENCODING;
+    //return STATE_DISPLAY_IDLE;
 }
 
 eSystemState_displayLed     displayled_dataHandler(void){
+
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("STATE_DISPLAY_ENCODING\r\n");
+      xSemaphoreGive(xMutexUART);
+    }
 
     if(display_buffer_idx==display_size-1){
         display_buffer_idx=0;
@@ -110,17 +146,19 @@ eSystemState_displayLed     displayled_dataHandler(void){
         for (int k=0 ; k< 8; k++){ 
         // k: 8 bits per module
             gpioWrite(panel_1, (data_8b >> k) & (0x01));
+            printf("%d", (data_8b >> k) & (0x01));
             //gpioWrite(panel_2, (data_8b[i] >> k) & (0x01));
             gpioWrite(clk, ON);
             gpioWrite(clk, OFF);
         }        
-    }    
+    }
 
     // latch 
     gpioWrite(latch, ON);
     gpioWrite(latch, OFF);
 
-    return STATE_DISPLAY_OUTPUT_ENABLE;    
+//    return STATE_DISPLAY_OUTPUT_ENABLE;    
+   return STATE_DISPLAY_IDLE;
 }
 
 
@@ -138,6 +176,9 @@ eSystemState_displayLed 	displayled_outputHandler(void){
 
     //waiting
     //
-
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("STATE_DISPLAY_ENCODING\r\n");
+      xSemaphoreGive(xMutexUART);
+   }
 	return STATE_DISPLAY_ENCODING;
 }

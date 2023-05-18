@@ -13,8 +13,9 @@
 #include <string.h>
 #include "portmap.h"
 
-extern portTickType    xLastWakeTimeDisplayLed;
+extern portTickType        xLastWakeTimeDisplayLed;
 extern SemaphoreHandle_t   xMutexUART;
+extern xTaskHandle         xTaskDisplayLedTestHandler;
 
 /*=====[Global variables]====================================================*/
 
@@ -321,7 +322,7 @@ void vTaskDisplayLedTest( void *pvParameters ){
         xSemaphoreGive(xMutexUART);
     }
 
-
+    vTaskDelete(xTaskDisplayLedTestHandler);
 }
 
 

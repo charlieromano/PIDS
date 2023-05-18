@@ -166,10 +166,18 @@ void timerCallback_displayLed(TimerHandle_t xTimerDisplayHandle){
    static uint8_t cnt = 0;
    cnt++;
 
-   eSystemEvent_displayLed  displayLed_timer_event= cnt%4;
-   if(xQueueSend(queueHandle_displayLed, &data_display, 0U)!=pdPASS){
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("Timer display led is running.\r\n");
+      xSemaphoreGive(xMutexUART);
+   }
+
+   eSystemEvent_displayLed  displayLed_timer_event = evDisplay_timeout;
+   
+   if(xQueueSend(queueHandle_displayLed, &displayLed_timer_event, 0U)!=pdPASS){
          perror("Error sending data to the queueHandle_displayLed\r\n");
    }
+/*
+*/
 }
 
       
@@ -178,7 +186,7 @@ void vTaskDisplayLed(void *xTimerDisplayHandle)
    (void)xTimerDisplayHandle;
 
    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-      vPrintString("Task display led is running.\r\n");
+      printf("Task display led is running.\r\n");
       xSemaphoreGive(xMutexUART);
    }
    
@@ -186,12 +194,12 @@ void vTaskDisplayLed(void *xTimerDisplayHandle)
    while(true){
 
       // fsmDisplayLed init 
-      eSystemEvent_displayLed newEvent = evDisplayInit;
-      eSystemState_displayLed nextState = STATE_DISPLAY_INIT;
-      fsmDisplayLed[nextState].fsmEvent = newEvent; 
+      eSystemEvent_displayLed newEvent    = evDisplayInit;
+      eSystemState_displayLed nextState   = STATE_DISPLAY_INIT;
+      fsmDisplayLed[nextState].fsmEvent   = newEvent; 
       nextState = (*fsmDisplayLed[nextState].fsmHandler)();
 
-   // Active object
+      // Active object
       while(true){
 
         if( pdPASS == xQueueReceive(queueHandle_displayLed, &newEvent, portMAX_DELAY)){
@@ -199,9 +207,9 @@ void vTaskDisplayLed(void *xTimerDisplayHandle)
             nextState = (*fsmDisplayLed[nextState].fsmHandler)();
          }
       }
-      //vPrintString("This task is running and about to delete itself.\r\n");
-      //vTaskDelete(xTaskStateMachineHandler);
    }
+      vPrintString("This task is running and about to delete itself.\r\n");
+      vTaskDelete(xTaskStateMachineHandler_displayLed);
 }
 
 /*

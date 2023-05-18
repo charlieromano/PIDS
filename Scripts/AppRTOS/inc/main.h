@@ -24,17 +24,9 @@
 #include "userTasks.h"
 #include "displayLed.h"
 
-/*=====[C++ - begin]=========================================================*/
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/*=====[Definition macros of public constants]===============================*/
-
-/*=====[Public function-like macros]=========================================*/
-
-/*=====[Definitions of public data types]====================================*/
 
 gpioMap_t button=TEC3;
 gpioMap_t led=LEDR;
@@ -46,13 +38,16 @@ uint8_t             data_AB;
 
 TimerHandle_t       timerHandle_AB; 
 TimerHandle_t       timerHandle_button; 
+TimerHandle_t       timerHandle_displayLed; 
 
 QueueHandle_t       queueHandle_button;
 QueueHandle_t       queueHandle_AB;
+QueueHandle_t       queueHandle_displayLed;
 
 xTaskHandle         xTaskStateMachineHandler_button; 
 xTaskHandle         xTaskStateMachineHandler_AB; 
-xTaskHandle         xTaskDisplayLedHandler; 
+xTaskHandle         xTaskStateMachineHandler_displayLed; 
+xTaskHandle         xTaskDisplayLedTestHandler;
 
 SemaphoreHandle_t   xBinarySemaphore;
 SemaphoreHandle_t   xMutexUART;
