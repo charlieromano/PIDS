@@ -31,7 +31,7 @@
 
 #define     CHAR_LENGTH     8 
 #define     DISPLAY_ROWS    8   
-#define     DISPLAY_COLS    8
+#define     DISPLAY_COLS    16
 
 #ifdef __cplusplus
 extern "C" {
@@ -48,6 +48,7 @@ void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *arra
 void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size);
 void printBinaryArray(uint8_t *buffer, uint8_t len, uint8_t size);
 void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buffer_in, uint8_t len_buffer_out);
+void print_bin(unsigned char value);
 
 #ifdef __cplusplus
 }

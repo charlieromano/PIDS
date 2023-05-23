@@ -310,12 +310,12 @@ void vTaskDisplayLedTest( void *pvParameters ){
         printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
         xSemaphoreGive(xMutexUART);
     }
-
+/*
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         printf("FLAG\r\n");
         xSemaphoreGive(xMutexUART);
     }
-
+*/
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         printf("printBinaryArray(B); rows=%d; cols=%d \r\n", p, q);
         printBinaryArray(B,DISPLAY_ROWS, DISPLAY_COLS);
@@ -344,6 +344,12 @@ void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *arra
             }
         }
     }
+}
+/*===========================================================================*/
+void print_bin(unsigned char value){
+    for (int i = sizeof(char) * 7; i >= 0; i--)
+        printf("%d", (value & (1 << i)) >> i );
+    //putc('\n', stdout);
 }
 /*===========================================================================*/
 

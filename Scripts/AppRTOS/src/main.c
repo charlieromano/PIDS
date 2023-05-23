@@ -131,7 +131,7 @@ int main( void )
 /* display Led */
 /***************************************************************************/
 
-   if( (timerHandle_displayLed = xTimerCreate( "Timer displayLed", 5000, true, NULL, 
+   if( (timerHandle_displayLed = xTimerCreate( "Timer displayLed", 500, true, NULL, 
       timerCallback_displayLed)) == NULL ) {
       perror("Error creating timer");
       return 1;
