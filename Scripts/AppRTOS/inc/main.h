@@ -51,6 +51,7 @@ xTaskHandle         xTaskDisplayLedTestHandler;
 
 SemaphoreHandle_t   xBinarySemaphore;
 SemaphoreHandle_t   xMutexUART;
+SemaphoreHandle_t   xBinarySemaphoreDisplayLed;
 
 portTickType    xLastWakeTimeDisplayLed;
 

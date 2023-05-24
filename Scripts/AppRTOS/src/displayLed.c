@@ -6,16 +6,24 @@
  * Version: 1.0
  *===========================================================================*/
 
-#include "displayLed.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 #include "portmap.h"
+#include "displayLed.h"
+#include "statemachine_displayLed.h"
 
 extern portTickType        xLastWakeTimeDisplayLed;
 extern SemaphoreHandle_t   xMutexUART;
 extern xTaskHandle         xTaskDisplayLedTestHandler;
+
+extern bool_t   timerFlag;
+extern uint16_t timer_display;
+extern QueueHandle_t        queueHandle_displayLed;
+
+bool_t  display_msg_flag;
+
 
 /*=====[Global variables]====================================================*/
 
@@ -24,19 +32,20 @@ uint32_t    timer;
 uint32_t    clock_cnt;
 TickType_t  xFreq = 10;
 
+
 gpioMap_t   timer_pin=LEDB;
-gpioMap_t   clk_array[]={LEDB, LED1, LED2, LED3};
+gpioMap_t   display_clk_array[]={LEDB, LED1, LED2, LED3};
 gpioMap_t   deco_pin_array[] = {A, B, C, D};
 gpioMap_t   data_pin_array[] = {CLK, STR, R1, R2};
 
-gpioMap_t clk       = SRCLK;
-gpioMap_t latch     = STR;
-gpioMap_t panel_1   = R1;
-gpioMap_t panel_2   = R2;
-gpioMap_t deco_A0   = DECO_A0;
-gpioMap_t deco_A1   = DECO_A1;
-gpioMap_t deco_A2   = DECO_A2;
-gpioMap_t deco_A3   = DECO_E3_E1;
+gpioMap_t display_clk       = SRCLK;
+gpioMap_t display_latch     = STR;
+gpioMap_t display_panel_1   = R1;
+gpioMap_t display_panel_2   = R2;
+gpioMap_t display_deco_A0   = DECO_A0;
+gpioMap_t display_deco_A1   = DECO_A1;
+gpioMap_t display_deco_A2   = DECO_A2;
+gpioMap_t display_deco_A3   = DECO_E3_E1;
 
 #define ascii_index 95
 
@@ -199,14 +208,14 @@ void vTaskDisplayLed( void *pvParameters ){
 
     displayInit();
 
-    gpioMap_t clk       = data_pin_array[0];
-    gpioMap_t latch     = data_pin_array[1];
-    gpioMap_t panel_1   = data_pin_array[2];
-    gpioMap_t panel_2   = data_pin_array[3];
-    gpioMap_t deco_A0   = deco_pin_array[0];
-    gpioMap_t deco_A1   = deco_pin_array[1];
-    gpioMap_t deco_A2   = deco_pin_array[2];
-    gpioMap_t deco_A3   = deco_pin_array[3];
+    gpioMap_t display_clk       = data_pin_array[0];
+    gpioMap_t display_latch     = data_pin_array[1];
+    gpioMap_t display_panel_1   = data_pin_array[2];
+    gpioMap_t display_panel_2   = data_pin_array[3];
+    gpioMap_t display_deco_A0   = deco_pin_array[0];
+    gpioMap_t display_deco_A1   = deco_pin_array[1];
+    gpioMap_t display_deco_A2   = deco_pin_array[2];
+    gpioMap_t display_deco_A3   = deco_pin_array[3];
  
     while(true){
   
@@ -225,21 +234,21 @@ void vTaskDisplayLed( void *pvParameters ){
 
                 for (int k=0 ; k< 8; k++){ 
                 // k< 8 bits , 8 bits per module
-                    gpioWrite(panel_1, (data_8b[i] >> k) & (0x01));
-                    gpioWrite(panel_2, (data_8b[i] >> k) & (0x01));
-                    gpioWrite(clk, ON);
-                    gpioWrite(clk, OFF);
+                    gpioWrite(display_panel_1, (data_8b[i] >> k) & (0x01));
+                    gpioWrite(display_panel_2, (data_8b[i] >> k) & (0x01));
+                    gpioWrite(display_clk, ON);
+                    gpioWrite(display_clk, OFF);
                 }
             }
-            // latch 
-            gpioWrite(latch, ON);
-            gpioWrite(latch, OFF);
+            // display_latch 
+            gpioWrite(display_latch, ON);
+            gpioWrite(display_latch, OFF);
 
             // deco scan 
-            if((j%1)==0){ gpioToggle(deco_A0); }
-            if((j%2)==0){ gpioToggle(deco_A1); }
-            if((j%4)==0){ gpioToggle(deco_A2); }
-            if((j%8)==0){ gpioToggle(deco_A3); }
+            if((j%1)==0){ gpioToggle(display_deco_A0); }
+            if((j%2)==0){ gpioToggle(display_deco_A1); }
+            if((j%4)==0){ gpioToggle(display_deco_A2); }
+            if((j%8)==0){ gpioToggle(display_deco_A3); }
 
             vTaskDelayUntil( &xLastWakeTimeDisplayLed, xFreq);
         }
@@ -248,9 +257,6 @@ void vTaskDisplayLed( void *pvParameters ){
 */
 
 /*===========================================================================*/
-
-extern bool_t   timerFlag;
-extern uint16_t timer_display;
 
 void timerCallbackDisplayLED(TimerHandle_t xTimerHandle){
 
@@ -311,10 +317,6 @@ void vTaskDisplayLedTest( void *pvParameters ){
         xSemaphoreGive(xMutexUART);
     }
 /*
-    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-        printf("FLAG\r\n");
-        xSemaphoreGive(xMutexUART);
-    }
 */
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         printf("printBinaryArray(B); rows=%d; cols=%d \r\n", p, q);
@@ -322,10 +324,13 @@ void vTaskDisplayLedTest( void *pvParameters ){
         xSemaphoreGive(xMutexUART);
     }
 
+    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+        printf("Task delete: vTaskDisplayLedTest\r\n");
+        xSemaphoreGive(xMutexUART);
+    }
+
     vTaskDelete(xTaskDisplayLedTestHandler);
 }
-
-
 
 /*===========================================================================*/
 

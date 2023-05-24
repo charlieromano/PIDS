@@ -131,7 +131,7 @@ int main( void )
 /* display Led */
 /***************************************************************************/
 
-   if( (timerHandle_displayLed = xTimerCreate( "Timer displayLed", 500, true, NULL, 
+   if( (timerHandle_displayLed = xTimerCreate( "Timer displayLed", 1000, true, NULL, 
       timerCallback_displayLed)) == NULL ) {
       perror("Error creating timer");
       return 1;
@@ -148,15 +148,28 @@ int main( void )
       return 1;
    }
 
+   xBinarySemaphoreDisplayLed = xSemaphoreCreateBinary();
+   if (xBinarySemaphoreDisplayLed == NULL){
+      perror("Error creating semaphore");
+      return 1;
+   }
+
    if( xTaskCreate( vTaskDisplayLedTest, "Display Led task", 
-      configMINIMAL_STACK_SIZE*8, NULL, tskIDLE_PRIORITY+1, 
+      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 
       &xTaskDisplayLedTestHandler) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
+
 /*
-vTaskDisplayLed
+   if( xTaskCreate( vTaskTest, "Display Led Testing COMM task", 
+      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskDisplayLedTestHandler) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
 */
+
    if( xTaskCreate( vTaskDisplayLed, "Display Led State Machine task", 
       configMINIMAL_STACK_SIZE*8, NULL, tskIDLE_PRIORITY+1, 
       &xTaskStateMachineHandler_displayLed) == pdFAIL ) {

@@ -13,8 +13,6 @@ typedef enum {
 	STATE_DISPLAY_IDLE,
 	STATE_DISPLAY_PROCESSING,	
 	STATE_DISPLAY_ENCODING,
-	STATE_DISPLAY_LATCH,
-	STATE_DISPLAY_OUTPUT_ENABLE
 
 } eSystemState_displayLed;
 
@@ -22,9 +20,7 @@ typedef enum{
 	
 	evDisplayInit,
 	evDisplay_msg_received,
-	evDisplay_ready,
 	evDisplay_timeout,
-	evDisplay_empty
 
 } eSystemEvent_displayLed;
 
