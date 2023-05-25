@@ -27,11 +27,9 @@
 
 #include "portmap.h"
 
-#define     DISPLAY_MAX_ROWS 16
-
 #define     CHAR_LENGTH     8 
-#define     DISPLAY_ROWS    8   
-#define     DISPLAY_COLS    16
+#define     DISPLAYLED_ROWS    8   
+#define     DISPLAYLED_COLS    16
 
 #ifdef __cplusplus
 extern "C" {

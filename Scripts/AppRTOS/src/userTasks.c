@@ -173,7 +173,7 @@ void timerCallback_displayLed(TimerHandle_t xTimerDisplayHandle){
       xSemaphoreGive(xMutexUART);
    }
 
-   eSystemEvent_displayLed  displayLed_timer_event = evDisplay_timeout;
+   eSystemEvent_displayLed  displayLed_timer_event = evDisplayled_timeout;
    
    if(xQueueSend(queueHandle_displayLed, &displayLed_timer_event, 0U)!=pdPASS){
          perror("Error sending data to the queueHandle_displayLed\r\n");
@@ -194,8 +194,8 @@ void vTaskDisplayLed(void *xTimerDisplayHandle)
    while(true){
 
       // fsmDisplayLed init 
-      eSystemEvent_displayLed newEvent    = evDisplayInit;
-      eSystemState_displayLed nextState   = STATE_DISPLAY_INIT;
+      eSystemEvent_displayLed newEvent    = evDisplayled_init;
+      eSystemState_displayLed nextState   = STATE_DISPLAYLED_INIT;
       fsmDisplayLed[nextState].fsmEvent   = newEvent; 
       nextState = (*fsmDisplayLed[nextState].fsmHandler)();
 
@@ -211,58 +211,37 @@ void vTaskDisplayLed(void *xTimerDisplayHandle)
       vPrintString("This task is running and about to delete itself.\r\n");
       vTaskDelete(xTaskStateMachineHandler_displayLed);
 }
-
+/***************************************************************************/
 // Globals
 static char *msg_ptr = NULL;
 static volatile uint8_t msg_flag = 0;
 const uint8_t buf_len = 8;
-extern bool_t  display_msg_flag;
+extern bool_t  displayled_msg_flag;
  uint8_t idx = 0;
 
 void vTaskTest( void *pvParameters ){
 
-/*
-    uint8_t str1[]="Hola";
-    uint8_t str1_len=strlen(str1);
-    uint8_t buffer_size=str1_len*CHAR_LENGTH;
-    uint8_t buffer[buffer_size];
-    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-        printf("print str to buffer: %s \r\n",str1);
-        xSemaphoreGive(xMutexUART);
-    }
+   portTickType xPeriodicity =  10000 / portTICK_RATE_MS;
+   portTickType xLastWakeTime = xTaskGetTickCount();
 
-*/
-   char msg[]="Hi! \n";
-   char buf[buf_len];
-   idx = strlen(msg);
-   
-   for(int i=0; i<idx;i++){
-      buf[i]=msg[i];
-   } buf[idx]='\0';
-
-   msg_ptr = (char *)pvPortMalloc(idx * sizeof(char));
-   if (msg_ptr==NULL){
-      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-         printf("Buffer out of memory\r\n");
-         xSemaphoreGive(xMutexUART);
-      }
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("Task Test for messages.\r\n");
+      xSemaphoreGive(xMutexUART);
    }
 
-   // Copy message
-   memcpy(msg_ptr, buf, idx);
-
-   // Notify other task that message is ready
-   display_msg_flag=1;
-   
-   eSystemEvent_displayLed  displayLed_msg_event = evDisplay_msg_received;
-
-
-   if(xQueueSend(queueHandle_displayLed, &displayLed_msg_event, 0U)!=pdPASS){
+   while(true) {
+      
+      vTaskDelayUntil( &xLastWakeTime, xPeriodicity );
+      eSystemEvent_displayLed  displayLed_msg_event = evDisplayled_msg_received;
+      displayled_msg_flag=1;
+/*
+      if(xQueueSend(queueHandle_displayLed, &displayLed_msg_event, 0U)!=pdPASS){
          perror("Error sending msg to the queueHandle_displayLed\r\n");
+      }
+*/
+
    }
 }
-/*
-*/
 /***************************************************************************/
 
 

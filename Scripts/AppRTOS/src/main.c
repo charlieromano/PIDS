@@ -162,17 +162,18 @@ int main( void )
    }
 
 /*
-   if( xTaskCreate( vTaskTest, "Display Led Testing COMM task", 
-      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 
-      &xTaskDisplayLedTestHandler) == pdFAIL ) {
-      perror("Error creating task");
-      return 1;
-   }
 */
 
    if( xTaskCreate( vTaskDisplayLed, "Display Led State Machine task", 
-      configMINIMAL_STACK_SIZE*8, NULL, tskIDLE_PRIORITY+1, 
+      configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 
       &xTaskStateMachineHandler_displayLed) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+
+   if( xTaskCreate( vTaskTest, "Display Led Testing COMM task", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskTestHandler) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }

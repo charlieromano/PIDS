@@ -9,18 +9,18 @@
 
 typedef enum {
 	
-	STATE_DISPLAY_INIT,
-	STATE_DISPLAY_IDLE,
-	STATE_DISPLAY_PROCESSING,	
-	STATE_DISPLAY_ENCODING,
+	STATE_DISPLAYLED_INIT,
+	STATE_DISPLAYLED_IDLE,
+	STATE_DISPLAYLED_PROCESSING,	
+	STATE_DISPLAYLED_ENCODING,
 
 } eSystemState_displayLed;
 
 typedef enum{
 	
-	evDisplayInit,
-	evDisplay_msg_received,
-	evDisplay_timeout,
+	evDisplayled_init,
+	evDisplayled_msg_received,
+	evDisplayled_timeout,
 
 } eSystemEvent_displayLed;
 

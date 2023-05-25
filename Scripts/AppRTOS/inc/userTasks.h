@@ -77,6 +77,8 @@ void vTaskButton(void* pvParameters);
 void vTaskAB(void *xTimerHandle);
 void vTaskDisplayLed(void *xTimerDisplayHandle);
 
+void vTaskTest(void *xTimerDisplayHandle);
+
 
 
 

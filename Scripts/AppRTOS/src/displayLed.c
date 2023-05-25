@@ -14,38 +14,28 @@
 #include "displayLed.h"
 #include "statemachine_displayLed.h"
 
+/*=====[Global variables]====================================================*/
+
 extern portTickType        xLastWakeTimeDisplayLed;
 extern SemaphoreHandle_t   xMutexUART;
 extern xTaskHandle         xTaskDisplayLedTestHandler;
 
-extern bool_t   timerFlag;
-extern uint16_t timer_display;
-extern QueueHandle_t        queueHandle_displayLed;
+/*===========================================================================*/
 
-bool_t  display_msg_flag;
+// Settings 
+gpioMap_t   deco_pin_array[]   = {A, B, C, D};
+gpioMap_t   data_pin_array[]   = {CLK, STR, R1, R2};
 
+gpioMap_t displayled_clk       = SRCLK;
+gpioMap_t displayled_latch     = STR;
+gpioMap_t displayled_panel_1   = R1;
+gpioMap_t displayled_panel_2   = R2;
+gpioMap_t displayled_deco_A0   = DECO_A0;
+gpioMap_t displayled_deco_A1   = DECO_A1;
+gpioMap_t displayled_deco_A2   = DECO_A2;
+gpioMap_t displayled_deco_A3   = DECO_E3_E1;
 
-/*=====[Global variables]====================================================*/
-
-bool_t      timerFlag;
-uint32_t    timer;
-uint32_t    clock_cnt;
-TickType_t  xFreq = 10;
-
-
-gpioMap_t   timer_pin=LEDB;
-gpioMap_t   display_clk_array[]={LEDB, LED1, LED2, LED3};
-gpioMap_t   deco_pin_array[] = {A, B, C, D};
-gpioMap_t   data_pin_array[] = {CLK, STR, R1, R2};
-
-gpioMap_t display_clk       = SRCLK;
-gpioMap_t display_latch     = STR;
-gpioMap_t display_panel_1   = R1;
-gpioMap_t display_panel_2   = R2;
-gpioMap_t display_deco_A0   = DECO_A0;
-gpioMap_t display_deco_A1   = DECO_A1;
-gpioMap_t display_deco_A2   = DECO_A2;
-gpioMap_t display_deco_A3   = DECO_E3_E1;
+/*===========================================================================*/
 
 #define ascii_index 95
 
@@ -187,85 +177,6 @@ void displayInit(void){
     gpioWrite(data_pin_array[2], OFF);
     gpioWrite(data_pin_array[3], OFF);
 }
-/*===========================================================================*/
-
-/*
-void vTaskDisplayLed( void *pvParameters ){
-    xLastWakeTimeDisplayLed = xTaskGetTickCount();
-
-    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-        vPrintString( "displayLED with freeRTOS y sAPI.\r\n" );
-        vTaskDisplayLedTest(pvParameters);
-        xSemaphoreGive(xMutexUART);
-    }
-   
-    size_t      length=8*8; //8 columns per module, 8 modules per row
-    //uint8_t     data_8b[length];
-    uint8_t     data_8b[] = {   };//*test_data;
-
-    uint16_t    *data_16b=NULL;
-    uint32_t    *data_32b=NULL;
-
-    displayInit();
-
-    gpioMap_t display_clk       = data_pin_array[0];
-    gpioMap_t display_latch     = data_pin_array[1];
-    gpioMap_t display_panel_1   = data_pin_array[2];
-    gpioMap_t display_panel_2   = data_pin_array[3];
-    gpioMap_t display_deco_A0   = deco_pin_array[0];
-    gpioMap_t display_deco_A1   = deco_pin_array[1];
-    gpioMap_t display_deco_A2   = deco_pin_array[2];
-    gpioMap_t display_deco_A3   = deco_pin_array[3];
- 
-    while(true){
-  
-        for (int j=0;  j< 16*2 ;j++){ // rows
-        // 16 rows/panel, 2 panels per display
-
-            // send_data 
-            for (int i=0 ; i< length; i++){ // columns
-            // row data length
-                uint8_t str1[]="ab";
-                uint8_t str1_len=strlen(str1);
-                #define buffer_size str1_len*8
-                uint8_t buffer[buffer_size];
-                string_read_to_8x8_bytes_out(str1,str1_len, );
-                data_8b[i] = buffer[j];
-
-                for (int k=0 ; k< 8; k++){ 
-                // k< 8 bits , 8 bits per module
-                    gpioWrite(display_panel_1, (data_8b[i] >> k) & (0x01));
-                    gpioWrite(display_panel_2, (data_8b[i] >> k) & (0x01));
-                    gpioWrite(display_clk, ON);
-                    gpioWrite(display_clk, OFF);
-                }
-            }
-            // display_latch 
-            gpioWrite(display_latch, ON);
-            gpioWrite(display_latch, OFF);
-
-            // deco scan 
-            if((j%1)==0){ gpioToggle(display_deco_A0); }
-            if((j%2)==0){ gpioToggle(display_deco_A1); }
-            if((j%4)==0){ gpioToggle(display_deco_A2); }
-            if((j%8)==0){ gpioToggle(display_deco_A3); }
-
-            vTaskDelayUntil( &xLastWakeTimeDisplayLed, xFreq);
-        }
-    }
-}
-*/
-
-/*===========================================================================*/
-
-void timerCallbackDisplayLED(TimerHandle_t xTimerHandle){
-
-    timerFlag=true;
-    while(timerFlag){
-        timer_display++;
-        timer_display=timer_display%100000;
-    }
-}
 
 /*===========================================================================*/
 
@@ -276,6 +187,15 @@ void vTaskDisplayLedTest( void *pvParameters ){
     uint8_t str1_len=strlen(str1);
     uint8_t buffer_size=str1_len*CHAR_LENGTH;
     uint8_t buffer[buffer_size];
+
+    int n=CHAR_LENGTH; 
+    int m=str1_len;
+    int p=DISPLAYLED_ROWS;
+    int q=DISPLAYLED_COLS;
+
+    int displayled_size = p*q;
+
+    uint8_t B[displayled_size];
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         printf("print str to buffer: %s \r\n",str1);
@@ -290,45 +210,40 @@ void vTaskDisplayLedTest( void *pvParameters ){
         xSemaphoreGive(xMutexUART);
     }
 
-    int n=CHAR_LENGTH; 
-    int m=str1_len;
-    int p=DISPLAY_ROWS;
-    int q=DISPLAY_COLS;
 
-    int display_size = p*q;
-
-    uint8_t B[display_size];
-    for(int i=0; i<display_size;i++){B[i]=0;}
+    for(int i=0; i<displayled_size;i++){
+        B[i]=0;
+    }
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         printf("B: (before) \r\n");
-        for(int i=0; i<display_size; i++){
+        for(int i=0; i<displayled_size; i++){
             printf("%d ",B[i]);
-            if(i%DISPLAY_COLS==(DISPLAY_COLS-1))printf("\n");
+            if(i%DISPLAYLED_COLS==(DISPLAYLED_COLS-1))printf("\n");
         }
         xSemaphoreGive(xMutexUART);
     }
 
-    reshape_to_display(buffer,B, buffer_size, display_size);
+    reshape_to_display(buffer,B, buffer_size, displayled_size);
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         printf("printHexArray(B); rows=%d; cols=%d \r\n", p, q);
-        printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
+        printHexArray(B,DISPLAYLED_ROWS, DISPLAYLED_COLS);
         xSemaphoreGive(xMutexUART);
     }
-/*
-*/
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         printf("printBinaryArray(B); rows=%d; cols=%d \r\n", p, q);
-        printBinaryArray(B,DISPLAY_ROWS, DISPLAY_COLS);
+        printBinaryArray(B,DISPLAYLED_ROWS, DISPLAYLED_COLS);
         xSemaphoreGive(xMutexUART);
     }
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-        printf("Task delete: vTaskDisplayLedTest\r\n");
+        printf("TASK DELETE: vTaskDisplayLedTest\r\n");
         xSemaphoreGive(xMutexUART);
     }
 
+/*
+*/
     vTaskDelete(xTaskDisplayLedTestHandler);
 }
 
@@ -359,7 +274,7 @@ void print_bin(unsigned char value){
 /*===========================================================================*/
 
 //printHexArray(buffer, str1_len, CHAR_LENGTH);
-//printHexArray(B,DISPLAY_ROWS, DISPLAY_COLS);
+//printHexArray(B,DISPLAYLED_ROWS, DISPLAYLED_COLS);
 void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size){
     for(int i=0; i<len*size; i++){
         printf("0x%.2x\t ", buffer[i]);
@@ -392,10 +307,10 @@ void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buf
     /* matrix notation */
     n=CHAR_LENGTH; 
     m=(int)(len_buffer_in/CHAR_LENGTH);
-    p=DISPLAY_ROWS;
-    q=DISPLAY_COLS;
+    p=DISPLAYLED_ROWS;
+    q=DISPLAYLED_COLS;
 
-    uint8_t display_size = p*q;
+    uint8_t displayled_size = p*q;
 
     printf("\nReshaping...\n");
     printf("n=%d; m=%d\n",n,m);
@@ -456,7 +371,7 @@ void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buf
 }
 
 /*===========================================================================*/
-
+/*
 uint8_t* f1(uint8_t x)
 {
     uint8_t y=0x00;
@@ -467,7 +382,7 @@ uint8_t* f1(uint8_t x)
     uint8_t out[2] = {y,z};
     return out;
 }
-
+*/
 int hi_nibble(int x)
 {
     int mask=0xF0;

@@ -48,6 +48,7 @@ xTaskHandle         xTaskStateMachineHandler_button;
 xTaskHandle         xTaskStateMachineHandler_AB; 
 xTaskHandle         xTaskStateMachineHandler_displayLed; 
 xTaskHandle         xTaskDisplayLedTestHandler;
+xTaskHandle         xTaskTestHandler;
 
 SemaphoreHandle_t   xBinarySemaphore;
 SemaphoreHandle_t   xMutexUART;
