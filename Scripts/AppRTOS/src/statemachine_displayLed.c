@@ -17,6 +17,7 @@ extern gpioMap_t 	displayled_deco_A3;
 extern gpioMap_t 	displayled_clk;
 extern gpioMap_t  	displayled_latch;
 extern gpioMap_t    displayled_panel_1;
+extern gpioMap_t    displayled_panel_2;
 
 bool_t  displayled_msg_flag;
 
@@ -56,7 +57,7 @@ eSystemState_displayLed 	displayled_idleHandler(void){
         xSemaphoreGive(xMutexUART);
     }
 
-    displayled_timer_cnt  = 3;
+    displayled_timer_cnt  = 200;
 
     if (displayled_msg_flag) {
         return STATE_DISPLAYLED_PROCESSING;
@@ -126,18 +127,20 @@ eSystemState_displayLed     displayled_dataHandler(void){
         for(int j=0; j<8; j++){
             
             // displayled_data 
-            value = (((data_8b << j ) & 0x80 ) == 0) ? 0 : 1;
-            printf("%d",value);
+            value = (((data_8b << j ) & 0x80 ) == 0) ? 1 : 0;
+            //printf("%d",value);
             gpioWrite(displayled_panel_1, value);
+            gpioWrite(displayled_panel_2, value);
             
-            // clock 
+            // displayled_clock 
             gpioWrite(displayled_clk, ON);
             gpioWrite(displayled_clk, OFF);
         }
         
         if(i%DISPLAYLED_COLS==0){
+
             // displayled_latch 
-            printf("\r\n");
+            //printf("\r\n");
             gpioWrite(displayled_latch, ON);
             gpioWrite(displayled_latch, OFF);
             

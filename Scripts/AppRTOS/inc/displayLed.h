@@ -29,7 +29,7 @@
 
 #define     CHAR_LENGTH     8 
 #define     DISPLAYLED_ROWS    8   
-#define     DISPLAYLED_COLS    16
+#define     DISPLAYLED_COLS    8
 
 #ifdef __cplusplus
 extern "C" {
