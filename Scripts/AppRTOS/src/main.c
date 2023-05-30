@@ -184,7 +184,6 @@ int main( void )
       return 1;
    }
 
-/*
    if( xTaskCreate( vHandlerTaskUART, "ISR UART Handler task", 
       configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
       NULL) == pdFAIL ) {
@@ -192,19 +191,6 @@ int main( void )
       return 1;
    }
 
-   dataBufferQueue = xQueueCreate(MAX_BUFFER_SIZE, 
-      sizeof(uint8_t));
-   if (dataBufferQueue == NULL){
-      perror("Error creating queue");
-      return 1;
-   }
-
-
-   if( xTaskCreate( vTaskUART_buffer, "Receing data task", 
-      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
-      perror("Error creating task");
-      return 1;
-   }
    queueHandle_UART = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_UART));
    if (queueHandle_UART == NULL){
       perror("Error creating queue");
@@ -217,6 +203,7 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
+/*
 */
 
 /***************************************************************************/

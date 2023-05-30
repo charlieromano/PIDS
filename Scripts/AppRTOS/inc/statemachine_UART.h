@@ -1,6 +1,12 @@
 #ifndef __STATEMACHINE_UART_H__
 #define __STATEMACHINE_UART_H__
 
+#include "sapi.h"
+#include "board.h"
+#include <stdio.h>
+#include "displayLed.h"
+#include "portmap.h"
+
 #define     MAX_BUFFER_SIZE 	2
 #define 	DATA_BUFFER_LENGTH 	2
 #define 	DATA_ARRAY_LENGTH 	MAX_BUFFER_SIZE*DATA_BUFFER_LENGTH
