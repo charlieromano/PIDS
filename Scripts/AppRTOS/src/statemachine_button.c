@@ -1,11 +1,6 @@
 //statemachine.c
 #include "statemachine_button.h"
 
-extern void string_read_to_8x8_bytes_out(uint8_t *str_in, uint8_t strlen, uint8_t *array_out);
-extern void printHexArray(uint8_t *buffer, uint8_t len, uint8_t size);
-extern void printBinaryArray(uint8_t *buffer, uint8_t len, uint8_t size);
-extern void reshape_to_display(uint8_t *buffer_in, uint8_t *buffer_out, uint8_t len_buffer_in, uint8_t len_buffer_out);
-
 sStateMachine_button fsmButton [] = 
 {
 	{STATE_BUTTON_INIT, evInit, buttonInitHandler},
@@ -83,9 +78,3 @@ eSystemState_button 	bouncingUpHandler(void)
 	return STATE_BUTTON_RISING;
 
 }
-
-
-
-
-
-

@@ -13,17 +13,6 @@
 
 /*=====[Inclusions of public function dependencies]==========================*/
 
-#include <stdint.h>
-#include <stddef.h>
-
-#include "FreeRTOS.h"
-#include "FreeRTOSConfig.h"
-#include "task.h"
-
-#include "sapi.h"
-#include "timers.h"
-#include "portmap.h"
-
 
 /*=====[C++ - begin]=========================================================*/
 
@@ -88,9 +77,6 @@ extern "C" {
 #define CONN_J4_14 T_COL2
 #define CONN_J4_15 GND
 #define CONN_J4_16 T_FIL1
-
-
-#define CLK_DISPLAY_LED 2 /* ms */
 
 
 /*=====[Public function-like macros]=========================================*/

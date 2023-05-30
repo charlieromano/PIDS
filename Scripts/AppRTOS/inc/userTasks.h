@@ -19,10 +19,13 @@
 #include "semphr.h"
 #include "queue.h"
 #include "timers.h"
-#include "statemachine_button.h"
+
 #include "statemachine_AB.h"
-#include "ISR_GPIO.h"
+#include "statemachine_button.h"
 #include "statemachine_displayLed.h"
+#include "statemachine_UART.h"
+#include "ISR_UART.h"
+#include "ISR_GPIO.h"
 
 /*=====[C++ - begin]=========================================================*/
 
@@ -44,14 +47,20 @@ extern SemaphoreHandle_t    xMutexUART;
 extern QueueHandle_t        queueHandle_button;
 extern QueueHandle_t        queueHandle_AB;
 extern QueueHandle_t        queueHandle_displayLed;
+extern QueueHandle_t        queueHandle_UART; 
+extern QueueHandle_t        dataBufferQueue;
 
 extern sStateMachine_AB         fsmMachineAB[]; 
 extern sStateMachine_button     fsmButton[]; 
 extern sStateMachine_displayLed fsmDisplayLed[]; 
+extern sStateMachine_button     fsmUART[]; 
+extern sStateMachine_button     fsmPIDS[]; 
 
-extern xTaskHandle          xTaskStateMachineHandler_AB; 
-extern xTaskHandle          xTaskStateMachineHandler_button; 
-extern xTaskHandle          xTaskStateMachineHandler_displayLed; 
+extern xTaskHandle         xTaskStateMachineHandler_AB; 
+extern xTaskHandle         xTaskStateMachineHandler_button; 
+extern xTaskHandle         xTaskStateMachineHandler_displayLed; 
+extern xTaskHandle         xTaskStateMachineHandler_UART; 
+extern xTaskHandle         xTaskStateMachineHandler_PIDS; 
 
 extern TimerHandle_t        timerHandle_AB; 
 extern TimerHandle_t        timerHandle_button; 
@@ -61,26 +70,32 @@ extern uint8_t     timer_cnt;
 extern bool        timer_flag;
 extern uint8_t     data_AB;
 extern uint8_t     data_display;
-
+extern uint8_t data_AB;
+extern uint8_t dato;
+extern uint8_t rxData;
+extern uint8_t data_rx;
+extern uint8_t data_tx;
+extern uint8_t data_array[DATA_ARRAY_LENGTH];
+extern uint8_t data_array_copy[DATA_ARRAY_LENGTH];
+extern uint8_t output_array_copy[DATA_ARRAY_LENGTH];
 
 /*=====[Prototypes (declarations) of public functions]=======================*/
-
 
 void timerCallback_button(TimerHandle_t xTimerHandle);  
 void timerCallback_AB(TimerHandle_t xTimerHandle);
 void timerCallback_displayLed(TimerHandle_t xTimerDisplayHandle);
+void timerCallback_UART(TimerHandle_t xTimerHandle);
 
 void vHandlerTaskGPIO(void* pvParameters);
+void vHandlerTaskUART(void *pvParameters);
 
 void myTask( void* taskParmPtr );  // Task declaration
 void vTaskButton(void* pvParameters);
 void vTaskAB(void *xTimerHandle);
 void vTaskDisplayLed(void *xTimerDisplayHandle);
-
+void vTaskUART(void* pvParameters);
+void vTaskUART_buffer(void* pvParameters);
 void vTaskTest(void *xTimerDisplayHandle);
-
-
-
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 

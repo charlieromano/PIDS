@@ -10,17 +10,6 @@
 
 #include "main.h"
 
-
-/*=====[Definition macros of private constants]==============================*/
-
-/*=====[Definitions of extern global variables]==============================*/
-
-/*=====[Definitions of public global variables]==============================*/
-
-/*=====[Definitions of private global variables]=============================*/
-
-/*=====[Main function, program entry point after power on or reset]==========*/
-
 int main( void )
 {
    boardInit();
@@ -28,7 +17,7 @@ int main( void )
    //debugPrintConfigUart( UART_USB, UART_BAUD_RATE);
 
    IRQ_GPIO_Init();
-   //IRQ_UART_Init();
+   IRQ_UART_Init();
 
    portInit();
    displayInit();
@@ -89,7 +78,8 @@ int main( void )
 /***************************************************************************/
 /*
 */
-   if( (timerHandle_button = xTimerCreate( "Timer button", 10, true, NULL, 
+   if( (timerHandle_button = xTimerCreate( "Timer button", 
+      10, true, NULL, 
       timerCallback_button)) == NULL ) {
       perror("Error creating timer");
       return 1;
@@ -99,7 +89,6 @@ int main( void )
       perror("Error starting timer");
       return 1;      
    }
-
 
    xBinarySemaphore = xSemaphoreCreateBinary();
    if (xBinarySemaphore == NULL){
@@ -114,7 +103,8 @@ int main( void )
       return 1;
    }
 
-   queueHandle_button = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_button));
+   queueHandle_button = xQueueCreate(QUEUE_MAX_LENGTH, 
+      sizeof(eSystemEvent_button));
    if (queueHandle_button == NULL){
       perror("Error creating queue");
       return 1;
@@ -131,7 +121,9 @@ int main( void )
 /* display Led */
 /***************************************************************************/
 
-   if( (timerHandle_displayLed = xTimerCreate( "Timer displayLed", 10, true, NULL, 
+/*
+   if( (timerHandle_displayLed = xTimerCreate( "Timer displayLed", 
+      DISPLAYLED_TIMEOUT_MS, true, NULL, 
       timerCallback_displayLed)) == NULL ) {
       perror("Error creating timer");
       return 1;
@@ -142,15 +134,10 @@ int main( void )
       return 1;      
    }
 
-   queueHandle_displayLed = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_displayLed));
+   queueHandle_displayLed = xQueueCreate(QUEUE_MAX_LENGTH, 
+      sizeof(eSystemEvent_displayLed));
    if (queueHandle_displayLed == NULL){
       perror("Error creating queue");
-      return 1;
-   }
-
-   xBinarySemaphoreDisplayLed = xSemaphoreCreateBinary();
-   if (xBinarySemaphoreDisplayLed == NULL){
-      perror("Error creating semaphore");
       return 1;
    }
 
@@ -160,9 +147,6 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
-
-/*
-*/
 
    if( xTaskCreate( vTaskDisplayLed, "Display Led State Machine task", 
       configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 
@@ -177,6 +161,62 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
+*/
+
+/***************************************************************************/
+/* UART tasks */
+/***************************************************************************/
+
+   if( (timerHandle_UART = xTimerCreate( "Timer UART ", 800, true, NULL, 
+      timerCallback_UART)) == NULL ) {
+      perror("Error creating timer");
+      return 1;
+   }
+
+   if(xTimerStart(timerHandle_UART, 0) != pdPASS){
+      perror("Error starting timer");
+      return 1;      
+   }
+
+   xBinarySemaphoreUART = xSemaphoreCreateBinary();
+   if (xBinarySemaphoreUART == NULL){
+      perror("Error creating UART semaphore");
+      return 1;
+   }
+
+   if( xTaskCreate( vHandlerTaskUART, "ISR UART Handler task", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      NULL) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+
+   dataBufferQueue = xQueueCreate(MAX_BUFFER_SIZE, sizeof(uint8_t));
+   if (dataBufferQueue == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+
+
+   if( xTaskCreate( vTaskUART_buffer, "Receing data task", 
+      configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, 0) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+/*
+   queueHandle_UART = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_UART));
+   if (queueHandle_UART == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+
+   if( xTaskCreate( vTaskUART, "State Machine using active object", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskStateMachineHandler_UART) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+*/
 
 /***************************************************************************/
 /* RTOS start */

@@ -20,6 +20,29 @@ extern portTickType        xLastWakeTimeDisplayLed;
 extern SemaphoreHandle_t   xMutexUART;
 extern xTaskHandle         xTaskDisplayLedTestHandler;
 
+
+/*===========================================================================*/
+
+char *messages[MESSAGES_TOTAL_NUMBER]={
+    "Retiro", 
+    "Lisandro de la Torre",
+    "Belgrano C", 
+    "Nunez",
+    "Rivadavia",
+    "Vicente Lopez",
+    "Olivos",
+    "La Lucila",
+    "Martinez",
+    "Acassuso",
+    "San Isidro",
+    "Beccar",
+    "Victoria",
+    "Virreyes",
+    "San Fernando",
+    "Carupa",
+    "Tigre"
+};
+
 /*===========================================================================*/
 
 // Settings 

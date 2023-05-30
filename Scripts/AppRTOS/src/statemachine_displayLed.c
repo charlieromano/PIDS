@@ -1,10 +1,16 @@
 //statemachine_displayLed.c
 #include "statemachine_displayLed.h"
 
-// Globals
-/*extern*/ char *messages[]={
-    "Retiro", "Belgrano C", "Tigre"
+sStateMachine_displayLed fsmDisplayLed[] = 
+{
+    {STATE_DISPLAYLED_INIT, evDisplayled_init, displayled_initHandler},
+    {STATE_DISPLAYLED_IDLE, evDisplayled_msg_received, displayled_idleHandler},
+    {STATE_DISPLAYLED_PROCESSING, evDisplayled_timeout, displayled_procHandler},
+    {STATE_DISPLAYLED_ENCODING, evDisplayled_timeout, displayled_dataHandler}
 };
+
+// Globals
+extern char *messages[];
 
 extern QueueHandle_t        queueHandle_displayLed;
 extern SemaphoreHandle_t    xMutexUART;
@@ -19,22 +25,14 @@ extern gpioMap_t  	displayled_latch;
 extern gpioMap_t    displayled_panel_1;
 extern gpioMap_t    displayled_panel_2;
 
-bool_t  displayled_msg_flag;
+bool_t      displayled_msg_flag;
 
-uint8_t             displayled_size = DISPLAYLED_ROWS*DISPLAYLED_COLS;
-uint8_t             displayled_buffer[DISPLAYLED_ROWS*DISPLAYLED_COLS];
-uint8_t             displayled_buffer_idx;
-uint8_t             displayled_deco_cnt;
-uint8_t             displayled_timer_cnt;
-uint8_t             displayled_msg_idx;
-
-sStateMachine_displayLed fsmDisplayLed[] = 
-{
-    {STATE_DISPLAYLED_INIT, evDisplayled_init, displayled_initHandler},
-    {STATE_DISPLAYLED_IDLE, evDisplayled_msg_received, displayled_idleHandler},
-    {STATE_DISPLAYLED_PROCESSING, evDisplayled_timeout, displayled_procHandler},
-    {STATE_DISPLAYLED_ENCODING, evDisplayled_timeout, displayled_dataHandler}
-};
+uint8_t     displayled_size = DISPLAYLED_ROWS*DISPLAYLED_COLS;
+uint8_t     displayled_buffer[DISPLAYLED_ROWS*DISPLAYLED_COLS];
+uint8_t     displayled_buffer_idx;
+uint8_t     displayled_deco_cnt;
+uint8_t     displayled_timer_cnt;
+uint8_t     displayled_msg_idx;
 
 eSystemState_displayLed 	displayled_initHandler(void){
    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
@@ -57,7 +55,7 @@ eSystemState_displayLed 	displayled_idleHandler(void){
         xSemaphoreGive(xMutexUART);
     }
 
-    displayled_timer_cnt  = 200;
+    displayled_timer_cnt  = MESSAGES_FLICKR_NUMBER;
 
     if (displayled_msg_flag) {
         return STATE_DISPLAYLED_PROCESSING;
@@ -97,7 +95,7 @@ eSystemState_displayLed     displayled_procHandler(void){
     reshape_to_display(buffer, displayled_buffer, buffer_size, displayled_size);
 
     displayled_msg_idx++;
-    displayled_msg_idx%=3;
+    displayled_msg_idx%=MESSAGES_TOTAL_NUMBER;
     displayled_msg_flag=0;
 
     return STATE_DISPLAYLED_ENCODING;
@@ -128,7 +126,7 @@ eSystemState_displayLed     displayled_dataHandler(void){
             
             // displayled_data 
             value = (((data_8b << j ) & 0x80 ) == 0) ? 1 : 0;
-            //printf("%d",value);
+            printf("%d",value);
             gpioWrite(displayled_panel_1, value);
             gpioWrite(displayled_panel_2, value);
             
@@ -140,7 +138,7 @@ eSystemState_displayLed     displayled_dataHandler(void){
         if(i%DISPLAYLED_COLS==0){
 
             // displayled_latch 
-            //printf("\r\n");
+            printf("\r\n");
             gpioWrite(displayled_latch, ON);
             gpioWrite(displayled_latch, OFF);
             

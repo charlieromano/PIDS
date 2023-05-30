@@ -1,16 +1,12 @@
 /* ISR_UART.h */
-#ifndef ISR_UART_H
-#define ISR_UART_H
+#ifndef __ISR_UART_H__
+#define __ISR_UART_H__
 
 #include <stdio.h>
 #include "FreeRTOS.h"   
-#include "FreeRTOSConfig.h"
-#include "semphr.h"		
-#include "queue.h"      
 #include "sapi.h"
 #include "board.h"
-#include "sapi.h"
-#include "sapi_uart.h"
+#include "semphr.h"
 
 #define UART_BAUD_RATE 115200
 #define UART_QUEUE_WAITING_TICKS 0
