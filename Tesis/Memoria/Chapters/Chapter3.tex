@@ -401,7 +401,7 @@ Se utilizan también punteros de tipo \textit{xTaskHandle}para referenciar las t
 
 También se utilizan \textit{Timers} por software en aquellos casos que su uso facilita el mantenimiento, legibilidad y comprensión de la implementación. Especial cuidado de superposición o competición del reloj del sistema operativo se procura al disponer de componentes que tienen requisitos temporales que compiten entre si por prioridad del scheduler. Se verá en detalle la implementación del display Led como ejemplo.\\
 
-Finalmente, se han utilizado rutinas de interrupciones o \textit{ISR} en aquellos casos que se requiere respuesta inmediata, como el accionamiento manual de un interruptor o bien la comunicación del bus de datos del tren. El caso de uso de interrupciones se representa en la figura \ref{fig:ISR}.
+Las rutinas de interrupción por hardware o \textit{ISR} se utilizan cuando se requiere respuesta inmediata, como al accionar manualmente un interruptor o bien al recibir mensajes o señales eléctricas desde el bus de datos del tren. La implementación elegida para el uso de interrupciones se representa en el diagrama de secuencia de la figura \ref{fig:ISR}. \\
 
 \begin{figure}[ht]
 	\centering
@@ -410,7 +410,13 @@ Finalmente, se han utilizado rutinas de interrupciones o \textit{ISR} en aquello
 	\label{fig:ISR}
 \end{figure}
 
-El recurso de hardware que genera una interrupción (ISR) tiene asignado una función específica \textit{ISR callback} que entrega un semáforo que luego es tomado por una tarea de sistema (vHandlerTask). Esta última normalmente representa un objeto activo que actualiza una máquina de estado.\\
+El recurso de hardware que genera interrupciones (ISR) llama a una función callback (\textit{ISR callback}) que sólo se encarga de entregar un semáforo al sistema, no tiene lógica implementada, sólo avisa al sistema que hay una interrupción que atender. El semáforo es tomado por una tarea de sistema (vHandlerTask) que resuelve el código de ejecución. Esta tarea normalmente implementa un objeto activo que actualiza una máquina de estado.\\
+
+De esta manera se logra atomicidad en las rutinas de interrupción y con ello muy baja latencia, se desacopla la invocación de la ejecución usando callback y callee en dos hilos independientes y se mantiene consistencia en el uso de objetos activos siguiendo los lineamientos de la arquitectura orientada a eventos.\\
+
+
+Memoria dinámica.
+
 
 \subsection{Patrones de software}
 En este desarrollo se ha hecho uso extensivo de los patrones máquina de estado, objeto activo, pipeline, observ and react, y superciclo. Se presenta en detalle el formato de plantillas desarrollado en C para freeRTOS.\\
@@ -578,33 +584,78 @@ En este caso la tarea recibe una referencia a un timer (\textit{xTimerHandle}) q
 
 
 \pagebreak
-\subsection{Componentes}
+\subsection{Componentes de sistema}
 
+En esta sección se describen los componentes principales de la solución representada con el diagrama de la figura \ref{fig:diagVistaDisenho}. Los cuatro objetos activos utilizados son:\\
+\begin{itemize}
+\item \textbf{UART}: objeto activo que sirve de interfaz de comunicación con la red RS485 del sistema PIDS. Se encarga de recibir los mensajes de la red, identificarlos y enviarlos al PIDS.
+\item \textbf{PIDS}: objeto activo responsable de la lógica entre las señales del tren como mensajes de entrada y la configuración de mensajes de salida que se visualizan en pantalla. 
+\item \textbf{displayLED}: objeto activo responsable de codificar los mensajes que vienen del PIDS para ser visualizados en un display de matriz led a través de un hardware de control.
+\item \textbf{Button}: objeto activo responsable de recibir accionamientos manuales del conductor del tren.
+\end{itemize}
+
+Las interacciones entre componentes se presentan con los diagramas de secuencia de la figura \ref{fig:diagramaSecuenciaSistema} que representan los casos de uso.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{./Figures/diagVistaDisenhoExtendida.png}
-	\caption{Vista de interacciones extendida del sistema propuesto.}
-	\label{fig:diagVistaDisenhoExtendida}
+	\includegraphics[width=1\textwidth]{../Figures/secuenciasSistema.png}
+	\caption{(a)caso de uso de visualización de estación; (b) caso de uso de receptor de tramas;(c) caso de uso de elección de destino por accionamiento del conductor;(d) caso de uso de visualización de información de asistencia.}
+	\label{fig:diagramaSecuenciaSistema}
 \end{figure}
 
+
+La organización del scheduler del sistema operativo se representa con el diagrama temporal de la figura \ref{fig:diagramasTemporales}. La base de este diagrama es el orden de prioridades de las tareas de objetos activos, los timers y los handlers de interrupciones que manejan los periféricos de hardware.\\
+
+
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{./Figures/diagramasTemporales.png}
+	\includegraphics[width=0.5\textwidth]{./Figures/diagramasTemporales.png}
 	\caption{}
 	\label{fig:diagramasTemporales}
 \end{figure}
 
-\pagebreak
-\subsubsection{Display LED}
+\subsection{Display LED}
+
+El objetivo de esta sección es describir la solución implementada para el manejo de carteles de matriz led, su estructura, su forma de uso y cómo se debe modificar en caso de reutilización en otros sistemas.\\
+
+Los carteles led que se utilizaron en esta solución tienen una tecnología de control específica, que incluye un MCU y un sistema digital. La topología del sistema digital se presenta con el diagrama de la figura \ref{fig:diagDriverLED}.\\
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[]{./Figures/diagDriverLED.png}
+	\caption{Diagrama de bloques del controlador de los carteles de matriz LED utilizados en esta implementación.}
+	\label{fig:diagDriverLED}
+\end{figure}
+
+Los módulos display led utilizados en este desarrollo se componen de una matriz de 8x8 leds. Estos módulos se deben direccionar por filas y columnas para  visualizar información. Los arreglos de estos módulos forman lo que se conoce como paneles, que para sistemas digitales de este tipo pueden ser direccionados por un conjunto de señales de control.\\
+
+Las señales de control (data, clock, latch, deco) se generan en el MCU y se transmiten al circuito eléctrico a través de un conector (CONN). Estas señales se direccionan eléctricamente usando buffers. Luego, hacia la izquierda, se transmiten las señales data, clock y latch, que envían los datos del mensaje codificado a un arreglo de Shift Registers. Estos últimos son los encargados de transmitir bit a bit los datos de cada columna que forma una fila del cartel. Una vez enviados todos los datos de una fila, se envía un pulso como señal de latch y se energiza la fila completa. Se repite la operación fila a fila escaneando todo el cartel a través de las señales del Deco, energizando cada fila a través de un arreglo de transistores MOSFET que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un tiempo equivalente de forma tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo para formar una imagen continua al ojo humano.\\
+
+En el circuito esquemático de la figura \ref{fig:schDriverLED} se presenta el detalle de conexiones eléctricas entre bloques. Se puede observar que a la salida del conector de datos (CONN 2x8) hay dos buffers de la serie 74HC245D que direccionan las señales eléctricas a izquierda y derecha del arreglo de matrices led. A izquierda viajan las señales SER(data), SRCLK (Clock) y XXX (latch) al arreglo de Shift Registers de la serie 74HC595. Por la derecha se maneja la habilitación secuencial de las filas a través de un arreglo de decodificadores 3x8 de la serie 74HC138. Cada salida de los decodificadores se conecta a un driver de corriente en arreglo de transistores MOSFET FDS4953. Estos decodificadores cableados adecuadamente permiten manejar las 32 señales de un cartel de 4x8 módulos led. 
+
+\begin{figure}[ht]
+	\centering
+	\includepdf[angle=90]{./Figures/output.driverLED.pdf}
+	\caption{Circuito esquemático de la placa controladora de los carteles de matriz LED.}
+	\label{fig:schDriverLED}
+\end{figure}
+
+Los arreglos de paneles forman carteles. En este trabajo se desarrolló un sistema de control digital para carteles de 4x8 \\
+
+
 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{./Figures/output.driverLED.pdf}
-	\caption{Circuito esquemático de la placa driver de los carteles de matriz LED.}
-	\label{fig:schDriverLED}
+	\includegraphics[width=0.75\textwidth, angle=270]{./Figures/cartel4x8.jpg}\\
+	\includegraphics[width=1\textwidth]{./Figures/cartel2x6.jpeg}
+	\caption{Fotografías de la placa de control de los carteles de matriz LED: (a) placa de 4x8 módulos; (b) placa de 2x6 módulos}
+	\label{fig:picsDriverLED}
 \end{figure}
+
+
+
+\subsection{Controlador}
 
 \begin{figure}[ht]
 	\centering
@@ -619,7 +670,7 @@ En este caso la tarea recibe una referencia a un timer (\textit{xTimerHandle}) q
 	\caption{Lógica de procesamiento de datos para visualizar en el display.}
 	\label{fig:displayDataLogic}
 \end{figure}
-\subsubsection{Controlador}
-\pagebreak
+
+
 \subsection{Interfaces}
 \subsection{Vistas de sistema}
