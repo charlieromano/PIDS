@@ -289,7 +289,7 @@ void vHandlerTaskUART(void *pvParameters){
       if(pdTRUE ==xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY)){
          gpioWrite(LED3, OFF);
 
-         newEventFromISR = evUartNewFrame;
+         newEventFromISR = evUart_Rx;
 
          if(xQueueSend(queueHandle_UART, &newEventFromISR, 0U)!=pdPASS){
             perror("Error sending data to the queueHandle_button\r\n");
@@ -345,9 +345,9 @@ void vTaskUART(void* xTimerDisplayHandle){
    while(true){
 
       // fsmUART init 
-      eSystemEvent_UART newEvent    = evUartInit;
+      eSystemEvent_UART newEvent    = evUart_Init;
       eSystemState_UART nextState   = STATE_UART_INIT;
-      fsmUART[nextState].fsmEvent = newEvent; 
+      fsmUART[nextState].fsmEvent   = newEvent; 
       nextState = (*fsmUART[nextState].fsmHandler)();
 
       // Active object
