@@ -289,7 +289,7 @@ void vHandlerTaskUART(void *pvParameters){
       if(pdTRUE ==xSemaphoreTake(xBinarySemaphoreUART, portMAX_DELAY)){
          gpioWrite(LED3, OFF);
 
-         newEventFromISR = evUart_Rx;
+         newEventFromISR = evUart_Received_byte;
 
          if(xQueueSend(queueHandle_UART, &newEventFromISR, 0U)!=pdPASS){
             perror("Error sending data to the queueHandle_button\r\n");
@@ -300,38 +300,6 @@ void vHandlerTaskUART(void *pvParameters){
    }
 }
 
-
-void vTaskUART_buffer(void* pvParameters){
-
-   /* task */
-   uint8_t txData;
-   uint8_t i=0;
-   eSystemEvent_UART newEventUART;
-
-   while(true){
-
-      if( pdPASS == xQueueReceive(dataBufferQueue, &txData, portMAX_DELAY)){
-         if(txData==MASK_HEADER)
-            gpioToggle(LEDB);
-         data_array[i]=txData;
-         i++;
-         if(i%MAX_BUFFER_SIZE==0){
-            i=0;
-/*
-            memcpy(&data_array_copy,&data_array, MAX_BUFFER_SIZE); 
-            newEventUART=evUartNewFrame;
-            if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-               printf("\r\n New Frame.\r\n");
-               xSemaphoreGive(xMutexUART);
-            }
-            if(xQueueSend(queueHandle_UART, &newEventUART, 0U)!=pdPASS){
-               perror("Error sending data to the buffer\r\n");
-            }
-*/
-         }
-      }
-   }
-}
 
 void vTaskUART(void* xTimerDisplayHandle){
 
@@ -353,6 +321,7 @@ void vTaskUART(void* xTimerDisplayHandle){
       // Active object
       while(true){
          if( pdPASS == xQueueReceive(queueHandle_UART, &newEvent, portMAX_DELAY)){
+            gpioWrite(LED3, OFF);
             fsmUART[nextState].fsmEvent = newEvent; 
             nextState = (*fsmUART[nextState].fsmHandler)();
          }

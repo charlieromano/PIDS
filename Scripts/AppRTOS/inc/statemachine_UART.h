@@ -18,16 +18,14 @@ typedef enum {
 	STATE_UART_INIT,
 	STATE_UART_IDLE,
 	STATE_UART_LISTENING,
-	STATE_UART_DATA,
-	STATE_UART_STOP,
-	STATE_UART_ERROR
+	STATE_UART_PROCESSING
 
 } eSystemState_UART;
 
 typedef enum{
 	
 	evUart_Init,
-	evUart_Rx,
+	evUart_Received_byte,
 	evUart_Timeout
 
 } eSystemEvent_UART;
@@ -43,10 +41,8 @@ typedef struct{
 } sStateMachine_UART;
 
 eSystemState_UART 	uart_initHandler(void);
-eSystemState_UART 	uart_idleHandler(void);
 eSystemState_UART 	uart_listeningHandler(void);
-eSystemState_UART 	uart_dataHandler(void);
-eSystemState_UART 	uart_stopHandler(void);
+eSystemState_UART 	uart_processingHandler(void);
 eSystemState_UART 	uart_errorHandler(void);
 
 #endif
