@@ -68,16 +68,6 @@ extern TimerHandle_t        timerHandle_displayLed;
 
 extern uint8_t     timer_cnt; 
 extern bool        timer_flag;
-extern uint8_t     data_AB;
-extern uint8_t     data_display;
-extern uint8_t data_AB;
-extern uint8_t dato;
-extern uint8_t rxData;
-extern uint8_t data_rx;
-extern uint8_t data_tx;
-extern uint8_t data_array[DATA_ARRAY_LENGTH];
-extern uint8_t data_array_copy[DATA_ARRAY_LENGTH];
-extern uint8_t output_array_copy[DATA_ARRAY_LENGTH];
 
 /*=====[Prototypes (declarations) of public functions]=======================*/
 

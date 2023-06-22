@@ -22,6 +22,7 @@
 #include "userTasks.h"
 
 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -31,13 +32,6 @@ gpioMap_t led=LEDR;
 
 uint8_t             timer_cnt;
 bool                timer_flag;
-uint8_t rxData;
-uint8_t data_rx;
-uint8_t data_tx;
-uint8_t data_array[DATA_ARRAY_LENGTH];
-uint8_t data_array_copy[DATA_ARRAY_LENGTH];
-uint8_t output_array_copy[DATA_ARRAY_LENGTH];
-uint8_t             data_AB;
 
 TimerHandle_t       timerHandle_AB; 
 TimerHandle_t       timerHandle_button; 

@@ -4986,4 +4986,8 @@ Text Label 5025 10050 2    50   ~ 0
 G2
 Text Label 1675 9600 2    50   ~ 0
 G1
+Text Label 1675 9500 2    50   ~ 0
+R1
+Text Label 1675 9700 2    50   ~ 0
+R2
 $EndSCHEMATC

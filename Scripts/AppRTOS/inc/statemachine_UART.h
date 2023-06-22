@@ -7,11 +7,10 @@
 #include "displayLed.h"
 #include "portmap.h"
 
-#define     MAX_BUFFER_SIZE 	2
-#define 	DATA_BUFFER_LENGTH 	2
-#define 	DATA_ARRAY_LENGTH 	MAX_BUFFER_SIZE*DATA_BUFFER_LENGTH
-#define 	MASK_HEADER 		0x7E
-#define 	MASK_TRAILER 		0x77
+#define UART_START_BYTE  	0xCC
+#define UART_STOP_BYTE  	0xEE
+#define UART_BUFFER_LENGTH 	32
+#define UART_TIMER_MS 		100	
 
 typedef enum {
 	
@@ -41,6 +40,7 @@ typedef struct{
 } sStateMachine_UART;
 
 eSystemState_UART 	uart_initHandler(void);
+eSystemState_UART 	uart_idleHandler(void);
 eSystemState_UART 	uart_listeningHandler(void);
 eSystemState_UART 	uart_processingHandler(void);
 eSystemState_UART 	uart_errorHandler(void);

@@ -77,7 +77,6 @@ int main( void )
 /* Button */
 /***************************************************************************/
 /*
-*/
    if( (timerHandle_button = xTimerCreate( "Timer button", 
       10, true, NULL, 
       timerCallback_button)) == NULL ) {
@@ -116,6 +115,7 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
+*/
 
 /***************************************************************************/
 /* display Led */
@@ -167,8 +167,8 @@ int main( void )
 /* UART tasks */
 /***************************************************************************/
 
-   if( (timerHandle_UART = xTimerCreate( "Timer UART ", 800, true, NULL, 
-      timerCallback_UART)) == NULL ) {
+   if( (timerHandle_UART = xTimerCreate( "UART Timer", UART_TIMER_MS, 
+      true, NULL, timerCallback_UART)) == NULL ) {
       perror("Error creating timer");
       return 1;
    }
@@ -178,6 +178,7 @@ int main( void )
       return 1;      
    }
 
+/*
    xBinarySemaphoreUART = xSemaphoreCreateBinary();
    if (xBinarySemaphoreUART == NULL){
       perror("Error creating UART semaphore");
@@ -190,6 +191,7 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
+*/
 
    queueHandle_UART = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_UART));
    if (queueHandle_UART == NULL){
@@ -203,8 +205,6 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
-/*
-*/
 
 /***************************************************************************/
 /* RTOS start */

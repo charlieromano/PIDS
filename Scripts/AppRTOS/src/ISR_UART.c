@@ -17,11 +17,17 @@ void UART_ISR_Handler( void *noparam)
 {
    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
    
+   eSystemEvent_UART newEventFromISR = evUart_Received_byte;
+
    gpioWrite(LED3, ON);
-   printf("UART IRQ!\r\n");
-   xSemaphoreGiveFromISR(xBinarySemaphoreUART, &xHigherPriorityTaskWoken);
+   //printf("UART IRQ!\r\n");
    uartClearPendingInterrupt(UART_USB);
    uartCallbackClr(UART_USB, UART_RECEIVE);
+   
+   if(xQueueSendFromISR(queueHandle_UART, &newEventFromISR, 0U)!=pdPASS){
+      perror("Error sending data to the queueHandle_button\r\n");
+   }
+   
    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 /*
 */
