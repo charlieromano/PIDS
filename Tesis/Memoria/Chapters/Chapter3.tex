@@ -308,13 +308,14 @@ Esta vista de interacción entre objetos indica la dependencia funcional de los 
 
 
 \section{Implementación}
-En este trabajo se implementa un sistema embebido en lenguaje C usando el sistema operativo de tiempo real freeRTOS sobre una arquitectura de 32 bits ARM Cortex-M4/M0. La plataforma de hardware elegida es la CIAA-EDU-NXP, que dispone de un microcontrolador LPC4337 de la companía NXP (\cite{NXPLPC4337}).\\
+En este trabajo se implementa un sistema embebido usando el lenguaje de programación C y el sistema operativo de tiempo real freeRTOS. La plataforma de hardware utilizada es la CIAA-EDU-NXP, que dispone de un microcontrolador LPC4337 de la companía NXP (\cite{NXPLPC4337}), con una arquitectura de 32 bits ARM Cortex-M4/M0. El firmware se desarrolló utilizando también la \textit{SAPI} y el \textit{firmwareV3} \cite{firmwarev3} como capa de abstracción de hardware. Esta API es una interfaz para usar las funciones de la biblioteca CMSIS del fabricante del microcontrlador. Esta API es parte fundamental del proyecto CIAA.\\
  
-Se ha utilizado la \textit{SAPI} y el \textit{firmwareV3} \cite{firmwarev3}, como API que funciona como capa de abstracción de las funciones específicas de la biblioteca del fabricante del microcontrlador. Esta API es parte fundamental del proyecto CIAA.\\
- 
-En el desarrollo del firmware se ha preferido el uso de plantillas para implementar patrones de software como máquinas de estado y objetos activos, de manera que se facilite la documentación y testing y con ello el mantenimiento y la escalabilidad. Se describen los lineamientos y fragmentos de código principales en la sección de patrones de software.\\
+En el desarrollo del sistema se eligió usar plantillas de implementación para patrones de software como máquinas de estado y objetos activos, facilitando la documentación, testing, mantenimiento y escalabilidad. Se describen los lineamientos y fragmentos de código principales de estas plantillas en la sección de patrones de software. \\
 
-Finalmente se dedica una sección a nivel de detalle para la implementación del controlador del diplay led. El firmware busca ser portable a aquellas versiones de hardware de display basadas en el conjunto de chips 74HC245, 74HC595 y 74HC138 o equivalentes de compuertas digitales. \\
+La implementación de los objetos activos del sistema se describe en la sección de componentes de sistema. Se mencionan los atributos principales de la solución y se documentan las vistas de interacción entre componentes.\\
+
+La implementación del controlador del diplay led tiene una sección a nivel de detalle para mayor comprensión. El firmware busca ser portable a aquellas versiones de hardware de display de matriz led basadas en el conjunto de chips 74HC245, 74HC595 y 74HC138 o sistemas digitales equivalentes. \\
+
 
 
 \subsection{Organización del código fuente}
@@ -352,9 +353,9 @@ Se pueden observar dos directorios principales: \textit{inc} y \textit{src}. En 
 
 Esta organización permite encapsulamiento y modularidad entre componentes del sistema. Con ello se facilita el mantenimiento y con el uso de las mismas reglas de diseño y plantillas se facilita la escalabilidad.\\
 
-\subsection{RTOS: Sistema operativo de tiempo real}
+\subsection{Uso de recursos del sistema operativo de tiempo real (RTOS)}
 
-En este desarrollo se utiliza freeRTOS, una versión en C de un kernel de sistema operativo de tiempo real. La implementación se basa en la inclusión de los archivos FreeRTOS.h y FreeRTOSConfig.h. Esta implementación ha sido validada en arquitecturas ARM Cortex-M4, en particular en la plataforma EDU-CIAA. 
+En este desarrollo se utiliza freeRTOS, una versión en C de un kernel de sistema operativo de tiempo real. La implementación se basa en la inclusión de los archivos de cabecera FreeRTOS.h y FreeRTOSConfig.h. Esta implementación ha sido validada en arquitecturas ARM Cortex-M4, en particular en la plataforma EDU-CIAA. 
 
 En todos los casos que fue posible se utilizaron semáforos, colas y mutex para organizar y proteger el uso compartido de recursos. \\
 
@@ -419,13 +420,13 @@ Memoria dinámica.
 
 
 \subsection{Patrones de software}
-En este desarrollo se ha hecho uso extensivo de los patrones máquina de estado, objeto activo, pipeline, observ and react, y superciclo. Se presenta en detalle el formato de plantillas desarrollado en C para freeRTOS.\\
+En este desarrollo se ha hecho uso extensivo de los patrones máquina de estado, objeto activo, pipeline, observ and react, y superciclo. Se presenta en detalle el formato de plantillas desarrollado en C para freeRTOS para los patrones de máquinas de estado y de objeto activo. \\
 
 \subsubsection{Máquinas de estado}
 El desarrollo de la arquitectura orientada a eventos propuesta se basa en la interacción de máquinas de estado usando objetos activos. En este trabajo las máquinas de estado se implementan sistemáticamente en C con el siguiente procedimiento paso a paso:
 
 \begin{enumerate}
-\item Representar los estados y eventos con un diagrama de máquina de estados.
+\item Representación de los estados y eventos con diagrama de estados.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.66\textwidth]{./Figures/statemachineAB.png}
@@ -433,7 +434,7 @@ El desarrollo de la arquitectura orientada a eventos propuesta se basa en la int
 	\label{fig:fsmAB}
 \end{figure}
 
-\item Definir los estados. Usar tipo enumerativo definido con el prefijo \textit{eSystemState}:
+\item Definición de los estados, usando tipo enumerativo definido con el prefijo \textit{eSystemState}:
 
 \begin{lstlisting}[
 	language=C, 
@@ -448,7 +449,7 @@ typedef enum{
 } eSystemState;
 \end{lstlisting}
 
-\item Definir los eventos. Los eventos representan transiciones entre estados con un tipo definido con el prefijo \textit{eSystemEvent}:
+\item Definición de los eventos. Los eventos representan transiciones entre estados con un tipo enumerativo definido con el prefijo \textit{eSystemEvent}:
 
 \begin{lstlisting}[
 	language=C, 
@@ -462,7 +463,7 @@ typedef enum{
 } eSystemEvent;
 \end{lstlisting}
 
-\item Definir un tipo puntero a función para designar los handlers con el prefijo \textit{*pfEventHandler()}:
+\item Definición de un tipo puntero a función usando el prefijo \textit{*pfEventHandler()} para designar los handlers específicos:
 
 \begin{lstlisting}[
 	language=C, 
@@ -471,7 +472,7 @@ typedef enum{
 typedef eSystemState (*pfEventHandler)(void);
 \end{lstlisting}
 
-\item Definir una estructura para la máquina de estados con un tipo \textit{sStateMachine}. Esta estructura debe incluir una variable estado (eSystemState), una variable evento (eSystemEvent) y un puntero a función (pfEventHandler). El puntero a función será una instancia de handler específico que maneje las transiciones entre estados. 
+\item Definición de una estructura para la máquina de estados definiendo un tipo \textit{sStateMachine}. Esta estructura debe incluir una variable estado (eSystemState), una variable evento (eSystemEvent) y un puntero a función (pfEventHandler). El puntero a función será una instancia de handler específico que maneje las transiciones entre estados. 
 
 \begin{lstlisting}[
 	language=C, 
@@ -486,18 +487,18 @@ typedef struct{
 } sStateMachine;
 \end{lstlisting}
 
-\item Definir los handlers a implementar para el manejo de ejecución y transiciones entre estados.
+\item Definición de los handlers a implementar para el manejo de ejecución y transiciones entre estados.
 
 \begin{lstlisting}[
 	language=C, 
 	backgroundcolor=\color{mygray},
 	]
 eSystemState 	InitHandler(void);
-eSystemState 	AtoBHandler(void);
-eSystemState 	BtoAHandler(void);
+eSystemState 	AHandler(void);
+eSystemState 	BHandler(void);
 \end{lstlisting}
 
-\item Instanciar la máquina de estados como un arreglo de estructuras de tipo \textit{sStateMachine}. Para el ejemplo de la máquina AB la instancia de arreglo de estructuras sería la siguiente:
+\item Instanciación de la máquina de estados como un arreglo de estructuras usando el prefijo \textit{sStateMachine\_}. Para el ejemplo de la máquina AB la instancia de arreglo de estructuras sería la siguiente:
 
 \begin{lstlisting}[
 	language=C, 
@@ -506,12 +507,14 @@ eSystemState 	BtoAHandler(void);
 sStateMachine_AB fsmMachineAB [] = 
 {
 	{STATE_INIT_AB, evInit_AB, InitHandler_AB},
-	{STATE_A, evTimeout_A, AtoBHandler},
-	{STATE_B, evTimeout_B, BtoAHandler}
+	{STATE_A, evTimeout, AHandler},
+	{STATE_B, evTimeout, BHandler}
 };
 \end{lstlisting}
 
-\item Escribir el código ejecutable de los handlers. Una implementación de handler a modo de ejemplo se presenta a continuación.
+En esta definición habrá un handler en el momento de inicialización (initHandler), un handler específico para cada estado.
+
+\item Escribir el código ejecutable de los handlers. Una implementación  modo de ejemplo se presenta en el siguiente fragmento de código:
 
 \begin{lstlisting}[
 	language=C, 
@@ -521,9 +524,21 @@ eSystemState 	InitHandler(void){
 	printf("State Machine Init...\n");
 	return STATE_A; 
 }
-\end{lstlisting}
 
+eSystemState 	AHandler(void){ 
+	printf("State Machine State A\n");
+	return STATE_B; 
+}
+
+eSystemState 	BHandler(void){ 
+	printf("State Machine State B\n");
+	return STATE_A; 
+}
+\end{lstlisting}
 \end{enumerate}
+
+
+Se debe notar que para este ejemplo cada transición de estados se ejecutará por el evento \textit{evTimeout}. La máquina inicia y se define en el estado STATE\_A y luego alterna entre STATE\_A y STATE\_B por cada evento de timeout.
 
 De esta manera queda desacoplada la implentación de los handlers del resto de la estructura de la máquina de estados, logrando portabilidad, escala y modularidad. Los handlers serán funciones que se implementan con el sufijo Handler() y que por definición tienen un solo argumento de tipo void.
 
@@ -607,42 +622,32 @@ Las interacciones entre componentes se presentan con los diagramas de secuencia 
 La organización del scheduler del sistema operativo se representa con el diagrama temporal de la figura \ref{fig:diagramasTemporales}. La base de este diagrama es el orden de prioridades de las tareas de objetos activos, los timers y los handlers de interrupciones que manejan los periféricos de hardware.\\
 
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.5\textwidth]{./Figures/diagramasTemporales.png}
-	\caption{}
-	\label{fig:diagramasTemporales}
-\end{figure}
 
 \subsection{Display LED}
 
 El objetivo de esta sección es describir la solución implementada para el manejo de carteles de matriz led, su estructura, su forma de uso y cómo se debe modificar en caso de reutilización en otros sistemas.\\
 
-Los carteles led que se utilizaron en esta solución tienen una tecnología de control específica, que incluye un MCU y un sistema digital. La topología del sistema digital se presenta con el diagrama de la figura \ref{fig:diagDriverLED}.\\
+Los carteles led que se utilizaron en esta solución tienen una tecnología de control específica, que incluye un MCU y un sistema digital. Los módulos display led utilizados en este desarrollo se componen de una matriz de 8x8 leds. Estos módulos se deben direccionar por filas y columnas para  visualizar información. Los arreglos de estos módulos forman paneles que pueden ser direccionados por un grupo de señales de control.\\
+
+Las señales de control (data, clock, latch, deco) se generan en el MCU y se transmiten al circuito eléctrico del display led a través de un conector (CONN), tal como se muestra con el diagrama de la figura \ref{fig:diagDriverLED}. Estas señales se direccionan eléctricamente usando buffers. Luego, hacia la izquierda, se transmiten las señales data, clock y latch, que envían los datos del mensaje codificado a un arreglo de Shift Registers. Estos últimos son los encargados de transmitir bit a bit los datos para las columnas de cada módulo que forman una fila completa del cartel. Una vez enviados todos los datos de una fila, se envía un pulso como señal de latch y se energiza la fila completa. Se repite la operación fila a fila escaneando todo el cartel a través de las señales del Deco, energizando cada fila a través de un arreglo de transistores MOSFET que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un período de tiempo tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo para formar una imagen continua vista por el ojo humano.\\
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[]{./Figures/diagDriverLED.png}
+	\includegraphics[width=1\textwidth]{./Figures/diagDriverLED.png}
 	\caption{Diagrama de bloques del controlador de los carteles de matriz LED utilizados en esta implementación.}
 	\label{fig:diagDriverLED}
 \end{figure}
 
-Los módulos display led utilizados en este desarrollo se componen de una matriz de 8x8 leds. Estos módulos se deben direccionar por filas y columnas para  visualizar información. Los arreglos de estos módulos forman lo que se conoce como paneles, que para sistemas digitales de este tipo pueden ser direccionados por un conjunto de señales de control.\\
 
-Las señales de control (data, clock, latch, deco) se generan en el MCU y se transmiten al circuito eléctrico a través de un conector (CONN). Estas señales se direccionan eléctricamente usando buffers. Luego, hacia la izquierda, se transmiten las señales data, clock y latch, que envían los datos del mensaje codificado a un arreglo de Shift Registers. Estos últimos son los encargados de transmitir bit a bit los datos de cada columna que forma una fila del cartel. Una vez enviados todos los datos de una fila, se envía un pulso como señal de latch y se energiza la fila completa. Se repite la operación fila a fila escaneando todo el cartel a través de las señales del Deco, energizando cada fila a través de un arreglo de transistores MOSFET que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un tiempo equivalente de forma tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo para formar una imagen continua al ojo humano.\\
-
-En el circuito esquemático de la figura \ref{fig:schDriverLED} se presenta el detalle de conexiones eléctricas entre bloques. Se puede observar que a la salida del conector de datos (CONN 2x8) hay dos buffers de la serie 74HC245D que direccionan las señales eléctricas a izquierda y derecha del arreglo de matrices led. A izquierda viajan las señales SER(data), SRCLK (Clock) y XXX (latch) al arreglo de Shift Registers de la serie 74HC595. Por la derecha se maneja la habilitación secuencial de las filas a través de un arreglo de decodificadores 3x8 de la serie 74HC138. Cada salida de los decodificadores se conecta a un driver de corriente en arreglo de transistores MOSFET FDS4953. Estos decodificadores cableados adecuadamente permiten manejar las 32 señales de un cartel de 4x8 módulos led. 
+En el circuito esquemático de la figura \ref{fig:schDriverLED} se presenta el detalle de conexiones eléctricas entre bloques. Se puede observar que a la salida del conector de datos (CONN 2x8) hay dos buffers de la serie 74HC245D que direccionan las señales eléctricas a izquierda y derecha del arreglo de matrices led. A izquierda viajan las señales SER(data), SRCLK (Clock) y XXX (latch) al arreglo de Shift Registers de la serie 74HC595. Por la derecha se maneja la habilitación secuencial de las filas a través de un arreglo de decodificadores 3x8 de la serie 74HC138. Cada salida de los decodificadores se conecta a un driver de corriente en arreglo de transistores MOSFET FDS4953. Estos decodificadores cableados adecuadamente permiten manejar las 32 señales de un cartel de 4x8 módulos led. \\
 
 \begin{figure}[ht]
 	\centering
-	\includepdf[angle=90]{./Figures/output.driverLED.pdf}
+	%\includepdf[pages={1}, angle=90]{./Figures/output.driverLED.pdf}
+	\includegraphics[width=1.66\textwidth, angle=90]{./Figures/output.driverLED.pdf}
 	\caption{Circuito esquemático de la placa controladora de los carteles de matriz LED.}
 	\label{fig:schDriverLED}
 \end{figure}
-
-Los arreglos de paneles forman carteles. En este trabajo se desarrolló un sistema de control digital para carteles de 4x8 \\
-
-
 
 
 \begin{figure}[ht]
@@ -654,8 +659,142 @@ Los arreglos de paneles forman carteles. En este trabajo se desarrolló un siste
 \end{figure}
 
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.66\textwidth]{./Figures/FSMdisplayLed.png}
+	\caption{Diagrama de estados para la máquina de estados del display Led.}
+	\label{fig:fsmDisplayLED}
+\end{figure}
 
-\subsection{Controlador}
+
+
+
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	caption=	{Display Led state machine definition},
+	captionpos=b]
+sStateMachine_displayLed fsmDisplayLed[] = 
+{
+    {STATE_DISPLAYLED_INIT, evDisplayled_init, displayled_initHandler},
+    {STATE_DISPLAYLED_IDLE, evDisplayled_msg_received, displayled_idleHandler},
+    {STATE_DISPLAYLED_PROCESSING, evDisplayled_timeout, displayled_procHandler},
+    {STATE_DISPLAYLED_ENCODING, evDisplayled_timeout, displayled_dataHandler}
+};
+\end{lstlisting}
+\label{code:fsmDisplay}
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/pipelineDataEncoding.png}
+	\caption{Lógica de procesamiento de datos para visualizar en el display.}
+	\label{fig:displayDataLogic}
+\end{figure}
+
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	caption=	{Código fuente del handler de procesamiento del display led.},
+	captionpos=b]
+
+eSystemState_displayLed     displayled_procHandler(void){
+
+    char *str1=messages[displayled_msg_idx];
+
+    uint8_t str1_len=strlen(str1);
+    uint8_t buffer_size=str1_len*CHAR_LENGTH;
+    uint8_t buffer[buffer_size];
+
+    string_read_to_8x8_bytes_out(str1,str1_len,buffer);
+
+    int n=CHAR_LENGTH; 
+    int m=str1_len;
+    int p=DISPLAYLED_ROWS;
+    int q=DISPLAYLED_COLS;
+
+    int displayled_size = p*q;
+
+    uint8_t B[displayled_size];
+    for(int i=0; i<displayled_size;i++)
+    B[i]=0;
+
+    reshape_to_display(buffer, displayled_buffer, buffer_size, displayled_size);
+
+    displayled_msg_idx++;
+    displayled_msg_idx%=MESSAGES_TOTAL_NUMBER;
+    displayled_msg_flag=0;
+
+    return STATE_DISPLAYLED_ENCODING;
+}
+
+\end{lstlisting}
+
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	caption=	{Código fuente del handler de encoding del display Led.},
+	captionpos=b]
+	
+eSystemState_displayLed     displayled_dataHandler(void){
+
+    uint8_t data_8b;
+    bool_t  value;
+
+    displayled_timer_cnt--;
+    if(!displayled_timer_cnt){
+        displayled_msg_flag=0;
+        return STATE_DISPLAYLED_IDLE;
+    };    
+
+    for(int i=0; i<displayled_size; i++){
+        
+        data_8b = displayled_buffer[i];
+        
+        for(int j=0; j<8; j++){
+            
+            // displayled_data 
+            value = (((data_8b << j ) & 0x80 ) == 0) ? 1 : 0;
+            printf("%d",value);
+            gpioWrite(displayled_panel_1, value);
+            gpioWrite(displayled_panel_2, value);
+            
+            // displayled_clock 
+            gpioWrite(displayled_clk, ON);
+            gpioWrite(displayled_clk, OFF);
+        }
+        
+        if(i%DISPLAYLED_COLS==0){
+
+            // displayled_latch 
+            printf("\r\n");
+            gpioWrite(displayled_latch, ON);
+            gpioWrite(displayled_latch, OFF);
+            
+            // displayled_row_scanning
+            displayled_deco_cnt++;
+            displayled_deco_cnt%=DISPLAYLED_ROWS;
+            if((displayled_deco_cnt%1)==0){ 
+            		gpioToggle(displayled_deco_A0); }
+            if((displayled_deco_cnt%2)==0){ 
+            		gpioToggle(displayled_deco_A1); }
+            if((displayled_deco_cnt%4)==0){ 
+            		gpioToggle(displayled_deco_A2); }
+            if((displayled_deco_cnt%8)==0){ 
+            		gpioToggle(displayled_deco_A3); }
+        }
+    }
+    
+    return STATE_DISPLAYLED_ENCODING;
+}
+
+\end{lstlisting}
+
+
+\subsection{Placa de control}
 
 \begin{figure}[ht]
 	\centering
@@ -664,13 +803,10 @@ Los arreglos de paneles forman carteles. En este trabajo se desarrolló un siste
 	\label{fig:schController}
 \end{figure}
 
+
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{./Figures/displayDataLogic.png}
-	\caption{Lógica de procesamiento de datos para visualizar en el display.}
-	\label{fig:displayDataLogic}
+	\includegraphics[width=0.5\textwidth]{./Figures/diagramasTemporales.png}
+	\caption{}
+	\label{fig:diagramasTemporales}
 \end{figure}
-
-
-\subsection{Interfaces}
-\subsection{Vistas de sistema}
