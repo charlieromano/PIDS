@@ -307,7 +307,7 @@ El objeto activo UART es el encargado de recibir e interpretar las tramas de dat
 Esta vista de interacción entre objetos indica la dependencia funcional de los componentes del sistema. Su diseño modular permite hacer cambios en los componentes de sistema de forma independiente. Por ejemplo se podrían reemplazar los mensajes al pasajero en el objeto fsmTrain sin afectar el resto del sistema, o bien reemplazar la lógica de control del display si fuera necesario cambiar la tecnología de control del display led modificando únicamente el objeto Display.\\
 
 
-\section{Implementación}
+\section{Implementación del sistema}
 En este trabajo se implementa un sistema embebido usando el lenguaje de programación C y el sistema operativo de tiempo real freeRTOS. La plataforma de hardware utilizada es la CIAA-EDU-NXP, que dispone de un microcontrolador LPC4337 de la companía NXP (\cite{NXPLPC4337}), con una arquitectura de 32 bits ARM Cortex-M4/M0. El firmware se desarrolló utilizando también la \textit{SAPI} y el \textit{firmwareV3} \cite{firmwarev3} como capa de abstracción de hardware. Esta API es una interfaz para usar las funciones de la biblioteca CMSIS del fabricante del microcontrlador. Esta API es parte fundamental del proyecto CIAA.\\
  
 En el desarrollo del sistema se eligió usar plantillas de implementación para patrones de software como máquinas de estado y objetos activos, facilitando la documentación, testing, mantenimiento y escalabilidad. Se describen los lineamientos y fragmentos de código principales de estas plantillas en la sección de patrones de software. \\
@@ -353,7 +353,7 @@ Se pueden observar dos directorios principales: \textit{inc} y \textit{src}. En 
 
 Esta organización permite encapsulamiento y modularidad entre componentes del sistema. Con ello se facilita el mantenimiento y con el uso de las mismas reglas de diseño y plantillas se facilita la escalabilidad.\\
 
-\subsection{Uso de recursos del sistema operativo de tiempo real (RTOS)}
+\subsection{Uso de recursos en RTOS}
 
 En este desarrollo se utiliza freeRTOS, una versión en C de un kernel de sistema operativo de tiempo real. La implementación se basa en la inclusión de los archivos de cabecera FreeRTOS.h y FreeRTOSConfig.h. Esta implementación ha sido validada en arquitecturas ARM Cortex-M4, en particular en la plataforma EDU-CIAA. 
 
@@ -603,9 +603,9 @@ En este caso la tarea recibe una referencia a un timer (\textit{xTimerHandle}) q
 
 En esta sección se describen los componentes principales de la solución representada con el diagrama de la figura \ref{fig:diagVistaDisenho}. Los cuatro objetos activos utilizados son:\\
 \begin{itemize}
-\item \textbf{UART}: objeto activo que sirve de interfaz de comunicación con la red RS485 del sistema PIDS. Se encarga de recibir los mensajes de la red, identificarlos y enviarlos al PIDS.
-\item \textbf{PIDS}: objeto activo responsable de la lógica entre las señales del tren como mensajes de entrada y la configuración de mensajes de salida que se visualizan en pantalla. 
-\item \textbf{displayLED}: objeto activo responsable de codificar los mensajes que vienen del PIDS para ser visualizados en un display de matriz led a través de un hardware de control.
+\item \textbf{UART}: objeto activo que sirve de interfaz de comunicación con la red RS485 del sistema PIDS. Se encarga de recibir los mensajes de la red, identificarlos y enviarlos al objeto PIDS.
+\item \textbf{PIDS}: objeto activo que contiene la lógica de procesamiento de señales del tren, los mensajes que se visualizan en pantalla y los trayectos disponibles. 
+\item \textbf{displayLED}: objeto activo responsable de codificar los mensajes que vienen del PIDS para ser visualizados en un display de matriz led.
 \item \textbf{Button}: objeto activo responsable de recibir accionamientos manuales del conductor del tren.
 \end{itemize}
 
@@ -621,15 +621,20 @@ Las interacciones entre componentes se presentan con los diagramas de secuencia 
 
 La organización del scheduler del sistema operativo se representa con el diagrama temporal de la figura \ref{fig:diagramasTemporales}. La base de este diagrama es el orden de prioridades de las tareas de objetos activos, los timers y los handlers de interrupciones que manejan los periféricos de hardware.\\
 
+\subsubsection{UART}
+
+En esta sección se describe la implementación del componente UART (Universal Asynchronous Receiver Transmitter) del sistema. Si bien este tipo de interfaz suele ser común en numerosas aplicaciones y abundan ejemplos, la aplicación específica determina la integración. Se presentan a continuación los lineamientos principales que incluyen la descripción del objeto activo implementado, su máquina de estados asociada, el uso de memoria dinámica para el manejo de buffers de datos y los mecanismos con los que este componente interactúa con el resto del sistema.
 
 
-\subsection{Display LED}
+
+
+\pagebreak
+\subsubsection{Display LED}
 
 El objetivo de esta sección es describir la solución implementada para el manejo de carteles de matriz led, su estructura, su forma de uso y cómo se debe modificar en caso de reutilización en otros sistemas.\\
 
-Los carteles led que se utilizaron en esta solución tienen una tecnología de control específica, que incluye un MCU y un sistema digital. Los módulos display led utilizados en este desarrollo se componen de una matriz de 8x8 leds. Estos módulos se deben direccionar por filas y columnas para  visualizar información. Los arreglos de estos módulos forman paneles que pueden ser direccionados por un grupo de señales de control.\\
+Los carteles led de esta se basan en una tecnología de microcontrolador (MCU) y sistema digital. El MCU genera las señales de control y el sistema digital se encarga de codificar los datos del micro en señales eléctricas para prender leds de forma ordenada. Los display se componen de módulos de matriz led de 8x8. Estos módulos se direccionan por filas y columnas para  visualizar información. Los arreglos de estos módulos forman paneles, y estos últimos pueden ser direccionados por un grupo de señales de control. En la figura \ref{fig:diagDriverLED} se presenta el diagrama de bloques del sistema de control de los carteles de matriz led.\\
 
-Las señales de control (data, clock, latch, deco) se generan en el MCU y se transmiten al circuito eléctrico del display led a través de un conector (CONN), tal como se muestra con el diagrama de la figura \ref{fig:diagDriverLED}. Estas señales se direccionan eléctricamente usando buffers. Luego, hacia la izquierda, se transmiten las señales data, clock y latch, que envían los datos del mensaje codificado a un arreglo de Shift Registers. Estos últimos son los encargados de transmitir bit a bit los datos para las columnas de cada módulo que forman una fila completa del cartel. Una vez enviados todos los datos de una fila, se envía un pulso como señal de latch y se energiza la fila completa. Se repite la operación fila a fila escaneando todo el cartel a través de las señales del Deco, energizando cada fila a través de un arreglo de transistores MOSFET que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un período de tiempo tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo para formar una imagen continua vista por el ojo humano.\\
 
 \begin{figure}[ht]
 	\centering
@@ -638,8 +643,19 @@ Las señales de control (data, clock, latch, deco) se generan en el MCU y se tra
 	\label{fig:diagDriverLED}
 \end{figure}
 
+Las señales de control (data, clock, latch, deco) se generan en el MCU y se transmiten al circuito eléctrico del display led a través de un conector (CONN). Estas señales se direccionan eléctricamente usando buffers. Luego, hacia la izquierda, se transmiten las señales data, clock y latch, que envían los datos del mensaje codificado a un arreglo de Shift Registers. Estos últimos son los encargados de transmitir bit a bit los datos para las columnas de cada módulo que forman una fila completa del cartel. Una vez enviados todos los datos de una fila, se envía un pulso como señal de latch y se energiza la fila completa. Se repite la operación fila a fila escaneando todo el cartel a través de las señales del Deco, energizando cada fila a través de un arreglo de transistores MOSFET que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un período de tiempo tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo para formar una imagen continua vista por el ojo humano.\\
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/cartel2x6.jpeg}
+	\includegraphics[width=0.75\textwidth, angle=270]{./Figures/cartel4x8.jpg}\\
+	\includegraphics[width=1\textwidth]{./Figures/cartelLedON.jpg}\\
+	\caption{Fotografías de placas de control de los carteles de matriz LED: (a) placa de 2x6 módulos; (b) placa de 4x8 módulos; (c) vista posterior de la placa de 4x8.}
+	\label{fig:picsDriverLED}
+\end{figure}
 
 En el circuito esquemático de la figura \ref{fig:schDriverLED} se presenta el detalle de conexiones eléctricas entre bloques. Se puede observar que a la salida del conector de datos (CONN 2x8) hay dos buffers de la serie 74HC245D que direccionan las señales eléctricas a izquierda y derecha del arreglo de matrices led. A izquierda viajan las señales SER(data), SRCLK (Clock) y XXX (latch) al arreglo de Shift Registers de la serie 74HC595. Por la derecha se maneja la habilitación secuencial de las filas a través de un arreglo de decodificadores 3x8 de la serie 74HC138. Cada salida de los decodificadores se conecta a un driver de corriente en arreglo de transistores MOSFET FDS4953. Estos decodificadores cableados adecuadamente permiten manejar las 32 señales de un cartel de 4x8 módulos led. \\
+
 
 \begin{figure}[ht]
 	\centering
@@ -649,15 +665,7 @@ En el circuito esquemático de la figura \ref{fig:schDriverLED} se presenta el d
 	\label{fig:schDriverLED}
 \end{figure}
 
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.75\textwidth, angle=270]{./Figures/cartel4x8.jpg}\\
-	\includegraphics[width=1\textwidth]{./Figures/cartel2x6.jpeg}
-	\caption{Fotografías de la placa de control de los carteles de matriz LED: (a) placa de 4x8 módulos; (b) placa de 2x6 módulos}
-	\label{fig:picsDriverLED}
-\end{figure}
-
+La pieza de software desarrollada para el control del display led es un objeto activo consistente con el resto del sistema. El diagrama de la máquina de estados asociada se presenta en la figura \ref{fig:fsmDisplayLED}. \\
 
 \begin{figure}[ht]
 	\centering
@@ -666,8 +674,7 @@ En el circuito esquemático de la figura \ref{fig:schDriverLED} se presenta el d
 	\label{fig:fsmDisplayLED}
 \end{figure}
 
-
-
+Se pueden distinguir tres estados, cada uno con un handler asociado. En el siguiente fragmento de código se presenta la especificación de la máquina de estados del display led. \\
 
 
 \begin{lstlisting}[
@@ -684,6 +691,9 @@ sStateMachine_displayLed fsmDisplayLed[] =
 };
 \end{lstlisting}
 \label{code:fsmDisplay}
+
+El estado 'STATE\_DISPLAYLED\_PROCESSING' ejecuta el handler  'displayled\_procHandler()' encargado de recibir mensajes externos en formato string (char*). Este implementa un pipeline de procesamiento para transformar strings en matrices de enteros de 8 bits.
+
 
 
 \begin{figure}[ht]
@@ -792,21 +802,3 @@ eSystemState_displayLed     displayled_dataHandler(void){
 }
 
 \end{lstlisting}
-
-
-\subsection{Placa de control}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{./Figures/output.placaControl.pdf}
-	\caption{Circuito esquemático de la placa de control de los carteles LED de salón.}
-	\label{fig:schController}
-\end{figure}
-
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.5\textwidth]{./Figures/diagramasTemporales.png}
-	\caption{}
-	\label{fig:diagramasTemporales}
-\end{figure}
