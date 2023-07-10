@@ -623,9 +623,11 @@ La organización del scheduler del sistema operativo se representa con el diagra
 
 \subsubsection{UART}
 
-En esta sección se describe la implementación del componente UART (Universal Asynchronous Receiver Transmitter) del sistema. Si bien este tipo de interfaz suele ser común en numerosas aplicaciones y abundan ejemplos, la aplicación específica determina la integración. Se presentan a continuación los lineamientos principales que incluyen la descripción del objeto activo implementado, su máquina de estados asociada, el uso de memoria dinámica para el manejo de buffers de datos y los mecanismos con los que este componente interactúa con el resto del sistema.
+En esta sección se describe la implementación del componente objeto activo UART (Universal Asynchronous Receiver Transmitter) del sistema. Este tipo de interfaz suele ser común en numerosas aplicaciones y abundan ejemplos utilizados para leer y escribir desde y hacia un periférico UART. El caso trivial es una aplicación "eco": todo lo que se recibe por la UART se vuelve a escribir y enviar por la UART. Sin embargo, la aplicación específica determina la lógica de procesamiento de mensajes. Por ejemplo si se recibe un caracter determinado, entonces se activa tal objeto; si se genera un evento en tal otro objeto, entonces se envía un mensaje de aviso. \\
 
+En el sistema desarrollado, la UART es la interfaz de comunicación con el resto de la red PIDS. Esta debe procesar eventos que indican aceleración y desaceleración del tren. Los eventos se reciben codificados en tramas con formato específico, que a priori carecen de documentación. Como se verá en la sección de ensayos, se ha observado que las tramas normalmente tienen un encabezado (header), una carga de datos (payload), y un final de trama (trailer). Sin embargo, se ha observado también que los mensajes del tren pueden tener largo variable. De esta manera se diseñó un componente UART con cierta flexibilidad para permitir estudiar en mayor detalle la información de las tramas de datos del tren.\\
 
+A continuación se presentan los lineamientos que se utilizaron en la implementación. Incluyen la descripción del objeto activo, su máquina de estados, el uso de memoria dinámica para manejo de buffers de datos y los mecanismos con los que este componente interactúa con el resto del sistema.\\
 
 
 \pagebreak
