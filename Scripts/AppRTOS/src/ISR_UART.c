@@ -25,7 +25,7 @@ void UART_ISR_Handler( void *noparam)
    uartCallbackClr(UART_USB, UART_RECEIVE);
    
    if(xQueueSendFromISR(queueHandle_UART, &newEventFromISR, 0U)!=pdPASS){
-      perror("Error sending data to the queueHandle_button\r\n");
+      perror("Error sending data to the queueHandle_UART from ISR\r\n");
    }
    
    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );

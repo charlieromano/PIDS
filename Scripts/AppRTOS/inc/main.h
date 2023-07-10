@@ -43,6 +43,7 @@ QueueHandle_t       queueHandle_button;
 QueueHandle_t       queueHandle_AB;
 QueueHandle_t       queueHandle_displayLed;
 QueueHandle_t       queueHandle_UART; 
+QueueHandle_t       queueHandle_PIDS; 
 QueueHandle_t       dataBufferQueue;
 
 xTaskHandle         xTaskStateMachineHandler_button; 

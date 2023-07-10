@@ -20,14 +20,15 @@ uint8_t uart_stop_byte 		= UART_STOP_BYTE;
 sStateMachine_UART fsmUART[] = 
 {
 	{STATE_UART_INIT, evUart_Init, uart_initHandler},
-	{STATE_UART_IDLE, evUart_Timeout, uart_idleHandler},
+	{STATE_UART_IDLE, evUart_Received_byte, uart_idleHandler},
 	{STATE_UART_LISTENING,  evUart_Received_byte, uart_listeningHandler},
-	{STATE_UART_PROCESSING, evUart_Timeout, uart_processingHandler}
+	{STATE_UART_VALID, evUart_Timeout, uart_processingHandler},
+	{STATE_UART_ERROR, evUart_Timeout, uart_errorHandler}
 };
 
 eSystemState_UART 	uart_initHandler(void){ 
 
-	IRQ_UART_Init();
+	//IRQ_UART_Init();
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
         printf("STATE_UART_INIT\r\n");
@@ -35,28 +36,40 @@ eSystemState_UART 	uart_initHandler(void){
     }
 	
 	uart_msg_flag 		= false;
-	uart_timer_flag 	= true;
+	uart_timer_flag 	= false;
+	uart_buf_idx		= 0;
+	uart_received_data 	= -1;
 
-/*
-*/
+	// Clear whole buffer
+	memset(uart_buf, 0, uart_buf_len);
+
+	//IRQ_UART_Init();
+
 	return STATE_UART_IDLE; 
 }
 
 eSystemState_UART 	uart_idleHandler(void){ 
 /*
 */
+    printf("NOTHING\r\n");
+    if (uartReadByte( UART_USB, &uart_received_data ) == true ) {
+    	if( uart_received_data 	== uart_start_byte ){
 
-	uart_buf_idx		= 0;
-	uart_received_data 	= -1;
-	uart_msg_flag 		= false;
-	gpioWrite(LEDR, OFF);
+    		printf("SOMETHING\r\n");
+    		gpioWrite(LED3, OFF);
+    		uart_msg_flag 		= true;
+    		uart_buf_idx		= 0;
 
-	// Clear whole buffer
-	memset(uart_buf, 0, uart_buf_len);
+    		return STATE_UART_LISTENING;
+    	}
+    	else{
 
-	IRQ_UART_Init();
-
-	return STATE_UART_LISTENING; 
+    		uart_msg_flag 		= false;
+    		
+    		return STATE_UART_IDLE;
+    	}
+    }
+    return STATE_UART_IDLE;
 }
 
 eSystemState_UART 	uart_listeningHandler(void){
@@ -70,8 +83,13 @@ eSystemState_UART 	uart_listeningHandler(void){
 
     if (uartReadByte( UART_USB, &uart_received_data ) == true ) {
 
-    	//uartWriteByte( UART_USB, uart_received_data ); 
-    	//uartWriteByte( UART_USB, '\n' ); 
+    	if( uart_received_data 	== uart_start_byte ){
+
+    		uart_msg_flag 		= false;
+    		uart_timer_flag 	= true;
+
+    		return STATE_UART_VALID;
+    	}
 
     	if(uart_buf_idx < uart_buf_len - 1){
     		uart_buf[uart_buf_idx] = uart_received_data;
@@ -79,7 +97,12 @@ eSystemState_UART 	uart_listeningHandler(void){
     	}
 
     	if(uart_buf_idx >= uart_buf_len -1 ) {
-    	}
+			if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+				printf("Buffer size exceeds UART_BUFFER_LENGTH\r\n");
+				xSemaphoreGive(xMutexUART);
+			}
+			return STATE_UART_ERROR;
+		}
     	
     	if( uart_received_data == '\n' ){
 
@@ -106,7 +129,7 @@ eSystemState_UART 	uart_listeningHandler(void){
     		uart_buf_idx = 0;
     		uart_timer_flag = true;
 
-    		return STATE_UART_PROCESSING;
+    		return STATE_UART_VALID;
     	}
     }
     }
@@ -117,12 +140,20 @@ eSystemState_UART 	uart_processingHandler(void){
 
     gpioWrite(LEDB, OFF);
     if (uart_msg_flag == true) {
-    	uartWriteString(UART_USB, uart_msg_ptr);
-    	vPortFree(uart_msg_ptr);
+    	if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+    		printf("%s\r\n", uart_msg_ptr);
+    		xSemaphoreGive(xMutexUART);
+    	}
+    	vPortFree(uart_msg_ptr);  
     	uart_msg_ptr 	= NULL;
-    	uart_msg_flag = false;
-    	uart_timer_flag = false;
     }
+
+  	IRQ_UART_Init();
+
+    return STATE_UART_IDLE;
+}
+
+eSystemState_UART 	uart_errorHandler(void){
 
   	IRQ_UART_Init();
 

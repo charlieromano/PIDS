@@ -7,17 +7,18 @@
 #include "displayLed.h"
 #include "portmap.h"
 
-#define UART_START_BYTE  	0xCC
+#define UART_START_BYTE  	0x78
 #define UART_STOP_BYTE  	0xEE
 #define UART_BUFFER_LENGTH 	32
-#define UART_TIMER_MS 		100	
+#define UART_TIMER_MS 		500	
 
 typedef enum {
 	
 	STATE_UART_INIT,
 	STATE_UART_IDLE,
 	STATE_UART_LISTENING,
-	STATE_UART_PROCESSING
+	STATE_UART_VALID,
+	STATE_UART_ERROR
 
 } eSystemState_UART;
 

@@ -49,7 +49,7 @@ void timerCallback_AB(TimerHandle_t xTimerHandle){
 
    eSystemEvent_AB data_AB = cnt%4;
    if(xQueueSend(queueHandle_AB, &data_AB, 0U)!=pdPASS){
-         perror("Error sending data to the queueHandle_button\r\n");
+         perror("Error sending data to the queueHandle_AB from timer\r\n");
    }
 }
 
@@ -100,7 +100,7 @@ void timerCallback_button(TimerHandle_t xTimerHandle){
       timer_cnt++;
       newEventFromTimer = evButtonTimeout;
       if(xQueueSend(queueHandle_button, &newEventFromTimer, 0U)!=pdPASS){
-         perror("Error sending data to the queueHandle_button\r\n");
+         perror("Error sending data to the queueHandle_button from timer\r\n");
       }
    }
 }
@@ -119,7 +119,7 @@ void vHandlerTaskGPIO(void* pvParameters){
          gpioWrite(led, OFF);
          newEventFromISR = evPushed;
          if(xQueueSend(queueHandle_button, &newEventFromISR, 0U)!=pdPASS){
-            perror("Error sending data to the queueHandle_button\r\n");
+            perror("Error sending data to the queueHandle_button from handler\r\n");
          }
       }
    }
@@ -256,7 +256,7 @@ void timerCallback_UART(TimerHandle_t xTimerHandle){
    if(uart_timer_flag==true){
       gpioWrite(LEDR, ON);
       if(xQueueSendFromISR(queueHandle_UART, &newEventFromISR, 0U)!=pdPASS){
-         perror("Error sending data to the queueHandle_button\r\n");
+         perror("Error sending data to the queueHandle_UART from timer\r\n");
       }
    }
    if(uart_timer_flag==false){
@@ -315,7 +315,7 @@ void vHandlerTaskUART(void *pvParameters){
          newEventFromISR = evUart_Received_byte;
 
          if(xQueueSend(queueHandle_UART, &newEventFromISR, 0U)!=pdPASS){
-            perror("Error sending data to the queueHandle_button\r\n");
+            perror("Error sending data to the queueHandle_UART from handler\r\n");
          }
 
          IRQ_UART_Init();
@@ -325,6 +325,39 @@ void vHandlerTaskUART(void *pvParameters){
 /***************************************************************************/
 
 
+/***************************************************************************/
+/* PIDS tasks */
+/***************************************************************************/
+
+
+void vTaskPIDS(void* xTimerPidsHandle){
+
+   (void)xTimerPidsHandle;
+
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("Task PIDS is running.\r\n");
+      xSemaphoreGive(xMutexUART);
+   }
+
+   while(true){
+
+      // fsmPIDS init 
+      eSystemEvent_PIDS newEvent    = evPids_Init;
+      eSystemState_PIDS nextState   = STATE_PIDS_INIT;
+      fsmPIDS[nextState].fsmEvent   = newEvent; 
+      nextState = (*fsmPIDS[nextState].fsmHandler)();
+
+      // Active object
+      while(true){
+         if( pdPASS == xQueueReceive(queueHandle_PIDS, &newEvent, portMAX_DELAY)){
+            fsmPIDS[nextState].fsmEvent = newEvent; 
+            nextState = (*fsmPIDS[nextState].fsmHandler)();
+         }
+      }
+   }
+}
+
+/***************************************************************************/
 
 
 

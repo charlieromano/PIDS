@@ -24,6 +24,7 @@
 #include "statemachine_button.h"
 #include "statemachine_displayLed.h"
 #include "statemachine_UART.h"
+#include "statemachine_PIDS.h"
 #include "ISR_UART.h"
 #include "ISR_GPIO.h"
 
@@ -48,6 +49,7 @@ extern QueueHandle_t        queueHandle_button;
 extern QueueHandle_t        queueHandle_AB;
 extern QueueHandle_t        queueHandle_displayLed;
 extern QueueHandle_t        queueHandle_UART; 
+extern QueueHandle_t        queueHandle_PIDS; 
 extern QueueHandle_t        dataBufferQueue;
 
 extern sStateMachine_AB         fsmMachineAB[]; 

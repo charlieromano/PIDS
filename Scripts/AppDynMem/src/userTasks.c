@@ -49,7 +49,7 @@ void timerCallback_AB(TimerHandle_t xTimerHandle){
 
    eSystemEvent_AB data_AB = cnt%4;
    if(xQueueSend(queueHandle_AB, &data_AB, 0U)!=pdPASS){
-         perror("Error sending data to the queueHandle_button\r\n");
+         perror("Error sending data to the queueHandle_AB\r\n");
    }
 }
 
@@ -100,7 +100,7 @@ void timerCallback_button(TimerHandle_t xTimerHandle){
       timer_cnt++;
       newEventFromTimer = evButtonTimeout;
       if(xQueueSend(queueHandle_button, &newEventFromTimer, 0U)!=pdPASS){
-         perror("Error sending data to the queueHandle_button\r\n");
+         perror("Error sending data to the queueHandle_button from timer\r\n");
       }
    }
 }
@@ -119,7 +119,7 @@ void vHandlerTaskGPIO(void* pvParameters){
          gpioWrite(LED, OFF);
          newEventFromISR = evPushed;
          if(xQueueSend(queueHandle_button, &newEventFromISR, 0U)!=pdPASS){
-            perror("Error sending data to the queueHandle_button\r\n");
+            perror("Error sending data to the queueHandle_button from handler\r\n");
          }
       }
    }
