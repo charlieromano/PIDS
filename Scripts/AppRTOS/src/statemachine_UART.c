@@ -44,44 +44,59 @@ eSystemState_UART 	uart_initHandler(void){
 	memset(uart_buf, 0, uart_buf_len);
 
 	//IRQ_UART_Init();
-
+	
 	return STATE_UART_IDLE; 
 }
 
 eSystemState_UART 	uart_idleHandler(void){ 
-/*
-*/
+
     printf("NOTHING\r\n");
+
     if (uartReadByte( UART_USB, &uart_received_data ) == true ) {
+    
     	if( uart_received_data 	== uart_start_byte ){
-
-    		printf("SOMETHING\r\n");
+	   		printf("SOMETHING\r\n");
     		gpioWrite(LED3, OFF);
+    		gpioWrite(LEDB, ON);
+
     		uart_msg_flag 		= true;
+    		uart_timer_flag 	= true;
     		uart_buf_idx		= 0;
-
-    		return STATE_UART_LISTENING;
-    	}
-    	else{
-
-    		uart_msg_flag 		= false;
     		
-    		return STATE_UART_IDLE;
+    		for(int i=0; i< uart_buf_len; i++){
+
+			   	if(uart_buf_idx < uart_buf_len - 1){
+		    		uart_buf[uart_buf_idx] = uart_received_data;
+		    		uart_buf_idx++;
+		    	}
+
+		    	if( uart_received_data == '\n' ){
+		    		printf("END\r\n");
+		    		gpioWrite(LEDB, OFF);
+		    		uart_msg_flag 		= false;
+		    		break;
+		    	}
+
+		    	if(uartReadByte( UART_USB, &uart_received_data ) == false){
+		    		printf("NO DATA\r\n");
+		    	}
+		    }
+		    return STATE_UART_IDLE;
+    	
     	}
     }
-    return STATE_UART_IDLE;
+    return STATE_UART_ERROR;
 }
 
 eSystemState_UART 	uart_listeningHandler(void){
     
-    gpioWrite(LED3, OFF);
-    gpioWrite(LEDB, ON);
 
-    //for(int i=0; i< uart_buf_len; i++){
-
-    while(true){
+    //
+    //while(true){
+/*
 
     if (uartReadByte( UART_USB, &uart_received_data ) == true ) {
+    gpioWrite(LED3, OFF);
 
     	if( uart_received_data 	== uart_start_byte ){
 
@@ -132,8 +147,10 @@ eSystemState_UART 	uart_listeningHandler(void){
     		return STATE_UART_VALID;
     	}
     }
-    }
-    //return STATE_UART_IDLE;
+*/
+
+    //}
+    return STATE_UART_IDLE;
 }
 
 eSystemState_UART 	uart_processingHandler(void){
@@ -155,7 +172,11 @@ eSystemState_UART 	uart_processingHandler(void){
 
 eSystemState_UART 	uart_errorHandler(void){
 
-  	IRQ_UART_Init();
+  	printf("UART ERROR\r\n");
+  	
+  	uart_timer_flag = false;
 
+  	IRQ_UART_Init();
+    
     return STATE_UART_IDLE;
 }

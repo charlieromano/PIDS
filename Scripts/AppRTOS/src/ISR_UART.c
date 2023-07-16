@@ -21,12 +21,11 @@ void UART_ISR_Handler( void *noparam)
 
    gpioWrite(LED3, ON);
    //printf("UART IRQ!\r\n");
-   uartClearPendingInterrupt(UART_USB);
-   uartCallbackClr(UART_USB, UART_RECEIVE);
-   
    if(xQueueSendFromISR(queueHandle_UART, &newEventFromISR, 0U)!=pdPASS){
       perror("Error sending data to the queueHandle_UART from ISR\r\n");
    }
+   uartClearPendingInterrupt(UART_USB);
+   uartCallbackClr(UART_USB, UART_RECEIVE);
    
    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 /*
