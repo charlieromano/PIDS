@@ -9,7 +9,7 @@
 
 #define UART_START_BYTE  	0x78
 #define UART_STOP_BYTE  	0xEE
-#define UART_BUFFER_LENGTH 	32
+#define UART_BUFFER_LENGTH 	8
 #define UART_TIMER_MS 		500	
 
 typedef enum {

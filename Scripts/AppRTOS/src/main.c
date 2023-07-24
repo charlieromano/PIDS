@@ -207,6 +207,37 @@ int main( void )
    }
 
 /***************************************************************************/
+/* PIDS tasks */
+/***************************************************************************/
+
+/*
+*/
+
+   if( (timerHandle_PIDS = xTimerCreate( "UART Timer", TIMER_MS_PIDS, 
+      true, NULL, timerCallback_PIDS)) == NULL ) {
+      perror("Error creating timer");
+      return 1;
+   }
+
+   if(xTimerStart(timerHandle_PIDS, 0) != pdPASS){
+      perror("Error starting timer");
+      return 1;      
+   }
+
+   queueHandle_PIDS = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_PIDS));
+   if (queueHandle_PIDS == NULL){
+      perror("Error creating queue");
+      return 1;
+   }
+
+   if( xTaskCreate( vTaskPIDS, "State Machine using active object", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskStateMachineHandler_PIDS) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+
+/***************************************************************************/
 /* RTOS start */
 /***************************************************************************/
 

@@ -1,8 +1,13 @@
 //statemachine_UART.c
 #include "statemachine_UART.h"
+#include "statemachine_PIDS.h"
 
 extern QueueHandle_t        queueHandle_displayLed;
 extern SemaphoreHandle_t    xMutexUART;
+extern QueueHandle_t        queueHandle_PIDS;
+
+//#include "resourcesIPC.h"
+
 
 // Globals
 static char 			*uart_msg_ptr = NULL;
@@ -21,7 +26,7 @@ sStateMachine_UART fsmUART[] =
 {
 	{STATE_UART_INIT, evUart_Init, uart_initHandler},
 	{STATE_UART_IDLE, evUart_Received_byte, uart_idleHandler},
-	{STATE_UART_LISTENING,  evUart_Received_byte, uart_listeningHandler},
+	{STATE_UART_LISTENING,  evUart_Timeout, uart_listeningHandler},
 	{STATE_UART_VALID, evUart_Timeout, uart_processingHandler},
 	{STATE_UART_ERROR, evUart_Timeout, uart_errorHandler}
 };
@@ -44,18 +49,18 @@ eSystemState_UART 	uart_initHandler(void){
 	memset(uart_buf, 0, uart_buf_len);
 
 	//IRQ_UART_Init();
-	
+
 	return STATE_UART_IDLE; 
 }
 
 eSystemState_UART 	uart_idleHandler(void){ 
 
-    printf("NOTHING\r\n");
+    printf("UART IDLE\r\n");
 
     if (uartReadByte( UART_USB, &uart_received_data ) == true ) {
     
     	if( uart_received_data 	== uart_start_byte ){
-	   		printf("SOMETHING\r\n");
+	   		printf("UART MESSAGE\r\n");
     		gpioWrite(LED3, OFF);
     		gpioWrite(LEDB, ON);
 
@@ -71,21 +76,32 @@ eSystemState_UART 	uart_idleHandler(void){
 		    	}
 
 		    	if( uart_received_data == '\n' ){
-		    		printf("END\r\n");
+		    		printf("UART END\r\n");
 		    		gpioWrite(LEDB, OFF);
 		    		uart_msg_flag 		= false;
 		    		break;
 		    	}
-
-		    	if(uartReadByte( UART_USB, &uart_received_data ) == false){
-		    		printf("NO DATA\r\n");
-		    	}
 		    }
+
+		    eSystemEvent_PIDS newEventFromISR = evPids_accelEvent;
+		    if(xQueueSend(queueHandle_PIDS, &newEventFromISR, 0U)!=pdPASS){
+		    	perror("Error sending data to the queueHandle_PIDS from timer\r\n");
+		    }
+
 		    return STATE_UART_IDLE;
     	
     	}
+    	else{
+
+    		uart_msg_flag 		= false;
+    		uart_timer_flag 	= true;
+    		uart_buf_idx		= 0;
+
+    		return STATE_UART_ERROR;
+    	}
     }
-    return STATE_UART_ERROR;
+
+    return STATE_UART_IDLE;
 }
 
 eSystemState_UART 	uart_listeningHandler(void){
@@ -150,6 +166,11 @@ eSystemState_UART 	uart_listeningHandler(void){
 */
 
     //}
+    uart_timer_flag = false;
+  	gpioWrite(LED3, OFF);
+
+  	IRQ_UART_Init();
+    
     return STATE_UART_IDLE;
 }
 
@@ -175,6 +196,7 @@ eSystemState_UART 	uart_errorHandler(void){
   	printf("UART ERROR\r\n");
   	
   	uart_timer_flag = false;
+  	gpioWrite(LED3, OFF);
 
   	IRQ_UART_Init();
     

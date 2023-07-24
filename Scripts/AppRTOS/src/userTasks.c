@@ -330,6 +330,25 @@ void vHandlerTaskUART(void *pvParameters){
 /***************************************************************************/
 
 
+void timerCallback_PIDS(TimerHandle_t xTimerHandle){
+
+   eSystemEvent_PIDS newEventFromISR = evPids_Timeout;
+
+   extern bool_t pids_timer_flag;
+
+   pids_timer_flag = true;
+
+   if(pids_timer_flag==true){
+      
+      if(xQueueSend(queueHandle_PIDS, &newEventFromISR, 0U)!=pdPASS){
+         perror("Error sending data to the queueHandle_PIDS from timer\r\n");
+      }
+   }
+   if(pids_timer_flag==false){      
+   }
+/*
+*/
+}
 void vTaskPIDS(void* xTimerPidsHandle){
 
    (void)xTimerPidsHandle;

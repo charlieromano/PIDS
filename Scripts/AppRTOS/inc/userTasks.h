@@ -77,6 +77,7 @@ void timerCallback_button(TimerHandle_t xTimerHandle);
 void timerCallback_AB(TimerHandle_t xTimerHandle);
 void timerCallback_displayLed(TimerHandle_t xTimerDisplayHandle);
 void timerCallback_UART(TimerHandle_t xTimerHandle);
+void timerCallback_PIDS(TimerHandle_t xTimerHandle);
 
 void vHandlerTaskGPIO(void* pvParameters);
 void vHandlerTaskUART(void *pvParameters);
@@ -88,6 +89,8 @@ void vTaskDisplayLed(void *xTimerDisplayHandle);
 void vTaskUART(void* pvParameters);
 void vTaskUART_buffer(void* pvParameters);
 void vTaskTest(void *xTimerDisplayHandle);
+void vTaskPIDS(void* pvParameters);
+
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
