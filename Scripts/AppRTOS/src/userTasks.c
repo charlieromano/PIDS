@@ -6,9 +6,8 @@
  * Version: 1.0
  *===========================================================================*/
 
-/*=====[Inclusion of own header]=============================================*/
-
 #include "userTasks.h"
+#include "common.h"
 
 // Task implementation
 void myTask( void* taskParmPtr )
@@ -37,6 +36,7 @@ void myTask( void* taskParmPtr )
       vTaskDelayUntil( &xLastWakeTime, xPeriodicity );
    }
 }
+
 /***************************************************************************/
 /* State Machine AB tasks */
 /***************************************************************************/
@@ -249,8 +249,6 @@ void vTaskTest( void *pvParameters ){
 
 void timerCallback_UART(TimerHandle_t xTimerHandle){
 
-   extern bool_t uart_timer_flag;
-   
    eSystemEvent_UART newEventFromISR = evUart_Timeout;
 
    if(uart_timer_flag==true){
@@ -334,8 +332,6 @@ void timerCallback_PIDS(TimerHandle_t xTimerHandle){
 
    eSystemEvent_PIDS newEventFromISR = evPids_Timeout;
 
-   extern bool_t pids_timer_flag;
-
    pids_timer_flag = true;
 
    if(pids_timer_flag==true){
@@ -377,10 +373,3 @@ void vTaskPIDS(void* xTimerPidsHandle){
 }
 
 /***************************************************************************/
-
-
-
-/*=====[Implementations of interrupt functions]==============================*/
-
-/*=====[Implementations of private functions]================================*/
-

@@ -1,9 +1,9 @@
 //statemachine_PIDS.c
 #include "statemachine_PIDS.h"
+#include "common.h"
 
-extern SemaphoreHandle_t    xMutexUART;
 volatile bool_t         pids_timer_flag;
-
+volatile bool_t         pids_flag_head;
 /*
    STATE_PIDS_STOPPED,
    STATE_PIDS_HEAD_STATION,
@@ -28,7 +28,7 @@ sStateMachine_PIDS fsmPIDS[] =
 {
    {STATE_PIDS_INIT, evPids_Init, pids_initHandler},
    {STATE_PIDS_STOPPED, evPids_accelEvent, pids_headStationMessagingHandler},
-   {STATE_PIDS_HEAD_STATION, evPids_Timeout, pids_trainRunningHandler},
+   {STATE_PIDS_HEAD_STATION, evPids_Timeout, pids_headStationHandler},
    {STATE_PIDS_TRAIN_RUNNING, evPids_Timeout, pids_trainRunningHandler},
    {STATE_PIDS_TRAIN_ARRIVING, evPids_Timeout, pids_trainArrivingHandler},
    {STATE_PIDS_STATION_ARRIVED, evPids_Timeout, pids_stationMessagingHandler},
@@ -41,19 +41,27 @@ eSystemState_PIDS 	pids_initHandler(void){
       xSemaphoreGive(xMutexUART);
    }
 
+   pids_flag_head = true;
+
    return STATE_PIDS_STOPPED;
 
 }
 
 eSystemState_PIDS    pids_headStationMessagingHandler(void){
 
-   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-      printf("PIDS: HEAD STATION MESSAGE. \r\n");
-      xSemaphoreGive(xMutexUART);
+   if(pids_flag_head = true){
+      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+         printf("PIDS: HEAD STATION MESSAGE. \r\n");
+         xSemaphoreGive(xMutexUART);
+      }
+
+      return STATE_PIDS_HEAD_STATION; 
    }
 
-   return STATE_PIDS_HEAD_STATION; 
+   if(pids_flag_head = false){
 
+      return STATE_PIDS_TRAIN_RUNNING;
+   }
 }
 
 
@@ -63,6 +71,8 @@ eSystemState_PIDS 	pids_headStationHandler(void){
       printf("PIDS: HEAD STATION. STARTING THE TRAIN JOURNEY.\r\n");
       xSemaphoreGive(xMutexUART);
    }
+
+   pids_flag_head = false;
 
    return STATE_PIDS_TRAIN_RUNNING;
 

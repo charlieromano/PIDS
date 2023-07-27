@@ -241,12 +241,9 @@ int main( void )
 /* RTOS start */
 /***************************************************************************/
 
-   vTaskStartScheduler(); // Initialize scheduler
+   vTaskStartScheduler(); 
 
-   while( true ); // If reach heare it means that the scheduler could not start
+   while( true ); 
 
-   // YOU NEVER REACH HERE, because this program runs directly or on a
-   // microcontroller and is not called by any Operating System, as in the 
-   // case of a PC program.
    return 0;
 }

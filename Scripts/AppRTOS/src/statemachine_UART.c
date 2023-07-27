@@ -1,13 +1,6 @@
 //statemachine_UART.c
 #include "statemachine_UART.h"
-#include "statemachine_PIDS.h"
-
-extern QueueHandle_t        queueHandle_displayLed;
-extern SemaphoreHandle_t    xMutexUART;
-extern QueueHandle_t        queueHandle_PIDS;
-
-//#include "resourcesIPC.h"
-
+#include "common.h"
 
 // Globals
 static char 			*uart_msg_ptr = NULL;
@@ -177,11 +170,14 @@ eSystemState_UART 	uart_listeningHandler(void){
 eSystemState_UART 	uart_processingHandler(void){
 
     gpioWrite(LEDB, OFF);
+
     if (uart_msg_flag == true) {
+
     	if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
     		printf("%s\r\n", uart_msg_ptr);
     		xSemaphoreGive(xMutexUART);
     	}
+    	
     	vPortFree(uart_msg_ptr);  
     	uart_msg_ptr 	= NULL;
     }
