@@ -2,7 +2,7 @@
 
 En este capítulo se presentan los requerimientos del sistema y la solución propuesta. En el desarrollo se utiliza la plataforma de hardware EDU-CIAA\cite{CIAA}, la API Firmware\_ v3\cite{firmwareV3}, y freeRTOS\cite{freeRTOS} como sistema operativo de tiempo real.\\
 
-Se presenta el desarrollo siguiendo lineamientos de ingeniería de software en el siguiente orden: requerimientos, funcionalidades y casos de uso principales como ejes del espacio problema; arquitectura, patrones de software involucrados, técnicas de concurrencia, diagramas de secuencia, de interacción entre componentes, organización del firmware y planos de hardware para describir el espacio solución.\\
+Siguiendo lineamientos de ingeniería de software, se presenta la solución en el siguiente orden: requerimientos, funcionalidades, casos de uso principales como ejes del espacio problema; arquitectura, patrones de software utilizados, técnicas de concurrencia, diagramas de secuencia, diagramas de interacción entre componentes, organización del firmware y planos de hardware para describir el espacio solución.\\
 
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
@@ -63,9 +63,9 @@ A nivel general, los requerimientos del proyecto son los siguientes:
 
 \item El sistema debe leer datos de información al pasajero de la red interna de los trenes y presentarlos en un display LED. El sistema no se encargará de presentar los mensajes en formato de audio.
 
-\item Este sistema permitirá implementar las funciones de visualización del sistema de información al pasajero existente. El sistema comercial existente es un equipamiento propietario que integra otras funciones como el sistema de audio, un CCTV usando cámaras de seguridad, entre otras. 
+\item El sistema permitirá implementar las funciones de visualización del sistema de información al pasajero existente. La solución existente es un sistema propietario que integra también un sistema de audio, un CCTV usando cámaras de seguridad, entre otras funcionalidades. 
 
-\item El sistema que se especifica busca desacoplar funciones del equipamiento comercial para permitir reponer carteles que en la actualidad quedan fuera de servicio por fallas o pérdida del material original y que no pueden ser reparados. 
+\item El sistema que se especifica busca desacoplar funciones del equipamiento propietario para permitir realizar tareas de mantenimiento. Como ejemplo, la reposición de carteles led que en la actualidad quedan fuera de servicio por fallas o pérdida del material original y que no pueden ser reparados. 
 
 \end{itemize}
 
@@ -227,17 +227,17 @@ El caso de uso UC-1 involucra al tren como sistema disparador cuando arriba a un
 \newpage
 \section{Arquitectura}
 
-El sistema PIDS de Trenes Argentinos sigue una arquitectura que está relacionada con la implementación de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes de esa arquitectura que tienen relación con los componentes del sistema propuesto.\\
+El sistema PIDS de Trenes Argentinos es parte de una solución integral de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes del sistema PIDS de esa arquitectura y su relación con los componentes del sistema propuesto en este trabajo.\\
 
-El sistema diseñado en este trabajo sigue una arquitectura orientada a eventos. Se desarrollaron e implementaron distintos patrones de software a lo largo del trabajo buscando satisfacer propiedades de modularidad, portabilidad y escalabilidad. Algunos de los objetos implementados se describen a nivel de detalle para resaltar criterios y decisiones de diseño relevantes. \\
+El sistema diseñado en este trabajo sigue una arquitectura orientada a eventos. Se desarrollaron e implementaron distintos patrones de software buscando satisfacer propiedades de modularidad, portabilidad y escalabilidad. Algunos de los objetos implementados se describen a nivel de detalle para resaltar criterios y decisiones de diseño relevantes. \\
 
-La relación entre la arquitectura existente del PIDS de trenes y la arquitectura del sistema embebido basado en la plataforma CIAA busca satisfacer por un lado la compatibilidad eléctrica de hardware y por otro las historias de usuario planteadas en los casos de uso en la etapa de definición de requerimientos. \\
+La relación entre la arquitectura existente del PIDS de trenes y la arquitectura del sistema embebido basado en la plataforma CIAA busca satisfacer por un lado la compatibilidad eléctrica de hardware, y por otro las historias de usuario planteadas en los casos de uso en la etapa de definición de requerimientos. \\
 
-En las secciones siguientes se describen los componentes del sistema y sus interacciones. Se mencionan también algunas mejoras evaluadas para futuras implementaciones que buscan optimizar fragmentos de código con potencial de optimización de recursos usando instrucciones en lenguaje assembly propias de arquitecturas ARM M4.\\
+En las secciones siguientes se describen los componentes del sistema y sus interacciones. \
 
 \subsection{Contexto}
 
-El sistema PIDS forma parte de una solución integral, la red de comunicaciones del tren o red TCN, brinda información a los pasajeros y puede ser operada por el conductor del tren o los operadores, tal como se representa en el diagrama de la figura \ref{fig:diagTrenTcnPids}.\\
+El sistema PIDS forma parte de una solución integral, la red de comunicaciones del tren o red TCN, brinda información a los pasajeros y puede ser operada por el conductor del tren o los operadores. Se representa a nivel sistema con en el diagrama de la figura \ref{fig:diagTrenTcnPids}.\\
 
 \begin{figure}[ht]
 	\centering
@@ -246,7 +246,7 @@ El sistema PIDS forma parte de una solución integral, la red de comunicaciones 
 	\label{fig:diagTrenTcnPids}
 \end{figure}
 
-La red TCN define una comunicación estándar usando dos buses jerárquicos llamados WTB(Wire Train Bus) y MVB (Multifunction Vehicle Bus). El sistema PIDS se interconecta al bus de datos MVB, como se indica en el diagrama de la figura \ref{fig:diagTcnPidsBuusesWtbMvb}.\\
+La red TCN define una comunicación estándar usando dos buses jerárquicos llamados WTB (Wire Train Bus) y MVB (Multifunction Vehicle Bus). El sistema PIDS se interconecta al bus de datos MVB, como se indica en el diagrama de la figura \ref{fig:diagTcnPidsBuusesWtbMvb}.\\
 
 
 \begin{figure}[ht]
@@ -266,7 +266,7 @@ El sistema PIDS tiene un bus de comunicación propio a través de una red RS485.
 	\label{fig:diagPidsScuDevices}
 \end{figure}
 
-Al módulo SCU se conectan las unidades IDU, que corresponden a los display LED de salón. Cada unidad IDU contiene un driver y el arreglo de módulos de matriz de led que conforman el display. En la figura \ref{fig:diagScuDriverDisplay} se representan estos bloques funcionales.\\
+Al módulo SCU se conectan las unidades IDU, que corresponden a los display LED de salón. Cada unidad IDU contiene un driver y el arreglo de módulos de matriz led que conforman el display. En la figura \ref{fig:diagScuDriverDisplay} se representan estos bloques funcionales.\\
 
 
 \begin{figure}[ht]
@@ -278,7 +278,7 @@ Al módulo SCU se conectan las unidades IDU, que corresponden a los display LED 
 
 El alcance del sistema desarrollado en este trabajo cubre la funcionalidad de este conjunto de bloques Driver + Display, que en la nomenclatura del sistema PIDS existente corresponde a los módulos IDU. Existen dos unidades de estos módulos por cada salón o coche.\\
 
-Comúnmente un tren tiene siete coches en las formaciones de SOFSE, por lo que se tiene un mínimo de catorce unidades IDU más dos displays externos adicionales para el frente y contrafrente del tren que indican las estaciones cabecera del recorrido. Esto resulta en un total de dieciséis unidades de control de display por cada tren. Teniendo en cuenta las formaciones operativas de las líneas Mitre, Sarmiento y Roca del Área Metropolitana de Buenos Aires (AMBA), se puede estimar alrededor de treinta trenes operando en simultáneo, lo que resulta en aproximadamente 500 unidades de displays operando en vivo. El impacto que puede tener el aporte de este trabajo estará directamente relacionado con la operación de Trenes Argentinos y definitivamente puede contribuir a la extensión de la vida útil de los trenes.\\
+Muchas de las formaciones de SOFSE disponen de siete coches, por lo que se tiene un mínimo de catorce unidades IDU (dos por salón) más dos displays externos adicionales para el frente y contrafrente del tren que indican las estaciones cabecera del recorrido. Esto resulta en un total de al menos dieciséis unidades de control de display por cada tren. Teniendo en cuenta las formaciones operativas de las líneas Mitre, Sarmiento y Roca del Área Metropolitana de Buenos Aires (AMBA), se puede estimar alrededor de treinta trenes operando en simultáneo, lo que resulta en aproximadamente 500 unidades de displays operando en vivo. El impacto que puede tener el aporte de este trabajo estará directamente relacionado con la operación de Trenes Argentinos y definitivamente puede contribuir a la extensión de la vida útil de los trenes.\\
 
 \subsection{Diseño}
 La propuesta de diseño busca cubrir las funcionalidades del bloque de control del display LED. El display LED es una unidad que se puede adquirir comercialmente. Sin embargo el driver para la red PIDS es una solución propietaria del fabricante y es la que se busca reemplazar con este desarrollo.\\
@@ -298,23 +298,21 @@ A nivel lógico, el sistema que se propone consiste en cuatro objetos activos qu
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{./Figures/diagVistaDisenho.png}
-	\caption{Vista de interacciones del sistema propuesto.}
+	\caption{Vista estructural del sistema propuesto.}
 	\label{fig:diagVistaDisenho}
 \end{figure}
 
-El objeto activo UART es el encargado de recibir e interpretar las tramas de datos que viajan por la red RS485 del bus de datos del SCU. El objeto activo fsmButton es el control manual del operador para accionar el sistema. El objeto activo fsmTrain es una máquina de estados que representa el estado del tren y es el que contiene los mensajes y nombres de las estaciones. El objeto activo Display es el encargado de codificar los mensajes en el formato correspondiente a la matriz led del display.\\
+El objeto activo UART es el encargado de recibir e interpretar las tramas de datos que viajan por la red RS485 del bus de datos del SCU. El objeto activo Button es el control manual del operador para accionar el sistema. El objeto activo PIDS es una máquina de estados que representa el estado del tren y es el que contiene los mensajes y nombres de las estaciones. El objeto activo DisplayLed es el encargado de codificar los mensajes en el formato correspondiente a la matriz led del display. El prefijo "ao:" y el subrayado denotan objecto activo.\\
 
-Esta vista de interacción entre objetos indica la dependencia funcional de los componentes del sistema. Su diseño modular permite hacer cambios en los componentes de sistema de forma independiente. Por ejemplo se podrían reemplazar los mensajes al pasajero en el objeto fsmTrain sin afectar el resto del sistema, o bien reemplazar la lógica de control del display si fuera necesario cambiar la tecnología de control del display led modificando únicamente el objeto Display.\\
+Esta vista estructural del sistema plantea la interacción entre componentes e indica su dependencia funcional. El diseño modular permite hacer cambios en los componentes de forma independiente. Por ejemplo se podrían reemplazar los mensajes al pasajero en el objeto PIDS sin afectar el resto del sistema, o bien reemplazar la lógica de control del display led si fuera necesario cambiar el hardware de control modificando únicamente el objeto DisplayLed.\\
 
 
-\section{Implementación del sistema}
+\section{Implementación}
 En este trabajo se implementa un sistema embebido usando el lenguaje de programación C y el sistema operativo de tiempo real freeRTOS. La plataforma de hardware utilizada es la CIAA-EDU-NXP, que dispone de un microcontrolador LPC4337 de la companía NXP (\cite{NXPLPC4337}), con una arquitectura de 32 bits ARM Cortex-M4/M0. El firmware se desarrolló utilizando también la \textit{SAPI} y el \textit{firmwareV3} \cite{firmwarev3} como capa de abstracción de hardware. Esta API es una interfaz para usar las funciones de la biblioteca CMSIS del fabricante del microcontrlador. Esta API es parte fundamental del proyecto CIAA.\\
  
-En el desarrollo del sistema se eligió usar plantillas de implementación para patrones de software como máquinas de estado y objetos activos, facilitando la documentación, testing, mantenimiento y escalabilidad. Se describen los lineamientos y fragmentos de código principales de estas plantillas en la sección de patrones de software. \\
+En el diseño del sistema se desarrollaron plantillas para implementar patrones de software como máquinas de estado y objetos activos. Con las plantillas se facilita la documentación, testing, mantenimiento y escalabilidad. Estos fueron aspectos de calidad de software que se buscó satisfacer desde el diseño. Se describen los lineamientos y fragmentos de código principales de estas plantillas en la sección de patrones de software. \\
 
-La implementación de los objetos activos del sistema se describe en la sección de componentes de sistema. Se mencionan los atributos principales de la solución y se documentan las vistas de interacción entre componentes.\\
-
-La implementación del controlador del diplay led tiene una sección a nivel de detalle para mayor comprensión. El firmware busca ser portable a aquellas versiones de hardware de display de matriz led basadas en el conjunto de chips 74HC245, 74HC595 y 74HC138 o sistemas digitales equivalentes. \\
+La implementación de los objetos activos del sistema se describe en la sección de componentes de sistema. Se mencionan los atributos principales de la solución y se documentan las vistas de interacción entre componentes. La implementación del controlador del diplay led tiene una sección a nivel de detalle para mayor comprensión. El firmware busca ser portable a aquellas versiones de hardware de display de matriz led compatibles con el conjunto de chips 74HC245, 74HC595 y 74HC138 o sistemas digitales equivalentes. \\
 
 
 
@@ -328,38 +326,43 @@ La organización del código fuente que conforma el sistema embebido de este tra
 AppRTOS
 |-- config.mk
 |-- inc
+|   |-- common.h
 |   |-- displayLed.h
 |   |-- FreeRTOSConfig.h
 |   |-- ISR_GPIO.h
+|   |-- ISR_UART.h
 |   |-- main.h
 |   |-- modulePanelDisplay.h
 |   |-- portmap.h
 |   |-- statemachine_AB.h
 |   |-- statemachine_button.h
 |   |-- statemachine_displayLed.h
+|   |-- statemachine_PIDS.h
+|   |-- statemachine_UART.h
 |   `-- userTasks.h
 |-- LICENSE.txt
 `-- src
     |-- displayLed.c
     |-- ISR_GPIO.c
+    |-- ISR_UART.c
     |-- main.c
     |-- statemachine_AB.c
     |-- statemachine_button.c
     |-- statemachine_displayLed.c
+    |-- statemachine_PIDS.c
+    |-- statemachine_UART.c
     `-- userTasks.c
 \end{lstlisting}
 
-Se pueden observar dos directorios principales: \textit{inc} y \textit{src}. En \textit{inc} se incluyen los archivos de encabezados y en \textit{src} los archivos de código ejecutable. Existe un archivo principal o \textit{main} que es el que instancia las secuencias de incialización, recursos y tareas del sistema operativo. Las tareas, entendidas como los objetos activos y procesos del sistema, se implementan en los archivos \textit{userTasks}. Luego, para cada implementación de objeto activo existe una máquina de estados asociada en un archivo de encabezados y un archivo ejecutable con el prefijo \textit{statemachine}. Finalmente los archivos con el prefijo \textit{ISR} corresponden a las rutinas de interrupción.\\
+Se pueden observar dos directorios principales: \textit{inc} y \textit{src}. En \textit{inc} se incluyen los archivos de encabezados y en \textit{src} los archivos de código ejecutable. Existe un archivo principal o \textit{main} que es el que instancia las secuencias de incialización, recursos y tareas del sistema operativo. Las tareas, que incluyen a los objetos activos y procesos del sistema, se implementan en los archivos \textit{userTasks}. Luego, para cada implementación de objeto activo existe una máquina de estados asociada en un archivo de encabezados y un archivo ejecutable con el prefijo \textit{statemachine}. Finalmente los archivos con el prefijo \textit{ISR} corresponden a las rutinas de interrupción. Como cada máquina de estado utiliza recursos del sistema operativo, se ha creado un archivo common.h que declara aquellos recursos como colas, handlers y semáforos que se utilizan entre tareas para comunicación interprocesos.\\
 
-Esta organización permite encapsulamiento y modularidad entre componentes del sistema. Con ello se facilita el mantenimiento y con el uso de las mismas reglas de diseño y plantillas se facilita la escalabilidad.\\
+Esta organización permite encapsulamiento y modularidad de los componentes del sistema. De esta manera se facilita el mantenimiento y con el uso de las mismas reglas de diseño se facilita la escalabilidad.\\
 
 \subsection{Uso de recursos en RTOS}
 
 En este desarrollo se utiliza freeRTOS, una versión en C de un kernel de sistema operativo de tiempo real. La implementación se basa en la inclusión de los archivos de cabecera FreeRTOS.h y FreeRTOSConfig.h. Esta implementación ha sido validada en arquitecturas ARM Cortex-M4, en particular en la plataforma EDU-CIAA. 
 
-En todos los casos que fue posible se utilizaron semáforos, colas y mutex para organizar y proteger el uso compartido de recursos. \\
-
-El caso de uso típico de \textit{mutex} es la interacción de distintas tareas con la misma interfaz UART-USB para imprimir mensajes por pantalla. En el código fuente de cada objeto implementado se utiliza la siguiente plantilla para proteger el recurso evitando accesos múltiples y posibilidad de deadlock:\\
+En todos los casos que fue posible se utilizaron semáforos, colas y mutex para organizar y proteger el uso compartido de recursos. El caso de uso típico de \textit{mutex} es la interacción de distintas tareas con la misma interfaz UART-USB para imprimir mensajes por pantalla. En el código fuente de cada objeto implementado se utiliza la siguiente plantilla para proteger el recurso evitando accesos múltiples y posibilidad de deadlock:\\
 
 \begin{lstlisting}[
 	language=C, 
@@ -398,25 +401,107 @@ if( xTaskCreate( vTaskReadSerial, "Serial Comm reading task",
 }
 \end{lstlisting}
 
-Se utilizan también punteros de tipo \textit{xTaskHandle}para referenciar las tareas del sistema operativo. Este tipo de referencias es de especial utilidad a la hora de crear o eliminar tareas de forma dinámica en tiempo de ejecución. También es posible usar estas referencias para comunicación interprocesos, o entre tareas.\\
+Se utilizan también punteros de tipo \textit{xTaskHandle}para referenciar las tareas del sistema operativo. Este tipo de referencias es de especial utilidad a la hora de eliminar tareas de forma dinámica en tiempo de ejecución. También es posible usar estas referencias para comunicación entre tareas.\\
 
-También se utilizan \textit{Timers} por software en aquellos casos que su uso facilita el mantenimiento, legibilidad y comprensión de la implementación. Especial cuidado de superposición o competición del reloj del sistema operativo se procura al disponer de componentes que tienen requisitos temporales que compiten entre si por prioridad del scheduler. Se verá en detalle la implementación del display Led como ejemplo.\\
+El uso de \textit{Timers} por software fue el preferido en aquellos casos que su uso facilita el mantenimiento, legibilidad y comprensión de la implementación. La plantilla desarrollada para la creación de timers se presenta en el siguiente fragmento de código.
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	]
+void timerCallback_displayLed(TimerHandle_t xTimerDisplayHandle){
+
+   if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+      printf("Timer display led is running.\r\n");
+      xSemaphoreGive(xMutexUART);
+   }
+
+   eSystemEvent_displayLed  displayLed_timer_event = evDisplayled_timeout;
+   
+   if(xQueueSend(queueHandle_displayLed, &displayLed_timer_event, 0U)!=pdPASS){
+         perror("Error sending data to the queueHandle_displayLed\r\n");
+   }
+}
+
+\end{lstlisting}
+
+Se procuró tener especial cuidado de superposición o competición del reloj del sistema operativo entre tareas. Distintos componentes pueden tener requisitos temporales que compiten entre si por prioridad del scheduler. Se verá en detalle la implementación del display Led como ejemplo que puede competir con el arribo de mensajes por la interfaz UART.\\
 
 Las rutinas de interrupción por hardware o \textit{ISR} se utilizan cuando se requiere respuesta inmediata, como al accionar manualmente un interruptor o bien al recibir mensajes o señales eléctricas desde el bus de datos del tren. La implementación elegida para el uso de interrupciones se representa en el diagrama de secuencia de la figura \ref{fig:ISR}. \\
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{./Figures/ISR_semaphore.png}
+	\includegraphics[width=1\textwidth]{./Figures/ISRcallback.png}
 	\caption{Diagrama de secuencia que representa la interacción entre componentes del sistema operativo cuando se dispara una interrupción o ISR.}
 	\label{fig:ISR}
 \end{figure}
 
-El recurso de hardware que genera interrupciones (ISR) llama a una función callback (\textit{ISR callback}) que sólo se encarga de entregar un semáforo al sistema, no tiene lógica implementada, sólo avisa al sistema que hay una interrupción que atender. El semáforo es tomado por una tarea de sistema (vHandlerTask) que resuelve el código de ejecución. Esta tarea normalmente implementa un objeto activo que actualiza una máquina de estado.\\
+El recurso de hardware que genera interrupciones (ISR) llama a una función callback (\textit{ISR callback}) que sólo se encarga de entregar un mensaje de evento al sistema, no tiene lógica implementada, sólo avisa al sistema que hay una interrupción que atender. El evento se comunica a través de una cola, recurso elegido como interfaz de mensajes de los objetos activos. La cola es atendida por una tarea de sistema (vTask) que resuelve el código de ejecución. Esta tarea normalmente implementa un objeto activo que actualiza una máquina de estado.\\
 
-De esta manera se logra atomicidad en las rutinas de interrupción y con ello muy baja latencia, se desacopla la invocación de la ejecución usando callback y callee en dos hilos independientes y se mantiene consistencia en el uso de objetos activos siguiendo los lineamientos de la arquitectura orientada a eventos.\\
+Si bien puede llamar la atención la complejidad del mecanismo de atención de una interrupción, este patrón basado en objeto activo permite desacoplar la invocación y la ejecución en una máquina de estados. El objeto activo es una técnica de concurrencia muy utilizada por la ventaja de separar en hilos independientes la invocación de funciones (eventos) de las funciones de ejecución. Con esto, la posibilidad de atender múltiples eventos en simultáneo, sin esperar a que se procese cada evento secuencialmente. Se logra paralelismo, atomicidad en el callback de la interrupción, muy baja latencia, y se mantiene consistencia en el uso de objetos activos siguiendo los lineamientos de la arquitectura orientada a eventos.\\
 
 
-Memoria dinámica.
+Por último se menciona el uso de Memoria dinámica. El sistema tiene una interfaz de comunicación UART que a priori recibirá mensajes de largo variable y desconocido. Por lo tanto, el uso de buffers dinámicos para el almacenamiento y procesamiento de datos fue preferido. Para utilizar memoria dinámica se usan las funciones memset(), pvPortMalloc(), memcpy() y vPortFree() a través de dos instancias de ejecución: una de recepción y almacenamiento de datos, y otra de ejecución y liberación de memoria. En el siguiente fragmento de código se explica este uso de funciones con dos tareas reader y writer.
+
+
+\begin{lstlisting}[
+	language=C, 
+	backgroundcolor=\color{mygray},
+	]
+void vTaskReader(void *parameters) {
+   // Clear whole buffer
+   memset(buf, 0, buf_len);
+   // Loop forever
+   while (true) {
+   // Read from UART
+      uint8_t c_data=0;
+      if (uartReadByte( UART_USB, &c_data ) == true ){
+      // Store to buffer if not over buffer limit  
+         if (idx < buf_len - 1){
+            buf[idx] = c_data;
+            idx++;
+         }
+         // Create a message ending string with null
+         if (c_data == '\n') {
+            buf[idx - 1] = '\0';
+            // Allocate memory and copy message. 
+            if (msg_flag == 0) {
+               msg_ptr = (char *)pvPortMalloc(idx * sizeof(char));
+               if (msg_ptr==NULL){
+                  if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+                     printf("Buffer out of memory\r\n");
+                     xSemaphoreGive(xMutexUART);
+                  }
+               }
+               // Copy message
+               memcpy(msg_ptr, buf, idx);
+               // Notify other task that message is ready
+               msg_flag = 1;
+            }
+            // Reset buffer and index
+            memset(buf, 0, buf_len);
+            idx = 0;
+         }
+      }
+   }
+}     
+
+void vTaskWriter(void *parameters) {
+   if (uart_msg_flag == true) {
+      // Print the message in the buffer 
+      if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
+        printf("%s\r\n", uart_msg_ptr);
+        xSemaphoreGive(xMutexUART);
+      }
+      // Free the memory block  
+      vPortFree(uart_msg_ptr);  
+      uart_msg_ptr  = NULL;
+   }
+}
+
+\end{lstlisting}
+
+Como se puede observar, cuando se recibe un caracter por la interfaz UART se copia el mismo en el buffer siempre y cuando no esté lleno. Cuando el buffer se completa, se pide memoria y se copia el mensaje usando un puntero al bloque de memoria asignado. Luego la tarea de ejecución lee el mensaje de ese puntero a memoria o bien lo procesa para invocar otra función.\\
 
 
 \subsection{Patrones de software}
@@ -441,7 +526,7 @@ El desarrollo de la arquitectura orientada a eventos propuesta se basa en la int
 	backgroundcolor=\color{mygray},
 	]
 typedef enum{
-
+    
     STATE_INIT,
 	STATE_A,
 	STATE_B
@@ -593,23 +678,17 @@ Notar que el primer ciclo while() es el que corresponde al funcionamiento normal
 	\label{fig:AOfsmAB}
 \end{figure}
 
-En este caso la tarea recibe una referencia a un timer (\textit{xTimerHandle}) que genera eventos de timeout y los encola en la interfaz del objeto activo. Con la misma interfaz, los eventos podrían ser generados también por otros objetos activos o por rutinas de interrupción, tal como se indica en la figura.\\
+En este caso la tarea de sistema recibe una referencia a un timer (xTimerHandle) que genera eventos de timeout y los encola en la interfaz del objeto activo (Queue). Con la misma interfaz, los eventos podrían ser generados también por otros objetos activos o por rutinas de interrupción. Los mensajes en cola se reciben en la tarea de sistema que actualiza la máquina de estados.\\
 
+\subsection{Componentes del sistema}
 
-
-
-\pagebreak
-\subsection{Componentes de sistema}
-
-En esta sección se describen los componentes principales de la solución representada con el diagrama de la figura \ref{fig:diagVistaDisenho}. Los cuatro objetos activos utilizados son:\\
+En esta sección se describen los componentes principales de la solución representada con el diagrama estructural de la figura \ref{fig:diagVistaDisenho}. En la figura \ref{fig:diagramaSecuenciaSistema} se presentan las interacciones entre componentes en forma de secuencia para los distintos casos de uso. Los cuatro objetos activos utilizados son:\\
 \begin{itemize}
 \item \textbf{UART}: objeto activo que sirve de interfaz de comunicación con la red RS485 del sistema PIDS. Se encarga de recibir los mensajes de la red, identificarlos y enviarlos al objeto PIDS.
 \item \textbf{PIDS}: objeto activo que contiene la lógica de procesamiento de señales del tren, los mensajes que se visualizan en pantalla y los trayectos disponibles. 
 \item \textbf{displayLED}: objeto activo responsable de codificar los mensajes que vienen del PIDS para ser visualizados en un display de matriz led.
 \item \textbf{Button}: objeto activo responsable de recibir accionamientos manuales del conductor del tren.
 \end{itemize}
-
-Las interacciones entre componentes se presentan con los diagramas de secuencia de la figura \ref{fig:diagramaSecuenciaSistema} que representan los casos de uso.
 
 \begin{figure}[ht]
 	\centering
@@ -625,12 +704,34 @@ La organización del scheduler del sistema operativo se representa con el diagra
 
 En esta sección se describe la implementación del componente objeto activo UART (Universal Asynchronous Receiver Transmitter) del sistema. Este tipo de interfaz suele ser común en numerosas aplicaciones y abundan ejemplos utilizados para leer y escribir desde y hacia un periférico UART. El caso trivial es una aplicación "eco": todo lo que se recibe por la UART se vuelve a escribir y enviar por la UART. Sin embargo, la aplicación específica determina la lógica de procesamiento de mensajes. Por ejemplo si se recibe un caracter determinado, entonces se activa tal objeto; si se genera un evento en tal otro objeto, entonces se envía un mensaje de aviso. \\
 
-En el sistema desarrollado, la UART es la interfaz de comunicación con el resto de la red PIDS. Esta debe procesar eventos que indican aceleración y desaceleración del tren. Los eventos se reciben codificados en tramas con formato específico, que a priori carecen de documentación. Como se verá en la sección de ensayos, se ha observado que las tramas normalmente tienen un encabezado (header), una carga de datos (payload), y un final de trama (trailer). Sin embargo, se ha observado también que los mensajes del tren pueden tener largo variable. De esta manera se diseñó un componente UART con cierta flexibilidad para permitir estudiar en mayor detalle la información de las tramas de datos del tren.\\
-
-A continuación se presentan los lineamientos que se utilizaron en la implementación. Incluyen la descripción del objeto activo, su máquina de estados, el uso de memoria dinámica para manejo de buffers de datos y los mecanismos con los que este componente interactúa con el resto del sistema.\\
+En el sistema desarrollado, la UART es la interfaz de comunicación con el resto de la red PIDS. Esta debe procesar eventos que indican aceleración y desaceleración del tren. Los eventos se reciben codificados en tramas con formato específico, que a priori carecen de documentación. Como se verá en la sección de ensayos, se ha observado que las tramas normalmente tienen un encabezado (header), una carga de datos (payload), y un final de trama (trailer). Sin embargo, se ha observado también que los mensajes del tren pueden tener largo variable. El diseño de este componente se representa con el diagrama de la figura \ref{fig:diagfsmUART}.\\
 
 
-\pagebreak
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/fsmUART3.png}
+	\caption{Diagrama del objeto activo UART implementado.}
+	\label{fig:diagfsmUART}
+\end{figure}
+
+El periférico UART es un componente de bajo nivel del microcontrolador que admite el control por interrupciones (ISR). Cada byte entrante genera una interrupción y de inmediato el handler IRQ\_UART envía un mensaje de actualización al objeto activo. Los eventos admitidos son:
+\begin{itemize}
+\item evUart\_Received\_byte para la recepción de un byte de datos; 
+\item evUart\_Timeout, generado por un timer específico de control.\\
+\end{itemize} 
+
+La máquina de estados admite cuatro estados distintos:
+\begin{itemize}
+\item IDLE: estado inicial y de reposo.
+\item LISTENING: estado generado al recibir el Header o inicio de trama.
+\item VALID: estado generado al completar un mensaje con el Trailer o final de trama.
+\item ERROR: estado alcanzado una vez generado un timeout en el estado listening.
+\end{itemize}
+
+El estado Listening es el core de la máquina de estados. El handler de ejecución permite guardar en memoria dinámica el contenido de un mensaje de largo variable una vez que se recibe un byte de inicio de trama.  El mensaje se completa cuando se recibe un byte de final de trama, que genera mediante timeout el evento de transición al estado Valid. La lógica que se plantea con este diseño es que una vez validada una trama de datos, se genere un evento de actualización hacia el componente externo PIDS.\\
+
+De esta manera se diseñó un componente UART flexible, que permite cambiar los bytes de header y trailer y admite un buffer de largo variable usando memoria dinámica. \\
+
 \subsubsection{Display LED}
 
 El objetivo de esta sección es describir la solución implementada para el manejo de carteles de matriz led, su estructura, su forma de uso y cómo se debe modificar en caso de reutilización en otros sistemas.\\
@@ -676,6 +777,7 @@ La pieza de software desarrollada para el control del display led es un objeto a
 	\label{fig:fsmDisplayLED}
 \end{figure}
 
+
 Se pueden distinguir tres estados, cada uno con un handler asociado. En el siguiente fragmento de código se presenta la especificación de la máquina de estados del display led. \\
 
 
@@ -694,16 +796,6 @@ sStateMachine_displayLed fsmDisplayLed[] =
 \end{lstlisting}
 \label{code:fsmDisplay}
 
-El estado 'STATE\_DISPLAYLED\_PROCESSING' ejecuta el handler  'displayled\_procHandler()' encargado de recibir mensajes externos en formato string (char*). Este implementa un pipeline de procesamiento para transformar strings en matrices de enteros de 8 bits.
-
-
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{./Figures/pipelineDataEncoding.png}
-	\caption{Lógica de procesamiento de datos para visualizar en el display.}
-	\label{fig:displayDataLogic}
-\end{figure}
 
 
 \begin{lstlisting}[
@@ -743,6 +835,15 @@ eSystemState_displayLed     displayled_procHandler(void){
 }
 
 \end{lstlisting}
+
+El estado 'STATE\_DISPLAYLED\_PROCESSING' ejecuta el handler  'displayled\_procHandler()' encargado de recibir mensajes externos en formato string (char*). Este implementa un pipeline de procesamiento para transformar strings en matrices de enteros de 8 bits.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/pipelineDataEncoding.png}
+	\caption{Lógica de procesamiento de datos para visualizar en el display.}
+	\label{fig:displayDataLogic}
+\end{figure}
 
 
 \begin{lstlisting}[
