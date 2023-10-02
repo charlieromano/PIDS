@@ -1,11 +1,10 @@
 \chapter{Diseño e implementación} % Main chapter title
-
-En este capítulo se presentan los requerimientos del sistema y la solución propuesta. En el desarrollo se utiliza la plataforma de hardware EDU-CIAA\cite{CIAA}, la API Firmware\_ v3\cite{firmwareV3}, y freeRTOS\cite{freeRTOS} como sistema operativo de tiempo real.\\
-
-Siguiendo lineamientos de ingeniería de software, se presenta la solución en el siguiente orden: requerimientos, funcionalidades, casos de uso principales como ejes del espacio problema; arquitectura, patrones de software utilizados, técnicas de concurrencia, diagramas de secuencia, diagramas de interacción entre componentes, organización del firmware y planos de hardware para describir el espacio solución.\\
-
-
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+
+En este capítulo se abordan cuestiones de diseño, se presentan los requerimientos del sistema y la solución propuesta. Se detalla la solución en términos de arquitectura, patrones de software, descripción de componentes e implementación. En el desarrollo se utiliza la plataforma de hardware EDU-CIAA\citep{CIAA}, la API Firmware\_ v3\citep{firmwarev3}, y freeRTOS\citep{freeRTOS} como sistema operativo de tiempo real.\\
+
+Siguiendo lineamientos de ingeniería de software, se presenta la solución en el siguiente orden: requerimientos, funcionalidades y casos de uso como ejes principales del espacio problema, y arquitectura, organización del código fuente, patrones, diagramas de secuencia e interacción entre componentes como detalle del espacio solución.\\
+
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.95,0.95,0.95}
@@ -130,7 +129,7 @@ PIDS-REQ-DOC-04 & Informe final de proyecto                            \\ \hline
 Por último se explicita que para el desarrollo del presente proyecto se asume que:
 
 \begin{itemize}
-\item No habrá dependencias directas con otros proyectos enmarcados en el mismo PDE\cite{PDE-TCN}.
+\item No habrá dependencias directas con otros proyectos enmarcados en el mismo PDE\citep{PDE-TCN}.
 \item No habrá dificultad ni excesivas demoras en la compra de los componentes electrónicos o
 de software necesarios.
 \item Se contará con recursos y materiales necesarios para validar las pruebas realizadas.
@@ -308,7 +307,7 @@ Esta vista estructural del sistema plantea la interacción entre componentes e i
 
 
 \section{Implementación}
-En este trabajo se implementa un sistema embebido usando el lenguaje de programación C y el sistema operativo de tiempo real freeRTOS. La plataforma de hardware utilizada es la CIAA-EDU-NXP, que dispone de un microcontrolador LPC4337 de la companía NXP (\cite{NXPLPC4337}), con una arquitectura de 32 bits ARM Cortex-M4/M0. El firmware se desarrolló utilizando también la \textit{SAPI} y el \textit{firmwareV3} \cite{firmwarev3} como capa de abstracción de hardware. Esta API es una interfaz para usar las funciones de la biblioteca CMSIS del fabricante del microcontrlador. Esta API es parte fundamental del proyecto CIAA.\\
+En este trabajo se implementa un sistema embebido usando el lenguaje de programación C y el sistema operativo de tiempo real freeRTOS. La plataforma de hardware utilizada es la CIAA-EDU-NXP, que dispone de un microcontrolador LPC4337 de la companía NXP (\citep{NXPLPC4337}), con una arquitectura de 32 bits ARM Cortex-M4/M0. El firmware se desarrolló utilizando también la \textit{SAPI} y el \textit{firmwarev3} \citep{firmwarev3} como capa de abstracción de hardware. Esta API es una interfaz para usar las funciones de la biblioteca CMSIS del fabricante del microcontrlador. Esta API es parte fundamental del proyecto CIAA.\\
  
 En el diseño del sistema se desarrollaron plantillas para implementar patrones de software como máquinas de estado y objetos activos. Con las plantillas se facilita la documentación, testing, mantenimiento y escalabilidad. Estos fueron aspectos de calidad de software que se buscó satisfacer desde el diseño. Se describen los lineamientos y fragmentos de código principales de estas plantillas en la sección de patrones de software. \\
 
