@@ -193,6 +193,7 @@
 
 \RequirePackage{graphicx} % Required to include images
 \graphicspath{{Figures/}{./}} % Specifies where to look for included images
+\usepackage{float}
 \usepackage{pdfpages}
 \RequirePackage{booktabs} % Required for better table rules
 \RequirePackage{caption} % Required for customising the captions
