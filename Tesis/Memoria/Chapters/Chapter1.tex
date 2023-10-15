@@ -58,7 +58,7 @@ El objetivo principal de este trabajo es diseñar e implementar un sistema de in
 \end{figure}
 
 
-En el interior de los coches, también hay carteles led. Estas marquesinas muestran mensajes a los pasajeros, como el nombre de la próxima estación o la estación arribada (por ejemplo, “Próxima estación Belgrano” o “Estás en estación Belgrano”). Ésta información se
+En el interior de los coches, también hay carteles led. Estas marquesinas muestran mensajes a los pasajeros, como el nombre de la próxima estación o la estación arribada (por ejemplo, “Próxima estación Belgrano” o “Estás en estación Belgrano”). La información se
 presenta de manera automática basándose en variables de sistema que monitorean el detenimiento del tren, su velocidad y la apertura o cierre de puertas. Toda esta información, junto con otros datos de supervisición y control, se transmite a través de una red de comunicación interna del tren que se denomina TCN (\textit{Train Communication Network}) de acuerdo a las especificaciones definidas en el estándar\citep{IEC-61375-1999}. Este estándar define para la red TCN dos buses jerárquicos donde se conectan los subsistemas electrónicos: el WTB (\textit{Wire Train Bus}), que se utiliza para supervisar cambios topográficos en el tren y se conecta entre los vagones, y el MVB (\textit{Multi-Vehicle Bus}) \citep{CSN-EN-61375-2-1}\citep{IEC-61375-3-1:2012}, donde se conectan los sensores y actuadores de cada coche, como los sistemas de frenos, los controles de las puertas, los medidores de velocidad, el sistema de información, entre otros. Ambos buses utilizan interfaces eléctricas que se basan en redes RS485.\\
 
 
@@ -89,7 +89,7 @@ Las cualidades que debe satisfacer este proyecto son:
 \item Practicidad: debe ser de fácil uso para el personal de Trenes Argentinos Operaciones.
 \end{itemize}
 
-Este proyecto permitirá implementar las funciones de visualización del sistema de información al pasajero sin depender del equipamiento existente. El sistema actual es un equipamiento integrado y propietario, y este proyecto busca separar algunas de sus funciones, específicamente las relacionadas con la visualización de información para pasajeros, y presentarlas en un display led genérico. Por otro lado, permitirá reponer los carteles que en la actualidad quedan fuera de servicio por fallas o pérdida del material original y no pueden ser reparados. De esta manera, el valor principal que aporta este proyecto es contribuir con la sustitución de repuestos faltantes por medio de desarrollo y reducir la dependencia tecnológica de la empresa con los fabricantes. Este proyecto tiene impacto directo en las formaciones ferroviarias existentes, que brindan servicio a los pasajeros todos los días.\\
+Este proyecto permitirá implementar las funciones de visualización del sistema de información al pasajero sin depender del equipamiento existente. El sistema actual es un equipamiento integrado y propietario, y este trabajo busca separar algunas de sus funciones, específicamente las relacionadas con la visualización de información para pasajeros, y presentarlas en un display led genérico. Por otro lado, permitirá reponer los carteles que en la actualidad quedan fuera de servicio por fallas o pérdida del material original y no pueden ser reparados. De esta manera, el valor principal que aporta este trabajo es contribuir con la sustitución de repuestos faltantes por medio de desarrollo y reducir la dependencia tecnológica de la empresa con los fabricantes. Este proyecto tiene impacto directo en las formaciones ferroviarias existentes, que brindan servicio a los pasajeros todos los días.\\
 
 \section{Introducción a los sistemas de información visual}
 
@@ -118,7 +118,7 @@ El cliente de mayor impacto de los servicios que provee un sistema PIDS es la re
 	\label{fig:Hitachi}
 \end{figure}
 
-Hitachi ofrece una solución para publicidad que consiste en tres pantallas en array, que se sincronizan para formar una sola y transmitir video con conectividad WiMAX. Cada uno de estos arreglos se posicionan arriba de las ventanas en ambos lados de los coches, alcanzando el despliegue de hasta dieciocho pantallas sincronizadas por coche, como se puede ver en la figura \ref{fig:Hitachi}. De esta manera, logran transmitir varios mensajes distintos en simultáneo a los pasajeros sin que tengan que moverse de su asiento.\\
+Hitachi ofrece una solución para publicidad que consiste en tres pantallas en \textit{array}, que se sincronizan para formar una sola y transmitir video con conectividad WiMAX. Cada uno de estos arreglos se posicionan arriba de las ventanas en ambos lados de los coches, alcanzando el despliegue de hasta dieciocho pantallas sincronizadas por coche, como se puede ver en la figura \ref{fig:Hitachi}. De esta manera, logran transmitir varios mensajes distintos en simultáneo a los pasajeros sin que tengan que moverse de su asiento.\\
 
 
 Por otro lado, Toshiba ofrece una solución que permite transmitir publicidad e información al pasajero en una misma pantalla LCD en simultáneo. La solución está centrada en la pantalla como dispositivo central, ofreciendo pantallas de 32\" y 42\", de 1920 x 540 píxeles, full color de hasta 16,7 millones de colores, com amplio ángulo de visión y de gran luminancia\citep{Toshiba}. En la mayoría de los casos, las soluciones ofrecidas buscan cubrir tanto la demanda de un sistema PIDS como la oferta de publicidad de cara al pasajero, como es habitual en las estaciones y formaciones ferroviarias.\\
@@ -152,6 +152,7 @@ Además, se sugiere la importancia de la precisión en la información que ofrec
 \begin{table}[ht]
 \caption[Caption for LOF]{Principales aspectos y servicios asociados a sistemas PIDS\protect\footnotemark}
 %\caption{Principales aspectos y servicios asociados a sistemas PIDS\footnote{Elaboración del autor.}.}
+\begin{center}
 \begin{tabular}{ll}
 \hline
 \textbf{Conectividad} &\begin{tabular}[c]{@{}l@{}}
@@ -184,6 +185,7 @@ Además, se sugiere la importancia de la precisión en la información que ofrec
 \end{tabular}\\ \hline
 \end{tabular}
 \label{tab:tablaSistemasPIDS}
+\end{center}
 \end{table}
 
 \footnotetext{Fuente: elaboración propia del autor.}
@@ -195,6 +197,7 @@ Desde el punto de vista centrado en los carteles, se consideran varias especific
 \begin{table}[h!]
 \caption[Caption for LOF]{Principales características de displays para sistemas PIDS\protect\footnotemark}
 \label{tab:tablaDisplays}
+\begin{center}
 \begin{tabular}{|l|l|l|l|l|}
 \hline
 \textbf{Display}
@@ -274,6 +277,7 @@ Densidad \\ de píxeles\end{tabular}}
     & 25 W \\ 
 \hline
 \end{tabular}
+\end{center}
 \end{table}
 
 
@@ -285,6 +289,8 @@ Cada cartel requiere de un controlador como interfaz para procesar información 
 \caption[Caption for LOF]{Principales características de controladores de uso general para aplicaciones PIDS\protect\footnotemark}
 \label{tab:tablaControladores}
 \centering
+
+\begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
 \textbf{\begin{tabular}[c]{@{}l@{}}Unidad de \\ procesamiento\end{tabular}} & \textbf{MCU 8/16/32 bits}                                                                       & \textbf{FPGA / ASIC / DSP}                                                        & \textbf{CPU / DSP}                                                                                      \\ \hline
@@ -293,6 +299,7 @@ Cada cartel requiere de un controlador como interfaz para procesar información 
 \textbf{Conectividad}                                                       & \begin{tabular}[c]{@{}l@{}}UART (1-4)\\ USB (1-2)\\ RS485\\ GPIO (1-20)\\ Ethernet\end{tabular} & \begin{tabular}[c]{@{}l@{}}Pmod\\ I/O pins (20-800)\\ Ethernet\\ USB\end{tabular} & \begin{tabular}[c]{@{}l@{}}USB \\ VGA\\ HDMI\\ DVI\\ display Port\\ PCI / PCI-E\\ Ethernet\end{tabular} \\ \hline
 \textbf{Programación}                                                       & C / C++/ Assembly                                                                               & VHDL, Verilog, XML                                                                & \begin{tabular}[c]{@{}l@{}}C, C++, Java, \\ Python, XML\end{tabular}                                    \\ \hline
 \end{tabular}
+\end{center}
 \end{table}
 
 \footnotetext{Fuente: elaboración propia del autor.}

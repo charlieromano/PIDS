@@ -74,7 +74,7 @@ Estos requerimientos generales se traducen en requerimientos específicos y se d
 \textbf{Requerimientos funcionales}
 
 \begin{itemize}
-\item El sistema debe controlar arreglos de matrices led de 8x8 (64 led individuales).
+\item El sistema debe controlar arreglos de matrices led de 8x8 (64 leds individuales).
 \item El sistema debe presentar en el display información dinámicamente.
 \item El sistema debe poder almacenar una cantidad de información para visualización.
 \item El sistema debe permitir elegir entre distintos mensajes de visualización.
@@ -104,6 +104,7 @@ La tabla \ref{tab:Reqs} sintetiza los requerimientos y les asigna un código de 
 \begin{table}[htb]
 \caption{Tabla de requerimientos funcionales, de integración y de documentación del proyecto.}
 \label{tab:Reqs}
+\begin{center}
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Código} & \textbf{Descripción}                                 \\ \hline
@@ -125,6 +126,7 @@ PIDS-REQ-DOC-02 & Guía de usuario.                                      \\ \hli
 PIDS-REQ-DOC-03 & Presentación del sistema.                             \\ \hline
 PIDS-REQ-DOC-04 & Informe final de proyecto.                            \\ \hline
 \end{tabular}
+\end{center}
 \end{table}
 
 
@@ -157,6 +159,7 @@ Estas historias de usuario presentan cuatro tipos distintos de usuarios: pasajer
 \begin{table}[htb]
 \caption{Tabla de casos de uso.}
 \label{tab:UseCases}
+\begin{center}
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Código} & \textbf{Descripción}     \\ \hline
@@ -165,17 +168,14 @@ PIDS-UC-02  & Elegir destino.             \\ \hline
 PIDS-UC-03  & Información de asistencia. \\ \hline
 PIDS-UC-04  & Receptor de tramas.       \\ \hline
 \end{tabular}
+\end{center}
 \end{table}
 
 En el caso de uso UC-1, se involucra al tren como sistema disparador cuando arriba a una estación, y se presenta información visual al pasajero usando los carteles led de salón. En UC-2 se resuelve una acción del conductor al presionar un botón, y también se presenta información visual al pasajero, en este caso las estaciones cabecera del recorrido que se visualizan en los carteles led de frente y contrafrente del tren. El tercer caso de uso, UC-3, presenta información de asistencia cargada previamente, que se dispara por acción de un temporizador mientras el tren está en circulación. Por último, el caso de uso UC-4 involucra al módulo SCU (ver figura  \ref{fig:diagramaPIDS} de la red PIDS) y a un sistema externo, como puede ser la computadora de un operador u otro componente de la red, para decodificar las tramas de datos recibidas desde el SCU.\\
 
 \section{Arquitectura}
 
-El sistema PIDS de Trenes Argentinos es parte de una solución integral de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes del sistema PIDS de esa arquitectura y su relación con los componentes del sistema propuesto en este trabajo.\\
-
-El sistema diseñado en este trabajo sigue una arquitectura orientada a eventos. Se desarrollaron e implementaron distintos patrones de software buscando satisfacer propiedades de modularidad, portabilidad y escalabilidad. Algunos de los objetos implementados se describen a nivel de detalle para resaltar criterios y decisiones de diseño relevantes. \\
-
-La relación entre la arquitectura existente del PIDS de trenes y la arquitectura del sistema embebido basado en la plataforma CIAA, busca por un lado satisfacer la compatibilidad eléctrica del hardware, y por otro lado las historias de usuario planteadas en los casos de uso, en la etapa de definición de requerimientos. \\
+El sistema PIDS de Trenes Argentinos es parte de una solución integral de la red TCN del fabricante de los trenes, la empresa China State Railway Group Company, Ltd. En este capítulo se describen los aspectos más relevantes del sistema PIDS de esa arquitectura y su relación con los componentes del sistema propuesto en este trabajo. El sistema diseñado en este trabajo sigue una arquitectura orientada a eventos. Se desarrollaron e implementaron distintos patrones de software buscando satisfacer propiedades de modularidad, portabilidad y escalabilidad. Algunos de los objetos implementados se describen a nivel de detalle para resaltar criterios y decisiones de diseño relevantes. La relación entre la arquitectura existente del PIDS de trenes y la arquitectura del sistema embebido basado en la plataforma CIAA, busca por un lado satisfacer la compatibilidad eléctrica del hardware, y por otro lado las historias de usuario planteadas en los casos de uso, en la etapa de definición de requerimientos. \\
 
 En las secciones siguientes se describen los componentes del sistema y sus interacciones. \
 
@@ -200,7 +200,7 @@ La red TCN define una comunicación estándar usando dos buses jerárquicos llam
 	\label{fig:diagTcnPidsBuusesWtbMvb}
 \end{figure}
 
-El sistema PIDS tiene un bus de comunicación propio a través de una red RS485. Uno de los componentes de esta red es el módulo SCU, al cual se conectan distintos dispositivos como los display led, los mapas de recorrido led, las cámaras y parlantes, tal como se indica en la figura 	\ref{fig:diagPidsScuDevices}.\\
+El sistema PIDS tiene un bus de comunicación propio a través de una red RS485. Uno de los componentes de esta red es el módulo SCU )descrito en la topolgía del PIDS del capítulo 2), al cual se conectan distintos dispositivos como los display led, los mapas de recorrido led, las cámaras y parlantes, tal como se indica en la figura 	\ref{fig:diagPidsScuDevices}.\\
 
 
 \begin{figure}[ht]
@@ -220,14 +220,10 @@ Al módulo SCU se conectan las unidades IDU, que corresponden a los display led 
 	\label{fig:diagScuDriverDisplay}
 \end{figure}
 
-El alcance del sistema desarrollado en este trabajo cubre la funcionalidad de este conjunto de bloques \textit{Driver + Display}, que en la nomenclatura del sistema PIDS existente corresponde a los módulos IDU. Existen dos unidades de estos módulos por cada salón o coche.\\
-
-Muchas de las formaciones de SOFSE disponen de siete coches, por lo que se tiene un mínimo de catorce unidades IDU (dos por salón), más dos displays externos adicionales para el frente y contrafrente del tren que indican las estaciones cabecera del recorrido. Esto resulta en un total de al menos dieciséis unidades de control de carteles de matriz led por cada tren. Teniendo en cuenta las formaciones operativas de las líneas Mitre, Sarmiento y Roca del Área Metropolitana de Buenos Aires (AMBA), se puede estimar alrededor de treinta trenes operando en simultáneo, lo que resulta en aproximadamente 500 unidades de carteles operando en vivo. El impacto que puede tener el aporte de este trabajo estará directamente relacionado con la operación de Trenes Argentinos, y puede contribuir a la extensión de la vida útil de los trenes.\\
+El alcance del sistema desarrollado en este trabajo cubre la funcionalidad de este conjunto de bloques \textit{Driver + Display}, que en la nomenclatura del sistema PIDS existente corresponde a los módulos IDU. Existen dos unidades de estos módulos por cada salón o coche. Muchas de las formaciones de SOFSE disponen de siete coches, por lo que se tiene un mínimo de catorce unidades IDU (dos por salón), más dos displays externos adicionales para el frente y contrafrente del tren que indican las estaciones cabecera del recorrido. Esto resulta en un total de al menos dieciséis unidades de control de carteles de matriz led por cada tren. Teniendo en cuenta las formaciones operativas de las líneas Mitre, Sarmiento y Roca del Área Metropolitana de Buenos Aires (AMBA), se puede estimar alrededor de treinta trenes operando en simultáneo, lo que resulta en aproximadamente 500 unidades de carteles operando en vivo. El impacto que puede tener el aporte de este trabajo estará directamente relacionado con la operación de Trenes Argentinos, y puede contribuir a la extensión de la vida útil de los trenes.\\
 
 \subsection{Diseño}
-La propuesta de diseño busca cubrir las funcionalidades del bloque de control del display led. El display led es una unidad que se puede adquirir comercialmente. Sin embargo el driver para la red PIDS es una solución propietaria del fabricante y es la que se busca reemplazar con este desarrollo.\\
-
-En la figura \ref{fig:diagVistaReDisenhoEduCIAA} se presenta un diagrama de bloques del sistema de control propuesto. Este controlador usa comunicación serie a través de interfaces UART-RS485 y UART-USB. La UART (\textit{Universal Asynchronous Receiver Transmitter}) es un periférico del microcontrolador de la plataforma CIAA. La alimentación de la CIAA difiere de aquella existente en la red RS485 de Trenes Argentinos, por lo que también es necesario un bloque de conversión de tensión DC-DC para garantizar compatibilidad eléctrica. La comunicación con el display se realiza a través de un adaptador eléctrico, que consiste básicamente en un puerto de entrada-salida.\\
+La propuesta de diseño busca cubrir las funcionalidades del bloque de control del display led. El display led es una unidad que se puede adquirir comercialmente. Sin embargo el driver para la red PIDS es una solución propietaria del fabricante y es la que se busca reemplazar con este desarrollo. En la figura \ref{fig:diagVistaReDisenhoEduCIAA} se presenta un diagrama de bloques del sistema de control propuesto. Este controlador usa comunicación serie a través de interfaces UART-RS485 y UART-USB. La UART (\textit{Universal Asynchronous Receiver Transmitter}) es un periférico del microcontrolador de la plataforma CIAA. La alimentación de la CIAA difiere de aquella existente en la red RS485 de Trenes Argentinos, por lo que también es necesario un bloque de conversión de tensión DC-DC para garantizar compatibilidad eléctrica. La comunicación con el display se realiza a través de un adaptador eléctrico, que consiste básicamente en un puerto de entrada-salida.\\
 
 
 \begin{figure}[ht]
@@ -237,7 +233,7 @@ En la figura \ref{fig:diagVistaReDisenhoEduCIAA} se presenta un diagrama de bloq
 	\label{fig:diagVistaReDisenhoEduCIAA}
 \end{figure}
 
-A nivel lógico, el sistema que se propone consiste en cuatro objetos activos que interactúan entre sí, tal como se indica en la figura \ref{fig:diagVistaDisenho}. El prefijo \"ao:\" y el subrayado señalan que el bloque es un objeto activo.\\
+A nivel lógico, el sistema que se propone consiste en cuatro objetos activos que interactúan entre sí, tal como se indica en la figura \ref{fig:diagVistaDisenho}. El prefijo '\underline{ao:}' señala que el bloque es un objeto activo. El objeto activo UART es el encargado de recibir e interpretar las tramas de datos que viajan por la red RS485 del bus de datos del SCU. El objeto activo Button es el control manual del operador para accionar el sistema. El objeto activo PIDS es una máquina de estados que representa el estado del tren, y contiene los mensajes y nombres de las estaciones. El objeto activo DisplayLed es el encargado de codificar los mensajes en el formato correspondiente a la matriz led del display.\\
 
 
 \begin{figure}[ht]
@@ -247,7 +243,7 @@ A nivel lógico, el sistema que se propone consiste en cuatro objetos activos qu
 	\label{fig:diagVistaDisenho}
 \end{figure}
 
-El objeto activo UART es el encargado de recibir e interpretar las tramas de datos que viajan por la red RS485 del bus de datos del SCU. El objeto activo Button es el control manual del operador para accionar el sistema. El objeto activo PIDS es una máquina de estados que representa el estado del tren, y contiene los mensajes y nombres de las estaciones. El objeto activo DisplayLed es el encargado de codificar los mensajes en el formato correspondiente a la matriz led del display.\\
+
 
 Esta vista estructural del sistema plantea la interacción entre componentes e indica su dependencia funcional. El diseño modular permite hacer cambios en los componentes de forma independiente. Por ejemplo, se podrían reemplazar los mensajes al pasajero en el objeto PIDS sin afectar el resto del sistema, o si fuera necesario cambiar el hardware de control, se podría reemplazar la lógica de control del display led modificando únicamente el objeto Displayled.\\
 
@@ -579,7 +575,7 @@ Con esta técnica de desacoplamiento, se implementan dos archivos por cada máqu
 
 
 
-\subsubsection{Objeto Activo}
+\subsubsection{Objeto activo}
 	
 Los objetos activos se implementan en esta aplicación como tareas de freeRTOS, usando dos superciclos anidados de tipo \textit{while(true)}, tal como se muestra en el siguiente fragmento de código: 
 
@@ -675,13 +671,13 @@ La máquina de estados admite cuatro estados distintos:
 \item \textit{ERROR}: estado alcanzado una vez generado un timeout en el estado listening.
 \end{itemize}
 
-El estado \textit{Listening} es el core de la máquina de estados. El \textit{handler} de ejecución permite guardar en memoria dinámica el contenido de un mensaje de largo variable una vez que se recibe un byte de inicio de trama.  El mensaje se completa cuando se recibe un byte de final de trama, que genera mediante \textit{timeout} el evento de transición al estado \textit{Valid}. La lógica que se plantea con este diseño es que, una vez validada una trama de datos, se genere un evento de actualización hacia el componente externo PIDS. De esta manera, se desarrolló un componente UART con flexibilidad, que permite cambiar los bytes de \textit{header} y \textit{trailer} y admite un \textit{buffer} de largo variable usando memoria dinámica. \\
+El estado \textit{LISTENING} es el \textit{core} de la máquina de estados. El \textit{handler} de ejecución permite guardar en memoria dinámica el contenido de un mensaje de largo variable una vez que se recibe un byte de inicio de trama.  El mensaje se completa cuando se recibe un byte de final de trama, que genera mediante \textit{timeout} el evento de transición al estado \textit{Valid}. La lógica que se plantea con este diseño es que, una vez validada una trama de datos, se genere un evento de actualización hacia el componente externo PIDS. De esta manera, se desarrolló un componente UART con flexibilidad, que permite cambiar los bytes de \textit{header} y \textit{trailer} y admite un \textit{buffer} de largo variable usando memoria dinámica. \\
 
 \subsubsection{Display led}
 
-El objetivo de esta sección es describir la solución implementada para el manejo de carteles de matriz led, su estructura, su forma de uso y cómo se debe modificar en caso de reutilización en otros sistemas.\\
+En esta sección se describe la solución implementada para controlar carteles de matriz led. La estructura de control, el conjunto de chips compatibles, el uso y posible reutilización en otros sistemas se presenta con diagramas y detalles de código fuente. \\
 
-Los carteles led de este trabajo se basan en una tecnología de microcontrolador (MCU) y sistema digital. El MCU genera las señales de control y el sistema digital se encarga de codificar los datos binarios en señales eléctricas, para prender leds de forma ordenada. Los carteles se componen de módulos de matriz led de 8x8. Estos módulos se direccionan por filas y columnas para  visualizar información. Los arreglos de estos módulos forman paneles, y estos últimos pueden ser direccionados por un grupo de señales de control. En la figura \ref{fig:diagDriverled} se presenta el diagrama de bloques del sistema de control de los carteles de matriz led.\\
+Los carteles led utilizados en este trabajo se basan en una tecnología de microcontrolador (MCU) y sistema digital. El MCU genera las señales de control y el sistema digital se encarga de codificar los datos binarios en señales eléctricas, para prender leds de forma ordenada. Los carteles se componen de módulos matriciales de 8x8 leds, es decir, 8 filas de 8 leds por fila en cada módulo. Los arreglos de módulos forman paneles, y los arreglos de paneles forman carteles. Los módulos se pueden controlar enviando pulsos de tensión a las filas y columnas. Si se quisiera usar varios módulos de matriz led por separado, la cantidad de señales podría ser proporcional al número total de leds. Sin embargo, los paneles pueden ser direccionados por un grupo de tres o cuatro señales de control, usando técnicas de multiplexación y registros de desplazamiento, o \textit{Shift Registers}. \\
 
 
 \begin{figure}[ht]
@@ -691,7 +687,18 @@ Los carteles led de este trabajo se basan en una tecnología de microcontrolador
 	\label{fig:diagDriverled}
 \end{figure}
 
-Las señales de control (\textit{data}, \textit{clock}, \textit{latch}, \textit{deco}) se generan en el MCU y se transmiten al circuito eléctrico del display led a través de un conector (CONN). Estas señales se direccionan eléctricamente usando \textit{buffers}. Luego, hacia la izquierda, se transmiten las señales \textit{data}, \textit{clock} y \textit{latch}, que envían los datos del mensaje codificado a un arreglo de \textit{Shift Registers} o registros de desplazamiento. Estos registros son los encargados de transmitir bit a bit los datos de las columnas de cada módulo para cada fila completa del cartel. Una vez enviados todos los datos de una fila, se envía un pulso como señal de \textit{latch} y se energiza la fila completa. Luego se repite la operación fila a fila, escaneando todo el cartel a través de las señales del \textit{Deco}, energizando cada fila a través de un arreglo de transistores \textit{MOSFET} que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un período de tiempo tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo, para formar una imagen continua vista por el ojo humano.\\
+En la figura \ref{fig:diagDriverled} se presenta un diagrama de bloques del sistema de control de carteles de matriz led utilizados. Se pueden distinguir los siguientes bloques:
+
+\begin{itemize}
+\item \textit{input connector}: conector de pines para señales de entrada (\textit{Data, Clock, Latch}).
+\item \textit{Buffer}: adaptador de nivel de la señal de tensión y derivador a izquierda o derecha de la placa física.
+\item \textit{Shift Registers}: registros de desplazamiento para enviar datos binarios a las columnas de los paneles.
+\item \textit{Deco}: doble decodificador 3x8 para energizar secuencialmente las filas de los paneles.
+\item \textit{MOSFET Array}: \textit{driver} de corriente para el encendido de filas de los paneles.
+\item \textit{Led dot matrix array}: el cartel de matriz led, arreglo de paneles (arreglos de módulos), propiamente dicho.
+\end{itemize}
+
+Las señales de control (\textit{data}, \textit{clock}, \textit{latch}, \textit{deco}) se generan en el MCU y se transmiten al circuito eléctrico del display led a través de un conector (CONN). Estas señales se direccionan eléctricamente usando \textit{buffers}, por ejemplo los de la serie 74HC245D. A la izquierda se transmiten las señales \textit{data}, \textit{clock} y \textit{latch}, que contienen el mensaje a visualizar en forma codificada. Siguiendo la señal de reloj como base, se envían bit a bit  y usando el arreglo de \textit{Shift Registers} para enviar los datos de módulo en módulo. Los datos se envían como números hexadecimales en la señal de \textit{data}, y los registros de desplazamiento tienen 8 salidas las columnas de cada módulo. Los registros de desplazamiento son los encargados de transmitir bit a bit los datos de las columnas de. Una vez enviados todos los datos de una fila, se envía un pulso como señal de \textit{latch} y se energiza la fila completa. Luego se repite la operación fila a fila, escaneando todo el cartel a través de las señales del \textit{Deco}, energizando cada fila a través de un arreglo de transistores \textit{MOSFET} que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un período de tiempo tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo, para formar una imagen continua vista por el ojo humano.\\
 
 \begin{figure}[ht]
 	\centering
@@ -731,10 +738,10 @@ La pieza de software desarrollada para el control del display led es un objeto a
 	captionpos=b]
 sStateMachine_displayled fsmDisplayled[] = 
 {
-    {STATE_DISPLAYled_INIT, evDisplayled_init, displayled_initHandler},
-    {STATE_DISPLAYled_IDLE, evDisplayled_msg_received, displayled_idleHandler},
-    {STATE_DISPLAYled_PROCESSING, evDisplayled_timeout, displayled_procHandler},
-    {STATE_DISPLAYled_ENCODING, evDisplayled_timeout, displayled_dataHandler}
+    {STATE_DISPLAYLED_INIT, evDisplayled_init, displayled_initHandler},
+    {STATE_DISPLAYLED_IDLE, evDisplayled_msg_received, displayled_idleHandler},
+    {STATE_DISPLAYLED_PROCESSING, evDisplayled_timeout, displayled_procHandler},
+    {STATE_DISPLAYLED_ENCODING, evDisplayled_timeout, displayled_dataHandler}
 };
 \end{lstlisting}
 \label{code:fsmDisplay}
@@ -759,8 +766,8 @@ eSystemState_displayled     displayled_procHandler(void){
 
     int n=CHAR_LENGTH; 
     int m=str1_len;
-    int p=DISPLAYled_ROWS;
-    int q=DISPLAYled_COLS;
+    int p=DISPLAYLED_ROWS;
+    int q=DISPLAYLED_COLS;
 
     int displayled_size = p*q;
 
@@ -774,12 +781,12 @@ eSystemState_displayled     displayled_procHandler(void){
     displayled_msg_idx%=MESSAGES_TOTAL_NUMBER;
     displayled_msg_flag=0;
 
-    return STATE_DISPLAYled_ENCODING;
+    return STATE_DISPLAYLED_ENCODING;
 }
 
 \end{lstlisting}
 
-El estado 'STATE\_DISPLAYled\_PROCESSING' ejecuta el handler  'displayled\_procHandler()' encargado de recibir mensajes externos en formato string (char*). Este implementa un pipeline de procesamiento para transformar strings en matrices de enteros de 8 bits.
+El estado 'STATE\_DISPLAYLED\_PROCESSING' ejecuta el handler  'displayled\_procHandler()' encargado de recibir mensajes externos en formato string (char*). Este implementa un pipeline de procesamiento para transformar strings en matrices de enteros de 8 bits.
 
 %\begin{figure}[ht]
 %	\centering
@@ -803,7 +810,7 @@ eSystemState_displayled     displayled_dataHandler(void){
     displayled_timer_cnt--;
     if(!displayled_timer_cnt){
         displayled_msg_flag=0;
-        return STATE_DISPLAYled_IDLE;
+        return STATE_DISPLAYLED_IDLE;
     };    
 
     for(int i=0; i<displayled_size; i++){
@@ -823,7 +830,7 @@ eSystemState_displayled     displayled_dataHandler(void){
             gpioWrite(displayled_clk, OFF);
         }
         
-        if(i%DISPLAYled_COLS==0){
+        if(i%DISPLAYLED_COLS==0){
 
             // displayled_latch 
             printf("\r\n");
@@ -832,7 +839,7 @@ eSystemState_displayled     displayled_dataHandler(void){
             
             // displayled_row_scanning
             displayled_deco_cnt++;
-            displayled_deco_cnt%=DISPLAYled_ROWS;
+            displayled_deco_cnt%=DISPLAYLED_ROWS;
             if((displayled_deco_cnt%1)==0){ 
             		gpioToggle(displayled_deco_A0); }
             if((displayled_deco_cnt%2)==0){ 
@@ -844,7 +851,7 @@ eSystemState_displayled     displayled_dataHandler(void){
         }
     }
     
-    return STATE_DISPLAYled_ENCODING;
+    return STATE_DISPLAYLED_ENCODING;
 }
 
 \end{lstlisting}
