@@ -677,7 +677,7 @@ El estado \textit{LISTENING} es el \textit{core} de la máquina de estados. El \
 
 En esta sección se describe la solución implementada para controlar carteles de matriz led. La estructura de control, el conjunto de chips compatibles, el uso y posible reutilización en otros sistemas se presenta con diagramas y detalles de código fuente. \\
 
-Los carteles led utilizados en este trabajo se basan en una tecnología de microcontrolador (MCU) y sistema digital. El MCU genera las señales de control y el sistema digital se encarga de codificar los datos binarios en señales eléctricas, para prender leds de forma ordenada. Los carteles se componen de módulos matriciales de 8x8 leds, es decir, 8 filas de 8 leds por fila en cada módulo. Los arreglos de módulos forman paneles, y los arreglos de paneles forman carteles. Los módulos se pueden controlar enviando pulsos de tensión a las filas y columnas. Si se quisiera usar varios módulos de matriz led por separado, la cantidad de señales podría ser proporcional al número total de leds. Sin embargo, los paneles pueden ser direccionados por un grupo de tres o cuatro señales de control, usando técnicas de multiplexación y registros de desplazamiento, o \textit{Shift Registers}. \\
+Los carteles led utilizados en este trabajo se basan en una tecnología de microcontrolador (MCU) y sistema digital. El MCU genera las señales de control y el sistema digital se encarga de codificar y multiplexar los datos binarios en señales eléctricas, para prender los leds del cartel de forma ordenada. Los carteles se componen de módulos matriciales de 8x8 leds, es decir, 8 filas de 8 leds por fila cada módulo. Los arreglos de módulos forman paneles, y los arreglos de paneles forman carteles. Los módulos se pueden controlar enviando pulsos de tensión a las filas y columnas. Sin embargo, si se quisiera controlar varios módulos de matriz led en simultáneo, la cantidad de señales a priori podría ser proporcional al número total de leds. El sistema digital expone una solución para que los paneles, como arreglos de módulos, puedan ser direccionados por un grupo de tres o cuatro señales de control usando técnicas de multiplexación y registros de desplazamiento, o \textit{Shift Registers}, como se describe a continuación. \\
 
 
 \begin{figure}[ht]
@@ -687,18 +687,34 @@ Los carteles led utilizados en este trabajo se basan en una tecnología de micro
 	\label{fig:diagDriverled}
 \end{figure}
 
-En la figura \ref{fig:diagDriverled} se presenta un diagrama de bloques del sistema de control de carteles de matriz led utilizados. Se pueden distinguir los siguientes bloques:
+En la figura \ref{fig:diagDriverled} se presenta un diagrama de bloques del sistema digital de control para carteles de matriz led basados en el \textit{chipset} 74HC245, 74HC595 y 74HC138. Se pueden distinguir los siguientes bloques:
 
 \begin{itemize}
-\item \textit{input connector}: conector de pines para señales de entrada (\textit{Data, Clock, Latch}).
+\item \textit{MCU}: se encarga de generar y transmitir las señales del sistema a través del conector de entrada.
+\item \textit{input connector}: conector de pines para señales de entrada (\textit{Data, Clock, Latch}) provenientes del MCU.
+\item \textit{output connector}: conector de pines para señales de salida, para interconexión en serie con otro cartel.
 \item \textit{Buffer}: adaptador de nivel de la señal de tensión y derivador a izquierda o derecha de la placa física.
 \item \textit{Shift Registers}: registros de desplazamiento para enviar datos binarios a las columnas de los paneles.
 \item \textit{Deco}: doble decodificador 3x8 para energizar secuencialmente las filas de los paneles.
 \item \textit{MOSFET Array}: \textit{driver} de corriente para el encendido de filas de los paneles.
-\item \textit{Led dot matrix array}: el cartel de matriz led, arreglo de paneles (arreglos de módulos), propiamente dicho.
+\item \textit{Led dot matrix array}: el cartel de matriz led propiamente dicho.
 \end{itemize}
 
-Las señales de control (\textit{data}, \textit{clock}, \textit{latch}, \textit{deco}) se generan en el MCU y se transmiten al circuito eléctrico del display led a través de un conector (CONN). Estas señales se direccionan eléctricamente usando \textit{buffers}, por ejemplo los de la serie 74HC245D. A la izquierda se transmiten las señales \textit{data}, \textit{clock} y \textit{latch}, que contienen el mensaje a visualizar en forma codificada. Siguiendo la señal de reloj como base, se envían bit a bit  y usando el arreglo de \textit{Shift Registers} para enviar los datos de módulo en módulo. Los datos se envían como números hexadecimales en la señal de \textit{data}, y los registros de desplazamiento tienen 8 salidas las columnas de cada módulo. Los registros de desplazamiento son los encargados de transmitir bit a bit los datos de las columnas de. Una vez enviados todos los datos de una fila, se envía un pulso como señal de \textit{latch} y se energiza la fila completa. Luego se repite la operación fila a fila, escaneando todo el cartel a través de las señales del \textit{Deco}, energizando cada fila a través de un arreglo de transistores \textit{MOSFET} que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un período de tiempo tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo, para formar una imagen continua vista por el ojo humano.\\
+%El funcionamiento del circuito sigue básicamente un control ordenado de filas y columnas. 
+El funcionamiento para visualizar mensajes en el cartel es el siguiente. Se debe transformar el mensaje a visualizar como texto plano, y luego codificarlo en una matriz de unos y ceros que tenga las dimensiones del cartel. Por ejemplo, en un arreglo de 16 módulos 8x8, se podrían enviar mensajes de hasta 16 caracteres, usando un módulo para cada caracter. Para codificar cada caracter hace falta un diccionario que permita transformar cada caracter en una matriz de 8x8 datos binarios. En la figura \ref{fig:dataPipeline} se muestra un ejemplo con la letra 'H' codificada por la función f1, y se presenta la implementación desarrollada usando el patrón \textit{pipeline} (f1 y f2) para preprocesar mensajes de texto en datos binarios compatibles con el formato de carteles de matriz led.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/dataPipeline.png}
+	\caption{Procesamiento de datos para codificar mensajes.}
+	\label{fig:dataPipeline}
+\end{figure}
+
+Una vez disponibles los datos binarios del mensaje en formato de filas y columnas, las señales de control (\textit{data}, \textit{clock}, \textit{latch}, \textit{deco}) se generan en el MCU y se transmiten al circuito eléctrico del display led usando el conector de entrada. Estas señales se direccionan eléctricamente usando \textit{buffers} 74HC245D, que además ratifican el nivel lógico de tensión por ejemplo a 5 Volt. A la izquierda se transmiten las señales \textit{Data}, \textit{Clock} y \textit{Latch}, y a la derecha las señales para que los decodificadores 74HC138 enciendan hasta 16 salidas secuencialmente. Siguiendo la señal de reloj como base, se envían bit a bit  y usando el arreglo de \textit{Shift Registers} para enviar los datos de módulo en módulo. Los datos se envían como números hexadecimales en la señal de \textit{data}, y los registros de desplazamiento tienen 8 salidas las columnas de cada módulo. Los registros de desplazamiento son los encargados de transmitir bit a bit los datos de las columnas de. Una vez enviados todos los datos de una fila, se envía un pulso como señal de \textit{latch} y se energiza la fila completa. Luego se repite la operación fila a fila, escaneando todo el cartel a través de las señales del \textit{Deco}, energizando cada fila a través de un arreglo de transistores \textit{MOSFET} que mantienen la corriente necesaria para encender los leds. Este encendido por fila sucede durante un período de tiempo tal que toda la pantalla se pueda energizar en el orden de 20 a 50 veces por segundo, para formar una imagen continua vista por el ojo humano.\\
+
+ 
+ Para armar carteles más grandes, se suele enchufar el conector de salida de un cartel con el conector de entrada de otro, logrando conexiones en serie entre paneles. De esta manera, un sólo panel se conecta al MCU y el resto sigue una conexión en cascada, usando el mismo grupo de señales.
+
 
 \begin{figure}[ht]
 	\centering
