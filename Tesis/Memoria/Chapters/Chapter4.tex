@@ -18,6 +18,28 @@ En las secciones que siguen se explican las mediciones realizadas en las visitas
 
 \section{Pruebas en maqueta}
 
+En el circuito esquemático de la figura \ref{fig:schDriverled} se presenta el detalle de conexiones eléctricas entre bloques. Se puede observar que a la salida del conector de datos (CONN 2x8) hay dos buffers de la serie 74HC245D que direccionan las señales eléctricas a izquierda y derecha del arreglo de matrices led. A izquierda viajan las señales SER(data), SRCLK (Clock) y XXX (latch) al arreglo de Shift Registers de la serie 74HC595. Por la derecha se maneja la habilitación secuencial de las filas a través de un arreglo de decodificadores 3x8 de la serie 74HC138. Cada salida de los decodificadores se conecta a un driver de corriente en arreglo de transistores MOSFET FDS4953. Estos decodificadores cableados adecuadamente permiten manejar las 32 señales de un cartel de 4x8 módulos led. \\
+%
+%
+%\begin{figure}[ht]
+%	\centering
+%	%\includepdf[pages={1}, angle=90]{./Figures/output.driverled.pdf}
+%	\includegraphics[width=1.66\textwidth, angle=90]{./Figures/output.driverled.pdf}
+%	\caption{Circuito esquemático de la placa controladora de los carteles de matriz led.}
+%	\label{fig:schDriverled}
+%\end{figure}
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{./Figures/cartel2x6.jpeg}
+	\includegraphics[width=0.75\textwidth, angle=270]{./Figures/cartel4x8.jpg}\\
+	\includegraphics[width=1\textwidth]{./Figures/cartelledON.jpg}\\
+	\caption{Fotografías de placas de control de los carteles de matriz led: (a) placa de 2x6 módulos; (b) placa de 4x8 módulos; (c) vista posterior de la placa de 4x8.}
+	\label{fig:picsDriverled}
+\end{figure}
+
+
 \subsubsection{Placa de control}
 
 \begin{figure}[ht]
