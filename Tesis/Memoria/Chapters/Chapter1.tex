@@ -46,7 +46,7 @@ El eje de este trabajo es el desarrollo de un sistema a medida para Trenes Argen
 %\pagebreak
 \section{Objetivos y alcance}
 
-El  contexto de este trabajo se encuentra enmarcado en un Proyecto de Desarrollo Estratégico (PDE) de la Secretaría de Ciencia y Técnica de la Universidad de Buenos Aires (UBACyT). El PDE se titula PDE\_15\_2020 - "Sistema de monitoreo y gestión de la red TCN en formaciones ferroviarias" \citep{PDE-TCN}. Las partes que se involucran y forman parte del equipo de trabajo en este proyecto son el Grupo de Investigación en Calidad y Seguridad de las Aplicaciones Ferroviarias (GICSAFE), creado en 2017 en el marco del Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET) de la República Argentina, y la  Operadora Ferroviaria Sociedad del Estado (SOFSE), también conocida como Trenes Argentinos Operaciones. El proyecto está orientado a cubrir necesidades tecnológicas concretas del sistema ferroviario argentino. Este tipo de proyectos son instrumentos de promoción científico-tecnológica que revalorizan e incrementan el aporte de la Universidad al desarrollo socioproductivo.\\
+El  contexto de este trabajo se encuentra enmarcado en un Proyecto de Desarrollo Estratégico (PDE) de la Secretaría de Ciencia y Técnica de la Universidad de Buenos Aires (UBACyT). El PDE se titula PDE\_15\_2020 - "Sistema de monitoreo y gestión de la red TCN en formaciones ferroviarias"\ \citep{PDE-TCN}. Las partes que se involucran y forman parte del equipo de trabajo en este proyecto son el Grupo de Investigación en Calidad y Seguridad de las Aplicaciones Ferroviarias (GICSAFE), creado en 2017 en el marco del Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET) de la República Argentina, y la  Operadora Ferroviaria Sociedad del Estado (SOFSE), también conocida como Trenes Argentinos Operaciones. El proyecto está orientado a cubrir necesidades tecnológicas concretas del sistema ferroviario argentino. Este tipo de proyectos son instrumentos de promoción científico-tecnológica que revalorizan e incrementan el aporte de la Universidad al desarrollo socioproductivo.\\
 
 El objetivo principal de este trabajo es diseñar e implementar un sistema de información visual para pasajeros a bordo del tren. El sistema de información visual para pasajeros existente consta de una parte manual y una automática. Cuando el conductor del tren asume su puesto para prestar servicio (o toma cabina), programa en una pantalla cuáles van a ser las estaciones cabecera. Los nombres de estas estaciones cabecera se visualizan en las marquesinas del frente y contrafrente del tren, como puede verse en la figura \ref{fig:tren}.
 
@@ -59,7 +59,7 @@ El objetivo principal de este trabajo es diseñar e implementar un sistema de in
 
 
 En el interior de los coches, también hay carteles led. Estas marquesinas muestran mensajes a los pasajeros, como el nombre de la próxima estación o la estación arribada (por ejemplo, “Próxima estación Belgrano” o “Estás en estación Belgrano”). La información se
-presenta de manera automática basándose en variables de sistema que monitorean el detenimiento del tren, su velocidad y la apertura o cierre de puertas. Toda esta información, junto con otros datos de supervisición y control, se transmite a través de una red de comunicación interna del tren que se denomina TCN (\textit{Train Communication Network}) de acuerdo a las especificaciones definidas en el estándar\citep{IEC-61375-1999}. Este estándar define para la red TCN dos buses jerárquicos donde se conectan los subsistemas electrónicos: el WTB (\textit{Wire Train Bus}), que se utiliza para supervisar cambios topográficos en el tren y se conecta entre los vagones, y el MVB (\textit{Multi-Vehicle Bus}) \citep{CSN-EN-61375-2-1}\citep{IEC-61375-3-1:2012}, donde se conectan los sensores y actuadores de cada coche, como los sistemas de frenos, los controles de las puertas, los medidores de velocidad, el sistema de información, entre otros. Ambos buses utilizan interfaces eléctricas que se basan en redes RS485.\\
+presenta de manera automática basándose en variables de sistema que monitorean el detenimiento del tren, su velocidad y la apertura o cierre de puertas. Toda esta información, junto con otros datos de supervisición y control, se transmite a través de una red de comunicación interna del tren que se denomina TCN (\textit{Train Communication Network}) de acuerdo a las especificaciones definidas en el estándar\ \citep{IEC-61375-1999}. Este estándar define para la red TCN dos buses jerárquicos donde se conectan los subsistemas electrónicos: el WTB (\textit{Wire Train Bus}), que se utiliza para supervisar cambios topográficos en el tren y se conecta entre los vagones, y el MVB (\textit{Multi-Vehicle Bus}) \citep{CSN-EN-61375-2-1}\citep{IEC-61375-3-1:2012}, donde se conectan los sensores y actuadores de cada coche, como los sistemas de frenos, los controles de las puertas, los medidores de velocidad, el sistema de información, entre otros. Ambos buses utilizan interfaces eléctricas que se basan en redes RS485.\\
 
 
  El sistema propuesto en este trabajo tiene como objetivo captar los mensajes de información al pasajero que viajan por la red existente y presentarlos en un display led. El sistema se compone principalmente de cuatro partes:
@@ -89,7 +89,7 @@ Las cualidades que debe satisfacer este proyecto son:
 \item Practicidad: debe ser de fácil uso para el personal de Trenes Argentinos Operaciones.
 \end{itemize}
 
-Este proyecto permitirá implementar las funciones de visualización del sistema de información al pasajero sin depender del equipamiento existente. El sistema actual es un equipamiento integrado y propietario, y este trabajo busca separar algunas de sus funciones, específicamente las relacionadas con la visualización de información para pasajeros, y presentarlas en un display led genérico. Por otro lado, permitirá reponer los carteles que en la actualidad quedan fuera de servicio por fallas o pérdida del material original y no pueden ser reparados. De esta manera, el valor principal que aporta este trabajo es contribuir con la sustitución de repuestos faltantes por medio de desarrollo y reducir la dependencia tecnológica de la empresa con los fabricantes. Este proyecto tiene impacto directo en las formaciones ferroviarias existentes, que brindan servicio a los pasajeros todos los días.\\
+Este trabajo permitirá implementar las funciones de visualización del sistema de información al pasajero sin depender del equipamiento existente. El sistema actual es un equipamiento integrado y propietario, y este trabajo busca separar algunas de sus funciones, específicamente las relacionadas con la visualización de información para pasajeros, y presentarlas en un display led genérico. Por otro lado, permitirá reponer los carteles que en la actualidad quedan fuera de servicio por fallas o pérdida del material original y no pueden ser reparados. De esta manera, el valor principal que aporta este trabajo es contribuir con la sustitución de repuestos faltantes por medio de desarrollo y reducir la dependencia tecnológica de la empresa con los fabricantes. Este trabajo tiene impacto directo en las formaciones ferroviarias existentes, que brindan servicio a los pasajeros todos los días.\\
 
 \section{Introducción a los sistemas de información visual}
 
@@ -101,27 +101,29 @@ Los sistemas de información visual para pasajeros, constan principalmente de tr
 
  Los sistemas PIDS instalados en los trenes se interconectan con una red TCN. Ésta última, sigue un estándar que define tanto las interfaces eléctricas como los protocolos de comunicación. En la red TCN, se conectan dispositivos para el sensado y control de frenos, de puertas, de monitoreo, entre otros, usando una arquitectura jerárquica de buses de datos. La red TCN representa un estándar robusto, maduro, probado y con gran adopción internacional. Sin embargo, los sistemas PIDS se presentan sin la necesidad de ser compatibles con los estándares de TCN, al menos hasta la revisión del año 2005. Existen diversas soluciones comerciales de sistemas PIDS, para aplicaciones de entretenimiento por ejemplo, pero se requiere de un trabajo de integración adicional para que funcionen en un tren.\\
  
- En este trabajo se introduce una breve descripción de las redes TCN y su evolución en el tiempo. Para el caso de las formaciones de Trenes Argentinos, que forman el marco de este trabajo, se presenta también el detalle de interconexión TCN-PIDS, el desarrollo de un sistema de control para los carteles led del sistema PIDS y los resultados de las pruebas de campo realizadas en conjunto con la empresa Trenes Argentinos Operaciones (SOFSE). Se ha organizado esta memoria buscando acercar al lector primero los conceptos principales de la aplicación y luego el detalle técnico del diseño del sistema embebido propuesto. \\
+ En este trabajo se introduce una breve descripción de las redes TCN y su evolución en el tiempo. Para el caso de las formaciones de Trenes Argentinos, se presenta también el detalle de interconexión TCN-PIDS, el desarrollo de un sistema de control para los carteles led del sistema PIDS y los resultados de las pruebas de campo realizadas en conjunto con la empresa Trenes Argentinos Operaciones (SOFSE). Se ha organizado esta memoria buscando acercar al lector primero los conceptos principales de la aplicación y luego el detalle técnico del diseño del sistema embebido propuesto. \\
 
 \section{Estado del arte}
 
 En esta breve sección, se resumen algunas características y aspectos comunes de los sistemas PIDS, tanto para sistemas ferroviarios como para sistemas de transporte integrados. En lugar de ser un estudio sistemático, la intención es guiar al lector en las consideraciones que fueron tenidas en cuenta en este trabajo. En primer lugar, se describe el rol que juegan estos sistemas y una noción de su mercado, mencionando aquellos proveedores que se consideraron relevantes por claridad en la información, marca global y diseño conceptual de la solución. Luego, se describen algunas soluciones comerciales innovadoras, y finalmente se presenta en tablas algunos aspectos técnicos comunes en distintas soluciones. Adicionalmente, se mencionan algunos trabajos académicos relevados. Se han elegido como dimensiones de análisis las funcionalidades y servicios que debe ofrecer un sistema PIDS, las características principales de la oferta de carteles electrónicos, y por último las características técnicas de las unidades de control. \\
 
 
-El cliente de mayor impacto de los servicios que provee un sistema PIDS es la red de transporte (trenes, subtes, metros, ómnibus) de una gran ciudad, debido a su masividad. En términos generales, se observa que las empresas que proveen sistemas PIDS a las redes metropolitanas de transporte de las grandes ciudades lo hacen bajo formatos distintos. Algunas empresas instalan televisores o pantallas de video, otras carteles led, otras incluyen carteles impresos con algún elemento indicador tipo led, o bien leds en forma de flecha mezclándose con la señalización para indicar nombres de estaciones, pantallas led para desplegar publicidad entre mensajes, etcétera. En algunos países, se han realizado esfuerzos durante la última década para que los sistemas PIDS faciliten el acceso a la información del transporte para personas con discapacidades, movilidad reducida y de edad avanzada. Actualmente, los sistemas PIDS se diseñan teniendo en cuenta al pasajero en el centro de todo, buscando ofrecer servicios de información que mejoren la experiencia de viaje.\\
+El cliente de mayor impacto de los servicios que provee un sistema PIDS es la red de transporte (trenes, subtes, metros, ómnibus) de una gran ciudad, debido a su masividad. En términos generales, se observa que las empresas que proveen sistemas PIDS a las redes metropolitanas de transporte de las grandes ciudades lo hacen bajo formatos distintos. Algunas empresas instalan televisores o pantallas de video, otras carteles led, otras incluyen carteles impresos con algún elemento indicador tipo led, o bien leds en forma de flecha mezclándose con la señalización para indicar nombres de estaciones, pantallas led para desplegar publicidad entre mensajes, etcétera. En algunos países, se han realizado esfuerzos durante la última década para que los sistemas PIDS faciliten el acceso a la información del transporte para personas con discapacidades, movilidad reducida y de edad avanzada. Actualmente, estos sistemas se diseñan teniendo en cuenta al pasajero en el centro de todo, buscando ofrecer servicios de información que mejoren la experiencia de viaje.\\
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.49\textwidth]{./Figures/HitachiCartelPIDS.png}
 	\includegraphics[width=0.49\textwidth]{./Figures/HitachiDisplayArray.png}
-	\caption{Solución de carteles para sistemas PIDS de Hitachi. Consultado en \citep{Hitachi}}
+	\caption{Solución de carteles para sistemas PIDS de Hitachi.\protect\footnotemark}
 	\label{fig:Hitachi}
 \end{figure}
+
+\footnotetext{Fuente: consultado en \citep{Hitachi}.}
 
 Hitachi ofrece una solución para publicidad que consiste en tres pantallas en \textit{array}, que se sincronizan para formar una sola y transmitir video con conectividad WiMAX. Cada uno de estos arreglos se posicionan arriba de las ventanas en ambos lados de los coches, alcanzando el despliegue de hasta dieciocho pantallas sincronizadas por coche, como se puede ver en la figura \ref{fig:Hitachi}. De esta manera, logran transmitir varios mensajes distintos en simultáneo a los pasajeros sin que tengan que moverse de su asiento.\\
 
 
-Por otro lado, Toshiba ofrece una solución que permite transmitir publicidad e información al pasajero en una misma pantalla LCD en simultáneo. La solución está centrada en la pantalla como dispositivo central, ofreciendo pantallas de 32\" y 42\", de 1920 x 540 píxeles, full color de hasta 16,7 millones de colores, com amplio ángulo de visión y de gran luminancia\citep{Toshiba}. En la mayoría de los casos, las soluciones ofrecidas buscan cubrir tanto la demanda de un sistema PIDS como la oferta de publicidad de cara al pasajero, como es habitual en las estaciones y formaciones ferroviarias.\\
+Por otro lado, Toshiba ofrece una solución que permite transmitir publicidad e información al pasajero en una misma pantalla LCD en simultáneo. La solución está centrada en la pantalla como dispositivo central, ofreciendo pantallas de 32 y 42 pulgadas, de 1920 x 540 píxeles, full color de hasta 16,7 millones de colores, com amplio ángulo de visión y de gran luminancia \citep{Toshiba}. En la mayoría de los casos, las soluciones ofrecidas buscan cubrir tanto la demanda de un sistema PIDS como la oferta de publicidad de cara al pasajero, como es habitual en las estaciones y formaciones ferroviarias.\\
 
 
 
@@ -129,9 +131,11 @@ Por otro lado, Toshiba ofrece una solución que permite transmitir publicidad e 
 	\centering
 	\includegraphics[width=0.49\textwidth]{./Figures/ToshibaPIDS.jpg}
 	\includegraphics[width=0.49\textwidth]{./Figures/ToshibaDisplayColorOpciones.jpg}
-	\caption{Solución de displays LCD para sistemas PIDS de Toshiba.Consultado en \citep{Toshiba}}
+	\caption{Solución de displays LCD para sistemas PIDS de Toshiba.\protect\footnotemark}
 	\label{fig:Toshiba}
 \end{figure}
+
+\footnotetext{Fuente: consultado en \citep{Toshiba}.}
 
 
 El grupo austríaco Trapeze \citep{Trapeze} distingue cuatro tecnologías principales en sistemas PIDS: Led, LCD, canales móviles o apps, y e-ink que es una tecnología de LCD monocromo relativamente nueva. Al seleccionar carteles, es importante considerar varios factores, como los ángulos de visión, las condiciones del ambiente donde van instalados (por ejemplo, si estarán a la intemperie o requerirán visibilidad con la luz del sol), el tamaño o resolución de los caracteres en pantalla, la selección de colores y su relación con la capacidad estadística de visión de los pasajeros, el diseño mecánico, el acceso a controles para personas con movilidad reducida, la fuente de alimentación eléctrica y la capacidad de realizar actualizaciones de sistema de forma remota. \\ 
@@ -142,64 +146,73 @@ El grupo austríaco Trapeze \citep{Trapeze} distingue cuatro tecnologías princi
 	\includegraphics[width=0.32\textwidth]{./Figures/TrapezeStation.jpg}
 	\includegraphics[width=0.32\textwidth]{./Figures/TrapezeOnboard.jpg}
 	\includegraphics[width=0.32\textwidth]{./Figures/TrapezeTimetable.jpg}
-	\caption{Sistema PIDS del proveedor austríaco Trapeze. Consultado en \citep{Trapeze}}
+	\caption{Sistema PIDS del proveedor austríaco Trapeze. \protect\footnotemark}
 	\label{fig:Trapeze}
 \end{figure}
 
+\footnotetext{Fuente: consultado en \citep{Trapeze}.}
+
 Además, se sugiere la importancia de la precisión en la información que ofrece como servicio el sistema PIDS. Si un pasajero recibe el número de andén incorrecto al llegar a la estación muy probablemente perderá el tren, resultando en una mala experiencia de viaje. La capacidad de interconectar el sistema PIDS con otros canales de información, especialmente en puntos nodales de transporte, también ofrece mayores beneficios al usuario final. Si un pasajero puede anticiparse y ver el tiempo estimado entre una línea de omnibus o de tren antes de llegar a la estación donde hace combinación, entonces puede tomar una mejor elección basada en datos ofrecidos por el sistema PIDS. Estos y otros aspectos de sistema centrados en el usuario se resumen en la tabla \ref{tab:tablaSistemasPIDS}.\\
 
-
-\begin{table}[ht]
-\caption[Caption for LOF]{Principales aspectos y servicios asociados a sistemas PIDS\protect\footnotemark}
+\begin{table}[H]
+\caption[Caption for LOF]{Principales aspectos y servicios asociados a sistemas PIDS.\protect\footnotemark}
 %\caption{Principales aspectos y servicios asociados a sistemas PIDS\footnote{Elaboración del autor.}.}
 \begin{center}
-\begin{tabular}{ll}
-\hline
+\begin{tabular}{cl}
+\toprule
+\textbf{Atributo} &\begin{tabular}[c]{@{}l@{}}
+    \textbf{Tipo de servicios}                      \\
+\end{tabular}\\
+\midrule
 \textbf{Conectividad} &\begin{tabular}[c]{@{}l@{}}
     RS-485, serial, USB.                    \\
     Ethernet, fibra óptica, coaxil.         \\
-    Wi-Fi, WiMax, GPS.                      \\
-    2G / 3G / 4G / 5G.                      \\
-\end{tabular}\\ \hline
+    Wi-Fi, WiMax, GPS. 2G / 3G / 4G / 5G.   \\
+\end{tabular}\\
+\midrule
 \textbf{Interconexión} &\begin{tabular}[c]{@{}l@{}}
     App del tren, horarios programados.     \\
     Ómnibus, información multinodal.        \\
     Portales de noticias, publicidad.       \\
     Canal de información estatal.           \\
-\end{tabular}\\ \hline
+\end{tabular}\\ 
+\midrule
 \textbf{Accesibilidad} &\begin{tabular}[c]{@{}l@{}}
     Información por audio, ángulos de visión de los carteles. \\
     Facilidades para personas en sillas de ruedas. \\
     Facilidades para personas de edad avanzada. \\
     Correcto y cuidado sistema de señalización. \\
-\end{tabular}\\ \hline
+\end{tabular}\\ 
+\midrule
 \textbf{Información} &\begin{tabular}[c]{@{}l@{}}
    Estimación de tiempos y aviso de cortes en tiempo real.\\
    Correcto trackeo de vehículos y conexiones.            \\
    Mensajes de alerta o precauciones, números de emergencia.\\
-\end{tabular}\\ \hline
+\end{tabular}\\ 
+\midrule
 \textbf{Mantenibilidad} &\begin{tabular}[c]{@{}l@{}}
    Fácil instalación, bajo costo de reposición.\\
    Consumo eléctrico.                          \\
    Actualizaciones de software.                \\
-\end{tabular}\\ \hline
+\end{tabular}\\ 
+\bottomrule
 \end{tabular}
 \label{tab:tablaSistemasPIDS}
 \end{center}
 \end{table}
 
-\footnotetext{Fuente: elaboración propia del autor.}
+
 
 Desde el punto de vista centrado en los carteles, se consideran varias especificaciones importantes de los sistemas PIDS, como las dimensiones del cartel, la densidad de píxeles por unidad de área, la cantidad de colores o leds por píxel, los niveles de intensidad lumínica, el brillo y contraste, la potencia eléctrica. Entre estas especificaciones típicas de los carteles de los sistemas PIDS, el ángulo de visión es una de las variables más consideradas ya que en sistemas PIDS implican el alcance a mayor cantidad de pasajeros de la información en pantalla. En la tabla \ref{tab:tablaDisplays} se presenta un resumen de estas características. Las fuentes consultadas para la elaboración de esta tabla son diversos portales internacionales de distribución de componentes electrónicos.\\
 
+\footnotetext{Fuente: elaboración propia del autor.}
 
-
-\begin{table}[h!]
-\caption[Caption for LOF]{Principales características de displays para sistemas PIDS\protect\footnotemark}
+\begin{table}[htbp]
+\caption[Caption for LOF]{Principales características de displays para sistemas PIDS. \protect\footnotemark}
 \label{tab:tablaDisplays}
 \begin{center}
-\begin{tabular}{|l|l|l|l|l|}
-\hline
+\begin{tabular}{lllll}
+\toprule
 \textbf{Display}
     & \textbf{led matricial}      
     & \textbf{led RGB}      
@@ -209,8 +222,6 @@ Desde el punto de vista centrado en los carteles, se consideran varias especific
 \textbf{Colores}  
     & \begin{tabular}[c]{@{}l@{}}
         monocromo \\ 
-        bicolor   \\ 
-        tricolor  \\ 
         multicolor \\ 
         (<10 colores)
     \end{tabular} 
@@ -243,8 +254,8 @@ Densidad \\ de píxeles\end{tabular}}
     & \begin{tabular}[c]{@{}l@{}}
         3,9 k\\ 
         27,7 k\\ 
-        110 k\\ 
-        *\end{tabular}    
+        110 k 
+        \end{tabular}    
     & \begin{tabular}[c]{@{}l@{}}
         P16: 3,9 k\\ 
         P12: 6,9 k\\ 
@@ -255,27 +266,27 @@ Densidad \\ de píxeles\end{tabular}}
         P4: 62,5 k\\ 
         P3: 111 k\\ 
         P2.5: 160 k\\ 
-        P2: 250 k\\ 
-        *\end{tabular} 
+        P2: 250 k
+        \end{tabular} 
     & \begin{tabular}[c]{@{}l@{}}
         29 M/m$^2$ \\ 
         Pixel size\\ 
-        179 x 192 um\end{tabular} 
+        179 x 192 $\mu$m\end{tabular} 
     & \begin{tabular}[c]{@{}l@{}}
         4,26 M/m$^2$\\ 
         Pixel size \\ 
-        484 x 484 um\\
+        484 x 484 $\mu$m\\
         \\ 
         29 M/m$^2$ \\ 
         Pixel size \\ 
-        179 x 192 um\end{tabular} \\ 
+        179 x 192 $\mu$m\end{tabular} \\ 
 \hline
 \textbf{Potencia} 
     & 10 W          
     & 15-316 W   
     & 20 W    
     & 25 W \\ 
-\hline
+\bottomrule
 \end{tabular}
 \end{center}
 \end{table}
@@ -285,19 +296,20 @@ Densidad \\ de píxeles\end{tabular}}
 
 Cada cartel requiere de un controlador como interfaz para procesar información y la codifica según la lógica que requiera el tipo de cartel. Los controladores de los carteles de matriz led suelen basarse en circuitos digitales, en microcontroladores de 8, 16 o 32 bits o en FPGA. Las tasas de transmisión de datos requieren señales de clock que pueden variar desde algunos kHz hasta cientos de MHz. Los tamaños del buffer de memoria depende de la cantidad de píxeles que tenga la pantalla. Las interfaces físicas pueden ser periféricos de un microcontrolador, un pin de propósito general o bien puertos USB o HDMI. Los carteles LCD en muchos casos requieren de la transmisión de señales de video. Esto implica mayores costos de implementación que la alternativa led, pero también mayor versatilidad en la programación de contenidos. En la tabla \ref{tab:tablaControladores} se resumen algunas características principales de los requerimientos de los controladores.\\
 
-\begin{table}[h!]
-\caption[Caption for LOF]{Principales características de controladores de uso general para aplicaciones PIDS\protect\footnotemark}
+\begin{table}[htbp]
+\caption[Caption for LOF]{Principales características de controladores de uso general para aplicaciones PIDS. \protect\footnotemark}
 \label{tab:tablaControladores}
 \centering
 
 \begin{center}
-\begin{tabular}{|l|l|l|l|}
-\hline
+\begin{tabular}{llll}
+\toprule
 \textbf{\begin{tabular}[c]{@{}l@{}}Unidad de \\ procesamiento\end{tabular}} & \textbf{MCU 8/16/32 bits}                                                                       & \textbf{FPGA / ASIC / DSP}                                                        & \textbf{CPU / DSP}                                                                                      \\ \hline
 \textbf{Clock}                                                              & 1-200 MHz                                                                                       & 10-250 MHz                                                                        & 1-3 GHz                                                                                                 \\ \hline
 \textbf{Memory buffer}                                                      & 1 kB                                                                                            & 1-512 MB                                                                          & 1-10 GB                                                                                                 \\ \hline
 \textbf{Conectividad}                                                       & \begin{tabular}[c]{@{}l@{}}UART (1-4)\\ USB (1-2)\\ RS485\\ GPIO (1-20)\\ Ethernet\end{tabular} & \begin{tabular}[c]{@{}l@{}}Pmod\\ I/O pins (20-800)\\ Ethernet\\ USB\end{tabular} & \begin{tabular}[c]{@{}l@{}}USB \\ VGA\\ HDMI\\ DVI\\ display Port\\ PCI / PCI-E\\ Ethernet\end{tabular} \\ \hline
-\textbf{Programación}                                                       & C / C++/ Assembly                                                                               & VHDL, Verilog, XML                                                                & \begin{tabular}[c]{@{}l@{}}C, C++, Java, \\ Python, XML\end{tabular}                                    \\ \hline
+\textbf{Programación}                                                       & C / C++/ Assembly                                                                               & VHDL, Verilog, XML                                                                & \begin{tabular}[c]{@{}l@{}}C, C++, Java, \\ Python, XML\end{tabular}                                    \\ 
+\bottomrule
 \end{tabular}
 \end{center}
 \end{table}
