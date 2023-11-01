@@ -1,13 +1,16 @@
 % Chapter Template
 
 \chapter{Conclusiones} % 
-En este capítulo se exponen los principales resultados obtenidos de este trabajo. Se presenta también su relación con el contexto y se plantea una serie de trabajos futuros.\\
 
-\pagebreak
-\section{Resultados obtenidos}
+La red TCN es un estándar muy utilizado en la industria ferroviaria global, siendo algunos fabricantes líderes parte del desarrollo de los estándares que definen sus protocolos y componentes. La versión instalada en los trenes de SOFSE corresponde a redes basadas en RS485. En la TCN estudiada, el sistema PIDS no forma parte del estándar y por lo tanto debieron realizarse ensayos de ingeniería inversa para relevar aspectos técnicos de implementación. Existe una nueva versión de la TCN basada en redes Ethernet que si incluye al sistema PIDS (conocido como PIS) en el estándar. Como trabajo futuro se propone explorar el estándar para comprender aspectos de compatibilidad en caso de realizar una migración.
 
-\pagebreak
-\section{Prospectivas}
+Hemos visto que la arquitectura del sistema PIDS existente, tiene una cantidad de módulos que se corresponden en cierta medida con el hardware instalado y relevado en las formaciones ferroviarias operativas. Dentro de la arquitectura, existen bloques concentradores de buses de datos, como son el SCU o la PCU. Se han ensayado mediciones sobre los buses de datos que convergen a estos módulos, observando que existe consistencia en las tramas de datos que se transmiten de un lado a otro de la red.
 
-\pagebreak
-\section{Bibliografía}
+El desarrollo del sistema embebido ha permitido proponer una solución que permite comunicar mensajes predeterminados a través de carteles de matriz led. El sistema está diseñado para responder ante una serie de eventos externos, comunicados a través de un periférico UART incluído en la solución. Estos eventos, que se reciben de forma asincrónica, pueden ser identificados, procesados y validados según una lógica determinada para activar la visualización de mensajes en los carteles led. Es decir, el sistema no sólo permite visualizar mensajes en los carteles sino que también hacerlo a partir de eventos, que para el problema planteado pueden ser eventos en el recorrido del tren, por ejemplo el arribo a una estación. \\
+
+En la implementación se han abordado cuestiones de concurrencia en una arquitectura orientadad a eventos. Se han desarrollado una serie de objetos activos que interactúan entre si de forma dinámica y sincrónica como respuesta a eventos. Se han implementado máquinas de estados, embebidas en objetos activos con interfaz estándar de cola de mensajes, todo funcionando de forma orquestada en un sistema operativo de tiempo real. Para el desarrollo se ha utilizado la plataforma EDU-CIAA, el firmwareV3 y freeRTOS.\\
+
+
+El análisis de datos de las mediciones realizadas en los talleres, en particular para los puntos de prueba SCU-IDU arrojaron información básica de comienzo y final de trama, suficiente para establecer que los mensajes a procesar serían de longitud variable y con un encabezado y final de trama determinados. Sin embargo, el análisis bit a bit para identificar de forma determinística el valor recibido por cada cartel de salón quedó inconcluso. Para avanzar en la interpretación de los mensajes recibidos por el IDU, hace falta continuar con ensayos en formaciones operativas y extender el setup a más de un coche. Al no conocer de forma explícita la documentación original del sistema, hace falta comprobar experimentalmente varias hipótesis.\\
+
+El hardware utilizado expuso aspectos de diseño para compatibilidad eléctrica con la red eléctrica de la TCN de trenes. La solución existente tiene una escala de complejidad que muestra algunos grados de dependencia entre hardware, pero también cierta modularidad que permitió estudiar, desarrollar y ensayar componentes por separado. Las pruebas de integración entre la maqueta de desarrollo y la maqueta de la red PIDS de trenes ha quedado pendiente y es un paso necesario para verificar la compatibilidad del sistema embebido con el hardware de trenes.\\
