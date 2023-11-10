@@ -40,7 +40,7 @@ En la figura \ref{fig:maquetaCastelar} se muestra la maqueta instalada en los ta
 \end{figure}
 
 
-Durante las visitas a los talleres de Victoria, se pudo acceder a los planos eléctricos del sistema de comunicaciones del tren, correspondientes a la versión de TCN instalada en las formaciones. Esta información resultó muy relevante, ya que permitió comprender la lógica de interconexión de los módulos de hardware del tren y preparar un sistema de medición. La documentación disponible al momento de realizar los ensayos, presentaba detalles de la comunicación entre el módulo TCMS y PIDS. Esta comunicación es bidireccional y sigue un esquema \textit{Master-Slave}, donde el TCMS (Master) envía una trama y el PIDS (Slave) responde con otra. La información disponible de las tramas se detalla con el diagrama de la figura \ref{fig:tramasHeaderPayload}
+Durante las visitas a los talleres de Victoria, se pudo acceder a los planos eléctricos del sistema de comunicaciones del tren, correspondientes a la versión de TCN instalada en las formaciones. Esta información resultó muy relevante, ya que permitió comprender la lógica de interconexión de los módulos de hardware del tren y preparar un sistema de medición. La documentación disponible al momento de realizar los ensayos, presentaba detalles de la comunicación entre el módulo TCMS y PIDS. Esta comunicación es bidireccional y sigue un esquema \textit{Master-Slave}, donde el TCMS (Master) envía una trama y el PIDS (Slave) responde con otra. La información disponible de las tramas se detalla con el diagrama de la figura \ref{fig:tramasHeaderPayload}.
 
 \begin{figure}[H]
 	\centering
@@ -50,7 +50,7 @@ Durante las visitas a los talleres de Victoria, se pudo acceder a los planos el�
 	\label{fig:tramasHeaderPayload}
 \end{figure}
 
-Se puede observar que para las tramas del \textit{Master} y del \textit{Slave}, los encabezados (HEADER) y final de trama (EOF) son distintos entre sí, la carga útil (PAYLOAD) reserva 20 y 32 bytes repespectivamente, y por lo tanto la trama que responde el PIDS es de mayor longitud que la que envía TCMS. La información de los módulos IDU está contenida en los bits 0-1 de los bytes 20-28 de la trama respuesta del PIDS. Se ha resaltado en color los bits que corresponden a los módulos IDU, y se puede observar según la nomenclatura, que existen hasta 18 unidades de estos módulos, agrupados de a pares por cada salón. \\
+Se puede observar que para las tramas del \textit{Master} y del \textit{Slave}, los encabezados (HEADER) y final de trama (EOF) son distintos entre sí, la carga útil (PAYLOAD) reserva 20 y 32 bytes repespectivamente, y por lo tanto la trama que responde el PIDS es de mayor longitud que la que envía TCMS. La información de los módulos IDU está contenida en los bits 0-1 de los bytes 20-28 de la trama respuesta del PIDS. Se han resaltado en color los bits que corresponden a los módulos IDU, y se puede observar según la nomenclatura, que existen hasta 18 unidades de estos módulos, agrupados de a pares por cada salón. \\
 
 
 \section{Análisis de mediciones}
@@ -64,7 +64,7 @@ Para realizar mediciones entre la red TCN y el PIDS, hizo falta encontrar la int
 	\label{fig:TCMS-PIDS}
 \end{figure}
 
-Para medir este punto, hizo falta intervenir el cableado con un analizador lógico para obtener tramas de datos. En el análisis de estas tramas, se pudo verificar la consistencia de la comunicación \textit{Master-Slave}, y en particular los encabezados y finales de trama. En la figura \ref{fig:tramasHeaderPayload} se presenta una captura del archivo de mediciones, evaluada con el analizador lógico programable, donde se observan los valores  0xCC y 0xC6 para el encabezado y final de tramas tipo Master, y 0xC2 y 0xC6 respectivamente para Slave. \\
+Para medir este punto, hizo falta intervenir el cableado con un analizador lógico para obtener tramas de datos. En el análisis de estas tramas, se pudo verificar la consistencia de la comunicación \textit{Master-Slave}, y en particular los encabezados y finales de trama. En la figura \ref{TCMS-PIDS-Data} se presenta una captura del archivo de mediciones, evaluada con el analizador lógico programable, donde se observan los valores  0xCC y 0xC6 para el encabezado y final de tramas tipo Master, y 0xC2 y 0xC6 respectivamente para Slave. \\
 
 \begin{figure}[H]
 	\centering
@@ -76,31 +76,40 @@ Para medir este punto, hizo falta intervenir el cableado con un analizador lógi
 Los parámetros de configuración utilizados para el análisis son:
 
 \begin{itemize}
-\item Baud rate: 19200 bps.
-\item Data bits: 8.
-\item Check digit 1 odd parity.
-\item Starting position: 1.
-\item Stop position: 1.
+\item \textit{Baud rate}: 19200 bps.
+\item \textit{Data bits}: 8.
+\item \textit{Check digit 1 odd parity}.
+\item \textit{Starting position}: 1.
+\item \textit{Stop position}: 1.
 \end{itemize}
 
 Si bien este análisis presenta consistencia con la documentación, no era suficiente para obtener la información de cómo se envían los datos al cartel de matriz led. \\
 
 \section{Mediciones sobre la interconexión con los carteles}
 
-En las sucesivas visitas a las instalaciones de Trenes Argentinos, se pudo estudiar en detalle los componentes internos del sistema PIDS. Hemos visto que los carteles de matriz led se encuentran distruibuidos por todos los coches de los trenes, y que se conectan a redes RS485, que son el estándar que siguen las redes del sistema PIDS y de la TCN. Este tipo de redes es muy utilizada para transmisión y recepción de datos, ya que tiene interfaces eléctricas muy robustas que usan señales diferenciales, y que normalmente se implementan en cables de par trenzado, permitiendo cableados extensos con buena inmunidad al ruido eléctrico.  \\
+En las sucesivas visitas a las instalaciones de Trenes Argentinos, se pudo estudiar en detalle los componentes internos del sistema PIDS. Se ha visto que los carteles de matriz led se encuentran distruibuidos por todos los coches de los trenes, y que se conectan a redes RS485, que son el estándar que siguen las redes del sistema PIDS y de la TCN. Este tipo de redes es muy utilizada para transmisión y recepción de datos, ya que tiene interfaces eléctricas muy robustas que usan señales diferenciales, y que normalmente se implementan en cables de par trenzado, permitiendo cableados extensos con buena inmunidad al ruido eléctrico.  \\
 
-En la figura \ref{fig:conexionOriginal} se presenta un diagrama esquemático del punto de medición SCU-IDU, que es donde se conectan los carteles de matriz led, seguido de una fotografía de la unidad de rack donde se encuentra esta interconexión. La conexión original muestra un grupo de tres cables nomenclados como 4330a, 4330b y 4330s, correspondientes a las líneas RS485a, RS485b y RS485c respectivamente, que son las líneas que llegan a la placa de control del cartel de matriz led (IDU). Como se puede observar en la fotografía, estas líneas en conjunto con otras son cables negros que terminan en un mismo conector Harting de 48 pines. Por lo tanto, había que resolver una manera de intervenir esta interconexión a la hora de realizar mediciones.\\
+En la figura \ref{fig:conexionOriginal} se presenta un diagrama esquemático del punto de medición SCU-IDU, que es donde se conectan los carteles de matriz led. La conexión original muestra un grupo de tres cables nomenclados como 4330a, 4330b y 4330s, correspondientes a las líneas RS485a, RS485b y RS485c respectivamente, que son las líneas que llegan a la placa de control del cartel de matriz led (IDU). \\
 
 \begin{figure}[H]
 	\centering
-      \includegraphics[width=0.25\textwidth]{./Figures/conexionOriginal.png}
-      \includegraphics[width=0.5\textwidth]{./Figures/rackPIDS2.jpg}
-	\caption{Diagrama esquemático y fotografía del punto de medición en la conexión SCU-IDU.}
+      \includegraphics[width=0.33\textwidth]{./Figures/conexionOriginal.png}
+	\caption{Diagrama esquemático del punto de medición en la conexión SCU-IDU.}
 	\label{fig:conexionOriginal}
 \end{figure}
 
+En la figura \ref{fig:conexionOriginalFoto} se presenta una fotografía de la unidad de rack donde se encuentra dicha interconexión. Como se puede observar en la fotografía, estas líneas son cables negros que terminan en un mismo conector Harting de 48 pines. \\
 
-Como consecuencia de las visitas, se desarrollaron componentes para realizar mediciones in-situ, a partir del relevamiento de estos conectores y conexiones entre módulos. En la figura \ref{fig:sniffer} se muestra una fotografía del kit desarrollado para realizar mediciones en vivo en los trenes. El dispositivo cuenta con conectores de entrada y salida Harting de 48 pines, y funciona como capturador, conversor y analizador de paquetes de red para las líneas de red RS485 que corresponden al IDU, al SCU y al PCU. Este dispositivo permitió conectarse al punto de interconexión IDU-SCU mientras operaba en vivo.\\
+
+\begin{figure}[H]
+	\centering    
+      \includegraphics[width=0.6\textwidth]{./Figures/rackPIDS2.jpg}
+	\caption{Fotografía del punto de medición en la conexión SCU-IDU.}
+	\label{fig:conexionOriginalFoto}
+\end{figure}
+
+
+Como resultado de las visitas, se desarrollaron componentes para realizar mediciones in-situ, a partir del relevamiento de estos conectores y conexiones entre módulos. En la figura \ref{fig:sniffer} se muestra el kit desarrollado para realizar mediciones en vivo en los trenes. El dispositivo cuenta con conectores de entrada y salida Harting de 48 pines, compatibles con los que se observaron en los trenes. Este dispositivo funciona como capturador, conversor y analizador de paquetes de red para las líneas de red RS485 que corresponden al IDU, al SCU y al PCU. Este dispositivo permitió conectarse al punto de interconexión IDU-SCU mientras el tren operaba en funcionamiento.\\
 
 
 \begin{figure}[H]
@@ -110,7 +119,7 @@ Como consecuencia de las visitas, se desarrollaron componentes para realizar med
 	\label{fig:sniffer}
 \end{figure}
 
- La conexión intervenida se muestra con un diagrama esquemático en la figura fig. \ref{fig:conexionIntervenida}. Por un lado está el camino original, y por el punto de corte aparece un bloque en punteado que contiene un conversor RS485 a Protocolo Serie y un analizador lógico programable, para transmitir los datos en vivo por puerto USB hacia una computadora.\\
+ La conexión intervenida se ilustra con un diagrama esquemático en la figura \ref{fig:conexionIntervenida}. En un extremo se encuentra el trayecto original, y en el punto de corte se presenta un bloque en punteado que incluye un conversor RS485 a Protocolo Serie y un analizador lógico programable. Este bloque se utiliza para transmitir los datos en tiempo real a través de un puerto USB hacia una computadora.\\
 
 \begin{figure}[H]
 	\centering
@@ -119,7 +128,7 @@ Como consecuencia de las visitas, se desarrollaron componentes para realizar med
 	\label{fig:conexionIntervenida}
 \end{figure}
 
-En el ensayo que se realizaron estas mediciones, también se obtuvieron datos de otros puntos, como la interconexión SCU-LDMU, y SCU. En la figura \ref{fig:mediciones} se puede apreciar el dispositivo desarrollando midiendo el punto de interconexión SCU-IDU. \\
+En el ensayo que se realizaron estas mediciones, también se obtuvieron datos de otros puntos de la red, como la interconexión SCU-LDMU, y SCU. En la figura \ref{fig:mediciones} se puede apreciar el dispositivo realizando mediciones en el punto de interconexión SCU-IDU. \\
 
  \begin{figure}[H]
 	\centering
@@ -128,7 +137,7 @@ En el ensayo que se realizaron estas mediciones, también se obtuvieron datos de
 	\label{fig:mediciones}
 \end{figure}
 
-En la figura \ref{fig:logFile} se muestra una captura de los datos obtenidos en las mediciones SCU-IDU. Las mediciones obtenidas fueron analizados y presentaron diferencias con las registradas previamente.\\
+En la figura \ref{fig:logFile} se muestra una captura de los datos obtenidos en las mediciones SCU-IDU. Al analizar las mediciones obtenidas, se presentaron diferencias con las registradas previamente. En la figura \ref{fig:logFile} se muestra una captura de tráfico en el punto de red SCU-IDU.\\
 
 \begin{figure}[H]
 	\centering
@@ -137,7 +146,7 @@ En la figura \ref{fig:logFile} se muestra una captura de los datos obtenidos en 
 	\label{fig:logFile}
 \end{figure}
 
-Por empezar, no estaban presentes los encabezados y finales de trama 0xCC, 0xC6, 0xC2 y 0xCE vistos para TCMS. Con un breve preprocesamiento, que primero encontró la mayor cantidad de repeticiones con los códigos 0x7E, se buscó determinar las secuencias más repetidas en las tramas medidas. Se obtuvo como ejemplo las siguientes tramas:
+En primer lugar, se observó la ausencia de los encabezados y finales de trama 0xCC, 0xC6, 0xC2 y 0xCE, que son comunes en las tramas TCMS. Después de un breve preprocesamiento, se identificó que los códigos 0x7E eran los más frecuentes en las repeticiones. También se llevó a cabo un análisis para determinar las secuencias más recurrentes en las tramas medidas, y a continuación, se presentan ejemplos de dichas tramas:
 
 \begin{itemize}
 \item 7EDFFFFFDEEFBFFFBFF7E
@@ -149,13 +158,13 @@ Por empezar, no estaban presentes los encabezados y finales de trama 0xCC, 0xC6,
 \item 7E7CB12914AEDFFFFFFFEFFEFFBFFFFFF7F7FFFFFFFFFDFFFFB77E
 \end{itemize}
 
-Se pudo observar nuevamente que la longitud de las tramas es variable y que a priori el encabezado y final de trama parecen ser 7E. Estas observaciones extraídas del archivo de mediciones, son compatibles con información provista por el personal de SOFSE. El detalle disponible es el siguiente:
+Se observó una vez más que la longitud de las tramas es variable, y se identificó que, en principio, el encabezado y final de trama parecen ser 7E. Estas observaciones obtenidas del archivo de mediciones coinciden con información provista por el personal de SOFSE. El detalle disponible es el siguiente:
 
 \begin{itemize}
 \item 7E es comienzo y fin de trama.
-\item  3° byte es con quien se quiere comunicar. 
-\item  5° byte quien habla (hipótesis).
-\item  SCU tiene direcciones referidas a los coches, como 13, 23, 33, 73, 83 y 93. En la línea Sarmiento se agregarían 3 coches más (43, 53 y 63).
+\item  3° byte es el módulo destinatario del mensaje. 
+\item  5° byte es el módulo que interroga (hipótesis).
+\item  El módulo SCU parece tener direcciones referidas a los coches, como 13, 23, 33, 73, 83 y 93. En la línea Sarmiento se agregarían 3 coches más (43, 53 y 63).
 \end{itemize}
 
 La información de las direcciones de los carteles frontales no quedó clara con estos ensayos. Las direcciones de la DACU y PCU, que son bloques interconectados a los SCU, parecen también seguir un patrón:
@@ -166,9 +175,10 @@ La información de las direcciones de los carteles frontales no quedó clara con
 \item Los PCU terminan en 1 (PCU TC1 es 11 y PCU TC2 es 21).
 \end{itemize}
 
-Según la topología de la red PIDS vista, los buses de datos siguen un esquema de tres cables por bus, nomenclados como RS485-A, RS485-B y RS485-C. En particular, la conexión entre el módulo SCU y los carteles de matriz led es por medio del bloque IDU, con los cables 4330a, 4330b y 4330c, números que corresponden al cableado físico. La conexión del SCU al IDU está incluída en un conector Harting de 48 pines, donde se unen varios buses o cableados RS485 de tres líneas.  \\
+El análisis de estas mediciones permitió plantear algunas hipótesis que deben ser luego validadas con nuevos ensayos. El direccionamiento de los carteles de matriz led parece seguir una lógica que tiene en cuenta los nomencladores del cableado físico, y algún lugar determinado en la carga útil de las tramas. Sin embargo, parece evidente con las observaciones, que la información presentada en los carteles no viaja en la red, sino que se encuentra almacenada en las placas de control de los carteles. Así, los datos de red podrían representar eventos como 0 o 1, que activarían el siguiente paso del recorrido en la placa de control. Esta hipótesis se consideró como compatible con el diseño del firmware del sistema.\\
 
-\section{Hardware de control para carteles de matriz led}
+\pagebreak
+\section{Hardware para control de carteles de matriz led}
 
 Los carteles de salón están embebidos en un gabinete de metal, donde se aloja la placa de control y parte del cableado, como se puede observar en la figura \ref{fig:displayController}.
 
@@ -179,7 +189,7 @@ Los carteles de salón están embebidos en un gabinete de metal, donde se aloja 
 	\label{fig:displayController}
 \end{figure}
 
-La figura \ref{fig:placa} muestra una fotografía del hardware de control de los carteles de matriz led de Trenes Argentinos.\\
+La figura \ref{fig:placa} muestra una fotografía detallada del hardware de control de los carteles de matriz led de Trenes Argentinos. Esta placa fue revisada y analizada eléctricamente. El circuito esquemático se relevó utilizando la herramienta de diseño asistido por computadora KiCAD, y se presenta en el apéndice.\\
 
 \begin{figure}[H]
 	\centering
@@ -188,16 +198,17 @@ La figura \ref{fig:placa} muestra una fotografía del hardware de control de los
 	\label{fig:placa}
 \end{figure}
 
-Esta placa fue revisada en detalle y se han relevado los siguientes bloques de control:
+En la placa de control se han relevado los siguientes bloques:
+
 \begin{itemize}
-\item (a): Módulos de conversión de tensión.
-\item (b): Circuito de optoacopladores para las señales de datos.
-\item (c): Microcontrolados y circuito lógico, con conector de programación.
-\item (d): Conector de entrada del bus RS485.
-\item (e): Conector de salida para el cartel de matriz led.
+\item (a): módulos de conversión de tensión.
+\item (b): circuito de optoacopladores para las señales de datos.
+\item (c): microcontrolador y circuito lógico, con conector de programación.
+\item (d): conector de entrada del bus RS485.
+\item (e): conector de salida para el cartel de matriz led.
 \end{itemize}
 
-El circuito eléctrico completo de esta placa ha sido relevado y se puede encontrar en el apéndice. Su función principal es la de decodificar las señales del tren y transmitir los mensajes al cartel de matriz led. El bloque de conversión de tensión contiene varios módulos, que son fuentes conmutadas para transformar la tensión de línea del tren de 110 Volt de corriente contínua en tensiones compatibles con el circuito de datos, por ejemplo 5 Volt o 3,3 Volt.\\
+El bloque de conversión de tensión contiene varios módulos, que son fuentes conmutadas para transformar la tensión de línea del tren de 110 V de corriente continua, en tensiones compatibles con el circuito de datos, por ejemplo 5 V o 3,3 V. La función principal de la placa es decodificar las señales del tren y transmitir los mensajes al cartel de matriz led. En la figura \ref{fig:placaDisplay} se presentan fotografías del frente y contrafrente de uno de los paneles que forman los carteles de matriz led de los coches de Trenes Argentinos.\\
 
 
 \begin{figure}[H]
@@ -208,13 +219,23 @@ El circuito eléctrico completo de esta placa ha sido relevado y se puede encont
 	\label{fig:placaDisplay}
 \end{figure}
 
+En la fotografía del reverso, se puede observar la división de los módulos de matriz de 8x8 leds. Esta placa también fue estudiada en detalle, encontrando compatibles el conjunto de chips digitales 74HC138, 74HC595 y 74HC245 que se consideraron en el diseño del sistema embebido implementado. \\
+
+\section{Prototipo del sistema desarrollado}
+
+A partir del relevamiento del hardware existente y de la solución comercial del sistema PIDS instalado en las formaciones de SOFSE, se diseñó e implementó el sistema embebido detallado en el capítulo anterior. En la siguiente figura, se presenta un diagrama de bloques del prototipo construido para evaluar la funcionalidad del firmware desarrollado. \\
+
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{./Figures/sistema.png}
-	\caption{Sistema.}
+	\caption{Diagrama de bloques del prototipo desarrollado.}
 	\label{fig:sistema}
 \end{figure}
+
+El bloque SCU hace referencia al módulo del sistema PIDS existente, es externo al sistema desarrollado y funciona como generador de secuencias o tramas de datos. Estas tramas son recibidas inicialmente por un conversor RS485 a USB Serie, y posteriormente, por un periférico UART disponible en la plataforma EDU-CIAA. Los módulos conversores de tensión de 110 V a 5 V para abastecer de energía eléctrica a la EDU-CIAA no fueron implementados. En su lugar, se utilizó una fuente de alimentación de 5 V, que resultó ser suficiente para el desarrollo del prototipo. \\
+
+La lógica diseñada para controlar los carteles led se detalla en la sección de implementación del capítulo 3, y la salida de datos de esta placa se realiza a través de un conector de 2x8 pines, compatible con el encapsulado disponible en los carteles de trenes. Aunque el cartel de matriz utilizado no es idéntico al de las formaciones de trenes, es compatible ya que utiliza el mismo conjunto de chips y la misma lógica de procesamiento. En la figura \ref{fig:picsDriverled} se puede ver el frente y reverso de los carteles utilizados para el desarrollo, donde se puede apreciar la misma disposición de módulos que se mencionó anteriormente, aunque esta vez con más módulos por panel. \\
 
 
 \begin{figure}[H]
@@ -225,15 +246,17 @@ El circuito eléctrico completo de esta placa ha sido relevado y se puede encont
 	\label{fig:picsDriverled}
 \end{figure}
 
+Este prototipo permitió poner a prueba la implementación del sistema embebido desarrollado a lo largo del trabajo. Con este prototipo, se logró diseñar un sistema que recibe tramas de datos a través de una interfaz UART, las procesa para identificar tramas conocidas que activan mensajes de estaciones de tren, y luego las envía de forma codificada a la placa de control del cartel de matriz led para que puedan ser visualizadas correctamente.\\
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{./Figures/medicionesVictoria2.png}
-	\caption{Fotos de la jornada de mediciones en los talleres de Victoria.}
-	\label{fig:medicionesVictoria2}
-\end{figure}
-
-En la figura \ref{fig:mediciones} se muestra una fotografía del banco de medición operando en vivo en una de las formaciones ferroviaras operativas en los talleres de Victoria. Se puede observar la pieza de hardware desarrollada conectada al SCU de un lado, y a la laptop del otro. En la pantalla de la computadora se observan las líneas de datos capturadas por el analizador lógico programable.\\
-En la figura \ref{fig:medicionesVictoria2} a la izquierda se puede observar la ubicación del rack de salón detrás de los asientos de pasajeros, donde están instalados los equipos de hardware de la red TCN y PIDS, y a la derecha el cartel de matriz led que está en el otro extremo de la interconexión ensayada.\\
-
-En el circuito esquemático de la figura \ref{fig:schDriverled} se presenta el detalle de conexiones eléctricas entre bloques. Se puede observar que a la salida del conector de datos (CONN 2x8) hay dos buffers de la serie 74HC245D que direccionan las señales eléctricas a izquierda y derecha del arreglo de matrices led. A izquierda viajan las señales SER(data), SRCLK (Clock) y XXX (latch) al arreglo de Shift Registers de la serie 74HC595. Por la derecha se maneja la habilitación secuencial de las filas a través de un arreglo de decodificadores 3x8 de la serie 74HC138. Cada salida de los decodificadores se conecta a un driver de corriente en arreglo de transistores MOSFET FDS4953. Estos decodificadores cableados adecuadamente permiten manejar las 32 señales de un cartel de 4x8 módulos led. \\
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=1\textwidth]{./Figures/medicionesVictoria2.png}
+%	\caption{Fotos de la jornada de mediciones en los talleres de Victoria.}
+%	\label{fig:medicionesVictoria2}
+%\end{figure}
+%
+%En la figura \ref{fig:mediciones} se muestra una fotografía del banco de medición operando en vivo en una de las formaciones ferroviaras operativas en los talleres de Victoria. Se puede observar la pieza de hardware desarrollada conectada al SCU de un lado, y a la laptop del otro. En la pantalla de la computadora se observan las líneas de datos capturadas por el analizador lógico programable.\\
+%En la figura \ref{fig:medicionesVictoria2} a la izquierda se puede observar la ubicación del rack de salón detrás de los asientos de pasajeros, donde están instalados los equipos de hardware de la red TCN y PIDS, y a la derecha el cartel de matriz led que está en el otro extremo de la interconexión ensayada.\\
+%
+%En el circuito esquemático de la figura \ref{fig:schDriverled} se presenta el detalle de conexiones eléctricas entre bloques. Se puede observar que a la salida del conector de datos (CONN 2x8) hay dos buffers de la serie 74HC245D que direccionan las señales eléctricas a izquierda y derecha del arreglo de matrices led. A izquierda viajan las señales SER(data), SRCLK (Clock) y XXX (latch) al arreglo de Shift Registers de la serie 74HC595. Por la derecha se maneja la habilitación secuencial de las filas a través de un arreglo de decodificadores 3x8 de la serie 74HC138. Cada salida de los decodificadores se conecta a un driver de corriente en arreglo de transistores MOSFET FDS4953. Estos decodificadores cableados adecuadamente permiten manejar las 32 señales de un cartel de 4x8 módulos led. \\
