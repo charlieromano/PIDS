@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-11-12T22:38:30.797Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="cgypO0mF_kswAeddGAic" version="22.1.0" type="github">
+<mxfile host="app.diagrams.net" modified="2023-11-12T22:41:46.385Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="MWVhUKlkm7uIoEYWrtOC" version="22.1.0" type="github">
   <diagram id="3wIASEclzfyMx8OhfcD0" name="Page-1">
-    <mxGraphModel dx="1885" dy="3035" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="-881" dy="1542" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1929,9 +1929,9 @@
             <mxPoint x="3179.859999999999" y="-997" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="31xj0rYRFobty2ZSDMPV-130" value="" style="endArrow=none;html=1;rounded=0;fontSize=8;" parent="1" edge="1" source="KIhgZj4gna3iT6-1NNH_-5">
+        <mxCell id="31xj0rYRFobty2ZSDMPV-130" value="" style="endArrow=none;html=1;rounded=0;fontSize=8;exitX=0.998;exitY=1.043;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1" source="KIhgZj4gna3iT6-1NNH_-288">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1787" y="-489" as="sourcePoint" />
+            <mxPoint x="1787" y="-492.28999999999996" as="sourcePoint" />
             <mxPoint x="1787" y="-699" as="targetPoint" />
           </mxGeometry>
         </mxCell>
@@ -2495,22 +2495,13 @@
         <mxCell id="KIhgZj4gna3iT6-1NNH_-3" value="409" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" vertex="1" parent="1">
           <mxGeometry x="1758" y="-523" width="42" height="14" as="geometry" />
         </mxCell>
-        <mxCell id="KIhgZj4gna3iT6-1NNH_-6" value="" style="endArrow=none;html=1;rounded=0;fontSize=8;" edge="1" parent="1" target="KIhgZj4gna3iT6-1NNH_-5">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1787" y="-489" as="sourcePoint" />
-            <mxPoint x="1787" y="-699" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="KIhgZj4gna3iT6-1NNH_-5" value="" style="shape=umlDestroy;whiteSpace=wrap;html=1;strokeWidth=1;targetShapes=umlLifeline;" vertex="1" parent="1">
-          <mxGeometry x="1783" y="-492.29" width="8" height="8" as="geometry" />
-        </mxCell>
         <mxCell id="KIhgZj4gna3iT6-1NNH_-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="KIhgZj4gna3iT6-1NNH_-7">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1796" y="-528.1600000000001" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="KIhgZj4gna3iT6-1NNH_-7" value="" style="pointerEvents=1;verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.signal_sources.protective_earth;" vertex="1" parent="1">
-          <mxGeometry x="1783.5" y="-481.5" width="25" height="20" as="geometry" />
+          <mxGeometry x="1783.5" y="-391.5" width="25" height="20" as="geometry" />
         </mxCell>
         <mxCell id="KIhgZj4gna3iT6-1NNH_-27" value="PIS1/4-core M12 connector" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=0;fontSize=10;horizontal=0;" vertex="1" parent="1">
           <mxGeometry x="2139" y="-938" width="18" height="218" as="geometry" />
@@ -4153,6 +4144,23 @@
         </mxCell>
         <mxCell id="KIhgZj4gna3iT6-1NNH_-286" value="PW/2P aviation plug" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;rotation=90;" vertex="1" parent="1">
           <mxGeometry x="2037.5" y="-596.32" width="85" height="11.82" as="geometry" />
+        </mxCell>
+        <mxCell id="KIhgZj4gna3iT6-1NNH_-289" value="103" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="1762.75" y="-430.75" width="34" height="13.5" as="geometry" />
+        </mxCell>
+        <mxCell id="KIhgZj4gna3iT6-1NNH_-291" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="KIhgZj4gna3iT6-1NNH_-288">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1786.4804469273743" y="-410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KIhgZj4gna3iT6-1NNH_-288" value="" style="pointerEvents=1;verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.electro-mechanical.make_contact;flipH=1;flipV=1;strokeWidth=2;rotation=90;" vertex="1" parent="1">
+          <mxGeometry x="1762.5" y="-474" width="38" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="KIhgZj4gna3iT6-1NNH_-292" value="100" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="1773.25" y="-431.75" width="34" height="13.5" as="geometry" />
+        </mxCell>
+        <mxCell id="KIhgZj4gna3iT6-1NNH_-293" value="to low voltage power" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="1726.13" y="-367.37" width="107.25" height="13.5" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
