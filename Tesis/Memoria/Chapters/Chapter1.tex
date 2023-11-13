@@ -155,7 +155,7 @@ El grupo austríaco Trapeze \citep{Trapeze} distingue cuatro tecnologías princi
 Además, se sugiere la importancia de la precisión en la información que ofrece como servicio el sistema PIDS. Si un pasajero recibe el número de andén incorrecto al llegar a la estación muy probablemente perderá el tren, resultando en una mala experiencia de viaje. La capacidad de interconectar el sistema PIDS con otros canales de información, especialmente en puntos nodales de transporte, también ofrece mayores beneficios al usuario final. Si un pasajero puede anticiparse y ver el tiempo estimado entre una línea de omnibus o de tren antes de llegar a la estación donde hace combinación, entonces puede tomar una mejor elección basada en datos ofrecidos por el sistema PIDS. Estos y otros aspectos de sistema centrados en el usuario se resumen en la tabla \ref{tab:tablaSistemasPIDS}.\\
 
 \begin{table}[H]
-\caption[Caption for LOF]{Principales aspectos y servicios asociados a sistemas PIDS.\protect\footnotemark}
+\caption[Caption for LOF]{Atributos y servicios asociados a sistemas PIDS.\protect\footnotemark}
 %\caption{Principales aspectos y servicios asociados a sistemas PIDS\footnote{Elaboración del autor.}.}
 \begin{center}
 \begin{tabular}{cl}
@@ -201,14 +201,11 @@ Además, se sugiere la importancia de la precisión en la información que ofrec
 \end{center}
 \end{table}
 
-
-
 Desde el punto de vista centrado en los carteles, se consideran varias especificaciones importantes de los sistemas PIDS, como las dimensiones del cartel, la densidad de píxeles por unidad de área, la cantidad de colores o leds por píxel, los niveles de intensidad lumínica, el brillo y contraste, la potencia eléctrica. Entre estas especificaciones típicas de los carteles de los sistemas PIDS, el ángulo de visión es una de las variables más consideradas ya que en sistemas PIDS implican el alcance a mayor cantidad de pasajeros de la información en pantalla. En la tabla \ref{tab:tablaDisplays} se presenta un resumen de estas características. Las fuentes consultadas para la elaboración de esta tabla son diversos portales internacionales de distribución de componentes electrónicos.\\
-
 \footnotetext{Fuente: elaboración propia del autor.}
 
 \begin{table}[htbp]
-\caption[Caption for LOF]{Principales características de displays para sistemas PIDS. \protect\footnotemark}
+\caption[Caption for LOF]{Características de displays para sistemas PIDS.}
 \label{tab:tablaDisplays}
 \begin{center}
 \begin{tabular}{lllll}
@@ -291,14 +288,10 @@ Densidad \\ de píxeles\end{tabular}}
 \end{center}
 \end{table}
 
-
-\footnotetext{Fuente: elaboración propia del autor.}
-
 Cada cartel requiere de un controlador como interfaz para procesar información y la codifica según la lógica que requiera el tipo de cartel. Los controladores de los carteles de matriz led suelen basarse en circuitos digitales, en microcontroladores de 8, 16 o 32 bits o en FPGA. Las tasas de transmisión de datos requieren señales de clock que pueden variar desde algunos kHz hasta cientos de MHz. Los tamaños del buffer de memoria depende de la cantidad de píxeles que tenga la pantalla. Las interfaces físicas pueden ser periféricos de un microcontrolador, un pin de propósito general o bien puertos USB o HDMI. Los carteles LCD en muchos casos requieren de la transmisión de señales de video. Esto implica mayores costos de implementación que la alternativa led, pero también mayor versatilidad en la programación de contenidos. En la tabla \ref{tab:tablaControladores} se resumen algunas características principales de los requerimientos de los controladores.\\
 
 \begin{table}[htbp]
-\caption[Caption for LOF]{Principales características de controladores de uso general para aplicaciones PIDS. \protect\footnotemark}
-\label{tab:tablaControladores}
+\caption[Caption for LOF]{Características de controladores para sistemas PIDS.} \label{tab:tablaControladores}
 \centering
 
 \begin{center}
@@ -307,14 +300,12 @@ Cada cartel requiere de un controlador como interfaz para procesar información 
 \textbf{\begin{tabular}[c]{@{}l@{}}Unidad de \\ procesamiento\end{tabular}} & \textbf{MCU 8/16/32 bits}                                                                       & \textbf{FPGA / ASIC / DSP}                                                        & \textbf{CPU / DSP}                                                                                      \\ \hline
 \textbf{Clock}                                                              & 1-200 MHz                                                                                       & 10-250 MHz                                                                        & 1-3 GHz                                                                                                 \\ \hline
 \textbf{Memory buffer}                                                      & 1 kB                                                                                            & 1-512 MB                                                                          & 1-10 GB                                                                                                 \\ \hline
-\textbf{Conectividad}                                                       & \begin{tabular}[c]{@{}l@{}}UART (1-4)\\ USB (1-2)\\ RS485\\ GPIO (1-20)\\ Ethernet\end{tabular} & \begin{tabular}[c]{@{}l@{}}Pmod\\ I/O pins (20-800)\\ Ethernet\\ USB\end{tabular} & \begin{tabular}[c]{@{}l@{}}USB \\ VGA\\ HDMI\\ DVI\\ display Port\\ PCI / PCI-E\\ Ethernet\end{tabular} \\ \hline
+\textbf{Conectividad}                                                       & \begin{tabular}[c]{@{}l@{}}UART (1-4)\\ USB (1-2)\\ RS485\\ GPIO (1-20)\\ Ethernet\end{tabular} & \begin{tabular}[c]{@{}l@{}}Pmod\\ I/O pins (20-800)\\ Ethernet\\ USB\end{tabular} & \begin{tabular}[c]{@{}l@{}}USB, Ethernet\\ VGA \\DVI, HDMI\\ PCI / PCI-E\end{tabular} \\ \hline
 \textbf{Programación}                                                       & C / C++/ Assembly                                                                               & VHDL, Verilog, XML                                                                & \begin{tabular}[c]{@{}l@{}}C, C++, Java, \\ Python, XML\end{tabular}                                    \\ 
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
-
-\footnotetext{Fuente: elaboración propia del autor.}
 
 Una vez instalados, los sistemas PIDS suelen requerir mantenimiento. Muchas veces hay fallas de hardware, como por ejemplo leds que dejan de funcionar, una fuente de alimentación o una memoria que se debe reemplazar. Otras veces se requieren cambios en el software, por ejemplo actualizar el contenido de un mensaje o bien cambiarlo. Los atributos de mantenibilidad, versatilidad, modularidad y confiabilidad en la implementación pueden tener un impacto económico relevante en la operación de un servicio de transporte. Para líneas de trenes que cuentan con muchas formaciones ferroviarias operando en simultáneo, las tareas de actualización pueden ser muy intensivas en términos de horas de trabajo y requerir también capacitaciones técnicas periódicas al personal de mantenimiento. Incluso no todos los dispositivos pueden recibir actualizaciones en producción, esto es, en la locación física donde funcionan. En muchos casos es necesario desinstalarlos, llevarlos a un centro técnico y actualizarlos fuera de operación, lo que requiere de ventanas de mantenimiento y de tiempos reducidos para realizar tareas que pueden ser susceptibles a errores. Otra forma es enviar un técnico al sitio que pueda conectar algún periférico y actualizar manualmente cada dispositivo.\\
 
