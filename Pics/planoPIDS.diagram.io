@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-11-13T00:07:36.916Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="nGpTJaAJAZcVcqacw2Ae" version="22.1.0" type="github">
+<mxfile host="app.diagrams.net" modified="2023-11-13T00:07:52.097Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="RA23Hcx1C_6Q9Crno-x1" version="22.1.0" type="github">
   <diagram id="3wIASEclzfyMx8OhfcD0" name="Page-1">
-    <mxGraphModel dx="1885" dy="3035" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="349" dy="2206" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -838,7 +838,7 @@
         <mxCell id="KIhgZj4gna3iT6-1NNH_-2" value="Power -" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" vertex="1" parent="1">
           <mxGeometry x="1775.08" y="-686" width="49.92" height="16.16" as="geometry" />
         </mxCell>
-        <mxCell id="31xj0rYRFobty2ZSDMPV-79" value="FDU" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;rotation=-360;fontSize=16;fontStyle=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+        <mxCell id="31xj0rYRFobty2ZSDMPV-79" value="FDU" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;rotation=-360;fontSize=16;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="1920" y="-791.0000000000001" width="120" height="86.22" as="geometry" />
         </mxCell>
         <mxCell id="31xj0rYRFobty2ZSDMPV-86" value="I0/12P WAGO" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;rotation=-360;" parent="1" vertex="1">
