@@ -20,15 +20,15 @@
 #include "semphr.h"
 
 #define     CHAR_LENGTH     8 
-#define     DISPLAYLED_ROWS    8   
+#define     DISPLAYLED_ROWS    16   
 #define     DISPLAYLED_COLS    8
-#define     DISPLAYLED_TIMEOUT_MS   500
+#define     DISPLAYLED_TIMEOUT_MS   21
 
 #define     RETIRO_TIGRE_STATIONS    17
 #define     RETIRO_SUAREZ_STATIONS   1
 #define     RETIRO_MITRE_STATIONS    1
 
-#define     MESSAGES_FLICKR_NUMBER     3
+#define     MESSAGES_FLICKR_NUMBER    233
 #define     MESSAGES_TOTAL_NUMBER     RETIRO_TIGRE_STATIONS
 
 #ifdef __cplusplus

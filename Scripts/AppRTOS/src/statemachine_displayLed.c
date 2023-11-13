@@ -36,7 +36,7 @@ uint8_t     displayled_msg_idx;
 
 eSystemState_displayLed 	displayled_initHandler(void){
    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-      printf("STATE_DISPLAYLED_INIT\r\n");
+      //printf("STATE_DISPLAYLED_INIT\r\n");
       xSemaphoreGive(xMutexUART);
    }
 /*
@@ -68,7 +68,7 @@ eSystemState_displayLed 	displayled_idleHandler(void){
 eSystemState_displayLed     displayled_procHandler(void){
 
    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-      printf("STATE_DISPLAYLED_PROCESSING\r\n");
+      //printf("STATE_DISPLAYLED_PROCESSING\r\n");
       xSemaphoreGive(xMutexUART);
    }
 /*
@@ -107,7 +107,7 @@ eSystemState_displayLed     displayled_dataHandler(void){
     bool_t  value;
 
     if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
-      printf("STATE_DISPLAYLED_ENCODING\r\n");
+      //printf("STATE_DISPLAYLED_ENCODING\r\n");
       //printf("index: %d\r\n",displayled_buffer_idx);
       xSemaphoreGive(xMutexUART);
     }
@@ -126,7 +126,7 @@ eSystemState_displayLed     displayled_dataHandler(void){
             
             // displayled_data 
             value = (((data_8b << j ) & 0x80 ) == 0) ? 1 : 0;
-            printf("%d",value);
+            //printf("%d",value);
             gpioWrite(displayled_panel_1, value);
             gpioWrite(displayled_panel_2, value);
             
@@ -138,7 +138,7 @@ eSystemState_displayLed     displayled_dataHandler(void){
         if(i%DISPLAYLED_COLS==0){
 
             // displayled_latch 
-            printf("\r\n");
+            //printf("\r\n");
             gpioWrite(displayled_latch, ON);
             gpioWrite(displayled_latch, OFF);
             

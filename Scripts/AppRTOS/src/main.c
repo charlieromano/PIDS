@@ -121,7 +121,6 @@ int main( void )
 /* display Led */
 /***************************************************************************/
 
-/*
    if( (timerHandle_displayLed = xTimerCreate( "Timer displayLed", 
       DISPLAYLED_TIMEOUT_MS, true, NULL, 
       timerCallback_displayLed)) == NULL ) {
@@ -141,12 +140,22 @@ int main( void )
       return 1;
    }
 
+/*
    if( xTaskCreate( vTaskDisplayLedTest, "Display Led task", 
       configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 
       &xTaskDisplayLedTestHandler) == pdFAIL ) {
       perror("Error creating task");
       return 1;
    }
+   
+*/
+   if( xTaskCreate( vTaskTest, "Display Led Testing COMM task", 
+      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
+      &xTaskTestHandler) == pdFAIL ) {
+      perror("Error creating task");
+      return 1;
+   }
+
 
    if( xTaskCreate( vTaskDisplayLed, "Display Led State Machine task", 
       configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, 
@@ -155,18 +164,12 @@ int main( void )
       return 1;
    }
 
-   if( xTaskCreate( vTaskTest, "Display Led Testing COMM task", 
-      configMINIMAL_STACK_SIZE*2, NULL, tskIDLE_PRIORITY+1, 
-      &xTaskTestHandler) == pdFAIL ) {
-      perror("Error creating task");
-      return 1;
-   }
-*/
 
 /***************************************************************************/
 /* UART tasks */
 /***************************************************************************/
 
+/*
    if( (timerHandle_UART = xTimerCreate( "UART Timer", UART_TIMER_MS, 
       true, NULL, timerCallback_UART)) == NULL ) {
       perror("Error creating timer");
@@ -178,7 +181,6 @@ int main( void )
       return 1;      
    }
 
-/*
    xBinarySemaphoreUART = xSemaphoreCreateBinary();
    if (xBinarySemaphoreUART == NULL){
       perror("Error creating UART semaphore");
@@ -191,7 +193,6 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
-*/
 
    queueHandle_UART = xQueueCreate(QUEUE_MAX_LENGTH, sizeof(eSystemEvent_UART));
    if (queueHandle_UART == NULL){
@@ -205,13 +206,13 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
+*/
 
 /***************************************************************************/
 /* PIDS tasks */
 /***************************************************************************/
 
 /*
-*/
 
    if( (timerHandle_PIDS = xTimerCreate( "UART Timer", TIMER_MS_PIDS, 
       true, NULL, timerCallback_PIDS)) == NULL ) {
@@ -236,6 +237,7 @@ int main( void )
       perror("Error creating task");
       return 1;
    }
+*/
 
 /***************************************************************************/
 /* RTOS start */

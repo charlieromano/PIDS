@@ -220,7 +220,7 @@ extern bool_t  displayled_msg_flag;
 
 void vTaskTest( void *pvParameters ){
 
-   portTickType xPeriodicity =  3000 / portTICK_RATE_MS;
+   portTickType xPeriodicity =  4181 / portTICK_RATE_MS;
    portTickType xLastWakeTime = xTaskGetTickCount();
 
    if (pdTRUE == xSemaphoreTake( xMutexUART, portMAX_DELAY)){
